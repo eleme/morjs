@@ -1,8 +1,0 @@
-<view class="page">
-  <view class="page-section">
-    <view class="page-section-title">下滑页面即可刷新</view>
-    <view class="page-section-btns">
-      <view type="primary" onTap="stopPullDownRefresh">停止刷新</view>
-    </view>
-  </view>
-</view>

@@ -1,6 +1,0 @@
-{
-  "defaultTitle": "Amount-input",
-  "usingComponents": {
-    "amount-input": "mini-ali-ui/es/amount-input/index"
-  }
-}

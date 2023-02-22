@@ -1,5 +1,0 @@
-{
-  "type": "subpackage",
-  "root": "todos",
-  "pages": ["pages/todos/todos", "pages/add-todo/add-todo"]
-}

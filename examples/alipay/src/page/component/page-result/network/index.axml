@@ -1,3 +1,0 @@
-<view>
-  <page-result type="network" footer="{{footer}}" onTapLeft="onTapLeft" onTapRight="onTapRight"></page-result>
-</view>

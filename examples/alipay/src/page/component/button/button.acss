@@ -1,9 +1,0 @@
-.red {
-  background-color: red;
-  border-color: red;
-  color: #fff;
-}
-
-button + button {
-  margin-top: 32rpx;
-}

@@ -1,9 +1,0 @@
-<view class="page">
-  <view class="page-section">
-    <form onSubmit="scanCode">
-      <view>
-        <button type="primary" onTap="scan">扫码</button>
-      </view>
-    </form>
-  </view>
-</view>

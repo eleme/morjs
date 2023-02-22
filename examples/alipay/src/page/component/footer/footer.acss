@@ -1,7 +1,0 @@
-page {
-  padding-top: 20px;
-  background-color: #fff;
-}
-.am-footer {
-  margin-bottom: 40px;
-}

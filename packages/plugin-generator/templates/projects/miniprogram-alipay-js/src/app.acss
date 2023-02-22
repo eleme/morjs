@@ -1,6 +1,0 @@
-page {
-  flex: 1;
-  display: flex;
-  background: #323239;
-  font-family: "pingFang SC" "pingFang";
-}

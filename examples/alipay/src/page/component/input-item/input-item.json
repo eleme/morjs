@@ -1,8 +1,0 @@
-{
-  "defaultTitle": "Input-item",
-  "usingComponents": {
-    "list": "mini-ali-ui/es/list/index",
-    "input-item": "mini-ali-ui/es/input-item/index",
-    "am-icon": "mini-ali-ui/es/am-icon/index"
-  }
-}

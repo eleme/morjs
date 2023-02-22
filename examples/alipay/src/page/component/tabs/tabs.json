@@ -1,7 +1,0 @@
-{
-  "defaultTitle": "Tabs",
-  "usingComponents": {
-    "tabs": "mini-ali-ui/es/tabs/index",
-    "tab-content": "mini-ali-ui/es/tabs/tab-content/index"
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "defaultTitle": "Loading",
-  "usingComponents": {
-    "loading": "mini-ali-ui/es/loading/index"
-  }
-}

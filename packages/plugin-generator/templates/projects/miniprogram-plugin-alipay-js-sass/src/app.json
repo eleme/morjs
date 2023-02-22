@@ -1,7 +1,0 @@
-{
-  "pages": ["pages/todos/todos", "pages/add-todo/add-todo"],
-  "window": {
-    "defaultTitle": "Todo App",
-    "titleBarColor": "#323239"
-  }
-}

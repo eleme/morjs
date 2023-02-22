@@ -1,6 +1,0 @@
-{
-  "defaultTitle": "Grid",
-  "usingComponents": {
-    "grid": "mini-ali-ui/es/grid/index"
-  }
-}

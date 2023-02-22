@@ -1,3 +1,0 @@
-<view class="page">
-  <button onTap="index">点击回到首页</button>
-</view>

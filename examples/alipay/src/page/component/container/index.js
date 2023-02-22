@@ -1,4 +1,0 @@
-Page({
-  data: {},
-  onLoad() {}
-})

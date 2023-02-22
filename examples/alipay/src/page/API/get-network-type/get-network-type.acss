@@ -1,7 +1,0 @@
-.page-body-info {
-  height: 200rpx;
-}
-.page-body-text-network-type {
-  font-size: 80rpx;
-  font-family: Helvetica;
-}

@@ -1,5 +1,0 @@
-<view class="page">
-  <button type="primary" onTap="watchShake">
-    绑定摇一摇，点击 Shake 按钮看效果
-  </button>
-</view>

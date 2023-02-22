@@ -1,8 +1,0 @@
-{
-  "miniprogramRoot": "./",
-  "compileType": "miniprogram",
-  "component2": true,
-  "axmlStrictCheck": true,
-  "enableAppxNg": true,
-  "enableHMR": true
-}

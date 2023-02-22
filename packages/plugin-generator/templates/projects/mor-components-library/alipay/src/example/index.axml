@@ -1,4 +1,0 @@
-<view class="example-page">
-  <view class="title">组件测试</view>
-  <demo-component />
-</view>

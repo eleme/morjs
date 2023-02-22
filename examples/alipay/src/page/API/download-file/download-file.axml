@@ -1,3 +1,0 @@
-<view class="container">
-  <button onTap="download">下载图片并显示</button>
-</view>

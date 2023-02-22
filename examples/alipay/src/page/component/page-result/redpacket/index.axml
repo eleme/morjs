@@ -1,9 +1,0 @@
-<view>
-  <page-result
-    type="redpacket"
-    title="什么都没有"
-    brief="红包已领空"
-    footer="{{footer}}"
-  />
-</view>
-

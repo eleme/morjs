@@ -1,6 +1,0 @@
-{
-  "defaultTitle": "Multi-liner",
-  "usingComponents": {
-    "multi-liner": "mini-ali-ui/es/multi-liner/index"
-  }
-}

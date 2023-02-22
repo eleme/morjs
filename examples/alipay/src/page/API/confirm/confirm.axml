@@ -1,9 +1,0 @@
-<view class="page">
-  <view class="page-description">确认框 API</view>
-  <view class="page-section">
-    <view class="page-section-title">my.confirm</view>
-    <view class="page-section-demo">
-      <button type="primary" onTap="comfirm">显示确认框</button>
-    </view>
-  </view>
-</view>
