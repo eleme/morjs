@@ -105,6 +105,6 @@ pnpm release
 
 提交过 Bugfix 或 Feature 类 PR 的同学，如果有兴趣一起参与维护 MorJS，可先用钉钉扫下方二维码（注明 github id）加我钉钉，然后我会拉到群里。
 
-<img src="https://img.alicdn.com/imgextra/i4/O1CN01KhZbfk254EDKfYDK0_!!6000000007472-2-tps-1000-1000.png" />
+<img width='260' src="https://img.alicdn.com/imgextra/i4/O1CN01KhZbfk254EDKfYDK0_!!6000000007472-2-tps-1000-1000.png" />
 
 如果你不知道可以贡献什么，可以到源码里搜 TODO 或 FIXME 找找。
