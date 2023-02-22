@@ -20,4 +20,4 @@
 
 ## 发布
 
-使用 gh-pages 分支为文档专用分支
+使用 gh-pages 分支为文档专用分支，使用 Github Actions 自动部署
