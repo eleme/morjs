@@ -1,0 +1,5 @@
+<view class="page">
+  <view class="page-description">
+    这是当前页，点击左上角返回回到上级菜单
+  </view>
+</view>

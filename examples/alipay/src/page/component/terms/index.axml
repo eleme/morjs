@@ -1,0 +1,67 @@
+<view>
+  <terms onSelect="onSelect" related="{{c1.related}}" hasDesc="{{c1.hasDesc}}" agreeBtn="{{c1.agreeBtn}}" cancelBtn="{{c1.cancelBtn}}">
+    <view class="text" slot="header">
+      <text>
+        同意
+        <navigator class="link" url="/page/tabBar/component/index">《用户授权协议》</navigator>
+      </text>
+    </view>
+  </terms>
+  <text class="title">双按钮</text>
+</view>
+<view>
+  <terms onSelect="onSelect" fixed="{{c2.fixed}}" related="{{c2.related}}" hasDesc="{{c2.hasDesc}}" agreeBtn="{{c2.agreeBtn}}" cancelBtn="{{c2.cancelBtn}}" shape="{{c2.shape}}" capsuleMinWidth="{{c2.capsuleMinWidth}}" capsuleSize="{{c2.capsuleSize}}">
+    <view class="text" slot="desc">
+      <text>
+        查看
+        <navigator class="link" url="/page/tabBar/component/index">《ETC服务用户协议》</navigator>
+        ，授权ETC服务获取身份证、收货地址用于申请ETC，关注车主服务生活号获取审核；
+      </text>
+    </view>
+  </terms>
+  <text class="title">带辅助描述</text>
+</view>
+<view>
+  <terms onSelect="onSelect" fixed="{{c3.fixed}}" related="{{c3.related}}" hasDesc="{{c3.hasDesc}}" agreeBtn="{{c3.agreeBtn}}" cancelBtn="{{c3.cancelBtn}}">
+    <view class="text" slot="header">
+      <text>
+        同意
+        <navigator class="link" url="/page/tabBar/component/index">《用户授权协议》</navigator>
+      </text>
+    </view>
+  </terms>
+  <text class="title">捆绑协议已选中</text>
+</view>
+<view>
+  <terms onSelect="onSelect" fixed="{{c4.fixed}}" related="{{c4.related}}" hasDesc="{{c4.hasDesc}}" agreeBtn="{{c4.agreeBtn}}" cancelBtn="{{c4.cancelBtn}}" shape="{{c4.shape}}" capsuleMinWidth="{{c4.capsuleMinWidth}}" capsuleSize="{{c4.capsuleSize}}">
+    <view class="text" slot="header">
+      <text>
+        同意
+        <navigator class="link" url="/page/tabBar/component/index">《用户授权协议》</navigator>
+      </text>
+    </view>
+  </terms>
+  <text class="title">捆绑协议未选中</text>
+</view>
+<view>
+  <terms fixed="{{c5.fixed}}" related="{{c5.related}}" hasDesc="{{c5.hasDesc}}"  agreeBtn="{{c5.agreeBtn}}" cancelBtn="{{c5.cancelBtn}}" shape="{{c5.shape}}" capsuleMinWidth="{{c5.capsuleMinWidth}}" capsuleSize="{{c5.capsuleSize}}">
+    <view class="text" slot="header">
+      <text>
+        同意
+        <navigator class="link" url="/page/tabBar/component/index">《用户授权协议》</navigator>
+      </text>
+    </view>
+  </terms>
+  <text class="title">无捆绑协议</text>
+</view>
+<view style="padding-bottom:30px;">
+  <terms fixed="{{c6.fixed}}" related="{{c6.related}}" hasDesc="{{c6.hasDesc}}" agreeBtn="{{c6.agreeBtn}}" cancelBtn="{{c6.cancelBtn}}" shape="{{c6.shape}}" capsuleMinWidth="{{c6.capsuleMinWidth}}" capsuleSize="{{c6.capsuleSize}}">
+    <view class="text" slot="header">
+      <text>
+        同意
+        <navigator class="link" url="/page/tabBar/component/index">《用户授权协议》</navigator>
+      </text>
+    </view>
+  </terms>
+  <text class="title">吸底</text>
+</view>

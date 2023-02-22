@@ -1,0 +1,10 @@
+/_wechat
+/_ali
+/_dist
+/_package
+/.appx
+/.yo-repository
+/node_modules
+/mock
+.mor
+dist

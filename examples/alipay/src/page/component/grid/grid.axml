@@ -1,0 +1,16 @@
+<view>
+  <list>
+    <list-item arrow="horizontal" index="grid" onClick="openPage" data-url="2/index" key="items-grid">
+      <view>2列宫格</view>
+    </list-item>
+    <list-item arrow="horizontal" index="grid" onClick="openPage" data-url="3/index" key="items-grid">
+      <view>3列宫格</view>
+    </list-item>
+    <list-item arrow="horizontal" index="grid" onClick="openPage" data-url="4/index" key="items-grid">
+      <view>4列宫格</view>
+    </list-item>
+    <list-item arrow="horizontal" index="notice" onClick="openPage" data-url="5/index" key="items-notice" last="{{true}}">
+      <view>5列宫格</view>
+    </list-item>
+  </list>
+</view>

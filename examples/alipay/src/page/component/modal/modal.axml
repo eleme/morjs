@@ -1,0 +1,168 @@
+<view>
+	<view style="margin-top: 10px;" />
+	<button onTap="openModal21" style="margin: 0 10px;">带图弹窗</button>
+	<view style="margin-top: 10px;" />
+	<button onTap="openModal22" style="margin: 0 10px;">带图弹窗-小图</button>
+	<view style="margin-top: 10px;" />
+	<button onTap="openModal222" style="margin: 0 10px;">带图弹窗-中图</button>
+	<view style="margin-top: 10px;" />
+	<button onTap="openModal2" style="margin: 0 10px;">带图弹窗-大图</button>
+  <view style="margin-top: 10px;" />
+	<button onTap="openModal23" style="margin: 0 10px;">带图弹窗-关闭icon</button>
+	<view style="margin-top: 10px;" />
+	<button onTap="openModal" style="margin: 0 10px;">通用modal</button>
+	<view style="margin-top: 10px;" />
+	<button onTap="openModal3" style="margin: 0 10px;">运营活动弹窗-大</button>
+	<view style="margin-top: 10px;" />
+	<button onTap="openModal4" style="margin: 0 10px;">运营活动弹窗-小</button>
+  <view style="margin-top: 10px;" />
+	<button onTap="openModal5" style="margin: 0 10px;">双按钮弹框</button>
+  <view style="margin-top: 10px;" />
+	<button onTap="openModal6" style="margin: 0 10px;">双按钮弹框-竖排</button>
+  <view style="margin-top: 10px;" />
+	<button onTap="openModal7" style="margin: 0 10px;">弹框自定义按钮样式</button>
+  <view style="margin-top: 10px;" />
+	<button onTap="openModal8" style="margin: 0 10px;">三按钮弹框</button>
+  <view style="margin-top: 10px;" />
+	<button onTap="openModal9" style="margin: 0 10px;">自定义弹框内容</button>
+  <view style="margin-top: 10px;" />
+	<modal
+		show="{{modalOpened21}}"
+		onModalClick="onModalClick21"
+		onModalClose="onModalClose21"
+		topImage="https://gw.alipayobjects.com/zos/rmsportal/yFeFExbGpDxvDYnKHcrs.png"
+	>
+		<view slot="header">标题单行</view>
+		说明当前状态、提示用户解决方案，最好不要超过两行。
+		<view slot="footer">我知道了</view>
+	</modal>
+  <modal
+		show="{{modalOpened23}}"
+		onModalClick="onModalClick23"
+		onModalClose="onModalClose23"
+    showClose="{{true}}"
+		topImage="https://gw.alipayobjects.com/zos/rmsportal/yFeFExbGpDxvDYnKHcrs.png"
+	>
+		<view slot="header">标题单行</view>
+		说明当前状态、提示用户解决方案，最好不要超过两行。
+		<view slot="footer">我知道了</view>
+	</modal>
+	<modal
+		show="{{modalOpened2}}"
+		onModalClick="onModalClick2"
+		onModalClose="onModalClose2"
+		topImage="https://gw.alipayobjects.com/zos/rmsportal/yFeFExbGpDxvDYnKHcrs.png"
+		topImageSize="lg"
+		closeType="1"
+	>
+		<view slot="header">标题单行</view>
+		说明当前状态、提示用户解决方案，最好不要超过两行。
+		<view slot="footer">我知道了</view>
+	</modal>
+	<modal
+		show="{{modalOpened22}}"
+		onModalClick="onModalClick22"
+		onModalClose="onModalClose22"
+		topImage="https://gw.alipayobjects.com/zos/rmsportal/yFeFExbGpDxvDYnKHcrs.png"
+		topImageSize="sm"
+	>
+		<view slot="header">标题单行</view>
+		说明当前状态、提示用户解决方案，最好不要超过两行。
+		<view slot="footer">我知道了</view>
+	</modal>
+	<modal
+		show="{{modalOpened222}}"
+		onModalClick="onModalClick222"
+		onModalClose="onModalClose222"
+		topImage="https://gw.alipayobjects.com/zos/rmsportal/yFeFExbGpDxvDYnKHcrs.png"
+		topImageSize="md"
+	>
+		<view slot="header">标题单行</view>
+		说明当前状态、提示用户解决方案，最好不要超过两行。
+		<view slot="footer">我知道了</view>
+	</modal>
+	<modal
+		show="{{modalOpened}}"
+		onModalClick="onModalClick"
+		onModalClose="onModalClose"
+	>
+		<view style="margin: 20px 0 10px 0;">让员工用支付宝扫一扫，添加为店员</view>
+		<image mode="widthFix" style="width: 100%;" src="https://tfsimg.alipay.com/images/mobilecodec/TB1JjWmXkyEDuNjme6tXXXIKXXa" />
+		二维码每分钟自动更新
+		<view slot="footer">我知道了</view>
+	</modal>
+	<modal
+		show="{{modalOpened3}}"
+		onModalClose="onModalClick3"
+		advice="{{true}}"
+		>
+		<view style="display: flex; height: 465px; width: 319px;">
+			<image
+				style="height: 465px;width: 319px;"
+				src="https://gw.alipayobjects.com/zos/rmsportal/vJzAWQLgeDLGOMKiIgZt.png"
+			/>
+		</view>
+	</modal>
+	<modal
+		show="{{modalOpened4}}"
+		onModalClose="onModalClick4"
+		advice="{{true}}"
+		>
+		<view style="display: flex; width: 270px; height: 350px;">
+			<image
+				style="width: 270px;height: 350px;"
+				src="https://gw.alipayobjects.com/zos/rmsportal/vJzAWQLgeDLGOMKiIgZt.png"
+			/>
+		</view>
+	</modal>
+  <modal
+		show="{{modalOpened5}}"
+    showClose="{{false}}"
+    onButtonClick="onButtonClick5"
+    buttons="{{buttons5}}"
+	>
+		<view slot="header">标题单行</view>
+		说明当前状态、提示用户解决方案，最好不要超过两行。
+	</modal>
+  <modal
+		show="{{modalOpened6}}"
+    showClose="{{false}}"
+    onButtonClick="onButtonClick6"
+    buttonsLayout="vertical"
+    buttons="{{buttons6}}"
+	>
+		<view slot="header">标题单行</view>
+		说明当前状态、提示用户解决方案，最好不要超过两行。
+	</modal>
+  <modal
+		show="{{modalOpened7}}"
+		onModalClose="onModalClose7"
+    onButtonClick="onButtonClick7"
+    buttons="{{buttons7}}"
+    topImage="https://gw.alipayobjects.com/zos/rmsportal/yFeFExbGpDxvDYnKHcrs.png"
+		topImageSize="lg"
+	>
+		<view slot="header">标题单行</view>
+		说明当前状态、提示用户解决方案，最好不要超过两行。
+	</modal>
+  <modal
+		show="{{modalOpened8}}"
+    showClose="{{false}}"
+    onButtonClick="onButtonClick8"
+    buttons="{{buttons8}}"
+	>
+		<view slot="header">标题单行</view>
+		说明当前状态、提示用户解决方案，最好不要超过两行。
+	</modal>
+  <modal
+		show="{{modalOpened9}}"
+    showClose="{{false}}"
+	>
+		<view slot="header">标题单行</view>
+		<view>说明当前状态、提示用户解决方案，最好不要超过两行。</view>
+    <view style="margin-top:10px;padding-bottom:10px">
+      <slider value="5" step="5"/>
+    </view>
+    <button type="primary" onTap="onModalClose9">主操作</button>
+	</modal>
+</view>

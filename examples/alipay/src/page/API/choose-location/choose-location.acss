@@ -1,0 +1,13 @@
+.page-body-info {
+  height: 250rpx;
+}
+.page-body-text-location {
+  display: flex;
+  font-size: 50rpx;
+}
+.page-body-text-location text {
+  margin: 10rpx;
+}
+.page-section-location-text{
+    color: #49a9ee;
+}

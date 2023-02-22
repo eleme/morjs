@@ -1,0 +1,24 @@
+<view style="padding: 12px;">
+  <view style="display: flex; justify-content: space-evenly;">
+    <tag size="lg" iconType="{{useIcon ? 'qr' : ''}}" ghost="{{ghost}}" type="primary">标签</tag>
+    <tag size="lg" iconType="{{useIcon ? 'qr' : ''}}" ghost="{{ghost}}" type="warning">标签</tag>
+    <tag size="lg" iconType="{{useIcon ? 'qr' : ''}}" ghost="{{ghost}}" type="danger">标签</tag>
+    <tag size="lg" iconType="{{useIcon ? 'qr' : ''}}" ghost="{{ghost}}" type="success">标签</tag>
+  </view>
+  <view style="display: flex; justify-content: space-evenly; margin-top: 20px;">
+    <tag size="sm" iconType="{{useIcon ? 'qr' : ''}}" ghost="{{ghost}}" type="primary">标签</tag>
+    <tag size="sm" iconType="{{useIcon ? 'qr' : ''}}" ghost="{{ghost}}" type="warning">标签</tag>
+    <tag size="sm" iconType="{{useIcon ? 'qr' : ''}}" ghost="{{ghost}}" type="danger">标签</tag>
+    <tag size="sm" iconType="{{useIcon ? 'qr' : ''}}" ghost="{{ghost}}" type="success">标签</tag>
+  </view>
+  <view style="padding: 20px 10px;">
+    <list-item>
+      图标
+      <am-switch slot="extra" onChange="setInfo" data-name="useIcon" checked="{{useIcon}}"/>
+    </list-item>
+    <list-item>
+      线框样式
+      <am-switch slot="extra" onChange="setInfo" data-name="ghost" checked="{{ghost}}"/>
+    </list-item>
+  </view>
+</view>

@@ -1,0 +1,7 @@
+<view class="page">
+
+  <button type="primary" onTap="onMemoryWarning">
+    开始监听内存不足告警
+  </button>
+
+</view>

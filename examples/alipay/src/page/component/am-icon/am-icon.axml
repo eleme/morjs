@@ -1,0 +1,19 @@
+<input onInput="searchIcon" class="searchInput" placeholder="查找 icon" />
+<view class="icon-list">
+  <view a:if="{{searchIcon.length > 0}}">
+    <block a:for="{{searchIcon}}">
+      <view class="icon-item">
+        <am-icon type="{{item}}" size="30" />
+        <text class="icon-desc">{{item}}</text>
+      </view>
+    </block>
+  </view>
+  <view a:else>
+    <block a:for="{{iconTypes}}">
+      <view class="icon-item">
+        <am-icon type="{{item}}" size="30" />
+        <text class="icon-desc">{{item}}</text>
+      </view>
+    </block>
+  </view>
+</view>

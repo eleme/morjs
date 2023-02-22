@@ -1,0 +1,6 @@
+.animation-element {
+  width: 200rpx;
+  height: 200rpx;
+  background-color: #108ee9;
+  transform: scaleX(1) scaleY(1);
+}

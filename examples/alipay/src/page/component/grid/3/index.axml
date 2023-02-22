@@ -1,0 +1,6 @@
+<view style="margin-top: 10px;" />
+<view style="padding: 12px;background-color: #fff;"><grid onGridItemClick="onItemClick" columnNum="{{3}}" list="{{list3}}" /></view>
+<view style="margin-top: 10px;" />
+<grid onGridItemClick="onItemClick" columnNum="{{3}}" list="{{list1}}" />
+<view style="margin-top: 10px;" />
+<grid onGridItemClick="onItemClick" columnNum="{{3}}" list="{{list3}}" hasLine="{{false}}" />

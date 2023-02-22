@@ -1,0 +1,23 @@
+.demo-popover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 400px;
+}
+.demo-popover-btn {
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #dddddd;
+  border-radius: 2px;
+}
+.demo-popover-test-btns {
+  display: flex;
+  justify-content: space-around;
+}
+.demo-popover-test-btn {
+  width: 45%;
+}

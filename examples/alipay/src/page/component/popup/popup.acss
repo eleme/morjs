@@ -1,0 +1,28 @@
+.btn-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-container button {
+  width: 250px;
+}
+
+.box.top, .box.bottom {
+  height: 200px;
+}
+
+.box.left, .box.right {
+  width: 200px;
+  height: 100%;
+}
+
+.box {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,21 @@
+{
+  "miniprogramRoot": "./",
+  "axmlStrictCheck": true,
+  "enableParallelLoader": true,
+  "component2": true,
+  "enableAppxNg": true,
+  "scripts": {
+    "beforePreview": "npm run compile:ali",
+    "beforeUpload": "npm run compile:prod:ali"
+  },
+  "exclude": [
+    "_dist/**/*",
+    "_wechat/**/*",
+    "_package/**/*",
+    "miniapptools_dist/**/*",
+    "dist/**/*"
+  ],
+  "enableHMR": true,
+  "enableNodeModuleBabelTransform": true,
+  "node_modules_es6_whitelist": []
+}

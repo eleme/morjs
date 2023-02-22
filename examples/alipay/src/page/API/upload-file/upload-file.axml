@@ -1,0 +1,3 @@
+<view class="page">
+  <button type="primary" onTap="uploadFile">上传图片</button>
+</view>

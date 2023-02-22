@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "Collapse",
+  "usingComponents": {
+    "collapse": "mini-ali-ui/es/collapse/index",
+    "collapse-item": "mini-ali-ui/es/collapse/collapse-item/index"
+  }
+}

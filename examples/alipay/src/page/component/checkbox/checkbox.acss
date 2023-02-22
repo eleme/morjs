@@ -1,0 +1,13 @@
+.checkbox {
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+button + button {
+  margin-top: 32rpx;
+}
+
+.checkbox-text {
+  font-size:34rpx;
+  line-height: 1.2;
+}

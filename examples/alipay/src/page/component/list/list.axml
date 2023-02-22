@@ -1,0 +1,204 @@
+<view class="dyt-list" 
+	style="position: relative;">
+	<scroll-view style="height: 100vh;" 
+		scroll-y onScrollToLower="onScrollToLower" 
+		enable-back-to-top="true">
+		<list>
+			<view slot="header">
+				列表头部
+			</view>
+				<block a:for="{{items}}">
+				<list-item a:if="{{item.actionType==='switch'}}" 
+					thumb="{{thumbUrl}}" 
+					index="{{index}}" 
+					onClick="onSwitchClick" 
+					key="items-{{index}}" 
+					lineTouchable="{{item.lineTouchable}}" 
+					briefx="简要信息" 
+					upperSubtitle="{{item.brief}}"
+					last="{{index === (items.length - 1)}}">
+					{{item.title}}
+					<am-switch slot="extra" checked="{{changeSwitch}}"/>
+				</list-item>
+				<list-item a:elif="{{item.actionType ==='check'}}" 
+					thumb="{{thumbUrl}}" 
+					index="{{index}}" 
+					onClick="onCheckClick" 
+					key="items-{{index}}" 
+					last="{{index === (items.length - 1)}}">
+					{{item.title}}
+					<am-radio slot="extra" checked="{{changeCheckbox}}"/>
+				</list-item>
+				<list-item a:elif="{{item.actionType ==='capsule'}}" 
+					thumb="{{thumbUrl}}" 
+					index="{{index}}" 
+					onClick="onCapsuleClick" 
+					capsuleContent="{{item.capsuleContent}}" 
+					key="items-{{index}}" 
+					last="{{index === (items.length - 1)}}">
+					{{item.title}}
+					<button slot="extra" type="ghost" shape="capsule">胶囊按钮</button>
+				</list-item>
+				<list-item a:else thumbx="{{thumb}}" 
+					arrow="{{item.arrow}}" 
+					align="{{item.align}}" 
+					index="{{index}}" 
+					onClick="onItemClick" 
+					key="items-{{index}}" 
+					enforceExtra="{{item.enforceExtra}}" 
+					title="{{item.title}}" 
+					titlePosition="middle" 
+					last="{{index === (items.length - 1)}}">
+					{{item.title}}
+					<text slot="extra">{{item.extra}}</text>
+				</list-item>
+			</block>
+			<view slot="footer">
+				列表尾部
+			</view>
+		</list>
+		<list>
+			<view slot="header">
+				列表头部
+			</view>
+			<block a:for="{{items2}}">
+				<list-item thumb="{{item.thumb}}" 
+					arrow="{{item.arrow}}" 
+					onClick="onItemClick" 
+					index="items2-{{index}}" 
+					key="items2-{{index}}" 
+					data-filed="aaa" 
+					title="{{item.title}}" 
+					upperSubtitle="{{item.brief}}" 
+					last="{{index === (items2.length - 1)}}">
+					{{item.title}}
+					<view a:if="{{item.extra}}" 
+						slot="extra">
+						{{item.extra}}
+					</view>
+				</list-item>
+			</block>
+			<view slot="footer">
+				列表尾部
+			</view>
+		</list>
+		<list>
+			<view slot="header">
+				列表头部
+			</view>
+			<block a:for="{{items3}}">
+				<list-item thumb="{{item.thumb}}" 
+					arrow="{{item.arrow}}" 
+					index="items3-{{index}}" 
+					onClick="onItemClick" 
+					key="items3-{{index}}" 
+					last="{{index === (items3.length - 1)}}" 
+					upperSubtitle="{{item.brief}}" 
+					multipleLine="{{true}}">
+					{{item.title}}
+					<view a:if="{{item.extra}}" 
+						slot="extra">
+						{{item.extra}}
+					</view>
+				</list-item>
+			</block>
+			<view slot="footer">
+				列表尾部
+			</view>
+		</list>
+		<list>
+			<view slot="header">
+				列表头部
+			</view>
+			<block a:for="{{items4}}">
+				<list-item thumb="{{item.thumb}}" 
+					arrow="{{item.arrow}}" 
+					onClick="onItemClick" 
+					index="items4-{{index}}" 
+					last="{{index === (items4.length - 1)}}" 
+					key="items4-{{index}}" 
+					upperSubtitle="{{item.upperSubtitle}}" 
+					lowerSubtitle="{{item.upperSubtitle}}" 
+					titlePosition="{{item.titlePosition}}"
+					>
+					{{item.title}}
+					<view a:if="{{item.extra}}" 
+						slot="extra">
+						{{item.extra}}
+					</view>
+				</list-item>
+			</block>
+			<view slot="footer">
+				列表尾部
+			</view>
+		</list>
+		<list>
+			<view slot="header">
+				小图文列表
+			</view>
+			<block a:for="{{itemsThumb}}">
+				<list-item thumb="{{item.thumb}}" 
+					arrow="{{item.arrow}}" 
+					onClick="onItemClick" 
+					index="itemsThumb-{{index}}" 
+					last="{{index === (itemsThumb.length - 1)}}" 
+					brief="{{item.brief}}" 
+					thumbSize="30"
+					key="itemsThumb-{{index}}">
+					{{item.title}}
+					<view a:if="{{item.extra}}" 
+						slot="extra">
+						{{item.extra}}
+					</view>
+				</list-item>
+			</block>
+		</list>
+		<list>
+			<view slot="header">
+				小图文双行列表
+			</view>
+			<block a:for="{{itemsThumbMultiple}}">
+				<list-item thumb="{{item.thumb}}" 
+					arrow="{{item.arrow}}" 
+					onClick="onItemClick" 
+					index="items-multiple-{{index}}" 
+					last="{{index === (itemsThumbMultiple.length - 1)}}" 
+					key="items-multiple-{{index}}" 
+					upperSubtitle="{{item.brief}}" 
+					thumbSize="30"
+					multipleLineX="{{true}}">
+					{{item.title}}
+					<view a:if="{{item.extra}}" 
+						slot="extra">
+						{{item.extra}}
+					</view>
+				</list-item>
+			</block>
+		</list>
+		<list loadMore="{{loadMore}}" 
+			loadContent="{{loadContent}}" loadingSize="60rpx">
+			<view slot="header">
+				无限滚动列表
+			</view>
+			<block a:for="{{items5}}">
+				<list-item className="{{item.sticky ? 'am-list-sticky' : ''}}" 
+					thumb="{{item.thumb}}" 
+					thumbSize="30"
+					arrow="{{item.arrow}}" 
+					align="{{item.align}}" 
+					last="{{index === (items5.length - 1)}}" 
+					index="{{index}}" 
+					key="items5-{{index}}" 
+					onClick="onItemClick" 
+					disabled="{{item.sticky}}" 
+					wrap="{{true}}">
+					{{item.title}}{{index}}
+					<view a:if="{{item.extra}}" 
+						slot="extra">
+						{{item.extra}}
+					</view>
+				</list-item>
+			</block>
+		</list>
+	</scroll-view>
+</view>

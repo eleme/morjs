@@ -1,0 +1,13 @@
+packages/*/dist/
+packages/*/lib/
+packages/*/esm/
+node_modules
+*.d.ts
+coverage/
+packages/plugin-generator/templates
+packages/plugin-compiler-web/src/compiler/core/libs/*
+.umi*
+__tests__
+docs
+docs-dist
+examples/*

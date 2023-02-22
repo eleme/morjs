@@ -1,0 +1,39 @@
+{
+  "name": "@morjs/plugin-mocker",
+  "version": "1.0.0",
+  "description": "mor mock plugin",
+  "keywords": [
+    "mor",
+    "mock",
+    "plugin"
+  ],
+  "authors": [
+    "Felix Liu <lyfeyaj@gmail.com> (https://github.com/lyfeyaj)"
+  ],
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleme/morjs.git",
+    "directory": "packages/plugin-mocker"
+  },
+  "engines": {
+    "node": ">= 12.13.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@morjs/api": "1.0.0",
+    "@morjs/utils": "1.0.0",
+    "tslib": "2"
+  }
+}

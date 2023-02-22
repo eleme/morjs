@@ -1,0 +1,10 @@
+<view class="block-list-container {{className}}">
+  <view class="block-list">
+    <block a:for="{{listData}}">
+      <navigator a:if="{{item.url}}" url="{{item.url}}">
+        <view class="block-item" onTap="onItemTap" data-name="{{item.name}}">{{item.name}}</view>
+      </navigator>
+      <view a:else class="block-item" onTap="onItemTap" data-name="{{item.name}}">{{item.name}}</view>
+    </block>
+  </view>
+</view>

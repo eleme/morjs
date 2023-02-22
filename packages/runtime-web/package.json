@@ -1,0 +1,58 @@
+{
+  "name": "@morjs/runtime-web",
+  "version": "1.0.0",
+  "description": "mor runtime for web",
+  "keywords": [
+    "mor",
+    "runtime",
+    "web"
+  ],
+  "authors": [
+    "Felix Liu <lyfeyaj@gmail.com> (https://github.com/lyfeyaj)"
+  ],
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleme/morjs.git",
+    "directory": "packages/runtime-web"
+  },
+  "engines": {
+    "node": ">= 12.13.0"
+  },
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.5.0",
+    "history": "^4.10.1",
+    "intersection-observer": "^0.11.0",
+    "lit-element": "^2.4.0",
+    "lit-html": "^1.3.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.flattendeep": "^4.4.0",
+    "lodash.get": "^4.4.2",
+    "lodash.isequal": "^4.5.0",
+    "lodash.set": "^4.3.2",
+    "lodash.throttle": "^4.1.1",
+    "lodash.topath": "^4.5.2",
+    "mobile-detect": "^1.4.4",
+    "query-string": "^7.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "tslib": "2",
+    "universal-router": "^8.3.0",
+    "whatwg-fetch": "^3.6.2"
+  },
+  "devDependencies": {
+    "@types/history": "^4.7.8",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "mini-types": "^0.1.4"
+  }
+}

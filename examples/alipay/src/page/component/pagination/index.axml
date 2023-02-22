@@ -1,0 +1,25 @@
+<pagination pagerName='test1' infinite="true">
+  <view style="display: flex;height: 100%;">
+    <view style="text-align: center;padding-top: 20px;flex: 0 0 auto;width: 90vw;background-color: #f8d7d7;"><image src="https://gw.alipayobjects.com/mdn/rms_ce4c6f/afts/img/A*gWo-TLFGp38AAAAAAAAAAABkARQnAQ" style="width: 300rpx;height: 72rpx;" /></view>
+    <view style="text-align: center;padding-top: 20px;flex: 0 0 auto;width: 90vw;background-color: #d5f7d5;"><image src="https://gw.alipayobjects.com/mdn/rms_ce4c6f/afts/img/A*gWo-TLFGp38AAAAAAAAAAABkARQnAQ" style="width: 300rpx;height: 72rpx;" /></view>
+    <view style="text-align: center;padding-top: 20px;flex: 0 0 auto;width: 50vw;background-color: #f0e39e;"><image src="https://gw.alipayobjects.com/mdn/rms_ce4c6f/afts/img/A*XMCgSYx3f50AAAAAAAAAAABkARQnAQ" style="width: 70px;height: 70px;" /></view>
+    <view style="text-align: center;padding-top: 20px;flex: 0 0 auto;width: 120vw;background-color: #F8F8F8;"><image src="https://gw.alipayobjects.com/mdn/rms_ce4c6f/afts/img/A*gWo-TLFGp38AAAAAAAAAAABkARQnAQ" style="width: 300rpx;height: 72rpx;" /></view>
+    <view style="text-align: center;padding-top: 20px;flex: 0 0 auto;width: 20vw;background-color: #d3d3d3;"><image src="https://gw.alipayobjects.com/mdn/rms_ce4c6f/afts/img/A*XMCgSYx3f50AAAAAAAAAAABkARQnAQ" style="width: 50px;height: 50px;" /></view>
+  </view>
+</pagination>
+
+<view style="width: 50vw;margin: 20px auto 0;background-color: #8f8f8f;">
+  <pagination pagerName='test2' height="220rpx" white="true" infinite="true">
+    <image src="https://gw.alipayobjects.com/mdn/rms_ce4c6f/afts/img/A*gWo-TLFGp38AAAAAAAAAAABkARQnAQ" style="width: 779rpx;height: 186rpx;margin: 10px 20px;" />
+  </pagination>
+</view>
+
+<view style="margin-top: 24rpx;padding-bottom: 16rpx;font-weight: bold;">正常翻页样式</view>
+<view style="padding: 20px 20px 0;background-color: #f8f8ba;">
+  <pagination currentPage="{{3}}" max="{{10}}" height="200px" />
+</view>
+
+<view style="margin-top: 24rpx;padding-bottom: 16rpx;font-weight: bold;">反白翻页样式</view>
+<view style="padding: 20px 20px 0;background-color: #0e98d8;">
+  <pagination currentPage="{{5}}" white="true" />
+</view>

@@ -1,0 +1,5 @@
+<view class="page">
+  <view>
+    点击标题，测试容器事件
+  </view>
+</view>

@@ -1,0 +1,17 @@
+<view class="page">
+  <view class="page-description">页面滚动 API</view>
+
+  <view class="page-section">
+    <view class="page-section-title">
+      my.pageScrollTo
+    </view>
+    <view class="page-section-demo">
+      <input type="text" placeholder="key" name="key" value="{{scrollTop}}" onInput="scrollTopChange"></input>
+    </view>
+    <view class="page-section-btns">
+      <view onTap="scrollTo">页面滚动</view>
+    </view>
+  </view>
+
+  <view style="height:1000px"/>
+</view>

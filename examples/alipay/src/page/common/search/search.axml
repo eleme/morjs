@@ -1,0 +1,72 @@
+<view class="page">
+  <view class="search-bar">
+    <search-bar
+      focus="{{true}}"
+      value="{{value}}"
+      placeholder="搜索你想要的组件和API"
+      onInput="onInput"
+      onCancel="onCancel"
+      onClear="onClear"
+      showCancelButton="{{false}}" />
+  </view>
+  <view class="search-container" a:if="{{componentSuggestions.length === 0 && apiSuggestions.length === 0}}">
+    <view a:if="{{value.length === 0}}">
+      <view a:if="{{ history && history.length > 0 }}" style="border-bottom: 1rpx solid #F5F5F5; margin-bottom: 16px;">
+        <view class="history">历史<view class="clear" onTap="clear"></view></view>
+        <block-list listData="{{history}}" class="history-list" onItemTap="onItemTap" />
+      </view>
+      <view>
+        <view class="hot">热门</view>
+        <block-list listData="{{hot}}" class="history-list" />
+      </view>
+    </view>
+    <view class="no-search-result" a:else>
+      <image src="https://gw.alicdn.com/imgextra/i4/O1CN01Fdc17Y1W637y7z0HU_!!6000000002738-2-tps-87-87.png" />
+      <text>未找到搜索结果</text>
+    </view>
+  </view>
+  <view class="search-results" a:else>
+    <view a:if="{{componentSuggestions.length > 0}}" class="component">
+      <list>
+        <view slot="header" class="list-header">组件</view>
+        <block a:for="{{componentSuggestions}}">
+          <list-item
+            arrow="{{true}}"
+            multipleLine="{{false}}"
+            key="items-{{item.name}}"
+            last="{{index === componentSuggestions.length - 1}}">
+            <view
+              onTap="onListItemTap"
+              data-url="{{item.path}}"
+              data-name="{{item.name}}"
+              style="display: flex; align-items: center">
+              <!-- <image src="{{item.thumb}}" class="thumb" /> -->
+              <text class="component-name">{{item.name}}</text>
+            </view>
+          </list-item>
+        </block>
+      </list>
+    </view>
+    <view a:if="{{apiSuggestions.length > 0}}" class="api">
+      <list>
+        <view slot="header" class="list-header">API</view>
+        <block a:for="{{apiSuggestions}}">
+          <list-item
+            arrow="{{true}}"
+            multipleLine="{{false}}"
+            key="items-{{item.name}}"
+            last="{{index === apiSuggestions.length - 1}}">
+            <view
+              onTap="onListItemTap"
+              data-url="{{item.path}}"
+              data-name="{{item.name}}"
+              style="display: flex; align-items: center">
+              <image src="{{item.thumb}}" class="thumb" a:if="{{thumb}}" />
+              <text class="component-name">{{item.name}}</text>
+            </view>
+          </list-item>
+        </block>
+      </list>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,54 @@
+<view>
+  <!-- <tips-dialog show="{{showDialog}}" className="dialog" type="dialog">
+    <view class="content" slot="content">
+      <view>hello,</view>
+      <view>欢迎使用小程序扩展组件库</view>
+    </view>
+    <am-button slot="operation" shape="capsule" onTap="onRectangleTap">知道了</am-button>
+  </tips-dialog> -->
+  <tips-dialog iconUrl="{{useIcon ? 'https://gw.alipayobjects.com/zos/rmsportal/AzRAgQXlnNbEwQRvEwiu.png' : ''}}" 
+    iconSize="36" 
+    type="rectangle" 
+    className="rectangle" 
+    onCloseTap="onCloseTap" 
+    show="{{showRectangle}}" 
+    arrowPosition="{{arrowPositions[arrowPosIndex]}}">
+    <view class="content" 
+      slot="content">
+      箭头有8个方向。字数字数字数字数字两行
+    </view>
+    <am-button a:if="{{useButton}}" 
+      slot="operation" 
+      shape="capsule" 
+      capsuleSize="small" 
+      onTap="onRectangleTap">立即添加</am-button>
+    <!-- <view slot="operation" class="add-home" onTap="onRectangleTap">立即添加</view> -->
+  </tips-dialog>
+  <view style="padding: 20px 10px;">
+    <picker onChange="setInfo" 
+      value="{{arrowPosIndex}}" 
+      range="{{arrowPositions}}" 
+      data-name="arrowPosIndex">
+      <view class="row">
+        <view class="row-title">箭头位置</view>
+        <view class="row-extra">当前选择：{{arrowPositions[arrowPosIndex]}}</view>
+        <am-icon type="right" 
+          size="13" />
+      </view>
+    </picker>
+    <list-item>
+      左侧图标
+      <switch slot="extra" 
+        checked="{{useIcon}}" 
+        onChange="setInfo" 
+        data-name="useIcon" />
+    </list-item>
+    <list-item>
+      右侧按钮
+      <switch slot="extra" 
+        checked="{{useButton}}" 
+        onChange="setInfo" 
+        data-name="useButton" />
+    </list-item>
+  </view>
+</view>

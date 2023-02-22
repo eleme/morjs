@@ -1,0 +1,12 @@
+<view class="page">
+  <view class="page-description">唤起智能客服</view>
+  <view class="page-section">
+    <view class="page-section-title">点击下方图标唤起智能客服功能</view>
+    <view class="page-section-demo">
+      <contact-button tnt-inst-id="FRYFEGCN" scene="SCE00000725" size="46" color="#e15151" />
+    </view>
+    <view class="page-section-demo">
+      <contact-button tnt-inst-id="FRYFEGCN" scene="SCE00000725" size="46" icon="{{src}}" />
+    </view>
+  </view>
+</view>

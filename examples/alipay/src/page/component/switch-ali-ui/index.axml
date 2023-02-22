@@ -1,0 +1,13 @@
+<view class="page">
+  <view class="page-description">开关</view>
+  <view class="page-section">
+    <view class="page-section-demo switch-list">
+      <view class="switch-item">
+        <am-switch checked onChange="switch1Change"/>
+      </view>
+      <view class="switch-item">
+        <am-switch color="red" checked="{{ true }}" />
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,31 @@
+<!--textarea.axml-->
+<view class="page">
+  <view class="page-description">文本框</view>
+  <view class="page-section">
+    <view class="page-section-title">受控聚焦</view>
+    <view class="page-section-demo">
+      <textarea focus="{{focus}}" onFocus="onFocus" onBlur="onBlur" placeholder="Please input something" />
+    </view>
+    <view class="page-section-btns">
+      <button type="default" size="mini" onTap="bindButtonTap">聚焦</button>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="page-section-title">自适应高度</view>
+    <view class="page-section-demo">
+      <textarea onBlur="bindTextAreaBlur" auto-height placeholder="Please input something" />
+    </view>
+  </view>
+
+  <view class="page-section">
+    <view class="page-section-title">结合表单</view>
+    <form onSubmit="bindFormSubmit">
+      <view class="page-section-demo">
+        <textarea name="textarea" placeholder="Please input something"  />
+      </view>
+      <view class="page-section-btns">
+        <button form-type="submit" size="mini" type="primary">提交</button>
+      </view>  
+    </form>
+  </view>
+</view>

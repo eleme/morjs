@@ -1,0 +1,49 @@
+{
+  "name": "@morjs/cli",
+  "version": "1.0.0",
+  "description": "mor cli",
+  "keywords": [
+    "mor",
+    "cli"
+  ],
+  "bin": {
+    "mor": "./bin/cli.js",
+    "morjs": "./bin/cli.js"
+  },
+  "authors": [
+    "Felix Liu <lyfeyaj@gmail.com> (https://github.com/lyfeyaj)"
+  ],
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleme/morjs.git",
+    "directory": "packages/cli"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@morjs/plugin-analyzer": "1.0.0",
+    "@morjs/plugin-compiler": "1.0.0",
+    "@morjs/plugin-composer": "1.0.0",
+    "@morjs/plugin-generator": "1.0.0",
+    "@morjs/plugin-mocker": "1.0.0",
+    "@morjs/utils": "1.0.0",
+    "v8-compile-cache": "^2.3.0",
+    "youch": "^3.2.2",
+    "youch-terminal": "^2.1.5"
+  },
+  "engines": {
+    "node": ">= 12.13.0"
+  }
+}

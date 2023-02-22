@@ -1,0 +1,8 @@
+{
+  "defaultTitle": "Tag",
+  "usingComponents": {
+    "tag": "mini-ali-ui/es/tag/index",
+    "list-item": "mini-ali-ui/es/list/list-item/index",
+    "am-switch": "mini-ali-ui/es/am-switch/index"
+  }
+}

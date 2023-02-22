@@ -1,0 +1,17 @@
+<view>
+  <amount-input
+    type="digit"
+    title="转入金额"
+    extra="建议转入¥100以上金额"
+    placeholder="输入金额"
+    value="{{value}}"
+    maxLength="10"
+    focus="{{true}}"
+    btnText="全部提现"
+    onClear="onInputClear"
+    onInput="onInput"
+    onButtonClick="onButtonClick"
+    onConfirm="onInputConfirm"
+    onBlur="onInputBlur"
+    onFocus="onInputFocus" />
+</view>

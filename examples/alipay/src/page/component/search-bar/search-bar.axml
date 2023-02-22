@@ -1,0 +1,19 @@
+<view>
+  <search-bar
+    value="{{value}}"
+    focus="{{true}}"
+    disabled="{{false}}"
+    maxLength="{{20}}"
+    showVoice="{{showVoice}}"
+    placeholder="搜索"
+    onInput="handleInput"
+    onClear="handleClear"
+    onFocus="handleFocus"
+    onBlur="handleBlur"
+    onCancel="handleCancel"
+    onSubmit="handleSubmit"
+    showCancelButton="{{true}}" />
+</view>
+<view style="padding: 24rpx">
+  <checkbox onChange='onChange' id="showVoice"/><label for="showVoice">是否展示Voice图标</label>
+</view>

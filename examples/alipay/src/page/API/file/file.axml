@@ -1,0 +1,27 @@
+<view class="page">
+  <view class="page-description">文件 API</view>
+  <view class="page-section">
+    <view class="page-section-title">选择文件</view>
+    <block a:if="{{tempFilePath != ''}}">
+      <image src="{{tempFilePath}}" class="image"></image>
+    </block>
+    <block a:if="{{tempFilePath === '' && savedFilePath != ''}}">
+      <image src="{{savedFilePath}}" class="image"></image>
+    </block>
+    <block a:if="{{tempFilePath === '' && savedFilePath === ''}}">
+      <view class="image-plus" onTap="chooseImage">
+        <view class="image-plus-horizontal"></view>
+        <view class="image-plus-vertical"></view>
+      </view>
+    </block>
+    <view class="page-section-demo">
+      <button class="page-body-button" type="primary" onTap="saveFile">保存文件</button>
+      <button class="page-body-button" type="primary" onTap="getFileInfo">获取文件信息</button>
+      <button class="page-body-button" type="primary" onTap="getSavedFileInfo">获取保存的文件信息</button>
+      <button class="page-body-button" type="primary" onTap="getSavedFileList">获取保存的文件列表</button>
+      <button class="page-body-button" type="primary" onTap="removeSavedFile">移除保存的文件</button>
+      <!-- <button class="page-body-button" type="primary" onTap="openDocument">预览文件</button> -->
+      <button class="page-body-button" onTap="clear">删除文件</button>
+    </view>
+  </view>
+</view>

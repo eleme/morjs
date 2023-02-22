@@ -1,0 +1,33 @@
+.container {
+  padding-bottom: 50px;
+}
+.coupon_rule text {
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+/* 左侧权益内容的样式 slot="category" */
+.categoryDemo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: baseline;
+  align-self: flex-start;
+}
+.categoryDemo .price {
+  font-size: 60rpx;
+  color: #FF6010;
+}
+.categoryDemo .unit {
+  padding-left: 4rpx;
+  font-weight: bold;
+  font-size: 26rpx;
+  color: #FF6010;
+}
+.categoryDemo .type {
+  flex: 1 1 100%;
+  text-align: center;
+  font-size: 22rpx;
+  color: #999;
+}

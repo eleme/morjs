@@ -1,0 +1,42 @@
+{
+  "name": "@morjs/api",
+  "version": "1.0.0",
+  "description": "mor runtime api",
+  "keywords": [
+    "mor"
+  ],
+  "authors": [
+    "Felix Liu <lyfeyaj@gmail.com> (https://github.com/lyfeyaj)"
+  ],
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "esm": "esm",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib",
+    "esm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleme/morjs.git",
+    "directory": "packages/api"
+  },
+  "engines": {
+    "node": ">= 12.13.0"
+  },
+  "scripts": {
+    "build": "tsc --module commonjs --outDir lib && tsc --module es2015 --outDir esm",
+    "test": "jest --colors",
+    "clean": "rimraf esm lib"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "2"
+  }
+}

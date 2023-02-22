@@ -1,0 +1,19 @@
+<view class="page">
+  <view class="page-section">
+    <view class="page-section-demo">
+      <view class="page-body-title">网络状态</view>
+      <block a:if="{{hasNetworkType === false}}">
+        <text class="page-body-text">未获取</text>
+        <text class="page-body-text">点击按钮可获取网络状态</text>
+      </block>
+      <block a:if="{{hasNetworkType === true}}">
+        <text class="page-body-text-network-type">{{networkType}}</text>
+      </block>
+    </view>
+
+    <view class="page-section-btns">
+      <view onTap="getNetworkType">获取手机网络状态</view>
+      <view onTap="clear">清空</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,8 @@
+<view>
+  <page-result
+    type="busy"
+    local="{{true}}"
+    brief="请稍后哦，马上出来" />
+  <view style="height: 150px; margin: 10px; background: #dddddd;" />
+  <view style="height: 150px; margin: 10px; background: #dddddd;" />
+</view>

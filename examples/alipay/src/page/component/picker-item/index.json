@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "Picker item",
+  "usingComponents": {
+    "list": "mini-ali-ui/es/list/index",
+    "picker-item": "mini-ali-ui/es/picker-item/index"
+  }
+}

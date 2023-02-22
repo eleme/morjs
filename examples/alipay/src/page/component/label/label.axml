@@ -1,0 +1,52 @@
+<view class="page">
+  <view class="page-section">
+    <view class="page-section-title">Checkbox</view>
+    <view class="page-section-demo">
+      <checkbox-group>
+        <view>
+          <label>
+            <checkbox value="AngularJS" />
+            <text> AngularJS</text>
+          </label>
+        </view>
+        <view>
+          <label>
+            <checkbox value="React" />
+            <text> React</text>
+          </label>
+        </view>
+      </checkbox-group>
+    </view>
+  </view>
+
+  <view class="page-section">
+    <view class="page-section-title">Radio</view>
+    <view class="page-section-demo">
+      <radio-group>
+        <view>
+          <radio id="AngularJS" value="AngularJS" />
+          <label for="AngularJS">AngularJS</label>
+        </view>
+        <view>
+          <radio id="React" value="React" />
+          <label for="React">React</label>
+        </view>
+      </radio-group>
+    </view>
+  </view>
+
+  <view class="page-section">
+    <view class="page-section-title">label中有多个 Checkbox ，点击后只选中一个</view>
+    <view class="page-section-demo">
+      <label>
+        <checkbox>选中我</checkbox>
+        <checkbox>选不中</checkbox>
+        <checkbox>选不中</checkbox>
+        <checkbox>选不中</checkbox>
+        <view>
+          <text>Click Me</text>
+        </view>
+      </label>
+    </view>
+  </view>
+</view>

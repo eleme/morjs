@@ -1,0 +1,11 @@
+.report {
+    width: 100%;
+    background: #108ee9;
+    color: #fff;
+    border: 1px solid #108ee9;
+    height: 47px;
+    line-height: 47px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+}

@@ -1,0 +1,9 @@
+.extra {
+  background-image: url('https://gw.alipayobjects.com/zos/rmsportal/dOfSJfWQvYdvsZiJStvg.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right center;
+  opacity: 0.2;
+  height: 22px;
+  width: 22px;
+}

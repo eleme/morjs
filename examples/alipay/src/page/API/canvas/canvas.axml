@@ -1,0 +1,20 @@
+<view class="page">
+  <view class="page-description">画布 API</view>
+  <view class="page-section">
+    <view class="page-section-title">my.createCanvasContext</view>
+    <view class="page-section-demo">
+      <canvas class="canvas-element" id="canvas" onTap="log" onTouchStart="log"></canvas>
+    </view>
+    <scroll-view class="canvas-buttons" scroll-y="true">
+        <button a:for="{{methods}}" a:for-item="method"
+                class="canvas-button" type="primary" onTap="{{method}}">{{method}}</button>
+    </scroll-view>
+    <scroll-view class="canvas-buttons" scroll-y="true" style="height: 150rpx;">
+      <button class="canvas-button" type="primary" onTap="toTempFilePath">toTempFilePath</button>
+      <button class="canvas-button" type="primary" onTap="getImageData">getImageData</button>
+      <button class="canvas-button" type="primary" onTap="putImageData">putImageData</button>
+      <button class="canvas-button" type="primary" onTap="preloadCanvasImage">preloadCanvasImage</button>
+    </scroll-view>
+  </view>
+</view>
+

@@ -1,0 +1,60 @@
+<page-meta root-font-size="system"/>
+<view class="page" data-weui-theme="{{theme}}" data-weui-mode="{{mode}}">
+    <view class="page__hd">
+        <view class="page__title">Uploader</view>
+        <view class="page__desc">上传组件</view>
+    </view>
+    <view class="page__bd">
+        <view class="weui-cells">
+            <view class="weui-cell weui-cell_uploader">
+                <view class="weui-cell__bd">
+                    <view class="weui-uploader">
+                        <view class="weui-uploader__hd">
+                          <view aria-role="option" class="weui-uploader__overview">
+                              <view class="weui-uploader__title">图片上传</view>
+                              <view class="weui-uploader__info">{{files.length}}/2</view>
+                          </view>
+                          <view class="weui-uploader__tips">
+                            上传提示
+                          </view>
+                        </view>
+                        <view class="weui-uploader__bd">
+                            <view class="weui-uploader__files" id="uploaderFiles">
+                                <block wx:for="{{files}}" wx:key="*this">
+                                    <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
+                                        <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                                    </view>
+                                </block>
+                                <view class="weui-uploader__file">
+                                    <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
+                                </view>
+                                <view class="weui-uploader__file">
+                                    <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
+                                </view>
+                                <view class="weui-uploader__file weui-uploader__file_status">
+                                    <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
+                                    <view aria-role="alert" class="weui-uploader__file-content">
+                                      <view aria-role="img" aria-label="正在上传" class="weui-loading"></view>
+                                    </view>
+                                </view>
+                                <view class="weui-uploader__file weui-uploader__file_status">
+                                    <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
+                                    <view aria-role="alert" class="weui-uploader__file-content">
+                                        <icon aria-label="错误" type="warn" size="23" color="#F43530"></icon>
+                                    </view>
+                                </view>
+                                <view class="weui-uploader__file weui-uploader__file_status">
+                                    <image class="weui-uploader__img" src="../images/pic_160.png" mode="aspectFill" />
+                                    <view aria-role="alert" class="weui-uploader__file-content">50%</view>
+                                </view>
+                            </view>
+                            <view class="weui-uploader__input-box">
+                                <view aria-role="button" aria-label="上传" class="weui-uploader__input" bindtap="chooseImage"></view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "组件测试页",
+  "usingComponents": {
+    "demo-component": "../components/demo/index"
+  }
+}

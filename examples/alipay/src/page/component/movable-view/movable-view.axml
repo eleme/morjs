@@ -1,0 +1,40 @@
+<view class="page">
+  <view class="page-description">可移动视图</view>
+  <view class="page-section">
+    <view class="page-section-title">movable-view区域小于movable-area</view>
+    <view class="page-section-demo">
+      <movable-area>
+        <movable-view x="{{x}}" y="{{y}}" direction="all">movable-view</movable-view>
+      </movable-area>
+    </view>
+    <button style="margin-left: 10px; mrigin-right: 10px;" type="primary" onTap="onButtonTap">点击移动到 (30px, 30px)</button>
+  </view>
+  <view class="page-section">
+    <view class="page-section-title">movable-view区域大于movable-area</view>
+    <view class="page-section-demo">
+      <movable-area>
+        <movable-view class="max" direction="all">movable-view</movable-view>
+      </movable-area>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="page-section-title">只可以横向移动</view>
+    <view class="page-section-demo">
+     <movable-area>
+        <movable-view direction="horizontal">
+          movable-view
+        </movable-view>
+      </movable-area>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="page-section-title">只可以纵向移动</view>
+    <view class="page-section-demo">
+     <movable-area>
+        <movable-view direction="vertical">
+          movable-view
+        </movable-view>
+      </movable-area>
+    </view>
+  </view>
+</view>

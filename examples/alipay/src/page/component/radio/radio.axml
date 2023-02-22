@@ -1,0 +1,21 @@
+<view class="page">
+  <view class="page-description">单选框</view>
+  <view class="page-section">
+    <view class="section section_gap">
+      <form onSubmit="onSubmit" onReset="onReset">
+        <view class="page-section-demo">
+          <radio-group class="radio-group" onChange="radioChange" name="lib">
+            <label class="radio" a:for="{{items}}" key="label-{{index}}">
+              <radio value="{{item.name}}" checked="{{item.checked}}" disabled="{{item.disabled}}" />
+              <text class="radio-text">{{item.value}}</text>
+            </label>
+          </radio-group>
+        </view>
+        <view class="page-section-btns">
+          <view><button size="mini" type="ghost" formType="reset">reset</button></view>
+          <view><button size="mini" type="primary" formType="submit">submit</button></view>
+        </view>
+      </form>
+    </view>
+  </view>
+</view>

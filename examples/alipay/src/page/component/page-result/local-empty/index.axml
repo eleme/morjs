@@ -1,0 +1,8 @@
+<view>
+  <page-result
+    type="empty"
+    local="{{true}}"
+    brief="暂无信息，内容为空" />
+  <view style="height: 150px; margin: 10px; background: #dddddd;" />
+  <view style="height: 150px; margin: 10px; background: #dddddd;" />
+</view>

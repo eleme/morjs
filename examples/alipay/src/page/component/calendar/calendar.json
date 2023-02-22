@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "Calendar",
+  "usingComponents": {
+    "calendar": "mini-ali-ui/es/calendar/index"
+  }
+}

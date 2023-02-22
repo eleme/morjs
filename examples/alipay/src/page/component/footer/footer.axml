@@ -1,0 +1,44 @@
+<footer 
+  type="{{footerInfo1.type}}" 
+  content="{{footerInfo1.content}}"
+/>
+<footer 
+  type="{{footerInfo2.type}}" 
+  content="{{footerInfo2.content}}"
+  extend="{{footerInfo2.extend}}"
+/>
+<footer 
+  type="{{footerInfo3.type}}" 
+  content="{{footerInfo3.content}}"
+/>
+<footer 
+  type="{{footerInfo4.type}}" 
+  content="{{footerInfo4.content}}"
+  extend="{{footerInfo4.extend}}"
+  onBrandTap="brandClick"
+/>
+<footer 
+  type="{{footerInfo5.type}}" 
+  content="{{footerInfo5.content}}"
+  extend="{{footerInfo5.extend}}"
+  onBrandTap="brandClick"
+/>
+<footer 
+  type="{{footerInfo6.type}}" 
+  content="{{footerInfo6.content}}"
+  extend="{{footerInfo6.extend}}"
+/>
+<footer 
+  type="{{footerInfo7.type}}" 
+  content="{{footerInfo7.content}}"
+  footerEndColor="{{footerInfo7.footerEndColor}}"
+/>
+<footer 
+  type="{{footerInfo8.type}}"
+/>
+<footer 
+  type="{{footerInfo8.type}}" 
+  content="{{footerInfo8.content}}"
+  showEndIcon="{{footerInfo8.showEndIcon}}"
+  iconSize="{{footerInfo8.iconSize}}"
+/>

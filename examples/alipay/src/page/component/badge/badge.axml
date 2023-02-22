@@ -1,0 +1,38 @@
+<view>
+  <block a:for="{{items}}">
+    <view class="list-like" 
+      index="{{index}}" 
+      key="items-{{index}}">
+      <view>
+        <badge a:if="{{item.isWrap}}" 
+          text="{{item.text}}" 
+          dot="{{item.dot}}">
+          <view slot="inner" 
+            style="height: 24px; width: 24px; background-color: #ddd;"></view>
+        </badge>
+        <text style="margin-left: {{ item.isWrap ? '12px' : '0' }}">{{item.intro}}</text>
+      </view>
+      <view >
+        <badge a:if="{{!item.isWrap}}" 
+          text="{{item.text}}" 
+          dot="{{item.dot}}" 
+          overflowCount="{{item.overflowCount}}" 
+          withArrow="{{item.withArrow}}" 
+          direction="{{item.direction}}" />
+      </view>
+    </view>
+  </block>
+</view>
+<view style="
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #333;
+  color: #f8f8f8;">
+    深色底时，stroke 可设为 true 
+    <badge 
+      text="深色底时加描边"
+      stroke="{{true}}" 
+      withArrow="{{true}}" 
+      direction="left" />
+</view>

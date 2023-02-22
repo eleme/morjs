@@ -1,0 +1,31 @@
+<view className="container">
+  <container className="container-item">
+    <view class="item">a1</view>
+  </container>
+  <container className="container-item">
+    <view class="item">b1</view>
+    <view class="item">b2</view>
+  </container>
+  <container className="container-item">
+    <title slot="header" hasLine="true" showIcon="true" xcxPath="https://gw.alipayobjects.com/mdn/miniProgram_mendian/afts/img/A*wiFYTo5I0m8AAAAAAAAAAABjAQAAAQ/original">内部标题无操作</title>
+    <view class="item">c1</view>
+    <view class="item">c2</view>
+    <view class="item">c3</view>
+    <view slot="footer" class="footer" style="padding-left: 12px;">底部展示区</view>
+  </container>
+  <container className="container-item">
+    <title slot="header">滑动</title>
+    <swiper indicator-dots="{{true}}" class="item">
+      <block a:for="{{['#0abc80','#00b7f4']}}">
+        <swiper-item>
+          <view style="background-color: {{item}};width:100%;height:300rpx;border-radius:16rpx;"/>
+        </swiper-item>
+      </block>
+    </swiper>
+  </container>
+  <container className="container-item" type="onewithtwo">
+    <view class="grid-item" style ="height: 300rpx;" slot="first">first</view>
+    <view class="grid-item" slot="second">second</view>
+    <view class="grid-item" slot="third">third</view>
+  </container>
+</view>

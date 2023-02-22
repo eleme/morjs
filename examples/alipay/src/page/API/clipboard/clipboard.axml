@@ -1,0 +1,16 @@
+<view class="page">
+  <view class="page-section">
+    <view class="page-section-title">setClipboard</view>
+    <view class="page-section-demo">
+      <input onInput="handleInput" value="{{text}}" />
+      <button class="clipboard-button" type="primary" size="mini" onTap="handleCopy">复制</button>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="page-section-title">getClipboard</view>
+    <view class="page-section-demo">
+      <input onInput="bindInput" value="{{copy}}" disabled="disabled" />
+      <button class="clipboard-button" type="default" size="mini" onTap="handlePaste">粘贴</button>
+    </view>
+  </view>
+</view>

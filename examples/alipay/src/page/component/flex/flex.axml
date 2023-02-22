@@ -1,0 +1,59 @@
+<view class="flex-container">
+  <view class="sub-title">Basic</view>
+  <flex>
+    <flex-item><view class="placeholder">Block</view></flex-item>
+    <flex-item><view class="placeholder">Block</view></flex-item>
+  </flex>
+  <view style="height: 20px;" />
+  <flex>
+    <flex-item><view class="placeholder">Block</view></flex-item>
+    <flex-item><view class="placeholder">Block</view></flex-item>
+    <flex-item><view class="placeholder">Block</view></flex-item>
+  </flex>
+  <view style="height: 20px;" />
+  <flex>
+    <flex-item><view class="placeholder">Block</view></flex-item>
+    <flex-item><view class="placeholder">Block</view></flex-item>
+    <flex-item><view class="placeholder">Block</view></flex-item>
+    <flex-item><view class="placeholder">Block</view></flex-item>
+  </flex>
+  <view className="sub-title">Wrap</view>
+  <flex wrap="wrap">
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline">Block</view>
+  </flex>
+  <view className="sub-title">Align</view>
+  <flex justify="center">
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline">Block</view>
+  </flex>
+  <flex justify="end">
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline">Block</view>
+  </flex>
+  <flex justify="between">
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline">Block</view>
+  </flex>
+  <flex align="start">
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline small">Block</view>
+    <view class="placeholder inline">Block</view>
+  </flex>
+  <flex align="end">
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline small">Block</view>
+    <view class="placeholder inline">Block</view>
+  </flex>
+  <flex align="baseline">
+    <view class="placeholder inline">Block</view>
+    <view class="placeholder inline small">Block</view>
+    <view class="placeholder inline">Block</view>
+  </flex>
+</view>

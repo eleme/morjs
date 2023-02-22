@@ -1,0 +1,3 @@
+<mask type="{{type}}" show="{{show}}" maskZindex="{{maskZindex}}" onMaskTap="maskClick"></mask>
+<view a:if="{{type === 'market'}}">营销弹窗蒙层，type="{{type}}"</view>
+<view a:if="{{type === 'product'}}">产品弹窗蒙层，type="{{type}}"</view>

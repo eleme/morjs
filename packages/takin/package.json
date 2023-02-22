@@ -1,0 +1,70 @@
+{
+  "name": "takin",
+  "version": "1.0.0",
+  "description": "Front end engineering base toolchain and scaffold",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "jest --colors"
+  },
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "url": "git+https://github.com/eleme/morjs.git",
+    "directory": "packages/takin"
+  },
+  "keywords": [
+    "frontend",
+    "engineering",
+    "toolchain"
+  ],
+  "authors": [
+    "Felix Liu <lyfeyaj@gmail.com> (https://github.com/lyfeyaj)"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.2.0"
+  },
+  "dependencies": {
+    "@types/debug": "^4.1.7",
+    "@types/fs-extra": "^9.0.13",
+    "@types/lodash": "^4.14.181",
+    "@types/prompts": "^2.0.14",
+    "@types/tar-fs": "2.0.1",
+    "chalk": "^4.1.2",
+    "debug": "^4.3.4",
+    "dotenv": "^16.0.3",
+    "esbuild": "^0.14.36",
+    "execa": "^5.1.1",
+    "fast-glob": "^3.2.11",
+    "fs-extra": "^10.0.1",
+    "get-npm-tarball-url": "^2.0.3",
+    "got": "^11.8.3",
+    "json5": "^2.2.3",
+    "jsonc-parser": "^3.2.0",
+    "lodash": "^4.17.21",
+    "mri": "^1.2.0",
+    "prompts": "^2.4.2",
+    "registry-url": "^5.1.0",
+    "tapable": "^2.2.1",
+    "tar-fs": "^2.1.1",
+    "wcwidth": "^1.0.1",
+    "zod": "^3.14.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@jest/types": "^27.4.2",
+    "@types/jest": "^27.5.1",
+    "@types/mri": "^1.1.1",
+    "@types/wcwidth": "^1.0.0"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.--ignore-unknown": "prettier --write"
+  }
+}

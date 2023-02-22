@@ -1,0 +1,10 @@
+<view>
+  <page-result
+    type="payment"
+    title="付款没成功"
+    brief="请重新付款"
+    footer="{{footer}}"
+    onTapLeft="onTapLeft"
+  />
+</view>
+

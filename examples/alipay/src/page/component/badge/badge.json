@@ -1,0 +1,8 @@
+{
+  "defaultTitle": "Badge",
+  "usingComponents": {
+    "list": "mini-ali-ui/es/list/index",
+    "list-item": "mini-ali-ui/es/list/list-item/index",
+    "badge": "mini-ali-ui/es/badge/index"
+  }
+}

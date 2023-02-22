@@ -1,0 +1,82 @@
+<view class="page">
+  <view>
+    <button a:if="{{returnIndex}}" onTap="returnIndex">回到首页</button>
+  </view>
+  <view class="page-description">视图容器，相当于 web 的 div 或者 react-native 的 View。</view>
+  <view class="page-section">
+    <view class="page-section-demo">
+      <view class="stream">
+        <view class="post">
+          <view class="postUser">
+            <view class="postUser__name">Chris</view>
+          </view>
+          <view class="postBody">
+            <view class="postBody__content">
+              欢迎使用支付宝小程序！！！
+            </view>
+            <view class="postBody__date">
+              May 20
+            </view>
+          </view>
+        </view>
+
+        <view class="post">
+          <view class="postUser">
+            <view class="postUser__name">Jack</view>
+          </view>
+          <view class="postBody">
+            <view class="postBody__content">
+              @Chris 我该如何上手？
+            </view>
+            <view class="postBody__date">
+              May 21
+            </view>
+          </view>
+        </view>
+
+        <view class="post">
+          <view class="postUser">
+            <view class="postUser__name">Chris</view>
+          </view>
+          <view class="postBody">
+            <view class="postBody__content">
+              你可以查看 Demo，对小程序有一个简单的了解；然后下载我们的 IDE 进行开发。
+            </view>
+            <view class="postBody__date">
+              May 22
+            </view>
+          </view>
+        </view>
+
+        <view class="post">
+          <view class="postUser">
+            <view class="postUser__name">Jessie</view>
+          </view>
+          <!-- hover red -->
+          <view class="postBody" hover-class="red">
+            <view class="postBody__content">
+              赞!
+            </view>
+            <view class="postBody__date" hidden>
+              June 1
+            </view>
+          </view>
+        </view>
+
+        <view class="post" hidden>
+          <view class="postUser">
+            <view class="postUser__name">Jessie</view>
+          </view>
+          <view class="postBody">
+            <view class="postBody__content">
+              赞! +1
+            </view>
+            <view class="postBody__date">
+              June 1
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

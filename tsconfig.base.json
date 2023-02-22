@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "target": "ES2019",
+    "importHelpers": true,
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "lib": [
+      "ES6",
+      "ESNext",
+      "DOM",
+      "ES2020.BigInt",
+      "ES2020.String",
+      "ES2020.Symbol.wellknown"
+    ]
+  }
+}

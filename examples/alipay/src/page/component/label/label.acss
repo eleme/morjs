@@ -1,0 +1,4 @@
+checkbox-group > view,
+radio-group > view {
+  margin-bottom: 12rpx;
+}

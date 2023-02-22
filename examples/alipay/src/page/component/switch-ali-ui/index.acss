@@ -1,0 +1,7 @@
+page {
+  padding: 24rpx;
+}
+.page-description,
+.switch-item {
+  margin-bottom: 24rpx;
+}

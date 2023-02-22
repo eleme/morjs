@@ -1,0 +1,34 @@
+cover-image {
+  position: absolute;
+  left: 20px;
+  top: 100px;
+  height: 50px;
+  width: 50px;
+}
+
+.cover-view {
+  position: absolute;
+  top: calc(50% - 75rpx);
+  left: calc(50% - 150rpx);
+  display:flex;
+  flex-direction:row;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.cover-view-item{
+  width: 100rpx;
+  height: 150rpx;
+  font-size: 26rpx;
+}
+
+.cover-view-item-1 {
+  background-color: rgba(26, 173, 25, 0.7);
+}
+
+.cover-view-item-2 {
+  background-color: rgba(39, 130, 215, 0.7);
+}
+
+.cover-view-item-3 {
+  background-color: rgba(255, 255, 255, 0.7);
+}

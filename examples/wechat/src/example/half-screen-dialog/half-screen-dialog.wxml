@@ -1,0 +1,132 @@
+<page-meta root-font-size="system"/>
+<view class="page" data-weui-theme="{{theme}}" data-weui-mode="{{mode}}">
+	<view aria-hidden="{{dialog1 || dialog2 || dialog3 || dialog4 ? true : false}}" class="page__hd">
+		<view class="page__title">Half-screen Dialog</view>
+		<view class="page__desc">半屏组件</view>
+	</view>
+	<view aria-hidden="{{dialog1 || dialog2 || dialog3 || dialog4 ? true : false}}" class="page__bd page__bd_spacing">
+		<view aria-role="button" class="weui-btn weui-btn_default" bindtap="open1">样式一</view>
+		<view aria-role="button" class="weui-btn weui-btn_default" bindtap="open2">样式二</view>
+		<view aria-role="button" class="weui-btn weui-btn_default" bindtap="open3">样式三</view>
+		<view aria-role="button" class="weui-btn weui-btn_default" bindtap="open4">样式四</view>
+		<view aria-role="button" class="weui-btn weui-btn_default" bindtap="open5">样式五</view>
+	</view>
+
+    <view wx:if="{{dialog1 || show1}}" aria-role="dialog" aria-modal="true" aria-labelledby="js_dialog1_title">
+        <view class="weui-mask {{dialog1 ? 'weui-animate_fade-in' : 'weui-animate_fade-out'}}" bindtap="close"></view>
+        <view class="weui-half-screen-dialog {{dialog1 ? 'weui-animate_slide-up' : 'weui-animate_slide-down'}}">
+            <view class="weui-half-screen-dialog__hd">
+                <view class="weui-half-screen-dialog__hd__side">
+                    <view aria-role="button" class="weui-btn_icon weui-wa-hotarea" bindtap="close">关闭<i class="weui-icon-close-thin"></i></view>
+                    <view style="display:none;" aria-role="button" class="weui-icon-btn weui-icon-btn_close" bindtap="close">关闭</view>
+                </view>
+                <view class="weui-half-screen-dialog__hd__main">
+                    <strong class="weui-half-screen-dialog__title" id="js_dialog1_title">标题</strong>
+                    <view class="weui-half-screen-dialog__subtitle">标题</view>
+                </view>
+            </view>
+            <view class="weui-half-screen-dialog__bd" style="padding-top: 32px; height: 50px;">
+                可放自定义内容
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{dialog2 || show2}}" aria-role="dialog" aria-modal="true" aria-labelledby="js_dialog2_title">
+        <view class="weui-mask {{dialog2 ? 'weui-animate_fade-in' : 'weui-animate_fade-out'}}" bindtap="close" aria-role="button" aria-label="关闭"></view>
+        <view class="weui-half-screen-dialog weui-half-screen-dialog_bottom-fixed {{dialog2 ? 'weui-animate_slide-up' : 'weui-animate_slide-down'}}">
+            <view class="weui-half-screen-dialog__hd">
+                <view class="weui-half-screen-dialog__hd__side" bindtap="close">
+                    <view aria-role="button" style="display:none;" class="weui-btn_icon weui-wa-hotarea">返回<i class="weui-icon-back-arrow-thin"></i></view>
+                    <view aria-role="button" style="display:none;" class="weui-btn_icon weui-wa-hotarea">关闭<i class="weui-icon-close-thin"></i></view>
+                    <view aria-role="button" class="weui-btn_icon weui-wa-hotarea">关闭<i class="weui-icon-slide-down"></i></view>
+                </view>
+                <view class="weui-half-screen-dialog__hd__main">
+                    <strong class="weui-half-screen-dialog__title" id="js_dialog2_title">标题</strong>
+                </view>
+                <view class="weui-half-screen-dialog__hd__side">
+                    <view aria-role="button" class="weui-btn_icon">更多<i class="weui-icon-more"></i></view>
+                </view>
+            </view>
+            <view class="weui-half-screen-dialog__bd">
+                <view class="weui-bottom-fixed-opr-page  {{wrap ? 'weui-bottom-fixed-opr-page_btn-wrap' : ''}}">
+                  <view class="weui-bottom-fixed-opr-page__content">
+                    <view class="weui-half-screen-dialog__desc">
+                      辅助描述内容，可根据实际需要安排
+                    </view>
+                    <view class="weui-half-screen-dialog__tips" role="option">
+                      辅助提示内容，可根据实际需要安排
+
+                      Dolor adipisci quidem consequuntur similique consequuntur doloribus modi possimus sunt voluptas qui Aspernatur natus error quisquam quidem ipsa corrupti! Dignissimos quasi quis natus fugiat odio in? Mollitia molestias error earum.
+                      Dolor adipisci quidem consequuntur similique consequuntur doloribus modi possimus sunt voluptas qui Aspernatur natus error quisquam quidem ipsa corrupti! Dignissimos quasi quis natus fugiat odio in? Mollitia molestias error earum.
+                      Dolor adipisci quidem consequuntur similique consequuntur doloribus modi possimus sunt voluptas qui Aspernatur natus error quisquam quidem ipsa corrupti! Dignissimos quasi quis natus fugiat odio in? Mollitia molestias error earum.
+                      Dolor adipisci quidem consequuntur similique consequuntur doloribus modi possimus sunt voluptas qui Aspernatur natus error quisquam quidem ipsa corrupti! Dignissimos quasi quis natus fugiat odio in? Mollitia molestias error earum.
+                      Dolor adipisci quidem consequuntur similique consequuntur doloribus modi possimus sunt voluptas qui Aspernatur natus error quisquam quidem ipsa corrupti! Dignissimos quasi quis natus fugiat odio in? Mollitia molestias error earum.
+                    </view>
+                  </view>
+                  <view class="weui-bottom-fixed-opr">
+                    <view id="js_btn1_1" aria-role="button" class="weui-btn weui-btn_default" bindtap="close">取消</view>
+                    <view id="js_btn1_2" aria-role="button" class="weui-btn weui-btn_primary" bindtap="close">阅读并同意</view>
+                  </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{dialog3 || show3}}" aria-role="dialog" aria-modal="true">
+        <view class="weui-mask {{dialog3 ? 'weui-animate_fade-in' : 'weui-animate_fade-out'}}" bindtap="close" aria-role="button" aria-label="关闭"></view>
+        <view class="weui-half-screen-dialog weui-transition {{dialog3 ? 'weui-animate_slide-up' : 'weui-animate_slide-down'}} {{wrap1 ? 'weui-half-screen-dialog_btn-wrap' : ''}}">
+            <view class="weui-half-screen-dialog__hd">
+                <view class="weui-half-screen-dialog__hd__side" bindtap="close">
+                    <view aria-role="button" class="weui-btn_icon">关闭<i class="weui-icon-close-thin"></i></view>
+                </view>
+                <view class="weui-half-screen-dialog__hd__main">
+                    <strong class="weui-half-screen-dialog__title">标题</strong>
+                </view>
+            </view>
+            <view class="weui-half-screen-dialog__bd" style="padding-top: 32px; height: 50px;">
+                可放自定义内容
+            </view>
+            <view class="weui-half-screen-dialog__ft">
+              <view class="weui-half-screen-dialog__btn-area">
+                <view aria-role="button" class="weui-btn weui-btn_default" bindtap="close" id="js_btn2_1">取消</view>
+                <view aria-role="button" class="weui-btn weui-btn_primary" bindtap="close" id="js_btn2_2">阅读并同意</view>
+              </view>
+              <view class="weui-half-screen-dialog__attachment-area">
+                <navigator class="weui-link" url="">附加操作</navigator>
+              </view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{dialog4 || show4}}" aria-role="dialog" aria-modal="true">
+        <view class="weui-mask {{dialog4 ? 'weui-animate_fade-in' : 'weui-animate_fade-out'}}" bindtap="close" aria-role="button" aria-label="关闭"></view>
+        <view class="weui-half-screen-dialog weui-half-screen-dialog_large {{dialog4 ? 'weui-animate_slide-up' : 'weui-animate_slide-down'}}">
+            <view class="weui-half-screen-dialog__hd">
+                <view class="weui-half-screen-dialog__hd__side" bindtap="close">
+                    <view aria-role="button" class="weui-btn_icon">关闭<i class="weui-icon-close-thin"></i></view>
+                </view>
+                <view class="weui-half-screen-dialog__hd__main">
+                    <strong class="weui-half-screen-dialog__title">标题</strong>
+                </view>
+            </view>
+            <view class="weui-half-screen-dialog__bd" style="padding-top: 32px; height: 50px;">
+                可放自定义内容
+            </view>
+            <view class="weui-half-screen-dialog__ft">
+              <view class="weui-half-screen-dialog__btn-area">
+                <view aria-role="button" class="weui-btn weui-btn_primary" bindtap="close">主要操作</view>
+              </view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{dialog5 || show5}}" aria-role="dialog" aria-modal="true" aria-labelledby="js_dialog5_title">
+        <view class="weui-mask {{dialog5 ? 'weui-animate_fade-in' : 'weui-animate_fade-out'}}" bindtap="close"></view>
+        <view class="weui-half-screen-dialog weui-half-screen-dialog_slide {{dialog5 ? 'weui-animate_slide-up' : 'weui-animate_slide-down'}}">
+            <view class="weui-half-screen-dialog__hd">
+              <view style="height:4px;border-radius:2px;" class="weui-half-screen-dialog__slide-icon">
+                <view style="opaicty:0;" class="weui-icon-arrow"></view>
+              </view>
+            </view>
+            <view class="weui-half-screen-dialog__bd" style="padding-top: 32px; height: 50px;">
+                下拉过程中需要改变slide-icon的height、border-radius，以及arrow的opacity三个参数
+            </view>
+        </view>
+    </view>
+</view>

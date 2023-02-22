@@ -1,0 +1,1 @@
+<tips-plain onClose="onClose" time="{{time}}">{{content}}</tips-plain>

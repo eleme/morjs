@@ -1,0 +1,28 @@
+.flex-container {
+  padding: 10px;
+}
+
+.sub-title {
+  color: #888;
+  font-size: 14px;
+  padding: 30px 0 18px 0;
+}
+
+.placeholder {
+  background-color: #ebebef;
+  color: #bbb;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  width: 100%;
+}
+
+.placeholder.inline {
+  width: 80px;
+  margin: 9px 9px 9px 0;
+}
+
+.placeholder.small {
+  height: 20px;
+  line-height: 20px
+}

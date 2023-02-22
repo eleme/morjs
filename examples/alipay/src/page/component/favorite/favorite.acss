@@ -1,0 +1,40 @@
+.favorite {
+  padding: 0 16px;
+}
+
+.name {
+  margin-top: 24px;
+  text-align: center;
+  color: rgba(51, 51, 51, 0.49);
+  font-size: 16px;
+}
+
+.name text {
+  position: relative;
+}
+
+.name text::after {
+  position: absolute;
+  left: 50%;
+  display: block;
+  content: '';
+  width: 32px;
+  height: 1px;
+  margin-top: 5px;
+  background-color: rgba(51, 51, 51, 0.49);
+  transform: scaleY(0.5) translateX(-50%);
+}
+
+.title {
+  margin-top: 37px;
+  color: #999;
+  line-height: 18px;
+  font-size: 13px;
+}
+
+.explanation {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #999;
+}

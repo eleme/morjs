@@ -1,0 +1,3 @@
+<view class="page">
+  <web-view src="https://render.alipay.com/p/w/tinyapp-demo-h5/index.html" onMessage="onmessage"></web-view>
+</view>

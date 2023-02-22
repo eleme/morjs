@@ -1,0 +1,41 @@
+.setting {
+  padding: 20px;
+  overflow: scroll;
+  box-shadow: inset 0px 1px 4px 0px rgba(204,204,204,1);
+}
+.gap {
+  height: 10px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+  background-color: white;
+}
+
+.row-title {
+  flex: 1;
+  padding-top: 28rpx;
+  padding-bottom: 28rpx;
+  font-size: 34rpx;
+  color: #000;
+}
+
+.row-extra {
+  flex-basis: initial;
+  font-size: 32rpx;
+  color: #888;
+  margin-right: 12px;
+}
+
+.row-arrow {
+  width: 32rpx;
+  height: 32rpx;
+  margin-left: 16rpx;
+}
+
+.new-list-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

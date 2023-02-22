@@ -1,0 +1,30 @@
+<steps 
+  className="demo-steps-class"
+  activeIndex="{{activeIndex}}"
+  items="{{items}}"
+/>
+<steps 
+  className="demo-steps-class"
+  activeIndex="{{activeIndex}}"
+  items="{{items2}}"
+/>
+<steps 
+  className="demo-steps-class"
+  direction="vertical"
+  failIndex="{{failIndex}}"
+  activeIndex="{{activeIndex}}"
+  items="{{items2}}"
+  size="{{size}}"
+/>
+<view class="demo-btn-container">
+  <button class="demo-btn" onTap="preStep">上一步</button>
+  <button class="demo-btn" onTap="nextStep">下一步</button>
+</view>
+<view class="demo-btn-container">
+  <button class="demo-btn" onTap="setFailIndex">设置错误项</button>
+  <button class="demo-btn" onTap="cancelFailIndex">取消错误项</button>
+</view>
+<view class="demo-btn-container">
+  <button class="demo-btn" onTap="setIconSizeAdd">设置图标大小+</button>
+  <button class="demo-btn" onTap="setIconSizeReduce">设置图标大小-</button>
+</view>

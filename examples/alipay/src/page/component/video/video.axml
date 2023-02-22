@@ -1,0 +1,35 @@
+<view class="video-page">
+<view class="video-contain">
+  <video 
+      src="{{src}}" 
+      class="video" 
+      id="video"
+      poster="https://zos.alipayobjects.com/rmsportal/SSWkSLDrrgsLFDfsjzTZ.png"
+      autoplay="{{autoplay}}"
+      object-fit="{{objectFit}}"
+      loop="{{loop}}"
+      show-fullscreen-btn="{{showFullscreenBtn}}"
+      show-center-play-btn="{{showCenterPlayBtn}}"
+      onPlay="onPlay"
+      onPause="onPause"
+      onEnded="onEnded"
+      onTimeUpdate="onTimeUpdate"
+      onLoading="onLoading"
+      onStop="onStop"
+      enableNative="{{true}}"
+      muted="{{muted}}"
+      >
+    </video>
+    </view>
+    <view class="operation-item" style="background-color:lightblue">{{title}}</view>
+    <view class="operation-item" onTap="play">播放</view>
+    <view class="operation-item" onTap="pause">暂停</view>
+    <view class="operation-item" onTap="seek">跳到15s播放</view>
+    <view class="operation-item" onTap="mute">静音</view>
+    <view class="operation-item" onTap="playbackRate">倍速播放</view>
+    <view class="operation-item" onTap="requestFullScreen">全屏</view>
+    <view class="operation-item" onTap="exitFullScreen">退出全屏</view>
+    <view class="operation-item" onTap="showStatusBar">显示状态栏</view>
+    <view class="operation-item" onTap="hideStatusBar">隐藏状态栏</view>
+    <view class="operation-item" onTap="stop">停止播放</view>
+</view>

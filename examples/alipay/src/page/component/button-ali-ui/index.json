@@ -1,0 +1,9 @@
+{
+  "defaultTitle": "Button",
+  "usingComponents": {
+    "button": "mini-ali-ui/es/button/index",
+    "container": "mini-ali-ui/es/container/index",
+    "radio": "mini-ali-ui/es/am-radio/index",
+    "checkbox": "mini-ali-ui/es/am-checkbox/index"
+  }
+}

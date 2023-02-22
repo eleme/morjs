@@ -1,0 +1,28 @@
+{
+  "packages": [
+    "packages/*",
+    "examples/*"
+  ],
+  "ignoreChanges": [
+    "**/__fixtures__/**",
+    "**/__tests__/**",
+    "**/*.md"
+  ],
+  "npmClient": "pnpm",
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "exact": true,
+      "message": "chore(release): publish packages",
+      "private": false
+    },
+    "publish": {
+      "allowBranch": [
+        "master",
+        "beta"
+      ],
+      "message": "chore(release): publish packages"
+    }
+  },
+  "version": "1.0.0"
+}

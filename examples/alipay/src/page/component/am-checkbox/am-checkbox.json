@@ -1,0 +1,9 @@
+{
+  "defaultTitle": "Am-checkbox",
+  "usingComponents": {
+    "am-checkbox": "mini-ali-ui/es/am-checkbox/index",
+    "list": "mini-ali-ui/es/list/index",
+    "list-item": "mini-ali-ui/es/list/list-item/index",
+    "button": "mini-ali-ui/es/button/index"
+  }
+}

@@ -1,0 +1,20 @@
+<view class="page">
+  <view class="page-description">多项选择器</view>
+  <form onSubmit="onSubmit" onReset="onReset">
+    <view class="page-section">
+      <view class="page-section-title">选择你用过的框架：</view>
+      <view class="page-section-demo">
+        <checkbox-group onChange="onChange" name="libs">
+          <label class="checkbox" a:for="{{items}}" key="label-{{index}}">
+            <checkbox value="{{item.name}}" checked="{{item.checked}}" disabled="{{item.disabled}}" />
+            <text class="checkbox-text">{{item.value}}</text>
+          </label>
+        </checkbox-group>
+      </view>
+      <view class="page-section-btns">
+        <view><button type="ghost" size="mini" formType="reset">reset</button></view>
+        <view><button type="primary" size="mini" formType="submit">submit</button></view>
+      </view>
+    </view>
+  </form>
+</view>

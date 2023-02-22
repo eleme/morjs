@@ -1,0 +1,12 @@
+<view class="page">
+  <view class="page-description">
+    <view class="text-demo-title">
+      <text class="text-demo-text">这是一段文本。\n<text>\</text><text>n</text> 可以换行。</text>
+    </view>  
+  </view>
+  <view class="page-section">
+    <view class="page-section-demo">
+      <text>{{text}}</text>
+    </view>
+  </view>
+</view>

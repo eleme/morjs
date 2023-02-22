@@ -1,0 +1,16 @@
+<view>
+  <list>
+    <list-item arrow="horizontal" index="filter" onClick="openPage" data-url="single/index" key="items-filter1">
+      <view>单行2列</view>
+    </list-item>
+    <list-item arrow="horizontal" index="filter" onClick="openPage" data-url="single_1/index" key="items-filter2">
+      <view>单行3列</view>
+    </list-item>
+    <list-item arrow="horizontal" index="filter" onClick="openPage" data-url="single_2/index" key="items-filter2">
+      <view>双行2列</view>
+    </list-item>
+    <list-item arrow="horizontal" index="filter" onClick="openPage" data-url="alternative/index" key="items-filter2">
+      <view>多选</view>
+    </list-item>
+  </list>
+</view>

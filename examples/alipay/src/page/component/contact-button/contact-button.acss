@@ -1,0 +1,8 @@
+.page-section-title {
+  padding: 32rpx 32rpx;
+  text-align: center;
+}
+.page-section-demo {
+  display: flex;
+  justify-content: center;
+}

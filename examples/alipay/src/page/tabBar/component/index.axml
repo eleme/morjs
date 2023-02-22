@@ -1,0 +1,57 @@
+<view style="width: 100%;">
+  <view class="banner">
+    <view class="logo" style="opacity: {{titleOpacity}}"><image src="https://gw.alicdn.com/imgextra/i3/O1CN01PcCz3v1Lu0YZBjcs4_!!6000000001358-2-tps-105-117.png" mode="aspectFit" /></view>
+    <view class="title" style="opacity: {{titleOpacity}};">小程序官方示例</view>
+    <view class="sub-title" style="opacity: {{titleOpacity}}">以下展示小程序官方组件和API</view>
+    <view class="fake-searchbar" onTap="onSearchBarTap">
+      <icon type="search" size="14" color="#1D1D1D" />
+      <text class="fake-placeholder">搜索你想要的组件和API</text>
+    </view>
+  </view>
+  <block-list listData="{{hot}}" className="hot" />
+  <view class="tabs {{shadow ? 'shadow' : ''}}" style="top: {{top}}px">
+    <view class="tabs-bar">
+      <block a:for="{{tabs}}">
+        <view class="tabs-bar-tab" data-index="{{index}}" onTap="onTabBarTap">
+          <view class="tabs-bar-tab-title {{activeTab === index ? 'active' : ''}}">{{item}}</view>
+        </view>
+      </block>
+    </view>
+  </view>
+  <view class="list-wrap">
+    <view class="list-container" style="{{ transform: 'translate3d(' +(-activeTab * 100) + 'vw, 0, 0)' }}">
+      <view class="list" style="{{ height: activeTab === 0 ? 'auto' : 0 }}">
+        <block a:for="{{basicComponentList}}" a:for-item="list">
+          <list className="list-item">
+            <view slot="header" class="list-header">{{list.type}}</view>
+            <block a:for="{{list.list}}">
+              <list-item arrow="{{true}}" multipleLine="{{false}}" key="items-{{item.name}}" last="{{true}}" data-url="{{item.path}}" onClick="openPage">
+                <view style="display: flex; align-items: center">
+                  <image src="{{item.thumb}}" class="thumb"  mode="aspectFit" />
+                  <text class="component-name">{{item.name}}</text>
+                  <text class="component-brief">{{item.nameEn}}</text>
+                </view>
+              </list-item>
+            </block>
+          </list>
+        </block>
+      </view>
+      <view class="list" style="{{ height: activeTab === 1 ? 'auto' : 0 }}">
+        <block a:for="{{extComponentList}}" a:for-item="list">
+          <list className="list-item">
+            <view slot="header" class="list-header">{{list.type}}</view>
+            <block a:for="{{list.list}}">
+              <list-item arrow="{{true}}" multipleLine="{{false}}" key="items-{{item.name}}" last="{{true}}" data-url="{{item.path}}" onClick="openPage">
+                <view style="display: flex; align-items: center">
+                  <image src="{{item.thumb}}" class="thumb" mode="aspectFit" />
+                  <text class="component-name">{{item.name}}</text>
+                  <text class="component-brief">{{item.nameEn}}</text>
+                </view>
+              </list-item>
+            </block>
+          </list>
+        </block>
+      </view>
+    </view>
+  </view>
+</view>

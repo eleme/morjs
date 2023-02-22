@@ -1,0 +1,8 @@
+<view class="page">
+  <view class="page-section">
+    <view>请不要一进入小程序就弹框授权，建议先了解小程序的服务内容</view>
+    <button type="primary" onTap="getAuthCode">
+      获取授权码
+    </button>
+  </view>
+</view>

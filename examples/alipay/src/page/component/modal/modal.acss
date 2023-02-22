@@ -1,0 +1,10 @@
+.deleteBtn {
+  color: #f93a4a;
+  font-weight: bolder;
+}
+.cancelBtn {
+  color: #ccc;
+}
+.buttonBold, .modalButtonBold .am-modal-footer {
+  font-weight: bold;
+}

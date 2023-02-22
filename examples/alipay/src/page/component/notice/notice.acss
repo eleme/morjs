@@ -1,0 +1,34 @@
+.demo-title {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 24rpx 16rpx;
+  padding-bottom: 24rpx;
+  border-bottom: 1px solid #ccc;
+}
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 24rpx 24rpx;
+}
+.radio-text {
+  margin-right: 24rpx;
+}
+input {
+  margin: 0 0 16rpx 24rpx;
+  padding: 8rpx 16rpx;
+  font-size: 30rpx;
+  border: 1px solid #eee;
+}
+.demo-item {
+  margin-bottom: 24rpx;
+}
+
+.nomore-notice {
+  color: #999;
+}
+.itemSize {
+  width: 30px;
+  height: 30px;
+  margin-right: 24rpx;
+  vertical-align: middle;
+}

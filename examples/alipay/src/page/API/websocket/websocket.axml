@@ -1,0 +1,20 @@
+<view class="container">
+  <view class="subView">
+  <input class="server_addr" placeholder="wss://YourServer" onConfirm="onServerAddressComplete" onBlur="onServerAddressComplete"/>
+  </view>
+  <view class="subView">
+    <button class="buttons" name="startButton" onTap="connect_start">开始连接</button>
+  </view>
+  <view class="subView" a:if="{{sendMessageAbility}}">
+    <input class="message_text" placeholder="输入要发送的消息：" onConfirm="onSendMessageReady" onBlur="onSendMessageReady"/>
+  </view>
+  <view class="subView" a:if="{{sendMessageAbility}}">
+    <button class="buttons" name="sendButton" onTap="send_start">发送数据</button>
+  </view>
+  <view class="subView" a:if="{{closeLinkAbility}}">
+    <button class="buttons" name="closeButton" onTap="close_start">关闭</button>
+  </view>
+  <view>
+    <text class="run_log">{{log}}</text>
+  </view>
+</view>

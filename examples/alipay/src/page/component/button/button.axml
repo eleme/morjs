@@ -1,0 +1,52 @@
+<view class="page">
+  <view class="page-description">按钮</view>
+  <view class="page-section">
+    <view class="page-section-title">type-primary/ghost</view>
+    <view class="page-section-demo">
+      <button type="primary">主要操作 Normal</button>
+      <button type="primary" loading>操作</button>
+      <button type="primary" disabled>主要操作 Disable</button>
+      <button type="ghost">ghost操作</button>
+      <button type="ghost" loading>ghost操作</button>
+      <button type="ghost" disabled>ghost操作 Disable</button>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="page-section-title">type-default</view>
+    <view class="page-section-demo">
+      <button data-aspm-click="xxx">辅助操作 Normal</button>
+      <button disabled>辅助操作 Disable</button>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="page-section-title">type-warn</view>
+    <view class="page-section-demo">
+      <button type="warn">警告类操作 Normal</button>
+      <button type="warn" disabled>警告类操作 Disable</button>
+      <button type="warn" hover-class="red">hover-red</button>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="page-section-title">Size</view>
+    <view class="page-section-demo">
+      <button size="mini" loading>提交</button>
+      <button style="margin-left: 10px;" type="primary" size="mini">选项</button>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="page-section-title">open</view>
+    <view class="page-section-demo">
+      <button open-type="share">share</button>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="page-section-title">Form</view>
+    <view class="page-section-demo">
+      <form onSubmit="onSubmit" onReset="onReset">
+        <button form-type="submit" type="primary">submit</button>
+        <button form-type="reset">reset</button>
+      </form>
+    </view>
+  </view>
+</view>
+

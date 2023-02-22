@@ -1,0 +1,24 @@
+<view class="page">
+  <view class="page-description">滑块</view>
+  <view class="page-section">
+    <view class="page-section-title">设置step</view>
+    <view class="page-section-demo">
+      <slider value="5" onChange="slider2change" step="5"/>
+    </view>
+  </view>
+
+  <view class="page-section">
+    <view class="page-section-title">设置最小/最大值范围</view>
+    <view class="page-section-demo">
+      <slider value="33" onChange="slider4change" min="25" max="50" show-value="{{ true }}"/>
+    </view>
+  </view>
+
+  <view class="page-section">
+    <view class="page-section-title">自定义样式</view>
+    <view class="page-section-demo">
+      <slider value="33" onChange="slider4change" min="25" max="50" show-value
+      backgroundColor="#FFAA00" activeColor="#00aaee" trackSize="2" handleSize="6" handleColor="blue" />
+    </view>
+  </view>
+</view>

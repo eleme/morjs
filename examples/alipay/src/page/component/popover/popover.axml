@@ -1,0 +1,23 @@
+<view class="demo-popover">
+  <popover
+    position="{{position}}"
+    show="{{show}}"
+    showMask="{{showMask}}"
+    onMaskClick="onMaskClick"
+  >
+    <view class="demo-popover-btn" onTap="onShowPopoverTap">点击{{show ? '隐藏' : '显示'}}</view>
+    <view slot="items">
+      <popover-item onItemClick="itemTap1" iconType="{{showIcon ? 'qr' : ''}}" data-direction="{{position}}">
+        <text>{{position}}</text>
+      </popover-item>
+      <popover-item onItemClick="itemTap2" iconType="{{showIcon ? 'qr' : ''}}" data-index="{{2}}">
+        <text>line2</text>
+      </popover-item>
+    </view>
+  </popover>
+</view>
+<view class="demo-popover-test-btns">
+  <button class="demo-popover-test-btn" onTap="onNextPositionTap">下个位置</button>
+  <button class="demo-popover-test-btn" onTap="onMaskChangeTap">蒙层{{showMask ? '隐藏' : '显示'}}</button>
+  <button class="demo-popover-test-btn" onTap="onIconChangeTap">显示/隐藏图标</button>
+</view>

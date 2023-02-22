@@ -1,0 +1,21 @@
+.tab-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40rpx;
+  box-sizing: border-box;
+  /* 如果 swipeable="{{true}}"，需要增加 height */
+  /* height: 350px; */
+}
+.radio-group {
+  padding: 30rpx 40rpx 0;
+}
+.radio {
+  margin-right: 10px;
+}
+.demo-title {
+  margin: 30rpx 40rpx 0;
+  padding-bottom: 10px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}

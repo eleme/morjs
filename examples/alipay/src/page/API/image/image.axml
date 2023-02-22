@@ -1,0 +1,9 @@
+<view class="page">
+  <view class="page-section">
+    <view class="page-section-btns">
+      <view onTap="chooseImage">选择照片</view>
+      <view onTap="previewImage">预览照片</view>
+      <view onTap="saveImage">保存照片</view>
+    </view>
+  </view>
+</view>

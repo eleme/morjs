@@ -1,0 +1,12 @@
+<view class="page">
+  <view class="page-description">节点查询 API</view>
+  <view class="page-section">
+    <view className="all">节点 all1</view>
+    <view className="all">节点 all2</view>
+    <view id="one">节点 one</view>
+    <view id="scroll" style="height:200px;overflow: auto">
+      <view style="height:400px">独立滚动区域</view>
+    </view>
+    <button type="primary" onTap="createSelectorQuery">节点查询</button>
+  </view>
+</view>

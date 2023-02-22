@@ -1,0 +1,27 @@
+.item-content {
+  padding: 12px;
+  font-size: 17px;
+  color: #333;
+  line-height: 24px;
+}
+
+.content1 {
+  height: 300rpx;
+}
+
+.content2 {
+  height: 50px;
+}
+
+.content3 {
+  height: 100px;
+}
+
+.demo-title {
+  padding: 14px 16px;
+  color: #999;
+}
+
+.demo-collapse {
+  border-bottom: 1px solid #eee;
+}

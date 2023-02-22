@@ -1,0 +1,26 @@
+<template name="ocr-template">
+<view>
+    <view class="photo-bg">
+        <image class="card" src="{{imgUrl}}" mode="aspectFit" onError="imageError" onLoad="imageLoad" />
+    </view>
+    <view class="content">
+        <text class="fn">识别结果</text>
+        <view
+          class="list"
+          a:for="{{textArry}}">
+            <text class="fn-left"> {{item.title}} </text>
+            <text class="fn-right"> {{item.message}} </text>
+        </view>
+
+    </view>
+    <view class="btn-con">
+        <button
+            catchTap="photoSubmit"
+            class="photo-submit"
+            type="primary">上传图片</button>
+    </view>
+</view>
+<view class="foot">
+    Powered by <image class="ali-cloud" src="https://gw.alicdn.com/imgextra/i4/O1CN01RzNtN8242Z36b0Bva_!!6000000007333-2-tps-75-16.png" mode="center" />
+</view>
+</template>

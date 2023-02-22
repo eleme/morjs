@@ -1,0 +1,8 @@
+<view>
+  <page-result
+    type="error"
+    local="{{true}}"
+    brief="忙不过来了，客观请稍后" />
+  <view style="height: 150px; margin: 10px; background: #dddddd;" />
+  <view style="height: 150px; margin: 10px; background: #dddddd;" />
+</view>

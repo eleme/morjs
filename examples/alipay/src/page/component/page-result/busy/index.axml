@@ -1,0 +1,7 @@
+<view>
+  <page-result
+    type="busy"
+    footer="{{footer}}"
+    isCountDown="{{true}}"
+  />
+</view>

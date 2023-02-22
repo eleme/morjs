@@ -1,0 +1,50 @@
+{
+  "name": "@morjs/runtime-mini",
+  "version": "1.0.0",
+  "description": "mor runtime for miniprogram",
+  "keywords": [
+    "mor",
+    "compiler",
+    "plugin",
+    "alipay",
+    "mini",
+    "program"
+  ],
+  "authors": [
+    "Felix Liu <lyfeyaj@gmail.com> (https://github.com/lyfeyaj)"
+  ],
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "directories": {
+    "lib": "lib",
+    "esm": "esm",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib",
+    "esm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleme/morjs.git",
+    "directory": "packages/runtime-mini"
+  },
+  "engines": {
+    "node": ">= 12.13.0"
+  },
+  "scripts": {
+    "build": "tsc --module commonjs --outDir lib && tsc --module es2015 --outDir esm",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@morjs/api": "1.0.0",
+    "@morjs/core": "1.0.0",
+    "clone-deep": "^4.0.1",
+    "lodash.get": "^4.4.2",
+    "lodash.has": "^4.5.2",
+    "tslib": "2"
+  }
+}

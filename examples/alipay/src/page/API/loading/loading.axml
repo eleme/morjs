@@ -1,0 +1,10 @@
+<view class="page">
+  <view class="page-section">
+    <view class="page-section-title">
+      显示 loading 后，会覆盖整个h5页面，页面元素不能交互。
+    </view>
+    <view class="page-section-btns">
+      <view onTap="showLoading">显示加载提示</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,7 @@
+<list>
+  <block a:for="{{components}}">
+    <list-item arrow="horizontal" multipleLine="{{true}}" key="items-{{item.name}}" last="{{index===components.length - 1}}" onClick="openPage" data-url="{{item.path}}">
+      <view>{{item.nameZN}}</view>
+    </list-item>
+  </block>
+</list>

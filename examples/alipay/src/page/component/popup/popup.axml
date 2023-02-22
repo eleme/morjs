@@ -1,0 +1,25 @@
+<view>
+  <view class="btn-container">
+    <button onTap="onTopBtnTap">上</button>
+    <button onTap="onButtomBtnTap">下</button>
+    <button onTap="onRightBtnTap">右 无mask</button>
+    <button onTap="onLeftBtnTap">左 无动画</button>
+  </view>
+  <popup show="{{showLeft}}" animation="{{false}}" position="left" onClose="onPopupClose">
+    <view class="box left">hello world</view>
+  </popup>
+  <popup show="{{showRight}}" position="right" mask="{{false}}" onClose="onPopupClose">
+    <view class="box right" style="display: flex; flex-direction: column;">
+      <view>hello world</view>
+      <view style="margin-top: 20px;">
+        <button onTap="onPopupClose" style="width: 100px;">关闭</button>
+      </view>
+    </view>
+  </popup>
+  <popup show="{{showTop}}" position="top" onClose="onPopupClose">
+    <view class="box top">hello world</view>
+  </popup>
+  <popup show="{{showBottom}}" position="bottom" onClose="onPopupClose">
+    <view class="box bottom">hello world</view>
+  </popup>
+</view>

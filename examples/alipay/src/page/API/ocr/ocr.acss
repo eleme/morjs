@@ -1,0 +1,11 @@
+.btn-area .navigator {
+  background-color: #108EE9;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 100%;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 3px;
+  margin-bottom: 15px;
+}

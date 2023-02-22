@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "Mask",
+  "usingComponents": {
+    "mask": "mini-ali-ui/es/mask/index"
+  }
+}

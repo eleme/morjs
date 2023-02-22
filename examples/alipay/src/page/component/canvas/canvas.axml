@@ -1,0 +1,15 @@
+<view class="page">
+  <view class="canvas-view">
+    <canvas 
+      id="canvas"
+      width="610"
+      height="610"
+      class="canvas"
+      onTouchStart="log"
+      onTouchMove="log"
+      onTouchEnd="log"
+    />
+  </view>
+</view>
+
+

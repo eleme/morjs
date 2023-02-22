@@ -1,0 +1,23 @@
+<view class="demo-avatar">
+	<view style="margin-top: 10px;" />
+  <view class="demo-avatar-size-intro">三种尺寸</view>
+  <view class="demo-avatar-size">
+    <view class="demo-avatar-size-container">
+      <avatar size="lg"/>
+    </view>
+    <view class="demo-avatar-size-container">
+      <avatar/>
+    </view>
+    <view class="demo-avatar-size-container">
+      <avatar size="sm"/>
+    </view>
+  </view>
+  <view style="margin-top: 20px;" />
+  <view class="demo-avatar-content">
+    <avatar mode="widthFix" name="用户名" desc="摘要信息" size="sm"/>
+    <view style="margin-top: 20px;" />
+    <avatar name="用户名" desc="摘要信息" size="md"/>
+    <view style="margin-top: 20px;" />
+    <avatar name="用户名" desc="摘要信息" size="lg"/>
+  </view>
+</view>

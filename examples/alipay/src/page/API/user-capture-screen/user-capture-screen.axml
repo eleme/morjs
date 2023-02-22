@@ -1,0 +1,15 @@
+<view class="page">
+  <view class="page-description">用户截屏事件 API</view>
+  <view class="page-section">
+    <view class="page-section-title">my.onUserCaptureScreen</view>
+    <view class="page-section-demo">
+      <view>目前状态：{{ condition ? "已经开启监听" : '已经取消监听' }}</view>
+      <view a:if="{{condition}}">
+        <button type="primary" onTap="offUserCaptureScreen">取消监听屏幕事件</button>
+      </view>
+      <view a:else>
+        <button type="primary" onTap="onUserCaptureScreen">开启监听屏幕事件</button>
+      </view>
+    </view>
+  </view>
+</view>

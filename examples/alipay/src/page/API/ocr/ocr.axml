@@ -1,0 +1,15 @@
+<view class="page">
+  <view class="btn-area">
+    <navigator class="navigator" url="../ocr-idcard-face/ocr-idcard-face">身份证识别</navigator>
+    <navigator class="navigator" url="../ocr-vehicle/ocr-vehicle">行驶证识别</navigator>
+    <navigator class="navigator" url="../ocr-driver-license/ocr-driver-license">驾驶证识别</navigator>
+    <navigator class="navigator" url="../ocr-business-license/ocr-business-license">营业执照识别</navigator>
+    <navigator class="navigator" url="../ocr-bank-card/ocr-bank-card">银行卡识别</navigator>
+    <navigator class="navigator" url="../ocr-general/ocr-general">通用文字识别</navigator>
+    <navigator class="navigator" url="../ocr-train-ticket/ocr-train-ticket">火车票识别</navigator>
+    <navigator class="navigator" url="../ocr-passport/ocr-passport">护照识别</navigator>
+    <navigator class="navigator" url="../ocr-vehicle-plate/ocr-vehicle-plate">车牌识别</navigator>
+    <navigator class="navigator" url="../ocr-business-card/ocr-business-card">名片识别</navigator>
+    <navigator class="navigator" url="../ocr-vin/ocr-vin">vin识别</navigator>
+  </view>
+</view>

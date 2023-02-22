@@ -1,0 +1,94 @@
+.api {
+  font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+  font-size: 28rpx;
+  padding: 32rpx;
+}
+
+.container {
+  padding-top: 48rpx;
+}
+
+.photo-bg {
+    height: 600rpx;
+    width: 100%;
+    text-align: center;
+}
+
+.card {
+    width: 600rpx;
+    height: 600rpx;
+    vertical-align: middle;
+}
+
+.content {
+    padding: 0 20rpx;
+    background: #fff;
+}
+
+.content .fn {
+    display: block;
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #8f8f8f;
+    font-size: 25rpx;
+}
+
+.list {
+    position: relative;
+    box-sizing: border-box;
+    padding: 20rpx 0;
+    margin-bottom: 5px;
+    border: #dee8f0 solid 1px;
+}
+
+.list:last-child {
+    margin: 0;
+}
+
+.fn-left {
+    display: inline-block;
+    position: absolute;
+    top:30%;
+    width: 150rpx;
+    margin-left: 23rpx;
+}
+
+.fn-right {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 520rpx;
+    padding-left: 23rpx;
+    margin-left: 170rpx;
+    color: #335c92;
+    border-left: #dee8f0 solid 1px;
+}
+
+.btn-con {
+    width: 100%;
+    overflow: hidden;
+    padding: 20rpx 0;
+    background: #fff;
+}
+
+.photo-submit {
+    margin: 0 auto;
+    width: 90%;
+    height: 100rpx;
+    line-height: 100rpx;
+    font-size: 35rpx;
+}
+
+.foot{
+    height: 120rpx;
+    line-height: 120rpx;
+    text-align: center;
+    font-size: 25rpx;
+    color: #6f6f6f;
+    font-family: PingFangSC-Regular;
+}
+
+.ali-cloud {
+   width: 75px;
+   height: 16px;
+   vertical-align:middle
+}

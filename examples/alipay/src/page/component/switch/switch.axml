@@ -1,0 +1,16 @@
+<view class="page">
+  <view class="page-description">开关</view>
+  <view class="page-section">
+    <view class="page-section-demo switch-list">
+      <view class="switch-item">
+        <switch checked onChange="switch1Change" aria-label="{{switch1 ? 'switch opened' : 'switch closed'}}" />
+      </view>
+      <view class="switch-item">
+        <switch onChange="switch2Change"/>
+      </view>
+      <view class="switch-item">
+        <switch color="red" checked="checked" />
+      </view>
+    </view>
+  </view>
+</view>

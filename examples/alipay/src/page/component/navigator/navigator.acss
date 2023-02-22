@@ -1,0 +1,12 @@
+navigator {
+  background-color: lightcoral;
+  color: #fff;
+  margin-bottom: 10rpx;
+  padding: 20rpx;
+  text-align: center;
+}
+
+.navigator-hover {
+  background-color: lightskyblue;
+  color: #fff;
+}

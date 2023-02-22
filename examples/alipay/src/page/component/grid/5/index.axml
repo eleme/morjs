@@ -1,0 +1,12 @@
+<view style="margin-top: 10px;" />
+<grid onGridItemClick="onItemClick" columnNum="{{5}}" list="{{list55}}" infinite="{{true}}" />
+
+<view style="margin-top: 10px;" />
+<view style="padding-bottom:10px;color: red;">下面这个分页的高度是重置过的……</view>
+<grid onGridItemClick="onItemClick" columnNum="{{5}}" list="{{list55}}" infinite="{{true}}" gridName="newGridName" circular="{{true}}" infiniteHeight="240rpx" />
+
+<view style="margin-top: 10px;" />
+<grid onGridItemClick="onItemClick" columnNum="{{5}}" list="{{list5}}" />
+
+<view style="margin-top: 10px;" />
+<grid onGridItemClick="onItemClick" columnNum="{{5}}" list="{{list55}}" />

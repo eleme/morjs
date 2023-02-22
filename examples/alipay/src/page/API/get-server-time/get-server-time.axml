@@ -1,0 +1,7 @@
+<view class="page">
+  <view class="page-section">
+    <view class="page-section-btns">
+      <view onTap="getServerTime">获取服务器时间</view>
+    </view>
+  </view>
+</view>

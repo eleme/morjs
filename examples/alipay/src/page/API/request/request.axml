@@ -1,0 +1,15 @@
+<view class="page">
+  <view class="page-section">
+    <view class="page-section-title">my.request</view>
+    <view class="page-section-btns">
+      <view onTap="request">发起请求</view>
+      <view onTap="requestAndAbort">发起后取消请求</view>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="page-section-title">my.httpRequest</view>
+    <view class="page-section-btns">
+      <view onTap="httpRequest">发起请求</view>
+    </view>
+  </view>
+</view>

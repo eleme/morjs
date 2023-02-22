@@ -1,0 +1,46 @@
+<view class="container">
+  <title>外部标题</title>
+
+  <title hasLine="true">内部标题无 icon</title>
+
+  <title
+  iconURL="https://img.alicdn.com/tfs/TB1UNX2bSFRMKJjy0FhXXX.xpXa-112-46.png"
+  >无下划线</title>
+
+  <title
+  hasLine="true"
+  iconURL="https://img.alicdn.com/tfs/TB1UNX2bSFRMKJjy0FhXXX.xpXa-112-46.png"
+  >内部标题无操作</title>
+
+  <title
+  hasLine="true"
+  iconURL="https://gw.alipayobjects.com/mdn/miniProgram_mendian/afts/img/A*wiFYTo5I0m8AAAAAAAAAAABjAQAAAQ/original"
+  type="arrow"
+  onActionTap="titleGo"
+  >内部标题可跳转</title>
+
+  <title
+  hasLine="true"
+  type="more"
+  onActionTap="titleMore"
+  >内部标题无 icon 展开气泡菜单</title>
+
+  <title
+  hasLine="true"
+  iconURL="https://t.alipayobjects.com/images/T1HHFgXXVeXXXXXXXX.png"
+  type="close"
+  onActionTap="titleClose"
+  >内部标题可关闭</title>
+
+  <title
+  hasLine="true"
+  >标题过长后的处理，标题单行展示。标题过长后的处理，标题单行展示。</title>
+
+  <title
+  hasLine="true"
+  className="changeColor"
+  iconURL="https://gw.alipayobjects.com/mdn/miniProgram_mendian/afts/img/A*wiFYTo5I0m8AAAAAAAAAAABjAQAAAQ/original"
+  type="arrow"
+  onActionTap="titleGo"
+  >使用class修改样式</title>
+</view>

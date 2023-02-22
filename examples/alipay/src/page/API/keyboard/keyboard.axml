@@ -1,0 +1,18 @@
+<view class="page">
+  <view class="page-description">输入框</view>
+  <view class="page-section">
+    <view class="form-row">
+      <view class="form-row-label">密码键盘</view>
+      <view class="form-row-content">
+        <input class="input" password type="text" onInput="bindHideKeyboard" placeholder="输入 123 自动收起键盘" />
+      </view>
+    </view>
+
+    <view class="form-row">
+      <view class="form-row-label">数字键盘</view>
+      <view class="form-row-content">
+        <input class="input" type="digit" onInput="bindHideKeyboard" placeholder="输入 123 自动收起键盘" />
+      </view>
+    </view>
+  </view>
+</view>

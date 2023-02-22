@@ -1,0 +1,54 @@
+{
+  "name": "@morjs/utils",
+  "version": "1.0.0",
+  "description": "mor utils",
+  "keywords": [
+    "mor",
+    "utils"
+  ],
+  "authors": [
+    "Felix Liu <lyfeyaj@gmail.com> (https://github.com/lyfeyaj)"
+  ],
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleme/morjs.git",
+    "directory": "packages/utils"
+  },
+  "engines": {
+    "node": ">= 12.13.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@types/micromatch": "^4.0.2",
+    "@types/webpack": "^5.28.0",
+    "cjstoesm": "^1.1.4",
+    "console-png": "^1.2.1",
+    "enhanced-resolve": "^5.9.3",
+    "glob-to-regexp": "^0.4.1",
+    "memfs": "^3.4.3",
+    "micromatch": "^4.0.5",
+    "p-queue": "^6.6.2",
+    "p-retry": "^4.6.2",
+    "postcss": "^8.4.5",
+    "posthtml": "^0.16.6",
+    "qr-image": "^3.2.0",
+    "slash": "^3.0.0",
+    "takin": "1.0.0",
+    "typescript": "~4.4.4",
+    "webpack": "~5.74.0",
+    "webpack-chain-5": "8.0.2",
+    "webpack-dev-server": "~4.10.0"
+  }
+}

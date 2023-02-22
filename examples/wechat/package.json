@@ -1,0 +1,22 @@
+{
+  "name": "mor-wechat-sample",
+  "version": "1.0.0",
+  "private": true,
+  "description": "微信转端 sample",
+  "authors": [
+    "Felix Liu <lyfeyaj@gmail.com> (https://github.com/lyfeyaj)"
+  ],
+  "homepage": "",
+  "license": "ISC",
+  "repository": "git@github.com:eleme/morjs.git",
+  "scripts": {
+    "dev": "mor compile -w --no-cache",
+    "build": "mor compile"
+  },
+  "dependencies": {
+    "@morjs/core": "1.0.0"
+  },
+  "devDependencies": {
+    "@morjs/cli": "1.0.0"
+  }
+}

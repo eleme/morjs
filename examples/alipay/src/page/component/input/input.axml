@@ -1,0 +1,83 @@
+<view class="page">
+  <view class="page-description">输入框</view>
+  <view class="page-section">
+    <view class="form-row">
+      <view class="form-row-label">受控聚焦</view>
+      <view class="form-row-content">
+        <input class="input" focus="{{focus}}" onFocus="onFocus" onBlur="onBlur" placeholder="input something" />
+      </view>
+    </view>
+    <view class="page-section-btns">
+      <button size="mini" onTap="bindButtonTap">聚焦</button>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="form-row">
+      <view class="form-row-label"><label for="controlled">显示输入</label></view>
+      <view class="form-row-content">
+        <input class="input" id="controlled" onInput="bindKeyInput" placeholder="show input content" />
+      </view>
+    </view>
+    <view class="extra-info">你输入的是：{{inputValue}}</view>
+  </view>
+  <view class="page-section">
+    <view class="form-row">
+      <view class="form-row-label">最大长度</view>
+      <view class="form-row-content">
+        <input class="input" maxlength="10" placeholder="maxlength 10" />
+      </view>
+    </view>
+    <view class="form-line" />
+    <view class="form-row">
+      <view class="form-row-label">收起键盘</view>
+      <view class="form-row-content">
+        <input class="input" onInput="bindHideKeyboard" placeholder="输入 123 自动收起键盘" />
+      </view>
+    </view>
+    <view class="form-line" />
+    <view class="form-row">
+      <view class="form-row-label">输入密码</view>
+      <view class="form-row-content">
+        <input class="input" password type="text" placeholder="密码输入框" />
+      </view>
+    </view>
+    <view class="form-line" />
+    <view class="form-row">
+      <view class="form-row-label">输入数字</view>
+      <view class="form-row-content">
+        <input class="input" type="number" placeholder="数字输入框" />
+      </view>
+    </view>
+    <view class="form-line" />
+    <view class="form-row">
+      <view class="form-row-label">小数点键盘</view>
+      <view class="form-row-content">
+        <input class="input" type="digit" placeholder="带小数点的数字键盘" />
+      </view>
+    </view>
+    <view class="form-line" />
+    <view class="form-row">
+      <view class="form-row-label">身份证键盘</view>
+      <view class="form-row-content">
+        <input class="input" type="idcard" placeholder="身份证输入键盘" />
+      </view>
+    </view>
+  </view>
+
+
+  <view class="page-section">
+    <view class="page-section-title">搜索框</view>
+    <view class="page-section-demo">
+      <view class="search-outer">
+        <input
+          class="search-input"
+          placeholder="搜索"
+          value="{{search}}"
+          onConfirm="doneSearch"
+          onInput="handleSearch"
+        />
+        <text class="search-cancel" onTap="clearSearch">取消</text>
+      </view>
+    </view>
+  </view>
+</view>

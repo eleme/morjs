@@ -1,0 +1,11 @@
+{
+  "defaultTitle": "搜索",
+  "transparentTitle": "none",
+  "allowsBounceVertical": "NO",
+  "usingComponents": {
+    "search-bar": "mini-ali-ui/es/search-bar/index",
+    "block-list": "/page/common/components/block-list/block-list",
+    "list": "mini-ali-ui/es/list/index",
+    "list-item": "mini-ali-ui/es/list/list-item/index"
+  }
+}

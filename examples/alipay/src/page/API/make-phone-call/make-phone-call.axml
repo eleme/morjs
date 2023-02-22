@@ -1,0 +1,8 @@
+<view class="page">
+  <view class="page-section">
+    <view class="page-section-title">my.makePhoneCall</view>
+    <view class="page-section-btns">
+      <view onTap="makePhoneCall">打电话</view>
+    </view>
+  </view>
+</view>

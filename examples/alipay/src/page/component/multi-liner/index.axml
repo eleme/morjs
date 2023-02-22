@@ -1,0 +1,13 @@
+<view>
+  <view style="margin-top: 10px;" />
+  <view class="title">多行输入</view>
+  <multi-liner data-field="area" 
+    placeholder="字数统计↘" 
+    type="text" 
+    value="{{value}}" 
+    onInput="onInput" 
+    last="{{true}}" 
+    auto-height="{{true}}" 
+    controlled="{{controlled}}"/>
+  <view style="margin: 10px;" />
+</view>

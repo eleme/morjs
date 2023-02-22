@@ -1,0 +1,27 @@
+.block-list-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.block-list {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-bottom: 20rpx;
+}
+
+.block-item {
+  height: 50rpx;
+  margin-right: 20rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  font-size: 24rpx;
+  background-color: rgba(245, 245, 245, 0.71);
+  padding: 0 18rpx;
+}

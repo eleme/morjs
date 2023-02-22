@@ -1,0 +1,44 @@
+<list>
+  <view slot="header">
+    列表+复选框（非受控）
+  </view>
+  <block a:for="{{items}}">
+    <list-item
+      thumb=""
+      arrow="{{false}}"
+      index="{{index}}"
+      key="items-{{index}}"
+      last="{{index === (items.length - 1)}}"
+    >
+      <view style="display: flex; align-items: center;">
+        <am-checkbox data-id="{{item.id}}" id="{{item.id}}" value="{{item.value}}" disabled="{{item.disabled}}" checked="{{item.checked}}" />
+        <label for="{{item.id}}">{{item.title}}</label>
+      </view>
+    </list-item>
+  </block>
+</list>
+
+<view style="padding: 24rpx 0 0 24rpx;">
+  <button capsuleSize="small" shape="capsule" type="primary" onTap="checkedON" style="margin-left: 20rpx;">全选</button>
+  <button capsuleSize="small" shape="capsule" type="primary" onTap="checkedOFF" style="margin-left: 20rpx;">不全选</button>
+</view>
+
+<list>
+  <view slot="header">
+    列表+复选框（受控）
+  </view>
+  <block a:for="{{items1}}">
+    <list-item
+      thumb=""
+      arrow="{{false}}"
+      index="{{index}}"
+      key="items-{{index}}"
+      last="{{index === (items.length - 1)}}"
+    >
+      <view style="display: flex; align-items: center;">
+        <am-checkbox data-id="{{item.id}}" id="{{item.id}}" value="{{item.value}}" disabled="{{item.disabled}}" ctrlChecked="{{item.ctrlChecked}}" onChange="onChange" />
+        <label for="{{item.id}}">{{item.title}}</label>
+      </view>
+    </list-item>
+  </block>
+</list>

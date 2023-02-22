@@ -1,0 +1,63 @@
+.rectangle {
+  //position: fixed;
+  //top: 100px;
+  padding: 0 14px;
+  margin-top: 20px;
+}
+
+.dialog {
+  position: fixed;
+  bottom: 18px;
+}
+
+.content {
+  color: #fff;
+}
+
+.opt-button {
+  width: 51px;
+  height: 27px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 12px;
+  border: #68BAF7 solid 1rpx;
+}
+
+.add-home {
+  width: 72px;
+  height: 27px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #56ADEB;
+  color: #fff;
+  font-size: 14px;
+}
+
+.am-tips-dialog .am-button {
+  border: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+  background-color: white;
+}
+
+.row-title {
+  flex: 1;
+  padding-top: 28rpx;
+  padding-bottom: 28rpx;
+  font-size: 34rpx;
+  color: #000;
+}
+
+.row-extra {
+  flex-basis: initial;
+  font-size: 32rpx;
+  color: #888;
+  margin-right: 12px;
+}

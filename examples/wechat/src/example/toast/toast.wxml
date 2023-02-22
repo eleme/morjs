@@ -1,0 +1,55 @@
+<page-meta root-font-size="system"/>
+<view class="page" data-weui-theme="{{theme}}" data-weui-mode="{{mode}}">
+	<view class="page__hd">
+		<view class="page__title">Toast</view>
+		<view class="page__desc">弹出式提示</view>
+	</view>
+	<view class="page__bd page__bd_spacing">
+        <a class="weui-btn weui-btn_default" bindtap="openToast">成功提示</a>
+        <a class="weui-btn weui-btn_default" bindtap="openWarnToast">失败提示</a>
+        <a class="weui-btn weui-btn_default" bindtap="openTextMoreToast">长文案提示</a>
+        <a class="weui-btn weui-btn_default" bindtap="openLoading">正在加载提示</a>
+        <a class="weui-btn weui-btn_default" bindtap="openTextToast">文字提示</a>
+	</view>
+
+	<view aria-role="alert" class="fadeIn {{hideToast ? 'fadeOut' : ''}}" wx:if="{{toast}}">
+		<view class="weui-mask_transparent"></view>
+		<view class="weui-toast">
+			<i class="weui-icon-success-no-circle weui-icon_toast"></i>
+			<view class="weui-toast__content">已完成</view>
+		</view>
+	</view>
+
+	<view aria-role="alert" class="fadeIn {{hideTextMoreToast ? 'fadeOut' : ''}}" wx:if="{{textMoreToast}}">
+		<view class="weui-mask_transparent"></view>
+		<view class="weui-toast weui-toast_text-more">
+			<i class="weui-icon-warn weui-icon_toast"></i>
+			<view class="weui-toast__content">长文案详情，长文案详情</view>
+		</view>
+	</view>
+
+	<view aria-role="alert" class="fadeIn {{hideWarnToast ? 'fadeOut' : ''}}" wx:if="{{warnToast}}">
+		<view class="weui-mask_transparent"></view>
+		<view class="weui-toast">
+			<i class="weui-icon-warn weui-icon_toast"></i>
+			<view class="weui-toast__content">获取链接失败</view>
+		</view>
+	</view>
+
+	<view aria-role="alert" class="fadeIn {{hideLoading ? 'fadeOut' : ''}}" wx:if="{{loading}}">
+		<view class="weui-mask_transparent"></view>
+		<view class="weui-toast">
+			<view class="weui-primary-loading weui-primary-loading_transparent weui-icon_toast">
+        <view class="weui-primary-loading__dot"></view>
+      </view>
+			<view class="weui-toast__content">正在加载</view>
+		</view>
+	</view>
+
+	<view aria-role="alert" class="fadeIn {{hideTextToast ? 'fadeOut' : ''}}" wx:if="{{textToast}}">
+		<view class="weui-mask_transparent"></view>
+		<view class="weui-toast weui-toast_text">
+			<view class="weui-toast__content">文字提示</view>
+		</view>
+	</view>
+</view>

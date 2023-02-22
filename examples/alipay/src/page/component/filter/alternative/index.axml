@@ -1,0 +1,5 @@
+<filter show="{{show}}" max="{{5}}" onChange="handleCallBack" onMaskTap="toggleFilter">
+  <block a:for="{{items}}">
+    <filter-item value="{{item.value}}" id="{{item.id}}" selected="{{item.selected}}" key="filter-item-{{index}}" />
+  </block>
+</filter>

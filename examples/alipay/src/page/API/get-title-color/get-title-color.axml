@@ -1,0 +1,12 @@
+<view>
+  <view class="page-section-demo">
+    <text>目前导航栏的背景色:
+    </text>
+    <input type="text" disabled="{{true}}" value="{{titleColor.color}}">
+    </input>
+  </view>
+  <view class="page-section-btns">
+    <view onTap="getTitleColor">获取导航栏背景颜色
+    </view>
+  </view>
+</view>

@@ -1,0 +1,7 @@
+.radio {
+  display: flex;
+  align-items: center;
+}
+.page-section-demo {
+  padding: 24rpx;
+}

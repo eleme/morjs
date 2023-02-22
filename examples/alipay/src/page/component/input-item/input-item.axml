@@ -1,0 +1,65 @@
+<view>
+  <view style="margin-top: 10px;"></view>
+  <list>
+    <input-item data-field="cardNo" 
+      clear="{{false}}" 
+      value="{{cardNo}}" 
+      className="dadada" 
+      placeholder="银行卡号" 
+      onInput="onItemInput" 
+      onBlur="onItemBlur" 
+      onConfirm="onItemConfirm" 
+      controlled="{{true}}"
+      onClear="onClear">
+      卡号
+      <view slot="extra" class="extra" onTap="onExtraTap"></view>
+    </input-item>
+    <input-item data-field="name" 
+      placeholder="姓名" 
+      type="text" 
+      value="{{name}}" 
+      clear="{{true}}" 
+      onInput="onItemInput" 
+      onClear="onClear">姓名</input-item>
+    <input-item data-field="password" password="{{true}}"
+      placeholder="密码">密码</input-item>
+    <input-item data-field="layerShow1" 
+      placeholder="layer 为 vertical 的排列" 
+      type="text" 
+      layer="vertical"
+      value="{{layerShow1}}" 
+      clear="{{true}}" 
+      onInput="onItemInput" 
+      onClear="onClear">
+      竖向表单
+      <view onTap="onExtraTap" slot="extra">
+        <am-icon type="phone-book_" size="24" color="#1677ef"></am-icon>
+      </view>
+    </input-item>
+    <input-item data-field="layerShow2"
+      placeholder="layer 为 vertical 的排列" 
+      type="text" 
+      layer="vertical"
+      value="{{layerShow2}}" 
+      clear="{{true}}" 
+      onInput="onItemInput" 
+      onClear="onClear">
+      竖向表单
+    </input-item>
+    <input-item data-field="layerShow3" 
+      placeholder="layer 为 vertical 的排列" 
+      type="text" 
+      layer="vertical"
+      disabled="{{true}}"
+      value="{{layerShow3}}" 
+      clear="{{true}}" 
+      onInput="onItemInput" 
+      onClear="onClear">
+      竖向表单
+      <view onTap="onExtraTap" slot="extra">
+        <am-icon type="phone-book_" size="24" color="#1677ef"></am-icon>
+      </view>
+    </input-item>
+    <input-item data-field="remark" placeholder="备注"></input-item>
+  </list>
+</view>

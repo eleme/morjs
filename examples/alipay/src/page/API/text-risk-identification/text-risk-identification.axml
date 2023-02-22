@@ -1,0 +1,12 @@
+<view class="page">
+  <view class="page-description">文本风险识别 API</view>
+  <view class="page-section">
+    <view class="page-section-title">my.textRiskIdentification</view>
+    <view class="page-section-demo">
+      <textarea placeholder="输入文本内容" onInput="handleInput" name="textarea"/>
+      <button type="primary" onTap="textRiskIdentification">开始识别</button>
+    </view>
+  </view>
+</view>
+
+

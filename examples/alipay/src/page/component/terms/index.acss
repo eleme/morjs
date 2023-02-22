@@ -1,0 +1,9 @@
+.title{
+    text-align: center;
+    display: block;
+    width: 100%;
+    margin: 20px 0;
+}
+page {
+    padding: 24px  12px;
+}

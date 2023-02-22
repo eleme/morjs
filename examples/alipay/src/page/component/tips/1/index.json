@@ -1,0 +1,10 @@
+{
+  "defaultTitle": "Tips",
+  "usingComponents": {
+    "tips-dialog": "mini-ali-ui/es/tips/tips-dialog/index",
+    "am-button": "mini-ali-ui/es/button/index",
+    "am-icon": "mini-ali-ui/es/am-icon/index",
+    "list-item": "mini-ali-ui/es/list/list-item/index",
+    "input-item": "mini-ali-ui/es/input-item/index"
+  }
+}

@@ -1,0 +1,9 @@
+<view class="page">
+  <view class="page-description">自定义分析 API</view>
+  <view class="page-section">
+    <view class="page-section-title">my.reportAnalytics</view>
+    <view class="page-section-demo">
+      <view class="report" onTap="reportAnalytics">自定义分析</view>
+    </view>
+  </view>
+</view>

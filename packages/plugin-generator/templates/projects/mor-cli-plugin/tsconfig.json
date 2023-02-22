@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "target": "ES5",
+    "importHelpers": true,
+    "moduleResolution": "Node",
+    "allowJs": true,
+    "lib": ["ES6", "ESNext", "DOM"],
+    "rootDir": "./src",
+    "outDir": "./lib",
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}

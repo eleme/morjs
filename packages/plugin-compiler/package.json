@@ -1,0 +1,68 @@
+{
+  "name": "@morjs/plugin-compiler",
+  "version": "1.0.0",
+  "description": "mor compiler plugin",
+  "keywords": [
+    "mor",
+    "compiler",
+    "plugin"
+  ],
+  "authors": [
+    "Felix Liu <lyfeyaj@gmail.com> (https://github.com/lyfeyaj)"
+  ],
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleme/morjs.git",
+    "directory": "packages/plugin-compiler"
+  },
+  "engines": {
+    "node": ">= 12.13.0"
+  },
+  "dependencies": {
+    "@morjs/api": "1.0.0",
+    "@morjs/plugin-compiler-alipay": "1.0.0",
+    "@morjs/plugin-compiler-baidu": "1.0.0",
+    "@morjs/plugin-compiler-bytedance": "1.0.0",
+    "@morjs/plugin-compiler-dingding": "1.0.0",
+    "@morjs/plugin-compiler-kuaishou": "1.0.0",
+    "@morjs/plugin-compiler-qq": "1.0.0",
+    "@morjs/plugin-compiler-taobao": "1.0.0",
+    "@morjs/plugin-compiler-web": "1.0.0",
+    "@morjs/plugin-compiler-wechat": "1.0.0",
+    "@morjs/runtime-mini": "1.0.0",
+    "@morjs/utils": "1.0.0",
+    "@parcel/css": "~1.8.3",
+    "@swc/core": "1.2.192",
+    "clean-css": "^5.3.0",
+    "copy-webpack-plugin": "^9.1.0",
+    "css-minimizer-webpack-plugin": "^3.4.1",
+    "csso": "^4.2.0",
+    "esbuild": "^0.14.29",
+    "html-minimizer-webpack-plugin": "^3.5.0",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
+    "nanoid": "^3.1.30",
+    "postcss-selector-parser": "^6.0.6",
+    "sass": "^1.43.2",
+    "sass-loader": "^12.2.0",
+    "stylus": "^0.55.0",
+    "stylus-loader": "^6.2.0",
+    "terser-webpack-plugin": "^5.3.3",
+    "tslib": "2",
+    "webpack-bundle-analyzer": "^4.5.0",
+    "xregexp": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/webpack-bundle-analyzer": "^4.4.1"
+  }
+}

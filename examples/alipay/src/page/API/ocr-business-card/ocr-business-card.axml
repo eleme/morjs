@@ -1,0 +1,2 @@
+<import src="../ocr-template/ocr-template.axml"/>
+<template is="ocr-template" data="{{textArry,imgUrl}}"/>

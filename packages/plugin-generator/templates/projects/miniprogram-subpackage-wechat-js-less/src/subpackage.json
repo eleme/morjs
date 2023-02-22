@@ -1,0 +1,5 @@
+{
+  "type": "subpackage",
+  "root": "mySubpackage",
+  "pages": ["pages/index/index", "pages/logs/logs"]
+}

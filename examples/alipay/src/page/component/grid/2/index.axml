@@ -1,0 +1,5 @@
+<view style="margin-top: 10px;" />
+<grid onGridItemClick="onItemClick" columnNum="{{2}}" list="{{list1}}" />
+
+<view style="margin-top: 10px;" />
+<grid onGridItemClick="onItemClick" columnNum="{{2}}" list="{{list2}}" />

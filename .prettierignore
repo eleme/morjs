@@ -1,0 +1,14 @@
+node_modules
+LICENSE.md
+.prettierignore
+yarn.lock
+packages/*/CHANGELOG.md
+packages/*/lib/
+packages/*/esm/
+packages/*/dist/
+examples/*/lib/
+examples/*/esm/
+examples/*/dist/
+examples/*/.mor/
+lerna.json
+pnpm-lock.yaml

@@ -1,0 +1,21 @@
+<view>
+  <list>
+    <picker-item
+      data-field="bank"
+      placeholder="选择发卡银行"
+      value="{{bank}}"
+      onPickerTap="onPickerTap"
+    >
+      发卡银行
+    </picker-item>
+    <picker-item
+      data-field="bank"
+      placeholder="选择发卡银行"
+      value="{{bank}}"
+      onPickerTap="onPickerTap"
+      layer="vertical"
+    >
+      发卡银行
+    </picker-item>
+  </list>
+</view>

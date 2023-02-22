@@ -1,0 +1,22 @@
+<view class="page">
+  <view class="page-description">选择器</view>
+  <view class="page-section">
+    <picker onChange="bindPickerChange" value="{{index}}" range="{{array}}">
+      <view class="row">
+        <view class="row-title">地区选择器</view>
+        <view class="row-extra">当前选择：{{array[index]}}</view>
+        <image class="row-arrow" src="https://gw.alicdn.com/imgextra/i2/O1CN015SYrUE1Pa5nLv7KEn_!!6000000001856-2-tps-48-48.png" mode="aspectFill" />
+      </view>
+    </picker>
+  </view>
+
+  <view class="page-section">
+    <picker onChange="bindObjPickerChange" value="{{arrIndex}}" range="{{objectArray}}" range-key="name">
+      <view class="row">
+        <view class="row-title">ObjectArray</view>
+        <view class="row-extra">当前选择：{{objectArray[arrIndex].name}}</view>
+        <image class="row-arrow" src="https://gw.alicdn.com/imgextra/i2/O1CN015SYrUE1Pa5nLv7KEn_!!6000000001856-2-tps-48-48.png" mode="aspectFill" />
+      </view>
+    </picker>
+  </view>
+</view>

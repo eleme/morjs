@@ -1,0 +1,13 @@
+<view class="favorite">
+  <favorite>收藏小程序示例</favorite>
+  <view class="name">
+    <text>Favorite</text>
+  </view>
+  <view class="title">
+    <view>收藏组件</view>
+    <view>favorite</view>
+  </view>
+  <view class="explanation">
+    提示用户收藏小程序，收藏后，用户可直接从小程序收藏进入，再次使用几率大大增加。可根据用户当前收藏状态，判断是否显示组件，并根据用户首次收藏或关闭收藏组件行为，控制展示内容及疲劳度。
+  </view>
+</view>

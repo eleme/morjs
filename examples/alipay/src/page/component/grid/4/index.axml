@@ -1,0 +1,4 @@
+<view style="margin-top: 10px;" />
+<grid onGridItemClick="onItemClick" columnNum="{{4}}" list="{{list4}}" />
+<view style="margin-top: 10px;" />
+<grid onGridItemClick="onItemClick" circular="{{true}}" columnNum="{{4}}" list="{{list42}}" />

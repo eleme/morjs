@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "Steps",
+  "usingComponents": {
+    "steps": "mini-ali-ui/es/steps/index"
+  }
+}

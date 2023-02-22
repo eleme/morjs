@@ -1,0 +1,16 @@
+.dyt-list {
+  margin-top: 0;
+}
+.dyt-list .am-list-item-thumb {
+  border-radius: 5px;
+}
+.dyt-list .am-list-brief {
+  color: #909090;
+  font-size: 14px;
+}
+
+.am-list-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}

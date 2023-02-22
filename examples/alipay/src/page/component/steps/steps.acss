@@ -1,0 +1,12 @@
+.demo-steps-class {
+  margin: 20px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+.demo-btn-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+.demo-btn {
+  width: 47%;
+}

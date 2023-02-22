@@ -1,0 +1,8 @@
+<view class="page">
+  <view class="page-description">导航栏</view>
+  <navigator open-type="navigate" url="./navigate" hover-class="navigator-hover">跳转到新页面</navigator>
+  <navigator open-type="redirect" url="./redirect" hover-class="navigator-hover">在当前页打开</navigator>
+  <navigator open-type="switchTab" url="/page/tabBar/API/index" hover-class="navigator-hover">跳转到另外一个 Tab - API</navigator>
+  <navigator open-type="reLaunch" url="/page/tabBar/component/index" hover-class="navigator-hover">重新打开</navigator>
+  <navigator open-type="navigateBack" hover-class="navigator-hover">返回上一页面</navigator>
+</view>

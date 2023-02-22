@@ -1,0 +1,27 @@
+<view class="page">
+  <view class="page-description">卡包 API</view>
+  <view class="page-section">
+    <view class="page-section-title">卡/券/票 列表页</view>
+    <view class="page-section-demo">
+      <button type="primary" onTap="openCardList">打开卡列表</button>
+      <button type="primary" onTap="openVoucherList">打开券列表</button>
+      <button type="primary" onTap="openTicketList">打开票列表</button>
+    </view>
+
+    <view class="page-section-title">卡/券/票 详情页</view>
+    <view class="page-section-demo">
+       <button type="primary" onTap="openCardDetail">打开卡详情页</button>
+       <button type="primary" onTap="openVoucherDetail">打开劵详情页</button>
+       <button type="primary" onTap="openTicketDetail">打开票详情页</button>
+       <button type="primary" onTap="openKBVoucherDetail"> 打开口碑券详情</button>
+       <button type="primary" onTap="gotoDetail"> 进入口碑客卡券详情</button>
+    </view>
+
+    <view class="page-section-title">卡/券/票 单商户列表页</view>
+    <view class="page-section-demo">
+       <button type="primary" onTap="openMerchantCardList">打开卡商户列表页</button>
+       <button type="primary" onTap="openMerchantVoucherList">打开券商户列表页</button>
+       <button type="primary" onTap="openMerchantTicketList">打开票商户列表页</button>
+    </view>
+  </view>
+</view>

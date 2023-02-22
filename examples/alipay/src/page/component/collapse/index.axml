@@ -1,0 +1,53 @@
+<view>
+  <view class="demo-title">基础用法</view>
+  <collapse
+    className="demo-collapse"
+    collapseKey="collapse1"
+    activeKey="{{['item-11', 'item-13']}}"
+    onChange="onChange"
+  >
+    <collapse-item header="标题1" itemKey="item-11" collapseKey="collapse1">
+      <view class="item-content">
+        <block a:for="{{randomLine}}">
+          <view>自适应高度的内容区域 共 {{index + 1}} 行</view>
+        </block>
+      </view>
+    </collapse-item>
+    <collapse-item header="标题2" itemKey="item-12" collapseKey="collapse1">
+      <view class="item-content content2">
+        <view>内容区域</view>
+      </view>
+    </collapse-item>
+    <collapse-item header="标题3" itemKey="item-13" collapseKey="collapse1">
+      <view class="item-content content3">
+        <view>内容区域</view>
+      </view>
+    </collapse-item>
+  </collapse>
+  <view class="demo-title">手风琴模式</view>
+  <collapse
+    className="demo-collapse"
+    collapseKey="collapse2"
+    activeKey="{{['item-21', 'item-23']}}"
+    onChange="onChange"
+    accordion="{{true}}"
+  >
+    <collapse-item header="标题1" itemKey="item-21" collapseKey="collapse2">
+      <view class="item-content">
+        <block a:for="{{randomLine}}">
+          <view>自适应高度的内容区域 共 {{index + 1}} 行</view>
+        </block>
+      </view>
+    </collapse-item>
+    <collapse-item header="标题2" itemKey="item-22" collapseKey="collapse2">
+      <view class="item-content content2">
+        <view>内容区域</view>
+      </view>
+    </collapse-item>
+    <collapse-item header="标题3" itemKey="item-23" collapseKey="collapse2">
+      <view class="item-content content3">
+        <view>内容区域</view>
+      </view>
+    </collapse-item>
+  </collapse>  
+</view>

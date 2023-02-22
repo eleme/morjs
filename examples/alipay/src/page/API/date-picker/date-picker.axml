@@ -1,0 +1,11 @@
+<view class="page">
+  <view class="page-description">选择日期 API</view>
+  <view class="page-section">
+    <view class="page-section-title">my.datePicker</view>
+    <view class="page-section-demo">
+      <button class="page-body-button" type="primary" onTap="datePicker">选择日期-1</button>
+      <button class="page-body-button" type="primary" onTap="datePickerHMS">选择日期-2</button>
+      <button class="page-body-button" type="primary" onTap="datePickerYMDHMS">选择日期-3</button>
+    </view>
+  </view>
+</view>

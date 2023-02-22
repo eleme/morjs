@@ -1,0 +1,16 @@
+<view class="page-add-todo">
+
+  <view class="add-todo">
+    <input 
+      class="add-todo-input"
+      placeholder="What needs to be done?"
+      onBlur="onBlur"
+      value="{{inputValue}}"
+    />
+  </view>
+
+  <view class="todo-footer">
+    <add-button text="Add Todo" onClickMe="add" ></add-button>
+  </view>
+  
+</view>

@@ -1,0 +1,16 @@
+<vtabs
+  tabs="{{tabs}}"
+  onTabClick="handleChange"
+  onChange="onChange"
+  activeTab="{{activeTab}}"
+  sameFontSize="{{false}}"
+  tabBarlineShow="{{false}}"
+>
+  <block a:for="{{tabs}}">
+    <vtab-content anchor="{{item.anchor}}">
+      <view style="height: {{item.anchor === 'b'?'50vh':'100vh'}};background-color: {{item.anchor === 'b'?'#ccc':''}};">
+        <text>content of {{item.title}}</text>
+      </view>
+    </vtab-content>
+  </block>
+</vtabs>

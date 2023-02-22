@@ -1,0 +1,40 @@
+{
+  "name": "@morjs/plugin-compiler-taobao",
+  "version": "1.0.0",
+  "description": "mor complier plugin for taobao miniprogram",
+  "keywords": [
+    "mor",
+    "compiler",
+    "plugin",
+    "taobao",
+    "miniprogram"
+  ],
+  "authors": [
+    "Felix Liu <lyfeyaj@gmail.com> (https://github.com/lyfeyaj)"
+  ],
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleme/morjs.git",
+    "directory": "packages/plugin-compiler-taobao"
+  },
+  "engines": {
+    "node": ">= 12.13.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@morjs/plugin-compiler-alipay": "1.0.0",
+    "@morjs/utils": "1.0.0"
+  }
+}

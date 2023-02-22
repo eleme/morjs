@@ -1,0 +1,7 @@
+<!-- audio.wxml -->
+<button onTap="audioPlay">播放</button>
+<button onTap="audioPause">暂停</button>
+<button onTap="audioStop">停止</button>
+<button onTap="audio14">seek到14秒</button>
+<button onTap="audioStart">seek开头</button>
+<button onTap="getAllProps">获取后台音频属性</button>

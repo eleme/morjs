@@ -1,0 +1,312 @@
+<view class="new-list-container">
+  <list>
+    <view slot="header">New List Demo</view>
+    <list-item thumb="{{useThumb ? thumb : ''}}" 
+      arrow="{{arrow}}" 
+      index="{{index}}" 
+      borderRadius="{{borderRadius}}"
+      upperSubtitle="{{upperSubtitle}}" 
+      lowerSubtitle="{{lowerSubtitle}}" 
+      titlePosition="{{titlePositions[titlePosIndex]}}" 
+      thumbSize="{{thumbSize}}"
+      last="{{true}}">
+        {{title}}
+        <tag a:if="{{primarySlotTypes[titleSlotIndex] === '标签'}}" size="sm" slot="afterTitle">{{titleTagText}}</tag>
+        <tag a:if="{{primarySlotTypes[upperSlotIndex] === '标签'}}" size="sm" slot="afterUpperSubtitle">{{upperTagText}}</tag>
+        <tag a:if="{{primarySlotTypes[lowerSlotIndex] === '标签'}}" size="sm" slot="afterLowerSubtitle">{{lowerTagText}}</tag>
+        <am-icon a:if="{{primarySlotTypes[titleSlotIndex] === '问号图标'}}" size="{{titleIconSize}}" type="question_" slot="afterTitle" color="#1677ff" />
+        <am-icon a:if="{{primarySlotTypes[upperSlotIndex] === '问号图标'}}" size="{{upperIconSize}}" type="question_" slot="afterUpperSubtitle" color="#1677ff" />
+        <am-icon a:if="{{primarySlotTypes[lowerSlotIndex] === '问号图标'}}" size="{{lowerIconSize}}" type="question_" slot="afterLowerSubtitle" color="#1677ff" />
+
+        <am-icon a:if="{{supSlotTypes[supSlotIndex] === '问号图标'}}" type="question_" slot="supporting" color="#1677ff" size="{{supIconSize}}" />
+        <am-radio checked="{{true}}" a:if="{{supSlotTypes[supSlotIndex] === '勾图标'}}" slot="supporting" />
+        <tag a:if="{{supSlotTypes[supSlotIndex] === '标签'}}" size="sm" slot="supporting">{{supTagText}}</tag>
+        <view a:if="{{supSlotTypes[supSlotIndex] === '文字内容'}}" slot="supporting">{{supText}}</view>
+        
+        <am-icon a:if="{{secSlotTypes[secSlotIndex] === '问号图标'}}" type="question_" slot="extra" color="#1677ff" size="{{secIconSize}}" />
+        <am-radio checked="{{true}}" a:if="{{secSlotTypes[secSlotIndex] === '勾图标'}}" slot="extra" />
+        <tag a:if="{{secSlotTypes[secSlotIndex] === '标签'}}" size="sm" slot="extra">{{secTagText}}</tag>
+        <view a:if="{{secSlotTypes[secSlotIndex] === '文字内容'}}" slot="extra">{{secText}}</view>
+        <am-switch a:if="{{secSlotTypes[secSlotIndex] === '开关'}}" slot="extra" />
+        <am-button a:if="{{secSlotTypes[secSlotIndex] === '胶囊按钮'}}"	shape="capsule"	type="ghost"  slot="extra" >{{secText}}</am-button>
+        <list-secondary 
+          a:if="{{secSlotTypes[secSlotIndex] === 'list-secondary'}}" 
+          title="{{secondary.title}}" 
+          subtitle="{{secondary.subtitle}}" 
+          thumb="{{secondary.useThumb ? secondary.thumb : ''}}"
+          thumbSize="{{secondary.thumbSize}}"
+          slot="extra" ></list-secondary>
+    </list-item>
+  </list>
+  <view class="gap"/>
+  <view class="setting">
+    <list-item>
+      是否圆角 
+      <am-switch slot="extra" 
+        checked="{{borderRadius}}" 
+        onChange="setInfo"
+        data-name="borderRadius"
+        controlled="{{ true }}" />
+    </list-item>
+    <view class="gap" />
+    <title>Primary区域设置</title>
+    <list-item>
+      缩略图 
+      <am-switch slot="extra" 
+        checked="{{useThumb}}" 
+        onChange="setInfo"
+        data-name="useThumb"
+        controlled="{{ true }}" />
+    </list-item>
+    <input-item a:if="{{useThumb}}" 
+      placeholder="自动" 
+      value="{{thumbSize}}"
+      onInput="setInfo"
+      data-name="thumbSize"
+    >
+      缩略图大小：
+      <view slot="extra">px</view>
+    </input-item>
+    <view class="gap"/>
+    <list-item>
+      箭头 
+      <am-switch slot="extra" 
+        checked="{{arrow}}" 
+        onChange="setInfo"
+        data-name="arrow"
+        controlled="{{ true }}" />
+    </list-item>
+    <view class="gap"/>
+    <picker onChange="setInfo" value="{{titlePosIndex}}" range="{{titlePositions}}" data-name="titlePosIndex">
+      <view class="row">
+        <view class="row-title">标题位置</view>
+        <view class="row-extra">当前选择：{{titlePositions[titlePosIndex]}}</view>
+        <am-icon type="right" size="18" color="#cccc"/>
+      </view>
+    </picker>
+    <view class="gap"/>
+    <input-item
+      placeholder="无" 
+      value="{{title}}"
+      onInput="setInfo"
+      data-name="title"
+    >
+      标题内容:
+    </input-item>
+    <input-item
+      placeholder="无" 
+      value="{{upperSubtitle}}"
+      onInput="setInfo"
+      data-name="upperSubtitle"
+    >
+      上副标题内容:
+    </input-item>
+    <input-item
+      placeholder="无" 
+      value="{{lowerSubtitle}}"
+      onInput="setInfo"
+      data-name="lowerSubtitle"
+    >
+      下副标题内容:
+    </input-item>
+    <view class="gap"/>
+    <picker onChange="setInfo" value="{{titleSlotIndex}}" range="{{primarySlotTypes}}" data-name="titleSlotIndex">
+      <view class="row">
+        <view class="row-title">标题插槽内容</view>
+        <view class="row-extra">当前选择：{{primarySlotTypes[titleSlotIndex]}}</view>
+        <am-icon type="right" size="18" color="#cccc"/>
+      </view>
+    </picker>
+    <input-item
+      placeholder="无" 
+      value="{{titleTagText}}"
+      onInput="setInfo"
+      data-name="titleTagText"
+      a:if="{{primarySlotTypes[titleSlotIndex] === '标签'}}"
+    >
+      标签内容:
+    </input-item>
+    <input-item
+      placeholder="自动" 
+      value="{{titleIconSize}}"
+      onInput="setInfo"
+      data-name="titleIconSize"
+      a:if="{{primarySlotTypes[titleSlotIndex] === '问号图标'}}"
+    >
+      图标大小:
+    </input-item>
+    <view class="gap"/>
+    <picker onChange="setInfo" value="{{upperSlotIndex}}" range="{{primarySlotTypes}}" data-name="upperSlotIndex">
+      <view class="row">
+        <view class="row-title">上副标题插槽</view>
+        <view class="row-extra">当前选择：{{primarySlotTypes[upperSlotIndex]}}</view>
+        <am-icon type="right" size="18" color="#cccc"/>
+      </view>
+    </picker>
+    <input-item
+      placeholder="自动" 
+      value="{{upperTagText}}"
+      onInput="setInfo"
+      data-name="upperTagText"
+      a:if="{{primarySlotTypes[upperSlotIndex] === '标签'}}"
+    >
+      标签内容:
+    </input-item>
+    <input-item
+      placeholder="自动" 
+      value="{{upperIconSize}}"
+      onInput="setInfo"
+      data-name="upperIconSize"
+      a:if="{{primarySlotTypes[upperSlotIndex] === '问号图标'}}"
+    >
+      图标大小:
+    </input-item>
+    <view class="gap"/>
+    <picker onChange="setInfo" value="{{lowerSlotIndex}}" range="{{primarySlotTypes}}" data-name="lowerSlotIndex">
+      <view class="row">
+        <view class="row-title">下副标题插槽</view>
+        <view class="row-extra">当前选择：{{primarySlotTypes[lowerSlotIndex]}}</view>
+        <am-icon type="right" size="18" color="#cccc"/>
+      </view>
+    </picker>
+    <input-item
+      placeholder="自动" 
+      value="{{lowerTagText}}"
+      onInput="setInfo"
+      data-name="lowerTagText"
+      a:if="{{primarySlotTypes[lowerSlotIndex] === '标签'}}"
+    >
+      标签内容:
+    </input-item>
+    <input-item
+      placeholder="自动" 
+      value="{{lowerIconSize}}"
+      onInput="setInfo"
+      data-name="lowerIconSize"
+      a:if="{{primarySlotTypes[lowerSlotIndex] === '问号图标'}}"
+    >
+      图标大小:
+    </input-item>
+    <view class="gap"/>
+    <view class="gap"/>
+    <title>Secondary区域设置</title>
+    <picker onChange="setInfo" value="{{secSlotIndex}}" range="{{secSlotTypes}}" data-name="secSlotIndex">
+      <view class="row">
+        <view class="row-title">secondary插槽</view>
+        <view class="row-extra">当前选择：{{secSlotTypes[secSlotIndex]}}</view>
+        <am-icon type="right" size="18" color="#cccc"/>
+      </view>
+    </picker>
+    <input-item
+      placeholder="自动" 
+      value="{{secIconSize}}"
+      onInput="setInfo"
+      data-name="secIconSize"
+      a:if="{{secSlotTypes[secSlotIndex].includes('图标')}}"
+    >
+      图标大小:
+    </input-item>
+    <input-item
+      placeholder="无" 
+      value="{{secTagText}}"
+      onInput="setInfo"
+      data-name="secTagText"
+      a:if="{{secSlotTypes[secSlotIndex] === '标签'}}"
+    >
+      标签内容:
+    </input-item>
+    <input-item
+      placeholder="无" 
+      value="{{secText}}"
+      onInput="setInfo"
+      data-name="secText"
+      a:if="{{secSlotTypes[secSlotIndex] === '文字内容'}}"
+    >
+      文字内容:
+    </input-item>
+    <input-item
+      placeholder="无" 
+      value="{{secText}}"
+      onInput="setInfo"
+      data-name="secText"
+      a:if="{{secSlotTypes[secSlotIndex] === '胶囊按钮'}}"
+    >
+      按钮内容:
+    </input-item>
+    <view a:if="{{secSlotTypes[secSlotIndex] === 'list-secondary'}}">
+      <input-item
+        placeholder="无" 
+        value="{{secondary.title}}"
+        onInput="setSecInfo"
+        data-name="title"
+      >
+        标题:
+      </input-item>
+      <input-item
+        placeholder="无" 
+        value="{{secondary.subtitle}}"
+        onInput="setSecInfo"
+        data-name="subtitle"
+      >
+        副标题:
+      </input-item>
+      <list-item>
+        缩略图
+        <am-switch 
+          slot="extra" 
+          checked="{{secondary.useThumb}}"
+          onChange="setSecInfo"
+          data-name="useThumb"
+          controlled="{{ true }}"
+          />
+      </list-item>
+      <input-item
+        a:if="{{secondary.useThumb}}"
+        placeholder="无" 
+        value="{{secondary.thumbSize}}"
+        onInput="setSecInfo"
+        data-name="thumbSize"
+      >
+        缩略图大小:
+        <view slot="extra">px</view>
+      </input-item>
+    </view>
+    <view class="gap"/>
+    <view class="gap"/>
+    <title>Supporting区域设置</title>
+    <picker onChange="setInfo" value="{{supSlotIndex}}" range="{{supSlotTypes}}" data-name="supSlotIndex">
+      <view class="row">
+        <view class="row-title">supporting插槽</view>
+        <view class="row-extra">当前选择：{{supSlotTypes[supSlotIndex]}}</view>
+        <am-icon type="right" size="18" color="#cccc"/>
+      </view>
+    </picker>
+    <input-item
+      placeholder="自动" 
+      value="{{supIconSize}}"
+      onInput="setInfo"
+      data-name="supIconSize"
+      a:if="{{supSlotTypes[supSlotIndex].includes('图标')}}"
+    >
+      图标大小:
+    </input-item>
+    <input-item
+      placeholder="无" 
+      value="{{supTagText}}"
+      onInput="setInfo"
+      data-name="supTagText"
+      a:if="{{supSlotTypes[supSlotIndex] === '标签'}}"
+    >
+      标签内容:
+    </input-item>
+    <input-item
+      placeholder="无" 
+      value="{{supText}}"
+      onInput="setInfo"
+      data-name="supText"
+      a:if="{{supSlotTypes[supSlotIndex] === '文字内容'}}"
+    >
+      文字内容:
+    </input-item>
+  </view>
+</view>

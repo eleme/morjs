@@ -1,0 +1,33 @@
+.container {
+  padding: 20rpx;
+}
+
+.container button {
+  margin-bottom: 24rpx;
+}
+
+.title {
+  padding-top: 24rpx;
+  font-weight: bold;
+}
+.inputItem {
+  margin: 16rpx 0 24rpx;
+  padding: 8rpx 16rpx;
+  font-size: 30rpx;
+  border: 1px solid #eee;
+}
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 24rpx;
+}
+.radio {
+  display: flex;
+  align-items: center;
+  margin-right: 16rpx;
+}
+.changeItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}

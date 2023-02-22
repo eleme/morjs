@@ -1,0 +1,12 @@
+<guide
+  show="{{guideShow}}"
+  hasJump="{{guideJump}}"
+  guideList="{{list}}"
+  btn_next="看下一张引导图"
+  btn_jump="直接关闭，不看跳过"
+  btn_over="看完了😀啊"
+  onGuideOver="closeGuide"
+></guide>
+
+<button size="default" type="primary" onTap="onShowJumpGuide">查看可跳过的引导图</button>
+<button size="default" type="primary" onTap="onShowGuide">查看普通的引导图</button>

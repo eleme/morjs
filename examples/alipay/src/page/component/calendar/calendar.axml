@@ -1,0 +1,10 @@
+<view>
+  <calendar
+    type="range"
+    haveYear="{{true}}"
+    tagData="{{tagData}}"
+    onSelect="handleSelect"
+    onMonthChange="onMonthChange"
+    onYearChange="onYearChange"
+    onSelectHasDisableDate="onSelectHasDisableDate" />
+</view>

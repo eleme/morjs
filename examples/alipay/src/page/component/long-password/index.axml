@@ -1,0 +1,11 @@
+<view>
+  <view style="margin-top: 10px;" />
+  <view style="padding: 0 10px;">长密码框</view>
+  <view style="margin-top: 10px;" />
+  <long-password
+    placeholder="" 
+    value="{{longPassword}}" 
+    clear="{{true}}" 
+    onInput="onInput" 
+    onClear="onClear" />
+</view>

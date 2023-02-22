@@ -1,0 +1,8 @@
+{
+  "defaultTitle": "Message",
+  "usingComponents": {
+    "message": "mini-ali-ui/es/message/index",
+    "checkbox": "mini-ali-ui/es/am-checkbox/index",
+    "radio": "mini-ali-ui/es/am-radio/index"
+  }
+}

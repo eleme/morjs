@@ -1,0 +1,17 @@
+.demo-avatar {
+  padding: 30rpx;
+}
+.demo-avatar-size {
+  display: flex;
+}
+.demo-avatar-size-container {
+  margin-right: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.demo-avatar-size-intro {
+  margin-bottom: 20rpx;
+  font-weight: bold;
+}
