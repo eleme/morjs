@@ -13,6 +13,8 @@
     "test": "lerna run test",
     "format": "prettier --write .",
     "prepare": "husky install",
+    "bootstrap": "lerna bootstrap",
+    "release": "lerna publish",
     "docs:deps": "cd website && pnpm install",
     "docs:start": "cd website && pnpm start",
     "docs:build": "cd website && pnpm build",
