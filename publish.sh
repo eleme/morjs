@@ -1,5 +1,5 @@
 # NOTE: 这个脚本仅用于 lerna 发布失败之后，手动发布用
-# 正常发布请不要使用这个脚本，使用 README.md 里面的说明的发布方式
+# 正常发布请不要使用这个脚本，使用 CONTRIBUTING.md 里面的说明的发布方式
 #
 # 用法：
 #   发布指定的库 ./publish.sh cli core
@@ -38,7 +38,7 @@ for package in $SELECTED_PACKAGES
 do
   # echo $package
   # 忽略 example 相关库
-  if [[ $package == "create-mor" ]]
+  if [[ $package == "examples" ]]
   then
     echo "$package 为 示例库，跳过"
   else
