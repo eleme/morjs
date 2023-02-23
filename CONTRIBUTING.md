@@ -22,7 +22,7 @@ cd mor
 ### 安装依赖并构建
 
 ```bash
-pnpm i && pnpm build
+pnpm i && pnpm bootstrap && pnpm build
 ```
 
 ## 开发 MorJS
