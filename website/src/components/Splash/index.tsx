@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 // eslint-disable-next-line node/no-missing-import
 import Link from '@docusaurus/Link'
 import styles from './splash.module.css'

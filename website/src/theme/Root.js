@@ -32,7 +32,9 @@ function Root({ children }) {
           <div className={styles.container}>
             <p className={styles.content}>
               检测到您是内网用户，建议前往内部官网{' '}
-              <a href="https://mor.alibaba-inc.com">https://mor.alibaba-inc.com</a>{' '}
+              <a href="https://mor.alibaba-inc.com">
+                https://mor.alibaba-inc.com
+              </a>{' '}
               以获取更多信息。
             </p>
             <div className={styles.action}>

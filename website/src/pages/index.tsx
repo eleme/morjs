@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 // eslint-disable-next-line node/no-missing-import
 import Layout from '@theme/Layout'
 // eslint-disable-next-line node/no-missing-import
