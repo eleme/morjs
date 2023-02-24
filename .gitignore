@@ -134,3 +134,6 @@ website/build
 
 # example .mor 临时文件
 .mor
+
+# vscode
+.vscode
