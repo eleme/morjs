@@ -53,6 +53,14 @@ export const CompileScriptTarget = objectEnum([
 export type CompileScriptTargetType = ObjectValues<typeof CompileScriptTarget>
 
 /**
+ * 编译类型
+ * - miniprogram: 以小程序的方式编译或集成
+ * - plugin: 以插件的方式编译或集成
+ * - subpackage: 以插件的方式编译或集成
+ */
+export const CompileTypes = objectEnum(['miniprogram', 'plugin', 'subpackage'])
+
+/**
  * Entry 文件类型
  */
 export enum EntryFileType {
