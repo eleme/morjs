@@ -1,9 +1,11 @@
 import {
   asArray,
   CommandOptions,
+  CompileTypes,
   ComposeModuleStates,
   Plugin,
-  Runner
+  Runner,
+  validKeysMessage
 } from '@morjs/utils'
 import { compose } from './compose'
 import {
@@ -15,6 +17,7 @@ import { AddComposeToCompilerPlugin } from './plugins/addComposeToCompilerPlugin
 import { CopyHostProjectFileComposePlugin } from './plugins/copyHostProjectFileComposePlugin'
 import { ExtraComposeOptionsPlugin } from './plugins/extraComposeOptionsPlugin'
 import { LoadScriptsAndDistForComposePlugin } from './plugins/loadScriptsAndDistForComposePlugin'
+import { overrideUserConfig } from './utils'
 
 export { ComposerUserConfig }
 
@@ -43,6 +46,7 @@ class MorComposer {
 
     this.registerCli()
     this.registerUserConfig()
+    this.modifyUserConfig()
   }
 
   /**
@@ -50,7 +54,23 @@ class MorComposer {
    */
   registerCli() {
     this.runner.hooks.cli.tap(this.name, (cli) => {
-      cli.command(COMMAND_NAME, '小程序集成功能').action(this.runCompose)
+      cli
+        .command(COMMAND_NAME, '小程序集成功能')
+        .option(
+          '-t, --target <target>',
+          '编译目标, 将当前的工程编译为目标小程序工程, 如 wechat、alipay 等'
+        )
+        .option(
+          '-o, --output-path <dir>',
+          '编译产物输出目录, 不同的 target 会有默认的输出目录, 如 dist/wechat'
+        )
+        .option(
+          '--compile-type <compileType>',
+          `编译形态, 将当前工程编译为指定形态, ${validKeysMessage(
+            CompileTypes
+          )}`
+        )
+        .action(this.runCompose)
     })
   }
 
@@ -61,6 +81,24 @@ class MorComposer {
     this.runner.hooks.registerUserConfig.tap(this.name, function (schema) {
       return schema.merge(ComposeUserConfigSchema)
     })
+  }
+
+  modifyUserConfig() {
+    // 支持 --output-path 覆盖 用户配置中的 outputPath
+    this.runner.hooks.modifyUserConfig.tap(
+      this.name,
+      function (userConfig = {}, command) {
+        if (command?.name !== COMMAND_NAME) return userConfig
+
+        const options = command?.options || {}
+
+        return overrideUserConfig({
+          optionNames: ['target', 'outputPath', 'compileType'],
+          userConfig,
+          commandOptions: options
+        })
+      }
+    )
   }
 
   /**

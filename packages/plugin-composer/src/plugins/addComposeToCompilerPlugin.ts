@@ -10,7 +10,6 @@ import {
   slash
 } from '@morjs/utils'
 import path from 'path'
-import { inspect } from 'util'
 import {
   composeHostAndModules,
   generateHash,
@@ -22,6 +21,7 @@ import {
   ComposerUserConfig,
   DOWNLOAD_TYPE_FOR_COMPILE
 } from '../constants'
+import { overrideUserConfig } from '../utils'
 
 /**
  * 为 compile 命令提供 --compose 支持
@@ -72,26 +72,11 @@ export class AddComposeToCompilerPlugin implements Plugin {
       function (userConfig = {}, command) {
         const options = command?.options || {}
 
-        if (options[COMMAND_NAME] != null) {
-          if (
-            userConfig[COMMAND_NAME] != null &&
-            userConfig[COMMAND_NAME] !== options[COMMAND_NAME]
-          ) {
-            logger.warn(
-              `用户配置 ${COMMAND_NAME}: ${inspect(
-                userConfig[COMMAND_NAME]
-              )}, 被命令行参数 --${COMMAND_NAME} 的值 ${inspect(
-                options[COMMAND_NAME]
-              )} 覆盖.`,
-              {
-                color: true
-              }
-            )
-          }
-          userConfig[COMMAND_NAME] = options[COMMAND_NAME]
-        }
-
-        return userConfig
+        return overrideUserConfig({
+          optionNames: [COMMAND_NAME],
+          userConfig,
+          commandOptions: options
+        })
       }
     )
   }
