@@ -1,4 +1,5 @@
 import {
+  CompileTypes,
   EntryBuilderHelpers,
   FileParserOptions,
   logger,
@@ -14,7 +15,6 @@ import {
 import { getComposedCompilerPlugins } from '../compilerPlugins'
 import {
   CompilerUserConfig,
-  CompileTypes,
   COMPILE_COMMAND_NAME,
   GlobalObjectTransformTypes,
   MOR_RUNTIME_PACKAGE_REGEXP

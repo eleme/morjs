@@ -1,6 +1,7 @@
 import {
   asArray,
   CompileModuleKind,
+  CompileTypes,
   Config,
   fsExtra as fs,
   lodash as _,
@@ -33,7 +34,6 @@ import {
   CompilerCliConfig,
   CompilerUserConfig,
   CompileTypeDescriptions,
-  CompileTypes,
   CSSMinimizerTypes,
   CustomLoaderOptions,
   DEFAULT_CHUNK_LOADING_GLOBAL,

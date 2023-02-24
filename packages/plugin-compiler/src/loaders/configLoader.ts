@@ -1,6 +1,12 @@
-import { EntryType, lodash as _, logger, webpack } from '@morjs/utils'
+import {
+  CompileTypes,
+  EntryType,
+  lodash as _,
+  logger,
+  webpack
+} from '@morjs/utils'
 import { extname } from 'path'
-import { CompileTypes, CustomLoaderOptions } from '../constants'
+import { CustomLoaderOptions } from '../constants'
 import { parseJsonLike } from '../utils'
 
 export default async function ConfigLoader(

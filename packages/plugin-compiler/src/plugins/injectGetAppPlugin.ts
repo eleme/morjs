@@ -1,6 +1,7 @@
 import {
   CompileModuleKind,
   CompileModuleKindType,
+  CompileTypes,
   EntryBuilderHelpers,
   makeImportClause,
   MOR_APP_FILE,
@@ -11,7 +12,7 @@ import {
   webpack
 } from '@morjs/utils'
 import { getComposedCompilerPlugins } from '../compilerPlugins'
-import { CompileModes, CompilerUserConfig, CompileTypes } from '../constants'
+import { CompileModes, CompilerUserConfig } from '../constants'
 
 type CachedSource = webpack.sources.CachedSource
 type ConcatSource = webpack.sources.ConcatSource

@@ -3,6 +3,7 @@ import {
   CompileModuleKindType,
   CompileScriptTarget,
   CompileScriptTargetType,
+  CompileTypes,
   EntryFileType,
   EntryType,
   esbuild,
@@ -12,7 +13,7 @@ import {
   typescript as ts
 } from '@morjs/utils'
 import { getComposedCompilerPlugins } from '../compilerPlugins'
-import { CompileModes, CompileTypes } from '../constants'
+import { CompileModes } from '../constants'
 import { loadUserTsCompilerOptions } from '../utils'
 
 /**

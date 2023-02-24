@@ -1,4 +1,5 @@
 import {
+  CompileTypes,
   EntryBuilderHelpers,
   EntryFileType,
   EntryType,
@@ -8,7 +9,7 @@ import {
 } from '@morjs/utils'
 import path from 'path'
 import { getComposedCompilerPlugins } from '../compilerPlugins'
-import { CompilerUserConfig, CompileTypes } from '../constants'
+import { CompilerUserConfig } from '../constants'
 
 const EntryBuilderMap = new WeakMap<Runner, EntryBuilderHelpers>()
 

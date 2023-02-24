@@ -1,5 +1,6 @@
 import {
   asArray,
+  CompileTypes,
   Config,
   EntryBuilderHelpers,
   EntryFileType,
@@ -39,7 +40,6 @@ import {
   AllTemplateFileTypes,
   CompileModes,
   CompilerUserConfig,
-  CompileTypes,
   ExtraStyleFileTypes,
   INDEPENDENT_SUBPACAKGE_JSON,
   NODE_MODULES,

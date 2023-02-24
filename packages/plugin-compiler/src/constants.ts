@@ -2,6 +2,7 @@ import type { WebCompilerUserConfig } from '@morjs/plugin-compiler-web'
 import {
   CompileModuleKind,
   CompileScriptTarget,
+  CompileTypes,
   EntryBuilderHelpers,
   objectEnum,
   Runner,
@@ -185,14 +186,6 @@ export const CompileModes = objectEnum([
   'transfer',
   'default'
 ])
-
-/**
- * 编译类型
- * - miniprogram: 以小程序的方式编译
- * - plugin: 以插件的方式编译
- * - subpackage: 以插件的方式编译
- */
-export const CompileTypes = objectEnum(['miniprogram', 'plugin', 'subpackage'])
 
 /**
  * 入口配置文件类型

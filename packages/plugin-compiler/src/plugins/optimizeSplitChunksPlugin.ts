@@ -1,5 +1,6 @@
 import {
   CompileModuleKind,
+  CompileTypes,
   EntryBuilderHelpers,
   EntryFileType,
   EntryType,
@@ -15,7 +16,7 @@ import {
   webpack
 } from '@morjs/utils'
 import path from 'path'
-import { CompileModes, CompilerUserConfig, CompileTypes } from '../constants'
+import { CompileModes, CompilerUserConfig } from '../constants'
 
 const JavascriptModulesPlugin = webpack.javascript.JavascriptModulesPlugin
 const SCRIPT_EXT = '.js'
