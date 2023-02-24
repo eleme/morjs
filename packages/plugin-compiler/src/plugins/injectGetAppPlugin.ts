@@ -83,7 +83,7 @@ function initApp (app) {
   if (typeof $app.onLaunch === 'function') {
     // 注意此处为同步方法
     var fn = ${globalObject}['getLaunchOptionsSync'];
-    $app.onLaunch(fn ? fn() : {});
+    $app.onLaunch(typeof fn === 'function' ? fn() : {});
   }
 };
 
