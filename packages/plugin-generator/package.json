@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "mor generator plugin",
   "keywords": [
     "mor",
@@ -33,6 +33,6 @@
     "update-package-versions": "node ./updatePackageVersions"
   },
   "dependencies": {
-    "@morjs/utils": "1.0.0"
+    "@morjs/utils": "1.0.1"
   }
 }
