@@ -16,7 +16,7 @@
 
 ```bash
 git clone git@github.com:eleme/morjs.git
-cd mor
+cd morjs
 ```
 
 ### 安装依赖并构建
@@ -46,7 +46,7 @@ pnpm dev -- plugin-compiler
 `examples` 目录下保存了各种用于测试的例子，跑 example 是开发 MorJS 时确认功能正常的常用方式。每个 example 都配了 dev 脚本，所以进入 example 然后执行 `pnpm dev` 即可。
 
 ```bash
-cd examples/boilerplate
+cd examples/alipay
 pnpm dev
 ```
 
