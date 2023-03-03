@@ -1,0 +1,26 @@
+name: Algolia Docsearch Action
+
+on:
+  push:
+    paths:
+      - 'website/**'
+    branches:
+      - main
+
+  schedule:
+    - cron: '0 18 * * *' # Runs at 18:00 UTC every day, 02:00 UTC+8
+
+jobs:
+  algolia:
+    runs-on: ubuntu-latest
+    name: algolia-crawler
+    steps:
+      - uses: actions/checkout@v2
+      - name: crawling
+        # the `uses' attribute must be a path, a Docker image, or owner/repo@ref
+        uses: darrenjennings/algolia-docsearch-action@master
+        with:
+          algolia_api_key: ${{ secrets.ALGOLIA_API_KEY }}
+          algolia_application_id: ${{ secrets.ALGOLIA_APPLICATION_ID }}
+          # needs to be inside $GITHUB_WORKSPACE from actions/checkout step
+          file: website/algolia.json
