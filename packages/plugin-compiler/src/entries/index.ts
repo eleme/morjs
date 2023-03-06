@@ -2636,10 +2636,13 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         return
       }
 
-      // 允许 npm 多端组件缺少样式文件
-      const allowMissingStyleFile =
-        parentEntry?.entryFileType === EntryFileType.config &&
-        fileType === EntryFileType.style
+      // 允许 npm 多端组件缺少文件：
+      // 1. 样式文件
+      // 2. 如果编译模式不是 bundle 则允许找不到组件库文件，原因是 transform 模式不编译组件库
+      const allowMissingNpmFiles =
+        (parentEntry?.entryFileType === EntryFileType.config &&
+          fileType === EntryFileType.style) ||
+        this.userConfig.compileMode !== CompileModes.bundle
 
       // npm 中不支持 条件后缀
       const propName: ExtsPropName = `${fileType}Exts`
@@ -2648,7 +2651,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         referencePath,
         true,
         // 如果是样式文件未找到, 不报错
-        allowMissingStyleFile ? true : false,
+        allowMissingNpmFiles ? true : false,
         // 指定后缀
         preferRelative == null
           ? { extensions: this[propName] }
