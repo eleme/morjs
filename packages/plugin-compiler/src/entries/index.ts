@@ -2692,6 +2692,20 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         )
         entryType = EntryType.component
       }
+      // 如果 entry 类型为未知，但文件路径中包含了 node_modules
+      // 则矫正 entryType 为 npmComponent
+      else if (
+        entryType === EntryType.unknown &&
+        filePath.includes(NODE_MODULES)
+      ) {
+        logger.debug(
+          `引用文件: ${referencePath}\n` +
+            `文件类型: ${fileType}\n` +
+            '被标记为: unknown\n' +
+            `已更正为: npmComponent\n`
+        )
+        entryType = EntryType.npmComponent
+      }
     }
 
     // 普通文件路径获取
@@ -2729,7 +2743,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         fileType !== EntryFileType.style &&
         fileType !== EntryFileType.config
       ) {
-        logger.warn(
+        logger.warnOnce(
           `未找到文件: ${referencePath}\n` +
             `文件类型: ${fileType}` +
             (parentEntry ? `\n引用的文件为: ${parentEntry.relativePath}` : '')
