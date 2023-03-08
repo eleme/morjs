@@ -40,7 +40,7 @@ const FeatureList: FeatureItem[] = [
     title: '面向未来',
     icon: 'https://img.alicdn.com/imgextra/i4/O1CN012gfk5g1RdQ1CddDfN_!!6000000002134-0-tps-260-256.jpg',
     description:
-      '在满足需求的同时，我们也不会停止对新技术的探索。比如 多端扩充、Weex 支持（测试中）等。'
+      '在满足需求的同时，我们也不会停止对新技术的探索。比如 多端扩充、高性能渲染方案 等。'
   }
 ]
 
