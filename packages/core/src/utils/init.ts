@@ -1,10 +1,10 @@
 import {
   applySolutions,
+  asArray,
   createHooks,
   hooks,
   MorSolution
-} from '@morjs/api/lib/hooks'
-import { asArray } from '@morjs/api/lib/utils'
+} from '@morjs/api'
 import { ContextPlugin } from '../plugins/contextPlugin'
 import { EventPlugin } from '../plugins/eventPlugin'
 

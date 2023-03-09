@@ -1,4 +1,4 @@
-import { logger } from '@morjs/api/lib/logger'
+import { logger } from '@morjs/api'
 ;(function morPolyfill(): void {
   try {
     Promise.prototype.finally =

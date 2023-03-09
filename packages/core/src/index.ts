@@ -3,6 +3,7 @@ import {
   aComponent,
   createComponent,
   enhanceComponent,
+  MorComponentAdapter,
   registerComponentAdapters,
   wComponent
 } from './component'
@@ -10,6 +11,7 @@ import {
   aPage,
   createPage,
   enhancePage,
+  MorPageAdapter,
   registerPageAdapters,
   wPage
 } from './page'
@@ -44,5 +46,7 @@ export {
   PageToComponent,
   aPageToComponent,
   wPageToComponent,
+  MorPageAdapter,
+  MorComponentAdapter,
   init
 }

@@ -1,12 +1,12 @@
-import { SOURCE_TYPE } from '@morjs/api/lib/env'
-import { logger } from '@morjs/api/lib/logger'
 import {
   asArray,
   compose,
   generateId,
   getSharedProperty,
-  IAnyFunc
-} from '@morjs/api/lib/utils'
+  IAnyFunc,
+  logger,
+  SOURCE_TYPE
+} from '@morjs/api'
 import type { IData } from './types'
 import {
   APP_ON_HIDE_EVENT,

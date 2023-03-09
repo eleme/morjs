@@ -1,12 +1,14 @@
-import { ENV_TYPE, getEnv, SOURCE_TYPE } from '@morjs/api/lib/env'
-import { logger } from '@morjs/api/lib/logger'
 import {
   asArray,
   compose,
+  ENV_TYPE,
   generateId,
+  getEnv,
   getSharedProperty,
-  IAnyFunc
-} from '@morjs/api/lib/utils'
+  IAnyFunc,
+  logger,
+  SOURCE_TYPE
+} from '@morjs/api'
 import type { IData } from './types'
 import { MOR_EVENT_METHOD_PREFIX } from './utils/constants'
 import { invokeHook } from './utils/invokeHook'

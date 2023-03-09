@@ -1,5 +1,4 @@
-import type { MorHooks } from '@morjs/api/lib/hooks'
-import { getSharedProperty } from '@morjs/api/lib/utils'
+import { getSharedProperty, MorHooks } from '@morjs/api'
 
 /**
  * 调用hook
