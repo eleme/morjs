@@ -36,6 +36,7 @@
   },
   "scripts": {
     "build": "tsc --module commonjs --outDir lib && tsc --module es2015 --outDir esm",
+    "clean": "rimraf esm lib",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "sideEffects": false,

@@ -1,6 +1,10 @@
-import { Base64 } from '@morjs/api/lib/base64'
-import { logger } from '@morjs/api/lib/logger'
-import { compose, generateId, getSharedProperty } from '@morjs/api/lib/utils'
+import {
+  Base64,
+  compose,
+  generateId,
+  getSharedProperty,
+  logger
+} from '@morjs/api'
 import clone from 'clone-deep'
 import { addEventProxy, injectInstanceMethodsSupport } from './utilsToOther'
 

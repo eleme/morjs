@@ -1,7 +1,10 @@
-import { createApi, MorAPIAdapter } from '@morjs/api/lib/api'
-import { registerComponentAdapters, registerPageAdapters } from '@morjs/core'
-import type { MorComponentAdapter } from '@morjs/core/lib/component'
-import type { MorPageAdapter } from '@morjs/core/lib/page'
+import { createApi, MorAPIAdapter } from '@morjs/api'
+import {
+  MorComponentAdapter,
+  MorPageAdapter,
+  registerComponentAdapters,
+  registerPageAdapters
+} from '@morjs/core'
 import * as apisToAlipay from './alipay/apisToAlipay'
 import * as apisToOther from './alipay/apisToOther'
 import * as componentToAlipay from './alipay/componentToAlipay'

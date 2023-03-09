@@ -1,5 +1,4 @@
-import { logger } from '@morjs/api/lib/logger'
-import { getSharedProperty } from '@morjs/api/lib/utils'
+import { getSharedProperty, logger } from '@morjs/api'
 
 interface IEventDetail {
   name?: string
