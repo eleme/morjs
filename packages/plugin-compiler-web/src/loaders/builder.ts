@@ -149,6 +149,7 @@ export class LoaderBuilder {
     if (appStyleFilePath) {
       appStyleFilePath = path.basename(appStyleFilePath)
     }
+    const appConfigPath = this.getAppConfigFilePath()
 
     return {
       ...opts,
@@ -156,7 +157,8 @@ export class LoaderBuilder {
       name: this.getResourceName(),
       config: await this.loadRelatedConfig(),
       appConfig,
-      hasAppConfig: !!this.getAppConfigFilePath(),
+      hasAppConfig: !!appConfigPath,
+      appConfigPath,
       resourcePath: this.loader.resourcePath,
       rootPath: this.userConfig.srcPath,
       globalComponentsConfig: opts.globalComponentsConfig,

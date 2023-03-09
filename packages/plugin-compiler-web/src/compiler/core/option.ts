@@ -31,6 +31,7 @@ export interface BuildOptions {
   config: ComponentConfig
   appConfig: AppConfig
   hasAppConfig?: boolean // 是否配置了app.json 文件
+  appConfigPath?: string // app.json 的路径
   isAtomicMode?: boolean // 是否输出组件
   name: string //文件名称，不包含后缀
   resourcePath: string //資源文件路徑,
