@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-composer",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "mor compose plugin",
   "keywords": [
     "mor",
@@ -33,6 +33,6 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@morjs/utils": "1.0.1"
+    "@morjs/utils": "1.0.4"
   }
 }

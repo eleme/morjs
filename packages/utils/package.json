@@ -1,6 +1,6 @@
 {
   "name": "@morjs/utils",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "mor utils",
   "keywords": [
     "mor",
@@ -45,7 +45,7 @@
     "posthtml": "0.16.6",
     "qr-image": "3.2.0",
     "slash": "3.0.0",
-    "takin": "1.0.0",
+    "takin": "1.0.4",
     "typescript": "4.4.4",
     "webpack": "5.76.0",
     "webpack-chain-5": "8.0.2",
