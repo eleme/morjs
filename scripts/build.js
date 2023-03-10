@@ -15,6 +15,7 @@ const {
 // 判断构建优先级
 function buildPriority(name) {
   if (/takin/.test(name)) return 9
+  if (/runtime-base/.test(name)) return 9
 
   if (/utils/.test(name)) return 8
   if (/api/.test(name)) return 8
