@@ -1,4 +1,4 @@
-import { logger } from '@morjs/api'
+import { logger } from '@morjs/runtime-base'
 import type { BehaviorOptions, DefinitionFilter } from './utilsToAlipay'
 
 /**

@@ -1,4 +1,4 @@
-import { compose } from '@morjs/api'
+import { compose } from '@morjs/runtime-base'
 import {
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,

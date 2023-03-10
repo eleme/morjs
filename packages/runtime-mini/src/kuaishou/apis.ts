@@ -1,4 +1,4 @@
-import { getGlobalObject, transformApis } from '@morjs/api'
+import { getGlobalObject, transformApis } from '@morjs/runtime-base'
 import { needPromisfiedApis as needPromisfiedApisForWechat } from '../wechat/apis'
 
 /**

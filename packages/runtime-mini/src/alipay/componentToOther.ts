@@ -4,7 +4,7 @@ import {
   generateId,
   getSharedProperty,
   logger
-} from '@morjs/api'
+} from '@morjs/runtime-base'
 import clone from 'clone-deep'
 import { addEventProxy, injectInstanceMethodsSupport } from './utilsToOther'
 

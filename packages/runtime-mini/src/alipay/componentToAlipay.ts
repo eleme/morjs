@@ -1,4 +1,4 @@
-import { compose, getGlobalObject, logger } from '@morjs/api'
+import { compose, getGlobalObject, logger } from '@morjs/runtime-base'
 import get from 'lodash.get'
 import has from 'lodash.has'
 import {

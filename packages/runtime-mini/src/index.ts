@@ -1,10 +1,3 @@
-import { createApi, MorAPIAdapter } from '@morjs/api'
-import {
-  MorComponentAdapter,
-  MorPageAdapter,
-  registerComponentAdapters,
-  registerPageAdapters
-} from '@morjs/core'
 import * as apisToAlipay from './alipay/apisToAlipay'
 import * as apisToOther from './alipay/apisToOther'
 import * as componentToAlipay from './alipay/componentToAlipay'
@@ -17,20 +10,39 @@ import * as apisToKuaishou from './kuaishou/apis'
 import * as apisToQQ from './qq/apis'
 import * as apisToWechat from './wechat/apis'
 
+interface InitAdapterOptions {
+  sourceType: 'alipay' | 'wechat'
+  target: string
+  createApi: (
+    api?: any,
+    options?: any
+  ) => { override: () => any } & Record<string, any>
+  registerComponentAdapters: (adapters?: any[]) => void
+  registerPageAdapters: (adapters?: any[]) => void
+}
+
 /**
  * 初始化转端适配逻辑
  * @param sourceType - 源码类型
  * @param target - 目标平台
  */
-export function initAdapters(sourceType: 'alipay' | 'wechat', target: string) {
+export function initAdapters(options: InitAdapterOptions) {
+  const {
+    sourceType,
+    target,
+    createApi,
+    registerComponentAdapters,
+    registerPageAdapters
+  } = options || {}
+
   // 源码和目标平台一致时不转换
   if (sourceType === target) return
 
   // target 的 adapter 需要放在 source adapter 之前
   // 和编译时自动注入逻辑保持一致
-  const componentAdapters: MorComponentAdapter[] = []
-  const pageAdapters: MorPageAdapter[] = []
-  const apiAdapters: MorAPIAdapter[] = []
+  const componentAdapters: Record<string, any>[] = []
+  const pageAdapters: Record<string, any>[] = []
+  const apiAdapters: Record<string, any>[] = []
 
   // 支付宝转其他端
   if (sourceType === 'alipay') {

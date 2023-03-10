@@ -1,4 +1,4 @@
-import { getGlobalObject, transformApis } from '@morjs/api'
+import { getGlobalObject, transformApis } from '@morjs/runtime-base'
 
 /**
  * 微信需要被 promisified 的接口

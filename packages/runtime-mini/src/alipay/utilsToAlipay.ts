@@ -1,4 +1,4 @@
-import { getGlobalObject, markAsUnsupport } from '@morjs/api'
+import { getGlobalObject, markAsUnsupport } from '@morjs/runtime-base'
 
 /**
  * 标记不支持的实例方法
