@@ -1,5 +1,5 @@
 import consolePng from 'console-png'
-import path, { delimiter, dirname, resolve } from 'path'
+import { delimiter, dirname, relative, resolve } from 'path'
 import qrImage from 'qr-image'
 import slash from 'slash'
 import { asArray, esbuild, logger } from 'takin'
@@ -231,12 +231,13 @@ export async function isCommonJsModule(
  * 返回从 from 到 to 的相对路径
  * @param from - 参考路径
  * @param to - 需要转换的路径
+ * @param forcePosix - 是否使用 POSIX 格式路径
  * @returns 相对路径
  */
-export function getRelativePath(from, to) {
+export function getRelativePath(from, to, forcePosix = true) {
   // 获取到文件的目录，不能直接以文件路径做对比，否则获取到到的结果会多一层级
-  const fromDirPath = path.dirname(from)
-  const relativePath = path.relative(fromDirPath, to)
+  const fromDirPath = dirname(from)
+  const relativePath = relative(fromDirPath, to)
   const prefix =
     relativePath.startsWith('./') || relativePath.startsWith('../')
       ? relativePath.startsWith('.\\') || relativePath.startsWith('..\\')
@@ -244,5 +245,6 @@ export function getRelativePath(from, to) {
         : '.\\'
       : './'
 
+  if (!forcePosix) return prefix + relativePath
   return slash(prefix + relativePath)
 }
