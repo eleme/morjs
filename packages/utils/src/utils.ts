@@ -1,5 +1,5 @@
 import consolePng from 'console-png'
-import { delimiter, dirname, resolve } from 'path'
+import path, { delimiter, dirname, resolve } from 'path'
 import qrImage from 'qr-image'
 import slash from 'slash'
 import { asArray, esbuild, logger } from 'takin'
@@ -225,4 +225,24 @@ export async function isCommonJsModule(
   } else {
     return isCommonJs
   }
+}
+
+/**
+ * 返回从 from 到 to 的相对路径
+ * @param from - 参考路径
+ * @param to - 需要转换的路径
+ * @returns 相对路径
+ */
+export function getRelativePath(from, to) {
+  // 获取到文件的目录，不能直接以文件路径做对比，否则获取到到的结果会多一层级
+  const fromDirPath = path.dirname(from)
+  const relativePath = path.relative(fromDirPath, to)
+  const prefix =
+    relativePath.startsWith('./') || relativePath.startsWith('../')
+      ? relativePath.startsWith('.\\') || relativePath.startsWith('..\\')
+        ? ''
+        : '.\\'
+      : './'
+
+  return slash(prefix + relativePath)
 }
