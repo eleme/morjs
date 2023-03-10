@@ -1,6 +1,5 @@
+import { ENV_TYPE, getEnv, getGlobalObject, logger } from '@morjs/runtime-base'
 import { mor } from './api'
-import { ENV_TYPE, getEnv, getGlobalObject } from './env'
-import { logger } from './logger'
 
 /**
  * 模块类型

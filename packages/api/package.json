@@ -37,6 +37,7 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@morjs/runtime-base": "1.0.0",
     "tslib": "2"
   }
 }

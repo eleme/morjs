@@ -1,7 +1,11 @@
-import { getEnv, getGlobalObject } from './env'
-import { event } from './event'
-import { logger } from './logger'
-import { markAsUnsupport, transformApis } from './utils/transformApis'
+import {
+  event,
+  getEnv,
+  getGlobalObject,
+  logger,
+  markAsUnsupport,
+  transformApis
+} from '@morjs/runtime-base'
 
 // 跨端支持的接口运行时引用注入位置, '' 空字符串是为了防止该注释被移除
 // prettier-ignore
