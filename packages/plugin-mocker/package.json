@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-mocker",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "mor mock plugin",
   "keywords": [
     "mor",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@morjs/api": "1.0.0",
-    "@morjs/utils": "1.0.4",
+    "@morjs/utils": "1.0.5",
     "tslib": "2"
   }
 }
