@@ -1,5 +1,4 @@
-import { getEnv } from '@morjs/api'
-import { logger } from '@morjs/api/lib/logger'
+import { getEnv, logger } from '@morjs/api'
 import { GlobalType, ICallItem, IGlobalType } from './types'
 
 export default class RequireContext {
@@ -7,7 +6,7 @@ export default class RequireContext {
   private context: any
   private contextCache: Record<string, any>
 
-  constructor(context) {
+  constructor(context: any) {
     this.context = context
     if (!context) {
       logger.error('context 必须配置')
@@ -26,7 +25,7 @@ export default class RequireContext {
     // 处理 mockContext 使其适配多文件类型
     try {
       const contextCache = {}
-      context.keys().forEach((key) => {
+      context.keys().forEach((key: string) => {
         const keyNew = key.replace(/.(cjs|js|json|json5|jsonc|mjs|ts)$/, '')
         // 取值优先级倒序 ts > mjs > jsonc > json5 > json > js > cjs
         contextCache[keyNew] = context(key)

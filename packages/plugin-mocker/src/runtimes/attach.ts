@@ -1,4 +1,4 @@
-import { logger } from '@morjs/api/lib/logger'
+import { logger } from '@morjs/api'
 import { Callback, ICallItem, IConfig } from './types'
 
 // 整体时序记录
@@ -21,7 +21,7 @@ export default class Attach {
   // 记录调用时的次序
   private index = 0
 
-  constructor(config, callItem) {
+  constructor(config: IConfig, callItem: ICallItem) {
     this.config = config
     this.callItem = callItem
     if (this.shouldLog()) {
