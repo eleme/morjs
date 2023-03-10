@@ -37,6 +37,14 @@ export const CHILD_COMPILER_RUNNER = 'MOR_CHILD_RUNNER_COMPILER_FLAG'
 export const INDEPENDENT_SUBPACAKGE_JSON = 'independentSubpackageJson'
 
 /**
+ * 运行时源码类型标记
+ */
+export const RUNTIME_SOURCE_TYPES = {
+  alipay: 'a',
+  wechat: 'w'
+} as const
+
+/**
  * 生成 mor 运行时正则
  * 注意: 这个正则必须包含两个捕获(即两对小括号), 第二个捕获字符串用于逻辑判断
  * 参见: plugins/runtimeInjectPlugin.ts 中的代码

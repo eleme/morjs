@@ -17,7 +17,8 @@ import {
   CompilerUserConfig,
   COMPILE_COMMAND_NAME,
   GlobalObjectTransformTypes,
-  MOR_RUNTIME_PACKAGE_REGEXP
+  MOR_RUNTIME_PACKAGE_REGEXP,
+  RUNTIME_SOURCE_TYPES
 } from '../constants'
 
 const EntryBuilderMap = new WeakMap<Runner, EntryBuilderHelpers>()
@@ -300,7 +301,9 @@ export class ScriptParserPlugin implements Plugin {
           [
             ...node.arguments,
             factory.createStringLiteral(
-              options.userConfig.sourceType === SourceTypes.alipay ? 'a' : 'w'
+              options.userConfig.sourceType === SourceTypes.alipay
+                ? RUNTIME_SOURCE_TYPES.alipay
+                : RUNTIME_SOURCE_TYPES.wechat
             )
           ]
         )
@@ -443,8 +446,8 @@ export class ScriptParserPlugin implements Plugin {
             args.push(
               factory.createStringLiteral(
                 options?.userConfig?.sourceType === SourceTypes.alipay
-                  ? 'a'
-                  : 'w'
+                  ? RUNTIME_SOURCE_TYPES.alipay
+                  : RUNTIME_SOURCE_TYPES.wechat
               )
             )
           }

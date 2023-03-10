@@ -16,7 +16,8 @@ import {
   CompilerUserConfig,
   COMPILE_COMMAND_NAME,
   CustomLoaderOptions,
-  MOR_RUNTIME_PACKAGE_REGEXP
+  MOR_RUNTIME_PACKAGE_REGEXP,
+  RUNTIME_SOURCE_TYPES
 } from '../constants'
 
 // 运行时引用替换
@@ -153,6 +154,7 @@ export class RuntimeInjectPlugin implements Plugin {
           // 处理 app/page/component/api 的注入
           if (matched[2]) {
             fileContent = this.tryReplaceFileContentByType(
+              sourceType,
               fileInfo.path,
               fileContent,
               matched[2] as RUMTIME_REPLACE_TYPE,
@@ -177,6 +179,7 @@ export class RuntimeInjectPlugin implements Plugin {
    * @returns 替换后的文件内容
    */
   tryReplaceFileContentByType(
+    sourceType: string,
     filePath: string,
     fileContent: string,
     replaceType: RUMTIME_REPLACE_TYPE,
@@ -206,8 +209,19 @@ export class RuntimeInjectPlugin implements Plugin {
       imports.push(
         `var ${replaceType}SourceRuntime = require('${sourceRuntimes[replaceType]}')`
       )
+
+      // 需要检查 sourceType 和运行时 Component 及 Page 的 sourceType 是否一致
+      // 如果不一致则不生效该该逻辑。原因：部分情况下一个项目可能会出现 wPage 和 aPage
+      // 或 wComponent 和 aComponent 混用的情况，这时候，运行时抹平代码会产生干扰，如，
+      // 支付宝转微信会自动开启样式共享，但是如果项目中同时存在微信原生 DSL，那么会导致按照
+      // 原生写法的组件也被开启样式共享，从而可能引发样式冲突
+      let invokeCondition = ''
+      if (replaceType === 'component' || replaceType === 'page') {
+        invokeCondition = `'${RUNTIME_SOURCE_TYPES[sourceType]}' === sourceType && `
+      }
+
       invokes.push(
-        `${replaceType}SourceRuntime.${invokeFunctionName}(${argName})`
+        `${invokeCondition}${replaceType}SourceRuntime.${invokeFunctionName}(${argName})`
       )
     }
 
