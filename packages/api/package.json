@@ -1,6 +1,6 @@
 {
   "name": "@morjs/api",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "mor runtime api",
   "keywords": [
     "mor"
@@ -37,7 +37,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@morjs/runtime-base": "1.0.0",
+    "@morjs/runtime-base": "1.0.6",
     "tslib": "2"
   }
 }

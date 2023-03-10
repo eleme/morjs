@@ -1,6 +1,6 @@
 {
   "name": "@morjs/core",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "mor runtime core",
   "keywords": [
     "mor",
@@ -38,7 +38,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@morjs/api": "1.0.0",
+    "@morjs/api": "1.0.6",
     "mini-types": "^0.1.7",
     "miniprogram-api-typings": "^3.4.4",
     "tslib": "2"
