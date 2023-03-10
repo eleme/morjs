@@ -1,6 +1,6 @@
 import * as babel from '@babel/core'
 import generate from '@babel/generator'
-import path from 'path'
+import { getRelativePath } from '@morjs/utils'
 import { WEB_RUNTIMES } from '../../../constants'
 import { defCondition, isEndIf, isIfDef } from '../../utils/comment'
 import { getAxmlResourcePath } from '../../utils/file-utils'
@@ -28,18 +28,10 @@ export default function (content, options: BuildOptions) {
       config.component ? 'Component' : 'Page'
     }($componentInfo$, $rm.mergeConfig(${
       hasAppConfig
-        ? `require('./${path.relative(
-            path.dirname(resourcePath),
-            appConfigPath
-          )}')`
+        ? `require('${getRelativePath(resourcePath, appConfigPath)}')`
         : '{}'
     }, ${
-      Object.keys(config).length === 0
-        ? '{}'
-        : `require('./${path.relative(
-            path.dirname(templateFilePath),
-            configFilePath
-          )}')`
+      Object.keys(config).length === 0 ? '{}' : `require('${configFilePath}')`
     }))
     `
   }
