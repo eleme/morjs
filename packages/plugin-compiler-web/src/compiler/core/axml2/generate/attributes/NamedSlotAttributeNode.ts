@@ -1,4 +1,4 @@
-import * as t from '@babel/types'
+import { babelTypes as t } from '@morjs/utils'
 import { NamedSlotAttributeNode } from '../../ast/types'
 
 export default function (_, att: NamedSlotAttributeNode) {

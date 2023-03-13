@@ -1,4 +1,4 @@
-import * as t from '@babel/types'
+import { babelTypes as t } from '@morjs/utils'
 import { ElseIfElementNode, IfElementNode } from '../../ast/types'
 import { stripJsxExpresion } from '../../babel-helper'
 import Context from '../context'

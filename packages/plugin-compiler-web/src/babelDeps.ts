@@ -1,6 +1,0 @@
-export * as babelCore from '@babel/core'
-export * as babelGenerator from '@babel/generator'
-export * as babelParser from '@babel/parser'
-export * as babelTemplate from '@babel/template'
-export * as babelTraverse from '@babel/traverse'
-export * as babelTypes from '@babel/types'
