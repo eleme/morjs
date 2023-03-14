@@ -1,7 +1,9 @@
-import * as parser from '@babel/parser'
-import traverse from '@babel/traverse'
-import * as t from '@babel/types'
-import { logger } from '@morjs/utils'
+import {
+  babelParser as parser,
+  babelTraverse as traverse,
+  babelTypes as t,
+  logger
+} from '@morjs/utils'
 import { getOptionalChainCode } from '../../generate/utils'
 import { DataBindingNode } from '../types'
 
@@ -117,7 +119,7 @@ export default class DataBinding implements DataBindingNode {
     try {
       const ast = parser.parse(`var _=(${exp})`)
       res.isOK = true
-      traverse(ast, {
+      traverse.default(ast, {
         ReferencedIdentifier: (path) => {
           // 检索出引用标识符
           this._bindingVars.add(path.node.name)

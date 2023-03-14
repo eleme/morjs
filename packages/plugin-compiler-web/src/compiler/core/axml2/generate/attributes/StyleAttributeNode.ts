@@ -1,4 +1,4 @@
-import * as t from '@babel/types'
+import { babelTypes as t } from '@morjs/utils'
 import { rpxtorem } from '../../../acss'
 import { isGlobalComponent } from '../../../option'
 import { StyleAttributeNode } from '../../ast/types'

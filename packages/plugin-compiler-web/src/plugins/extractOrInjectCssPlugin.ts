@@ -1,4 +1,4 @@
-import { Plugin, Runner, WebpackWrapper } from '@morjs/utils'
+import { Plugin, resolveDependency, Runner, WebpackWrapper } from '@morjs/utils'
 import { fileNameConfig, WebCompilerUserConfig } from '../constants'
 
 /**
@@ -22,7 +22,9 @@ export class ExtractOrInjectCssPlugin implements Plugin {
   setupCssSupport(web: WebCompilerUserConfig['web'], fileName: string) {
     const chain = this.wrapper.chain
 
-    const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+    const MiniCssExtractPlugin = require(resolveDependency(
+      'mini-css-extract-plugin'
+    ))
 
     let extractOrStyleLoader: string
 
@@ -36,7 +38,7 @@ export class ExtractOrInjectCssPlugin implements Plugin {
         }
       ])
     } else {
-      extractOrStyleLoader = 'style-loader'
+      extractOrStyleLoader = resolveDependency('style-loader')
     }
 
     // importLoaders 代表通过 @import 引入的文件经过几个 loader
@@ -48,7 +50,7 @@ export class ExtractOrInjectCssPlugin implements Plugin {
     chain.module
       .rule('style')
         .use('css')
-          .loader('css-loader')
+          .loader(resolveDependency('css-loader'))
           .options(cssLoaderOptions)
           .before('postprocess')
           .end()
@@ -62,7 +64,7 @@ export class ExtractOrInjectCssPlugin implements Plugin {
     chain.module
       .rule('less')
         .use('css')
-          .loader('css-loader')
+          .loader(resolveDependency('css-loader'))
           .options(cssLoaderOptions)
           .before('postprocess')
           .end()
@@ -76,7 +78,7 @@ export class ExtractOrInjectCssPlugin implements Plugin {
     chain.module
       .rule('sass')
         .use('css')
-          .loader('css-loader')
+          .loader(resolveDependency('css-loader'))
           .options(cssLoaderOptions)
           .before('postprocess')
           .end()

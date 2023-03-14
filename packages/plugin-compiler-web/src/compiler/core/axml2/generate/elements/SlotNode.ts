@@ -1,4 +1,4 @@
-import * as t from '@babel/types'
+import { babelTypes as t } from '@morjs/utils'
 import { AttributeNode, SlotNode } from '../../ast/types'
 import generateAttribute from '../attributes/index'
 import Context from '../context'

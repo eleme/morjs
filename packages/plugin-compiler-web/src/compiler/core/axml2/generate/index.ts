@@ -1,6 +1,9 @@
-import * as babel from '@babel/core'
-import generate from '@babel/generator'
-import * as t from '@babel/types'
+import {
+  babelCore as babel,
+  babelGenerator as generate,
+  babelTypes as t,
+  resolveDependency
+} from '@morjs/utils'
 import path from 'path'
 import { WEB_RUNTIMES } from '../../../../constants'
 import {
@@ -205,10 +208,10 @@ export default function (document: Document, options: AXMLOptions) {
     }
   })
 
-  const result = generate(ast)
+  const result = generate.default(ast)
   if (options.isAtomicMode && !options.unitTest) {
     return babel.transformSync(result.code, {
-      presets: [require('@babel/preset-react')]
+      presets: [require(resolveDependency('@babel/preset-react'))]
     }).code
   }
   return result.code

@@ -37,8 +37,6 @@ import { ProgressPlugin } from './plugins/progressPlugin'
 import { RuntimeInjectPlugin } from './plugins/runtimeInjectPlugin'
 import { preprocess } from './preprocessors/codePreprocessor'
 
-// 对外暴露 web 编译插件的 babel 相关依赖
-export * from '@morjs/plugin-compiler-web/lib/babelDeps'
 export * from './compilerPlugins'
 export * from './constants'
 export { applyDefaults, COMPILE_LOADERS, preprocess }

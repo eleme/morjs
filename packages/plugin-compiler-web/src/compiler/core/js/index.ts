@@ -1,6 +1,8 @@
-import * as babel from '@babel/core'
-import generate from '@babel/generator'
-import { getRelativePath } from '@morjs/utils'
+import {
+  babelCore as babel,
+  babelGenerator as generate,
+  getRelativePath
+} from '@morjs/utils'
 import { WEB_RUNTIMES } from '../../../constants'
 import { defCondition, isEndIf, isIfDef } from '../../utils/comment'
 import { getAxmlResourcePath } from '../../utils/file-utils'
@@ -48,7 +50,7 @@ export default function (content, options: BuildOptions) {
 
 function transformFromCode(code: string, plugins, options: BuildOptions) {
   let ast = babel.parse(code, {
-    // plugins: [require('@babel/plugin-transform-react-jsx'), require('@babel/plugin-proposal-class-properties')]
+    // plugins: [require(resolveDependency('@babel/plugin-transform-react-jsx')), require(resolveDependency('@babel/plugin-proposal-class-properties'))]
   })
   const newCode = skipConditionalCompilation(code, ast, options)
   if (newCode.length !== code.length) {
@@ -66,7 +68,7 @@ function transformFromCode(code: string, plugins, options: BuildOptions) {
 
   const tramformResult = babel.transformFromAstSync(ast, code, babelConfig)
 
-  const result = generate(tramformResult.ast)
+  const result = generate.default(tramformResult.ast)
 
   return result.code
 }
