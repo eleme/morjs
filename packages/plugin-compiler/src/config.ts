@@ -1,12 +1,15 @@
+import type {
+  CssMinimizerPlugin as CssMinimizerPluginType,
+  HtmlMinimizerPlugin as HtmlMinimizerPluginType,
+  TerserPlugin as TerserPluginType
+} from '@morjs/utils'
 import {
   asArray,
   CompileModuleKind,
   CompileTypes,
   Config,
   CopyWebpackPlugin,
-  CssMinimizerPluginType,
   fsExtra as fs,
-  HtmlMinimizerPluginType,
   lodash as _,
   Logger,
   logger,
@@ -15,7 +18,6 @@ import {
   Runner,
   slash,
   SourceTypes,
-  TerserPluginType,
   UserConfig,
   webpack,
   WebpackWrapper
