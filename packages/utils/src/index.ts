@@ -1,8 +1,8 @@
 import { Expression } from '@babel/types'
 import { cjsToEsmTransformer } from 'cjstoesm'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
-import type CssMinimizerPluginType from 'css-minimizer-webpack-plugin'
-import type HtmlMinimizerPluginType from 'html-minimizer-webpack-plugin'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
+import HtmlMinimizerPlugin from 'html-minimizer-webpack-plugin'
 import micromatch from 'micromatch'
 import * as pQueue from 'p-queue'
 import pRetry from 'p-retry'
@@ -11,7 +11,7 @@ import posthtml from 'posthtml'
 import slash from 'slash'
 import * as takin from 'takin'
 import { fastGlob } from 'takin'
-import type TerserPluginType from 'terser-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 import typescript from 'typescript'
 import webpack from 'webpack'
 import WebpackChain from 'webpack-chain-5'
@@ -63,9 +63,9 @@ export {
   // 参见: https://github.com/microsoft/TypeScript/wiki/API-Breaking-Changes#typescript-45
   // 会导致 cjstoesm 报错, 具体原因有待排查, 所以我们暂时停留在 4.4 版本
   cjsToEsmTransformer,
-  HtmlMinimizerPluginType,
-  CssMinimizerPluginType,
-  TerserPluginType,
+  HtmlMinimizerPlugin,
+  CssMinimizerPlugin,
+  TerserPlugin,
   CopyWebpackPlugin,
   Expression
 }
