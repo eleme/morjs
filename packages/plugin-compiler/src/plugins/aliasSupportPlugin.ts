@@ -3,6 +3,7 @@ import {
   EntryFileType,
   esbuild,
   FileParserOptions,
+  lodash as _,
   Plugin,
   Runner,
   slash,
@@ -50,8 +51,11 @@ export class AliasSupportPlugin implements Plugin {
         name: this.name
       },
       (userConfig: CompilerUserConfig) => {
-        if (userConfig.compileMode !== CompileModes.transform) return
-        if (!userConfig.alias) return
+        if (
+          userConfig.compileMode !== CompileModes.transform ||
+          _.isEmpty(userConfig.alias)
+        )
+          return
 
         runner.hooks.preprocessorParser.tapPromise(
           {
