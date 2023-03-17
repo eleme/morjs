@@ -30,6 +30,7 @@
     "node": ">= 12.13.0"
   },
   "dependencies": {
+    "@babel/runtime": "7.21.0",
     "@morjs/plugin-compiler-alipay": "1.0.6",
     "@morjs/runtime-web": "1.0.0",
     "@morjs/utils": "1.0.5",
