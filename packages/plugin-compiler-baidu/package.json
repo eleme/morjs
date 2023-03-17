@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-baidu",
-  "version": "1.0.6",
+  "version": "1.0.9",
   "description": "mor complier plugin for baidu miniprogram",
   "keywords": [
     "mor",
@@ -34,8 +34,8 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@morjs/plugin-compiler-wechat": "1.0.6",
+    "@morjs/plugin-compiler-wechat": "1.0.9",
     "@morjs/runtime-mini": "1.0.6",
-    "@morjs/utils": "1.0.5"
+    "@morjs/utils": "1.0.9"
   }
 }
