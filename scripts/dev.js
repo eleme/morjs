@@ -2,8 +2,8 @@ const path = require('path')
 const execa = require('execa')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
-const blessed = require('neo-blessed')
-const contrib = require('blessed-contrib-neo')
+const blessed = require('blessed')
+const contrib = require('blessed-contrib')
 
 const {
   // clean,
