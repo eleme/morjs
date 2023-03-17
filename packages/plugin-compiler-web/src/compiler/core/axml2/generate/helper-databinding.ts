@@ -1,4 +1,4 @@
-import * as t from '@babel/types'
+import { babelTypes as t } from '@morjs/utils'
 import { DataBindingNode } from '../ast/types'
 
 export function databindingForAttribute(databinding: DataBindingNode) {

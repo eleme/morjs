@@ -1,6 +1,8 @@
-import * as parser from '@babel/parser'
-import traverse from '@babel/traverse'
-import * as t from '@babel/types'
+import {
+  babelParser as parser,
+  babelTraverse as traverse,
+  babelTypes as t
+} from '@morjs/utils'
 
 /**
  * 提取对象表达式中的value 对应 名称
@@ -11,7 +13,7 @@ export function takeObjectExpresionValueNames(exp) {
   const valueNames = []
   try {
     const ast = parser.parse(`(${exp})`)
-    traverse(ast, {
+    traverse.default(ast, {
       ObjectProperty(path) {
         // 检索出引用标识符
         if (t.isIdentifier(path.node.value)) {

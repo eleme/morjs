@@ -1,13 +1,20 @@
+import type {
+  CssMinimizerPlugin as CssMinimizerPluginType,
+  HtmlMinimizerPlugin as HtmlMinimizerPluginType,
+  TerserPlugin as TerserPluginType
+} from '@morjs/utils'
 import {
   asArray,
   CompileModuleKind,
   CompileTypes,
   Config,
+  CopyWebpackPlugin,
   fsExtra as fs,
   lodash as _,
   Logger,
   logger,
   MOR_RUNTIME_FILE,
+  resolveDependency,
   Runner,
   slash,
   SourceTypes,
@@ -15,11 +22,7 @@ import {
   webpack,
   WebpackWrapper
 } from '@morjs/utils'
-import CopyWebpackPlugin from 'copy-webpack-plugin'
-import type CssMinimizerPluginType from 'css-minimizer-webpack-plugin'
-import type HtmlMinimizerPluginType from 'html-minimizer-webpack-plugin'
 import path from 'path'
-import type TerserPluginType from 'terser-webpack-plugin'
 import { inspect } from 'util'
 import type { BundleAnalyzerPlugin as BundleAnalyzerPluginType } from 'webpack-bundle-analyzer'
 import {
@@ -804,7 +807,9 @@ export async function buildWebpackConfig(
      * 应用 js minimizer
      */
     if (userConfig.jsMinimizer !== false) {
-      const TerserPlugin: typeof TerserPluginType = require('terser-webpack-plugin')
+      const TerserPlugin: typeof TerserPluginType = require(resolveDependency(
+        'terser-webpack-plugin'
+      ))
       const minimizerTarget = (compilerOptions.target || 'ES5').toLowerCase()
 
       userConfig.jsMinimizer =
@@ -859,7 +864,9 @@ export async function buildWebpackConfig(
      * 应用 css minimizer
      */
     if (userConfig.cssMinimizer !== false) {
-      const CssMinimizerPlugin: typeof CssMinimizerPluginType = require('css-minimizer-webpack-plugin')
+      const CssMinimizerPlugin: typeof CssMinimizerPluginType = require(resolveDependency(
+        'css-minimizer-webpack-plugin'
+      ))
       userConfig.cssMinimizer =
         userConfig.cssMinimizer === true || !userConfig.cssMinimizer
           ? CSSMinimizerTypes.esbuild
@@ -910,7 +917,9 @@ export async function buildWebpackConfig(
      * 应用 html minimizer
      */
     if (userConfig.xmlMinimizer !== false) {
-      const HtmlMinimizerPlugin: typeof HtmlMinimizerPluginType = require('html-minimizer-webpack-plugin')
+      const HtmlMinimizerPlugin: typeof HtmlMinimizerPluginType = require(resolveDependency(
+        'html-minimizer-webpack-plugin'
+      ))
       const xmlMinimizerName = 'xmlMinimizer'
       const sjsTagName = composedPlugins.sjsTagName[target]
       const xmlMinifyConfig: Record<string, any> = {
@@ -1053,7 +1062,7 @@ export async function buildWebpackConfig(
       // 之所以这么修改的原因是为了解决这个 issue: https://github.com/less/less.js/issues/1880
       // 简而言之就是为了规避 less 和 css 本身语法的冲突，调整了 默认的 less math 配置
       // 如果有用户遇到类似问题, 可以通过 webpackChain 修改 mor 的 less 配置来调整行为
-      .use('less').loader('less-loader').end()
+      .use('less').loader(resolveDependency('less-loader')).end()
       .use('preprocess')
         .loader(LOADERS.preprocess)
         .options(commonOptions)
@@ -1067,7 +1076,7 @@ export async function buildWebpackConfig(
       .type('asset/resource').generator(generatorOptions)
       .use('postprocess').loader(LOADERS.postprocess).options(commonOptions).end()
       .use('style').loader(LOADERS.style).options(commonOptions).end()
-      .use('sass').loader('sass-loader').options({
+      .use('sass').loader(resolveDependency('sass-loader')).options({
         // 这里需要强制 sass 的 outputStyle 为 expanded 否则 sass-loader 会根据 mode
         // 自动压缩 css, 压缩的事情交给  css-minimizer
         sassOptions: { outputStyle: "expanded" }

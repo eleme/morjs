@@ -1,6 +1,8 @@
-import * as babel from '@babel/core'
-import generate from '@babel/generator'
-import * as t from '@babel/types'
+import {
+  babelCore as babel,
+  babelGenerator as generate,
+  babelTypes as t
+} from '@morjs/utils'
 
 const HashChars =
   'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678oOLl9gqVvUuI1'
@@ -96,7 +98,7 @@ export function getOptionalChainExpression(expression) {
       expression.type === 'BinaryExpression' ||
       expression.type === 'LogicalExpression'
     ) {
-      source = generate(expression).code
+      source = generate.default(expression).code
     } else {
       return expression
     }

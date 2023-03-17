@@ -1,4 +1,4 @@
-import * as t from '@babel/types'
+import { babelTypes as t } from '@morjs/utils'
 import { SlotScopeNode } from '../../ast/types'
 import Context from '../context'
 import transformElement from './index'

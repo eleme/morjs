@@ -3,6 +3,7 @@ import {
   expandExtsWithConditionalExt,
   lookupFile,
   Plugin,
+  resolveDependency,
   Runner,
   WebpackWrapper
 } from '@morjs/utils'
@@ -71,7 +72,7 @@ export class HtmlSupportPlugin implements Plugin {
     const chain = wrapper.chain
 
     // 配置 html 插件
-    const HtmlWebpackPlugin = require('html-webpack-plugin')
+    const HtmlWebpackPlugin = require(resolveDependency('html-webpack-plugin'))
 
     // 添加 html-webpack-plugin 插件
     runner.hooks.compiler.tap(this.name, (compiler) => {
