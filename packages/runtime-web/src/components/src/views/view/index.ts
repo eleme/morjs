@@ -21,7 +21,6 @@ export default class View extends BaseElement {
       }
 
       :host([hidden='true']),
-      :host([hidden='true']),
       :host([hidden='hidden']) {
         display: none !important;
       }
