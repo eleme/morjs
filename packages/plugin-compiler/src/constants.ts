@@ -66,7 +66,7 @@ function generateMorRuntimeRegexp() {
   }
 
   return new RegExp(
-    `(${packages.join('|')})\/lib\/(app|page|component|api|env).js$`
+    `(${packages.join('|')})\/(?:lib|esm)\/(app|page|component|api|env).js$`
   )
 }
 
