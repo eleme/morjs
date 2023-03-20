@@ -52,11 +52,11 @@ class SelectorQuery {
           const rect = target.getBoundingClientRect()
           return getPlainObjectFromRect(rect)
         } else {
-          const reacts = []
+          const rects = []
           target.forEach((el) => {
-            reacts.push(getPlainObjectFromRect(el.getBoundingClientRect()))
+            rects.push(getPlainObjectFromRect(el.getBoundingClientRect()))
           })
-          return reacts
+          return rects
         }
       })
     )
@@ -78,14 +78,14 @@ class SelectorQuery {
           }
           return rect
         } else {
-          const reacts = []
+          const rects = []
           target.forEach((el) => {
-            reacts.push({
+            rects.push({
               scrollTop: el.scrollTop,
               scrollLeft: el.scrollLeft
             })
           })
-          return reacts
+          return rects
         }
       })
     )
