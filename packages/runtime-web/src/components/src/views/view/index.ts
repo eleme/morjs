@@ -20,12 +20,9 @@ export default class View extends BaseElement {
         display: block;
       }
 
-      :host([hidden]) {
+      :host([hidden='true']),
+      :host([hidden='hidden']) {
         display: none !important;
-      }
-
-      :host([hidden='false']) {
-        display: block !important;
       }
     `
   }
