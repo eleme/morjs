@@ -2,6 +2,7 @@
 import { getRootView, updateRootView } from '../../global'
 import { wait } from '../../utils'
 import IntersectionObserver from './intersection-observer'
+import { getPlainObjectFromRect } from './utils'
 
 export default {
   createIntersectionObserver(options?) {
@@ -12,7 +13,6 @@ export default {
   },
   updateRootView
 }
-
 class SelectorQuery {
   private target: HTMLElement | NodeListOf<HTMLElement>
 
@@ -50,11 +50,11 @@ class SelectorQuery {
         }
         if (target instanceof HTMLElement) {
           const rect = target.getBoundingClientRect()
-          return rect
+          return getPlainObjectFromRect(rect)
         } else {
           const reacts = []
           target.forEach((el) => {
-            reacts.push(el.getBoundingClientRect())
+            reacts.push(getPlainObjectFromRect(el.getBoundingClientRect()))
           })
           return reacts
         }
