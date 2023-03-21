@@ -569,6 +569,21 @@ export const CompilerCliConfig: ICliConfig = {
     }
   },
 
+  // 是否开启幽灵依赖检查
+  phantomDependency: {
+    name: '是否开启幽灵依赖检查',
+    children: {
+      mode: {
+        name: '开启幽灵依赖检查的模式',
+        desc: '不同模式下幽灵依赖检查的程度不同'
+      },
+      exclude: {
+        name: '不作为幽灵依赖的 npm 包',
+        desc: '开启幽灵依赖检查时，不被认为是幽灵依赖的 npm 包'
+      }
+    }
+  },
+
   // 模拟 app.x 文件
   mockAppEntry: {
     name: '模拟 app.x 的文件配置',
@@ -878,6 +893,13 @@ export const CompilerUserConfigSchema = z.object({
       component: z.boolean().optional(),
       behavior: z.boolean().optional(),
       api: z.boolean().optional().or(z.nativeEnum(GlobalObjectTransformTypes))
+    })
+    .or(z.boolean())
+    .default(true),
+  phantomDependency: z
+    .object({
+      mode: z.string().optional(),
+      exclude: z.tuple([z.string()]).optional()
     })
     .or(z.boolean())
     .default(true),
