@@ -2,11 +2,9 @@ import {
   logger,
   Plugin,
   Runner,
-  // slash,
   tsTransformerFactory,
   typescript as ts
 } from '@morjs/utils'
-// import { type } from 'os'
 import { NODE_MODULE_REGEXP } from '../constants'
 
 /**
@@ -24,10 +22,6 @@ export class PhantomDependencyPlugin implements Plugin {
 
   apply(runner: Runner<any>) {
     runner.hooks.scriptParser.tap(this.name, (transformers, options) => {
-      // TODO:本地调试使用，发布前删除
-      if (/[\\/]morjs[\\/]packages[\\/]/.test(options.fileInfo.path))
-        return transformers
-
       const { phantomDependency, mode } = runner.userConfig
       if (mode === 'production' || !phantomDependency) return transformers
 
