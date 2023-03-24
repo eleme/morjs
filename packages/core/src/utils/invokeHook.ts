@@ -1,11 +1,16 @@
-import { getSharedProperty, MorHooks } from '@morjs/api'
+import { getSharedProperty, logger, MorHooks } from '@morjs/api'
 
 /**
- * 调用hook
- * @param hookName hook名字
+ * 调用 hook
+ * @param hookName hook 名字
  */
 export const invokeHook = function (hookName: keyof MorHooks) {
   return function (this: Record<string, any>, ...args: any[]): void {
-    getSharedProperty('$morHooks', this)[hookName].call(this, ...args)
+    const hook = getSharedProperty('$morHooks', this)?.[hookName]
+    if (typeof hook?.call === 'function') {
+      hook.call(this, ...args)
+    } else {
+      logger.error(`${hookName} 不是一个有效的 hook`)
+    }
   }
 }
