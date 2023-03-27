@@ -285,6 +285,9 @@ export const CSSMinimizerTypes = objectEnum([
 // CSS 压缩特性
 export const CompressCssStrategies = objectEnum(['lite'])
 
+// 幽灵依赖检测模式
+export const PhantomDependencyMode = objectEnum(['warn', 'error'])
+
 /**
  * 编译命令行及用户配置条目
  */
@@ -898,11 +901,13 @@ export const CompilerUserConfigSchema = z.object({
     .default(true),
   phantomDependency: z
     .object({
-      mode: z.string().optional(),
-      exclude: z.tuple([z.string()]).optional()
+      mode: z
+        .nativeEnum(PhantomDependencyMode)
+        .default(PhantomDependencyMode.warn),
+      exclude: z.array(z.string()).optional()
     })
     .or(z.boolean())
-    .default(true),
+    .default(false),
   compilerOptions: z
     .object({
       /**
