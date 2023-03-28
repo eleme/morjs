@@ -846,27 +846,16 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     const { compileMode, compileType } = this.userConfig
 
     // 小程序分析
-    const requireGlobCompile = await this.buildByCompileType(
-      compileType,
-      compileMode
-    )
+    await this.buildByCompileType(compileType, compileMode)
 
     if (compileMode === CompileModes.transform) {
-      if (requireGlobCompile) {
-        // 如果需要 glob 方式编译代表未找到 entry 文件
-        // 这里直接遍历所有文件
-        await this.buildByGlob()
-      } else {
-        // transform 模式下由于不会分析 js 的引用
-        // 所以这里需要使用 glob 的方式来获取 遗漏的 js/ts/json/jsonc 等文件
-        await this.buildByGlob(
-          extsToGlobPatterns([...this.scriptExts, ...this.configExts])
-        )
-      }
+      // transform 模式下完成一次 glob 所有文件，确保不会有遗漏
+      // 比如组件库编译等
+      await this.buildByGlob()
     }
 
     // 清除无用的文件信息
-    if (!requireGlobCompile) this.clearUnusedEntries()
+    if (compileMode === 'bundle') this.clearUnusedEntries()
 
     // 执行 beforeBuildEntries hook
     this.runner.logger.time('Hooks.beforeBuildEntries')
@@ -1810,10 +1799,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * @param compileMode - 编译模式
    * @returns 是否需要额外编译支持, 仅用于 transform 模式下未找到 entry 文件的情况
    */
-  async buildByCompileType(
-    compileType: CompileType,
-    compileMode: CompileMode
-  ): Promise<true | void> {
+  async buildByCompileType(compileType: CompileType, compileMode: CompileMode) {
     let appJson: IAppConfig
 
     // 分包配置优先从 context 中获取
@@ -1826,7 +1812,6 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     let pluginJson: Record<string, any>
 
     const isEntryFileRequired = compileMode === 'bundle'
-    const requireGlobCompile = true
 
     // 加载 小程序项目配置文件
     await this.tryAddProjectConfigFile()
@@ -1841,8 +1826,8 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     // 尝试载入全局文件
     await this.tryAddGlobalFiles()
 
-    // 尝试载入自定义 entries
-    this.tryAddCustomEntries()
+    // 全局 entry 通常指向 app.json 或 subpackage.json 或 plugin.json
+    let globalEntry: EntryItem
 
     // 先载入 app.json
     if (appJsonPath) {
@@ -1859,7 +1844,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     // 小程序构建
     if (compileType === CompileTypes.miniprogram) {
       if (appJson) {
-        await this.buildByApp(appJson, appJsonPath)
+        globalEntry = await this.buildByApp(appJson, appJsonPath)
       } else {
         if (isEntryFileRequired) {
           logger.error(
@@ -1867,8 +1852,6 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
               ', '
             )} 目录中`
           )
-        } else {
-          return requireGlobCompile
         }
       }
     }
@@ -1893,7 +1876,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
             pages: Object.values(publicPages)
           } as IPluginConfig
         }
-        await this.buildByPlugin(pluginJson, pluginJsonPath)
+        globalEntry = await this.buildByPlugin(pluginJson, pluginJsonPath)
       }
 
       // 如果 plugin.json 不存在, 则尝试使用 appJson 构建 plugin.json
@@ -1901,7 +1884,11 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         logger.warn(
           '未找到有效的 plugin.json, 尝试从 app.json 直接构建为小程序插件'
         )
-        await this.buildByApp(appJson, appJsonPath, CompileTypes.plugin)
+        globalEntry = await this.buildByApp(
+          appJson,
+          appJsonPath,
+          CompileTypes.plugin
+        )
       } else {
         if (isEntryFileRequired) {
           logger.error(
@@ -1909,8 +1896,6 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
               ', '
             )} 目录中`
           )
-        } else {
-          return requireGlobCompile
         }
       }
     }
@@ -1918,9 +1903,8 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     // 分包构建
     else if (compileType === CompileTypes.subpackage) {
       // 如果分包配置已存在, 则代表是独立分包构建, 直接进行后续流程
-      // NOTE: 独立分包的流程需要调整
       if (subpackageJson) {
-        await this.buildBySubPackage(subpackageJson)
+        globalEntry = await this.buildBySubPackage(subpackageJson)
       }
       // 否则尝试读取分包配置文件或从 app.json 中推断
       else {
@@ -1933,14 +1917,21 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
           subpackageJson = await this.readAndPreprocessJsonLikeFile(
             subpackageJsonPath
           )
-          await this.buildBySubPackage(subpackageJson, subpackageJsonPath)
+          globalEntry = await this.buildBySubPackage(
+            subpackageJson,
+            subpackageJsonPath
+          )
         }
         // 如果 subpackage.json 不存在, 则尝试使用 appJson 构建 subpackage.json
         else if (appJson) {
           logger.warn(
             '未找到有效的 subpackage.json, 尝试从 app.json 直接构建为小程序分包'
           )
-          await this.buildByApp(appJson, appJsonPath, CompileTypes.subpackage)
+          globalEntry = await this.buildByApp(
+            appJson,
+            appJsonPath,
+            CompileTypes.subpackage
+          )
         } else {
           if (isEntryFileRequired) {
             logger.error(
@@ -1948,14 +1939,15 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
                 ', '
               )} 目录中`
             )
-          } else {
-            return requireGlobCompile
           }
         }
       }
     } else {
       throw new Error(`不支持的编译类型: ${compileType}, 请检查配置`)
     }
+
+    // 添加自定义组件
+    await this.tryAddCustomEntries(globalEntry)
   }
 
   /**
@@ -2002,23 +1994,40 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
   /**
    * 尝试载入自定义的 entries
    */
-  private tryAddCustomEntries() {
+  private async tryAddCustomEntries(globalEntry: EntryItem) {
     try {
-      _.forEach(
-        _.omit(
-          this.userConfig?.customEntries || {},
-          _.keys(RootEntryConfigFiles)
-        ),
-        (filePath, entryName) => {
-          this.addToEntry(
-            filePath,
-            EntryType.custom,
-            'direct',
-            null,
-            null,
-            pathWithoutExtname(entryName)
-          )
-        }
+      await Promise.all(
+        _.map(
+          _.omit(
+            this.userConfig?.customEntries || {},
+            _.keys(RootEntryConfigFiles)
+          ),
+          async (filePathOrObject, entryName) => {
+            if (entryName === 'pages') {
+              await this.addPageEntries(
+                (filePathOrObject as string[]) || [],
+                globalEntry
+              )
+            } else if (entryName === 'components') {
+              await this.addComponentEntries(
+                ((filePathOrObject as string[]) || []).reduce((res, v) => {
+                  res[v] = v
+                  return res
+                }, {}),
+                globalEntry
+              )
+            } else {
+              this.addToEntry(
+                filePathOrObject as string,
+                EntryType.custom,
+                'direct',
+                null,
+                null,
+                pathWithoutExtname(entryName)
+              )
+            }
+          }
+        )
       )
     } catch (error) {
       logger.error(
@@ -2235,7 +2244,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     )
 
     // 判断是否需要继续分析依赖
-    if (shouldAnalyze === false) return
+    if (shouldAnalyze === false) return entry
 
     // 处理 小程序
     if (compileType === CompileTypes.miniprogram) {
@@ -2295,6 +2304,8 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         entry
       )
     }
+
+    return entry
   }
 
   /**
@@ -2330,10 +2341,12 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       )
 
       // 判断是否需要继续分析依赖
-      if (shouldAnalyze === false) return
+      if (shouldAnalyze === false) return entry
     }
 
     await this.addPageEntries(subpackageJson.pages || [], entry)
+
+    return entry
   }
 
   /**
@@ -2368,7 +2381,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         'plugin'
       )
       // 判断是否需要继续分析依赖
-      if (shouldAnalyze === false) return
+      if (shouldAnalyze === false) return entry
     }
 
     // 添加插件的 main 文件
@@ -2393,6 +2406,8 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         true
       )
     ])
+
+    return entry
   }
 
   /**

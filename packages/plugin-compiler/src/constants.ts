@@ -867,10 +867,21 @@ export const CompilerUserConfigSchema = z.object({
   cache: z.boolean().optional(),
   globalObject: z.string().optional(),
   /**
-   * 自定义 entries，用于自定义 app.json / subpackage.json / plugin.json 等入口文件
-   * 或用于配置 额外需要生成的入口文件，如某个期望在 bundle 后依然能保持正确的路径的文件
+   * 自定义 entries
+   * 1. 用于自定义 app.json / subpackage.json / plugin.json 等入口文件
+   * 2. 用于配置 额外需要生成的入口文件，如某个期望在 bundle 后依然能保持正确的路径的文件
+   * 3. bundle 模式下，无引用关系，但需要额外需要编译的 页面（pages） 或 组件（components）
    */
-  customEntries: z.record(z.string()).default({}),
+  customEntries: z
+    .object({
+      'app.json': z.string().optional(),
+      'subpackage.json': z.string().optional(),
+      'plugin.json': z.string().optional(),
+      pages: z.array(z.string()).optional(),
+      components: z.array(z.string()).optional()
+    })
+    .passthrough()
+    .optional(),
   autoInjectRuntime: z
     .object({
       app: z.boolean().optional(),

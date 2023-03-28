@@ -471,10 +471,26 @@ export function applyDefaults(
     ? path.dirname(config.userConfigFilePath)
     : config.cwd
   _.forEach(userConfig.customEntries, (filePath, entryName) => {
-    const absFilePath = path.isAbsolute(filePath)
-      ? filePath
-      : path.resolve(entryBaseDir, filePath)
-    userConfig.customEntries[entryName] = absFilePath
+    function convertToAbsFilePath(p: string) {
+      return path.isAbsolute(p) ? p : path.resolve(entryBaseDir, p)
+    }
+    // 不处理自定义 pages 或 components
+    if (entryName === 'pages' || entryName === 'components') {
+      userConfig.customEntries[entryName] = _.map(
+        filePath as string[],
+        convertToAbsFilePath
+      )
+      return
+    }
+
+    if (typeof filePath !== 'string') {
+      logger.warnOnce(
+        `配置 customEntries.${entryName} 不是一个有效的字符串，请检查`
+      )
+      return
+    }
+
+    userConfig.customEntries[entryName] = convertToAbsFilePath(filePath)
   })
 }
 
