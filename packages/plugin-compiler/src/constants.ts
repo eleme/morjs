@@ -45,18 +45,23 @@ export const RUNTIME_SOURCE_TYPES = {
 } as const
 
 /**
+ * mor 核心运行时基础库
+ * 兼容旧的基础库
+ */
+export const MOR_RUNTIME_NPMS = {
+  api: ['@morjs/api', '@ali/openmor-api'],
+  core: ['@morjs/core', '@ali/openmor-core']
+}
+
+/**
  * 生成 mor 运行时正则
  * 注意: 这个正则必须包含两个捕获(即两对小括号), 第二个捕获字符串用于逻辑判断
  * 参见: plugins/runtimeInjectPlugin.ts 中的代码
  */
 function generateMorRuntimeRegexp() {
   const rootDir = slash(path.resolve(__dirname, '..'))
-  let packages = [
-    '@morjs/core',
-    '@morjs/api',
-    '@ali/openmor-core',
-    '@ali/openmor-api'
-  ]
+  let packages = MOR_RUNTIME_NPMS.api.concat(MOR_RUNTIME_NPMS.core)
+
   // 代表为仓库代码
   if (rootDir.endsWith('packages/plugin-compiler')) {
     packages = packages.concat([
@@ -885,10 +890,21 @@ export const CompilerUserConfigSchema = z.object({
   cache: z.boolean().optional(),
   globalObject: z.string().optional(),
   /**
-   * 自定义 entries，用于自定义 app.json / subpackage.json / plugin.json 等入口文件
-   * 或用于配置 额外需要生成的入口文件，如某个期望在 bundle 后依然能保持正确的路径的文件
+   * 自定义 entries
+   * 1. 用于自定义 app.json / subpackage.json / plugin.json 等入口文件
+   * 2. 用于配置 额外需要生成的入口文件，如某个期望在 bundle 后依然能保持正确的路径的文件
+   * 3. bundle 模式下，无引用关系，但需要额外需要编译的 页面（pages） 或 组件（components）
    */
-  customEntries: z.record(z.string()).default({}),
+  customEntries: z
+    .object({
+      'app.json': z.string().optional(),
+      'subpackage.json': z.string().optional(),
+      'plugin.json': z.string().optional(),
+      pages: z.array(z.string()).optional(),
+      components: z.array(z.string()).optional()
+    })
+    .passthrough()
+    .optional(),
   autoInjectRuntime: z
     .object({
       app: z.boolean().optional(),
@@ -986,12 +1002,12 @@ export const CompilerUserConfigSchema = z.object({
   /**
    * 配置可以共享的 node_modules 模块, 通常用于主子分包分仓库管理集成的场景
    */
-  shared: z.array(z.string()).default([]),
+  shared: z.array(z.string().or(z.record(z.string()))).default([]),
 
   /**
    * 配置需要消费的 node_modules 模块, 通常用于主子分包分仓库管理集成的场景
    */
-  consumes: z.array(z.string()).default([]),
+  consumes: z.array(z.string().or(z.record(z.string()))).default([]),
 
   /**
    * 是否生成 mor.p.js 文件，用于更新集成时 app.json 内容

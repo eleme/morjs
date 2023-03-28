@@ -47,6 +47,7 @@ import {
   JSON_REGEXP,
   LESS_REGEXP,
   Modes,
+  MOR_RUNTIME_NPMS,
   NODE_MODULES,
   NODE_MODULE_REGEXP,
   SASS_REGEXP,
@@ -471,10 +472,26 @@ export function applyDefaults(
     ? path.dirname(config.userConfigFilePath)
     : config.cwd
   _.forEach(userConfig.customEntries, (filePath, entryName) => {
-    const absFilePath = path.isAbsolute(filePath)
-      ? filePath
-      : path.resolve(entryBaseDir, filePath)
-    userConfig.customEntries[entryName] = absFilePath
+    function convertToAbsFilePath(p: string) {
+      return path.isAbsolute(p) ? p : path.resolve(entryBaseDir, p)
+    }
+    // 不处理自定义 pages 或 components
+    if (entryName === 'pages' || entryName === 'components') {
+      userConfig.customEntries[entryName] = _.map(
+        filePath as string[],
+        convertToAbsFilePath
+      )
+      return
+    }
+
+    if (typeof filePath !== 'string') {
+      logger.warnOnce(
+        `配置 customEntries.${entryName} 不是一个有效的字符串，请检查`
+      )
+      return
+    }
+
+    userConfig.customEntries[entryName] = convertToAbsFilePath(filePath)
   })
 }
 
@@ -707,15 +724,18 @@ export async function buildWebpackConfig(
     .add(path.resolve(config.cwd, 'node_modules'))
     .add(CURRENT_NODE_MODULES)
     .end()
-  try {
-    const apiPackage = '@morjs/api'
-    const fallbackNodeModule = require
-      .resolve(apiPackage)
-      .split(path.normalize(`/${apiPackage}/`))[0]
-    if (fallbackNodeModule.endsWith(NODE_MODULES)) {
-      chain.resolve.modules.add(fallbackNodeModule).end()
-    }
-  } catch (err) {}
+  let fallbackNodeModule: string
+  for (const apiPackage of MOR_RUNTIME_NPMS.api) {
+    if (fallbackNodeModule) break
+    try {
+      fallbackNodeModule = require
+        .resolve(apiPackage)
+        .split(path.normalize(`/${apiPackage}/`))[0]
+      if (fallbackNodeModule.endsWith(NODE_MODULES)) {
+        chain.resolve.modules.add(fallbackNodeModule).end()
+      }
+    } catch (err) {}
+  }
 
   chain.resolve
     .plugin('MorResolverPlugin')
