@@ -45,18 +45,23 @@ export const RUNTIME_SOURCE_TYPES = {
 } as const
 
 /**
+ * mor 核心运行时基础库
+ * 兼容旧的基础库
+ */
+export const MOR_RUNTIME_NPMS = {
+  api: ['@morjs/api', '@ali/openmor-api'],
+  core: ['@morjs/core', '@ali/openmor-core']
+}
+
+/**
  * 生成 mor 运行时正则
  * 注意: 这个正则必须包含两个捕获(即两对小括号), 第二个捕获字符串用于逻辑判断
  * 参见: plugins/runtimeInjectPlugin.ts 中的代码
  */
 function generateMorRuntimeRegexp() {
   const rootDir = slash(path.resolve(__dirname, '..'))
-  let packages = [
-    '@morjs/core',
-    '@morjs/api',
-    '@ali/openmor-core',
-    '@ali/openmor-api'
-  ]
+  let packages = MOR_RUNTIME_NPMS.api.concat(MOR_RUNTIME_NPMS.core)
+
   // 代表为仓库代码
   if (rootDir.endsWith('packages/plugin-compiler')) {
     packages = packages.concat([

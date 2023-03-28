@@ -2,6 +2,7 @@ import {
   CompileTypes,
   EntryBuilderHelpers,
   FileParserOptions,
+  lodash as _,
   logger,
   makeImportClause,
   Plugin,
@@ -17,6 +18,7 @@ import {
   CompilerUserConfig,
   COMPILE_COMMAND_NAME,
   GlobalObjectTransformTypes,
+  MOR_RUNTIME_NPMS,
   MOR_RUNTIME_PACKAGE_REGEXP,
   RUNTIME_SOURCE_TYPES
 } from '../constants'
@@ -72,7 +74,7 @@ export class ScriptParserPlugin implements Plugin {
         target
       } = runner.userConfig as CompilerUserConfig
 
-      const hasRuntimeDeps = this.checkApiOrCoreRuntimeDepExistance(runner)
+      const morRuntimeDeps = this.checkApiOrCoreRuntimeDepExistance(runner)
 
       runner.hooks.beforeBuildEntries.tap(this.name, (entryBuilder) => {
         EntryBuilderMap.set(runner, entryBuilder)
@@ -104,7 +106,7 @@ export class ScriptParserPlugin implements Plugin {
         // 简单判断是否包含 sourceGlobalObject
         // global 不一致时才需要转换
         if (
-          hasRuntimeDeps.api &&
+          morRuntimeDeps.api &&
           sourceGlobalObject !== targetGlobalObject &&
           // 如果目标平台是 web 且 源码的全局对象和目标平台的全局对象相同，则不做接口转换
           !(
@@ -131,7 +133,7 @@ export class ScriptParserPlugin implements Plugin {
 
         // 自动替换 App/Page/Component 为 mor core 中的方法
         if (
-          hasRuntimeDeps.core &&
+          morRuntimeDeps.core &&
           !MOR_RUNTIME_PACKAGE_REGEXP.test(options.fileInfo.path) &&
           (autoInjectRuntime?.['app'] ||
             autoInjectRuntime?.['page'] ||
@@ -152,13 +154,13 @@ export class ScriptParserPlugin implements Plugin {
 
           // API 自动注入
           if (
-            hasRuntimeDeps.api &&
+            morRuntimeDeps.api &&
             autoInjectRuntime?.['api'] &&
             fileContent.includes(MOR_IDENTIFIERS.Api)
           ) {
             const importClause = makeImportClause(
               moduleKind,
-              '@morjs/api/lib/api',
+              morRuntimeDeps.api,
               'mor',
               MOR_IDENTIFIERS.Api,
               fileContent
@@ -169,13 +171,13 @@ export class ScriptParserPlugin implements Plugin {
 
           // App 自动注入
           if (
-            hasRuntimeDeps.core &&
+            morRuntimeDeps.core &&
             autoInjectRuntime?.['app'] &&
             fileContent.includes(MOR_IDENTIFIERS.App)
           ) {
             const importClause = makeImportClause(
               moduleKind,
-              '@morjs/core/lib/app',
+              morRuntimeDeps.core,
               'createApp',
               MOR_IDENTIFIERS.App,
               fileContent
@@ -186,13 +188,13 @@ export class ScriptParserPlugin implements Plugin {
 
           // Page 自动注入
           if (
-            hasRuntimeDeps.core &&
+            morRuntimeDeps.core &&
             autoInjectRuntime?.['page'] &&
             fileContent.includes(MOR_IDENTIFIERS.Page)
           ) {
             const importClause = makeImportClause(
               moduleKind,
-              '@morjs/core/lib/page',
+              morRuntimeDeps.core,
               'createPage',
               MOR_IDENTIFIERS.Page,
               fileContent
@@ -203,13 +205,13 @@ export class ScriptParserPlugin implements Plugin {
 
           // Component 自动注入
           if (
-            hasRuntimeDeps.core &&
+            morRuntimeDeps.core &&
             autoInjectRuntime?.['component'] &&
             fileContent.includes(MOR_IDENTIFIERS.Component)
           ) {
             const importClause = makeImportClause(
               moduleKind,
-              '@morjs/core/lib/component',
+              morRuntimeDeps.core,
               'createComponent',
               MOR_IDENTIFIERS.Component,
               fileContent
@@ -228,8 +230,8 @@ export class ScriptParserPlugin implements Plugin {
    * 检查 @morjs/api 和 @morjs/core 是否存在
    */
   checkApiOrCoreRuntimeDepExistance(runner: Runner): {
-    api: boolean
-    core: boolean
+    api: false | string
+    core: false | string
   } {
     const wrapper = WebpackWrapperMap.get(runner)
 
@@ -242,19 +244,54 @@ export class ScriptParserPlugin implements Plugin {
       ])
     )
 
-    const result = { api: false, core: false }
+    // 需要消费的 npm 包
+    // 通常用于 主/子 共享及消费依赖的场景
+    const consumingPackages = (
+      (runner?.userConfig as CompilerUserConfig)?.consumes || []
+    ).reduce((res, value) => {
+      if (typeof value === 'string') {
+        res.add(value)
+      } else if (_.isPlainObject(value)) {
+        _.forEach(value, function (v) {
+          res.add(v)
+        })
+      }
 
-    ;(['api', 'core'] as const).map(function (name) {
-      const packageName = '@morjs/' + name
-      try {
-        const p = require.resolve(packageName, { paths: resolvePaths })
-        if (p) {
-          result[name] = true
-          logger.debug(`找到 ${packageName} 依赖: ${p}`)
+      return res
+    }, new Set<string>())
+
+    const result: {
+      api: false | string
+      core: false | string
+    } = { api: false, core: false }
+
+    ;(['api', 'core'] as const).forEach(function (name) {
+      const packages = MOR_RUNTIME_NPMS[name] || []
+
+      packages.forEach(function (packageName) {
+        if (result[name]) return
+
+        // 如果子包已通过 consumes 配置 mor 的运行时, 则标记当前运行时为存在
+        if (consumingPackages.has(packageName)) {
+          result[name] = packageName
+          return
         }
-      } catch (e) {
+
+        // 否则尝试通过解析文件是否存在来判断
+        try {
+          const p = require.resolve(packageName, { paths: resolvePaths })
+          if (p) {
+            result[name] = packageName
+            logger.debug(`找到 ${packageName} 依赖: ${p}`)
+          }
+        } catch (e) {
+          logger.debug(`未找到 ${packageName} 依赖`)
+        }
+      })
+
+      if (!result[name]) {
         logger.debug(
-          `未找到 ${packageName} 依赖, 将自动关闭 ${name} 相关运行时注入`
+          `未找到 ${name} 相关运行时依赖, 将自动关闭 ${name} 相关运行时注入`
         )
       }
     })
