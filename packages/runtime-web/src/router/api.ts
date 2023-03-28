@@ -40,7 +40,7 @@ const routerFunctions: Record<string, any> = {
   navigateTo: _navigateTo,
   navigateBack: _navigateBack,
   redirectTo: _redirectTo,
-  switchTab: _switchTab,
+  switchTab: _reLaunch, // switchTab 暂时使用 reLaunch 方法清理掉页面栈（TODO: switchTab 二次切换页面是可以直接使用缓存页面的，不触发生命周期，后续完善）
   reLaunch: _reLaunch
 }
 
@@ -152,17 +152,6 @@ function _redirectTo(options: IRouterApiParams) {
   history.replace(getTo(url))
 }
 
-function _switchTab(options: IRouterApiParams) {
-  const { url } = options || {}
-
-  if (!url) {
-    console.error('url 不能为空')
-    return
-  }
-
-  history.push(getTo(url))
-}
-
 function _reLaunch(options: IRouterApiParams) {
   const { url } = options || {}
 
@@ -174,9 +163,4 @@ function _reLaunch(options: IRouterApiParams) {
   const length = window.getCurrentPages().length
   batchUnloadPage(length - 1)
   redirectTo({ url })
-  // ！！！goback replace同时触发后，history先响应了replace, 故放弃此方法！！！
-  // if(length !== 1) {
-  //   navigateBack({ url: '', delta: length - 1 });
-  // }
-  // redirectTo({ url });
 }
