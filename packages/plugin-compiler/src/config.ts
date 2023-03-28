@@ -379,12 +379,19 @@ export function applyDefaults(
       // 由于 tslib 中 package.json 的 exports 配置导致
       const tslibPath = require.resolve('tslib')
       if (tslibPath) {
-        const tslibPackageJSONPath = path.join(
-          tslibPath.slice(0, tslibPath.indexOf('node_modules') + 18),
-          'package.json'
-        )
+        const match = tslibPath.match(/node_modules(?:\/|\\).+(?:\/|\\)(.+)$/)
+        let tslibPackageJSONPath: string
+        if (typeof match?.[1] === 'string') {
+          tslibPackageJSONPath =
+            tslibPath.slice(0, tslibPath.length - match[1].length) +
+            'package.json'
+        } else {
+          tslibPackageJSONPath = tslibPath.replace('tslib.js', 'package.json')
+        }
+
         const tslibVersion =
           fs.readJSONSync(tslibPackageJSONPath)?.['version'] || ''
+
         const majorVersion = tslibVersion.split('.')?.[0]
         // Mor 使用 typescript 需要安装 tslib@2， 给出警告
         if (majorVersion !== '2') {
@@ -401,6 +408,7 @@ export function applyDefaults(
         }
       }
     } catch (error) {
+      logger.debug(`尝试定位 tslib 失败，原因：`, error)
       // 未找到 tslib
       if (userConfig.compilerOptions.importHelpers) {
         logger.warnOnce(
