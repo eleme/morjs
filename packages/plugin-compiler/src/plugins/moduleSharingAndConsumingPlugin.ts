@@ -2,6 +2,8 @@ import {
   asArray,
   CompileModuleKindType,
   EntryBuilderHelpers,
+  lodash as _,
+  logger,
   makeImportClause,
   MOR_SHARED_FILE,
   Plugin,
@@ -14,6 +16,28 @@ import path from 'path'
 import { CompileModes, CompilerUserConfig } from '../constants'
 
 const SHARING_MODULES = 'mor_shared'
+
+/**
+ * 展开并遍历 字符串和对象 组成的数组
+ */
+function flattenedForEach(
+  array: (string | Record<string, string>)[],
+  callback: (value: string, key: string, index: number) => void,
+  name: string
+) {
+  let i = 0
+  _.forEach(array, function (value) {
+    if (typeof value === 'string') {
+      callback(value, value, i++)
+    } else if (_.isPlainObject(value)) {
+      _.forEach(value, function (v, k) {
+        callback(v, k, i++)
+      })
+    } else {
+      logger.warnOnce(`不支持的 ${name} 配置，仅支持 字符串 或 对象`)
+    }
+  })
+}
 
 /**
  * 处理小程序 consumes 和 shared 配置
@@ -59,9 +83,13 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
           )
           const sharingExternals: Record<string, string> = {}
 
-          userConfig.consumes.forEach((e) => {
-            sharingExternals[e] = `var ${sharingContainer}['${e}']`
-          })
+          flattenedForEach(
+            userConfig.consumes,
+            (target, source) => {
+              sharingExternals[source] = `var ${sharingContainer}['${target}']`
+            },
+            'consumes'
+          )
 
           // 添加 externals 支持
           externals.push(function ({ request, contextInfo }, callback) {
@@ -146,6 +174,10 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
     return true
   }
 
+  /**
+   * 获取共享 node_modules 的公共变量
+   * @returns 如 my.mor_shared 或 wx.mor_shared
+   */
   getSharingContainer() {
     const userConfig = this.runner.userConfig as CompilerUserConfig
     const globalObject = userConfig.globalObject
@@ -183,11 +215,15 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
       const shareInjects: string[] = []
       const sharingContainer = this.getSharingContainer()
 
-      userConfig.shared.forEach((s, i) => {
-        const moduleName = `shared${i + 1}`
-        shareImports.push(`import * as ${moduleName} from '${s}';`)
-        shareInjects.push(`${sharingContainer}['${s}'] = ${moduleName};`)
-      })
+      flattenedForEach(
+        userConfig.shared,
+        (target, source, i) => {
+          const moduleName = `shared${i + 1}`
+          shareImports.push(`import * as ${moduleName} from '${source}';`)
+          shareInjects.push(`${sharingContainer}['${target}'] = ${moduleName};`)
+        },
+        'shared'
+      )
 
       const importAllShared = shareImports.join('\n')
       const injectAllShared = shareInjects.join('\n')

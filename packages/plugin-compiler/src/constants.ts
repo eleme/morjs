@@ -959,12 +959,12 @@ export const CompilerUserConfigSchema = z.object({
   /**
    * 配置可以共享的 node_modules 模块, 通常用于主子分包分仓库管理集成的场景
    */
-  shared: z.array(z.string()).default([]),
+  shared: z.array(z.string().or(z.record(z.string()))).default([]),
 
   /**
    * 配置需要消费的 node_modules 模块, 通常用于主子分包分仓库管理集成的场景
    */
-  consumes: z.array(z.string()).default([]),
+  consumes: z.array(z.string().or(z.record(z.string()))).default([]),
 
   /**
    * 是否生成 mor.p.js 文件，用于更新集成时 app.json 内容
