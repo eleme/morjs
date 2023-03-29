@@ -66,8 +66,8 @@ export class PhantomDependencyPlugin implements Plugin {
 
     runner.hooks.done.tap(this.name, () => {
       const {
-        alias,
-        srcPaths,
+        alias = {},
+        srcPaths = [],
         phantomDependency,
         externals = [],
         consumes = [],
@@ -76,7 +76,7 @@ export class PhantomDependencyPlugin implements Plugin {
       if (!phantomDependency) return
 
       let allDependencies = { ...this.getPkgDepend(runner.getCwd()) }
-      ;(srcPaths || []).map((srcPath) => {
+      srcPaths.map((srcPath) => {
         allDependencies = { ...allDependencies, ...this.getPkgDepend(srcPath) }
       })
 
@@ -186,8 +186,14 @@ export class PhantomDependencyPlugin implements Plugin {
    */
   getPkgDepend(filePath: string) {
     if (fs.existsSync(path.join(filePath, 'package.json'))) {
-      const pkgJson = fs.readJSONSync(path.join(filePath, 'package.json'))
-      return { ...pkgJson.devDependencies, ...pkgJson.dependencies }
+      try {
+        const pkgJson = fs.readJSONSync(path.join(filePath, 'package.json'))
+        return { ...pkgJson.devDependencies, ...pkgJson.dependencies }
+      } catch (err) {
+        logger.warn(
+          `${path.join(filePath, 'package.json')} 文件读取错误: ${err}`
+        )
+      }
     }
     return {}
   }
