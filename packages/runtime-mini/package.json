@@ -44,6 +44,7 @@
     "@morjs/runtime-base": "1.0.6",
     "clone-deep": "^4.0.1",
     "lodash.get": "^4.4.2",
+    "lodash.set": "^4.3.2",
     "lodash.has": "^4.5.2",
     "tslib": "2"
   }

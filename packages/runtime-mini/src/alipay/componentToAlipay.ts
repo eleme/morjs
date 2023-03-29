@@ -1,6 +1,7 @@
 import { compose, getGlobalObject, logger } from '@morjs/runtime-base'
 import get from 'lodash.get'
 import has from 'lodash.has'
+import set from 'lodash.set'
 import {
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,
@@ -205,12 +206,35 @@ function convertPropertyByType(property: any): {
   }
 }
 
+let changedData: Record<string, any> = {}
+/**
+ * 覆盖 this.setData 方法, 用于监听数据变化
+ */
+function hackSetData() {
+  const originalSetData = this.setData
+  if (!originalSetData) {
+    logger.error(`[mor] 劫持 setData 失败, 可能导致无法正确触发更新`)
+  }
+
+  this.setData = (
+    nextData: Record<string, any>,
+    callback?: () => void
+  ): void => {
+    for (const key in nextData) {
+      set(nextData, key, nextData[key])
+    }
+
+    originalSetData.call(this, nextData, callback)
+    changedData = { ...changedData, ...nextData }
+  }
+}
+
 /**
  * 添加 properties 和 observers 支持
  */
 function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   const properties = options.properties || {}
-  const componentData = options.data || {}
+  // const componentData = options.data || {}
   // 属性监听器
   const propertiesWithObserver = {}
 
@@ -309,23 +333,10 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
       this.setData(nextProps)
     }
 
-    let changedData: Record<string, any>
-    // 对比前后 data 的值哪些有变化
-    for (const dataKey in this.data) {
-      if (this.data[dataKey] !== componentData[dataKey]) {
-        if (changedData == null) changedData = {}
-        changedData[dataKey] = this.data[dataKey]
-      }
-      componentData[dataKey] = this.data[dataKey]
-    }
-
     // 如果配置了 options.observers 则使用支付宝提供的数据变化观测器，否者触发自定义监听器
-    if (!options.options.observers) {
-      if (changedData) {
-        invokeObservers.call(this, changedData)
-      } else {
-        invokeObservers.call(this, nextProps)
-      }
+    if (!options.options?.observers) {
+      invokeObservers.call(this, { ...changedData, ...nextProps })
+      changedData = {}
     }
 
     // 执行原函数
@@ -373,7 +384,8 @@ function hookComponentLifeCycle(options: Record<string, any>) {
     injectCreateIntersectionObserverSupport(),
     initPropertiesAndData,
     callOriginalFn('created'),
-    callOriginalFn('onInit')
+    callOriginalFn('onInit'),
+    hackSetData
   ])
 
   options.didMount = compose([
