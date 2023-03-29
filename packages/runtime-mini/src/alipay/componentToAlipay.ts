@@ -1,12 +1,20 @@
 import { compose, getGlobalObject, logger } from '@morjs/runtime-base'
 import get from 'lodash.get'
 import has from 'lodash.has'
+import set from 'lodash.set'
 import {
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,
   injectHasBehaviorSupport,
   markUnsupportMethods
 } from './utilsToAlipay'
+
+const MOR_PREFIX = 'mor' as const
+
+/**
+ * 用于在组件实例中保存 data 更新前的数据
+ */
+const MOR_PREV_DATA = `$${MOR_PREFIX}PrevData` as const
 
 /**
  * 确保组件有对应的对象的存在
@@ -206,6 +214,32 @@ function convertPropertyByType(property: any): {
 }
 
 /**
+ * 覆盖 this.setData 方法, 用于监听数据变化
+ */
+function hackSetData() {
+  const originalSetData = this.setData
+  if (!originalSetData) {
+    logger.error(`[mor] 劫持 setData 失败, 可能导致无法正确触发更新`)
+  }
+
+  // 初始化 data
+  if (this.data) this[MOR_PREV_DATA] = this.data
+
+  this.setData = (
+    nextData: Record<string, any> = {},
+    callback?: () => void
+  ): void => {
+    for (const key in nextData) {
+      set(nextData, key, nextData[key])
+    }
+
+    this[MOR_PREV_DATA] = { ...(this[MOR_PREV_DATA] || {}), ...nextData }
+
+    return originalSetData.call(this, nextData, callback)
+  }
+}
+
+/**
  * 添加 properties 和 observers 支持
  */
 function injectPropertiesAndObserversSupport(options: Record<string, any>) {
@@ -308,8 +342,12 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
       this.setData(nextProps)
     }
 
-    // 触发监听器
-    invokeObservers.call(this, nextProps)
+    // 如果配置了 options.observers 则使用支付宝提供的数据变化观测器，否者触发自定义监听器
+    if (!options.options?.observers) {
+      const changedData = { ...(this[MOR_PREV_DATA] || {}), ...nextProps }
+      this[MOR_PREV_DATA] = null
+      invokeObservers.call(this, changedData)
+    }
 
     // 执行原函数
     if (originalDeriveDataFromProps)
@@ -352,6 +390,7 @@ function hookComponentLifeCycle(options: Record<string, any>) {
   }
 
   options.onInit = compose([
+    hackSetData,
     // 注入 createIntersectionObserver 方法
     injectCreateIntersectionObserverSupport(),
     initPropertiesAndData,
