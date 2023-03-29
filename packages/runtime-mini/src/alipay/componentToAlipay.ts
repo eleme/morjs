@@ -234,7 +234,6 @@ function hackSetData() {
  */
 function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   const properties = options.properties || {}
-  // const componentData = options.data || {}
   // 属性监听器
   const propertiesWithObserver = {}
 
