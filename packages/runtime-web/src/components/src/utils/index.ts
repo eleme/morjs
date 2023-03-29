@@ -99,3 +99,29 @@ export const converterForPx = {
     return rpxToRem(Number(value))
   }
 }
+
+export function shouldEnableFor(
+  feature: boolean | string[] | ((pagePath: string) => boolean),
+  pagePath: string
+): boolean | undefined {
+  // 未获取到 pagePath 的场景直接返回，不做任何处理
+  if (!pagePath) return
+  if (feature === true) return true
+  if (feature === false) return false
+
+  if (Array.isArray(feature)) {
+    return feature.includes(pagePath)
+  }
+  if (typeof feature === 'function') {
+    return !!feature(pagePath)
+  }
+}
+
+export const getCurrentPagePath = () => {
+  try {
+    const pageStack = getCurrentPages() || []
+    const currentPage = pageStack[pageStack.length - 1]
+
+    return currentPage.path
+  } catch (e) {}
+}

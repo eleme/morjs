@@ -6,8 +6,14 @@ import {
   property,
   query
 } from 'lit-element'
+import get from 'lodash.get'
 import { rpxToRem } from '../rpx'
-import { converterForPx, defineElement } from '../utils'
+import {
+  converterForPx,
+  defineElement,
+  getCurrentPagePath,
+  shouldEnableFor
+} from '../utils'
 import boolConverter from '../utils/bool-converter'
 import { uuid } from '../utils/index'
 import {
@@ -348,15 +354,29 @@ export default class PageHost extends LitElement implements IPageHost {
       titleBarColor
     } = this.config
 
-    let hideNavBarFromUrlQuery = false
+    const pageHeaderConfig = get(window.$MOR_APP_CONFIG, 'pageHeaderConfig', {})
+    const pagePath = getCurrentPagePath()
+    const enableShowHeader = shouldEnableFor(
+      pageHeaderConfig.showHeader,
+      pagePath
+    )
+    let hideNavBar = enableShowHeader === false
+    let showBack = this['show-back']
+
     try {
       // 通过 url 上的字段隐藏 nav bar，实现动态切换展示/隐藏的功能
       const { search } = location
-      if (search && search.indexOf('hide-header=1') > -1)
-        hideNavBarFromUrlQuery = true
+      if (search && search.indexOf('hide-header=1') > -1) hideNavBar = true
+
+      const enableShowBack = shouldEnableFor(
+        pageHeaderConfig.showBack,
+        pagePath
+      )
+      if (typeof enableShowBack === 'boolean') showBack = enableShowBack
     } catch (e) {}
 
-    if (!this['show-header'] || hideNavBarFromUrlQuery) return ''
+    if ((!this['show-header'] || hideNavBar) && !(enableShowHeader === true))
+      return ''
 
     return html` <tiga-header
       default-title="${defaultTitle}"
@@ -365,7 +385,7 @@ export default class PageHost extends LitElement implements IPageHost {
       title-penetrate="${titlePenetrate}"
       transparent-title="${transparentTitle}"
       title-bar-color="${titleBarColor}"
-      show-back="${this['show-back']}"
+      show-back="${showBack}"
       title-bar-height="${this['title-bar-height']}"
       status-bar-height="${this['status-bar-height']}"
       header-loading="${this.headerLoading}"
