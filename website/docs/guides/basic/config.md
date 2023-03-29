@@ -806,6 +806,46 @@ js 压缩器自定义配置, 使用时请结合 `jsMinimizer` 所指定的压缩
 
 **注意：不允许设定为 `src`、`mock`、`.mor` 等约定式功能相关的目录。**
 
+### phantomDependency - 幽灵依赖检测
+
+- 类型: `object` 或 `boolean`
+- 默认值: 开发模式 `true` | 生产模式 `false`
+
+开启关闭或配置幽灵依赖检测功能，不配置时开发模式下默认为 `true` 开启检测 warn 警告，生产模式下默认为 `false` 关闭检测，配置值为 `object` 时支持 `mode` 和 `exclude` 两个属性:
+
+- `mode`: 检测模式，可配置为 `'warn'` 和 `'error'` 两种，默认 `'warn'` 时仅进行警告，配置为 `'error'` 时会作为错误抛出
+- `exclude`: `Array<string>` 指定哪些 npm 包不作为幽灵依赖从而跳过检测
+
+```javascript
+// 配置示例一：关闭检测（生产模式下默认）
+{
+  phantomDependency: false
+}
+
+// 配置示例二：开启检测 warn 警告，但是某些包不判断为幽灵依赖
+{
+  phantomDependency: {
+    mode: 'warn',
+    exclude: ['@morjs/utils']
+  }
+}
+
+// 配置示例三：开启检测 error 警告，但是某些包不判断为幽灵依赖
+{
+  phantomDependency: {
+    mode: 'error',
+    exclude: ['@morjs/utils']
+  }
+}
+```
+
+> - 幽灵依赖: 当一个项目使用了一个没有在其 package.json 中声明的包时，就会出现"幽灵依赖"<br/>
+
+- 出现原因: npm 3.x 开始「改进」了安装算法，使其扁平化，扁平化就是把深层的依赖往上提。好处是消除重复依赖，代价则是引入幽灵依赖问题，因为往上提的依赖你在项目中引用时就能跑<br/>
+- 潜在危害:<br/>
+  - 不兼容的版本，比如某依赖过了一年发布大版本，然后大版本被提升到 node_modules root 目录，你就会使用不兼容的版本<br/>
+  - 依赖缺失，比如你的直接依赖小版本更新后不使用你之前依赖的间接依赖，再次安装时就不会出现这个依赖，或者比如多个直接依赖的间接依赖冲突时，可能也不会做提升
+
 ### plugins - 插件配置
 
 - 类型: `Plugin[]`

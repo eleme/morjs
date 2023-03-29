@@ -290,6 +290,9 @@ export const CSSMinimizerTypes = objectEnum([
 // CSS 压缩特性
 export const CompressCssStrategies = objectEnum(['lite'])
 
+// 幽灵依赖检测模式
+export const PhantomDependencyMode = objectEnum(['warn', 'error'])
+
 /**
  * 编译命令行及用户配置条目
  */
@@ -570,6 +573,21 @@ export const CompilerCliConfig: ICliConfig = {
         valuesDesc() {
           return validKeysMessage(GlobalObjectTransformTypes) + '或 false'
         }
+      }
+    }
+  },
+
+  // 是否开启幽灵依赖检查
+  phantomDependency: {
+    name: '是否开启幽灵依赖检查',
+    children: {
+      mode: {
+        name: '开启幽灵依赖检查的模式',
+        desc: '不同模式下幽灵依赖检查的程度不同'
+      },
+      exclude: {
+        name: '不作为幽灵依赖的 npm 包',
+        desc: '开启幽灵依赖检查时，不被认为是幽灵依赖的 npm 包'
       }
     }
   },
@@ -897,6 +915,15 @@ export const CompilerUserConfigSchema = z.object({
     })
     .or(z.boolean())
     .default(true),
+  phantomDependency: z
+    .object({
+      mode: z
+        .nativeEnum(PhantomDependencyMode)
+        .default(PhantomDependencyMode.warn),
+      exclude: z.array(z.string()).optional()
+    })
+    .or(z.boolean())
+    .default(false),
   compilerOptions: z
     .object({
       /**
