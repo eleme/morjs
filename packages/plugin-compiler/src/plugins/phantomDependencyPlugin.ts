@@ -30,8 +30,8 @@ export class PhantomDependencyPlugin implements Plugin {
     const usedDependencies: Record<string, string> = {}
 
     runner.hooks.beforeRun.tap(this.name, () => {
-      const { phantomDependency, mode } = runner.userConfig
-      if (mode === 'production' || !phantomDependency) return
+      const { phantomDependency } = runner.userConfig
+      if (!phantomDependency) return
 
       runner.hooks.scriptParser.tap(this.name, (transformers, options) => {
         const fileInfoPath = options.fileInfo.path || ''
@@ -73,6 +73,8 @@ export class PhantomDependencyPlugin implements Plugin {
         consumes = [],
         watch
       } = runner.userConfig
+      if (!phantomDependency) return
+
       let allDependencies = { ...this.getPkgDepend(runner.getCwd()) }
       ;(srcPaths || []).map((srcPath) => {
         allDependencies = { ...allDependencies, ...this.getPkgDepend(srcPath) }
