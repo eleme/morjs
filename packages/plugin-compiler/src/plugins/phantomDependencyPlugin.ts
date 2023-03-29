@@ -65,17 +65,29 @@ export class PhantomDependencyPlugin implements Plugin {
     })
 
     runner.hooks.done.tap(this.name, () => {
-      const { alias, srcPaths, phantomDependency } = runner.userConfig
+      const {
+        alias,
+        srcPaths,
+        phantomDependency,
+        externals = [],
+        consumes = [],
+        watch
+      } = runner.userConfig
       let allDependencies = { ...this.getPkgDepend(process.cwd()) }
       ;(srcPaths || []).map((srcPath) => {
         allDependencies = { ...allDependencies, ...this.getPkgDepend(srcPath) }
       })
 
-      // 搜集 userConfig 和 webpack 里的 alias 配置
+      // 跳过 alias 及以 alias 中以 key 开头的依赖包
       const aliasAll = {
         ...alias,
         ...this.webpackWrapper?.config?.resolve?.alias
       }
+
+      // 跳过在 externals 或 consumes 中配置的包
+      const otherDepends = [...externals, ...consumes].map((item) =>
+        this.getExternalsPkgName(item)
+      )
 
       const table = {
         head: ['依赖名', '引用地址'],
@@ -83,13 +95,13 @@ export class PhantomDependencyPlugin implements Plugin {
       }
 
       // 跳过已在 package.json 和 phantomDependency.exclude 中配置的依赖
-      // 跳过 alias 及以 alias 中以 key 开头的依赖包
       for (const depKey in usedDependencies) {
         if (
           !(phantomDependency.exclude || []).includes(depKey) &&
           !allDependencies[depKey] &&
           !aliasAll[depKey] &&
-          !aliasAll[depKey.split('/')[0]]
+          !aliasAll[depKey.split('/')[0]] &&
+          !otherDepends.includes(depKey)
         ) {
           table.rows.push([depKey, usedDependencies[depKey]])
         }
@@ -97,11 +109,20 @@ export class PhantomDependencyPlugin implements Plugin {
 
       if (table.rows.length > 0) {
         if (phantomDependency.mode === 'error') {
-          logger.error('检测到幽灵依赖')
+          logger.error('检测到幽灵依赖，请添加到 package.json')
+          logger.table(table, 'error')
+
+          if (!watch) {
+            // 非 watch 状态下，确保 error 模式，可以异常退出
+            const error = new Error()
+            error['isErrorLogged'] = true
+            error.stack = ''
+            throw error
+          }
         } else {
-          logger.warnOnce('检测到幽灵依赖')
+          logger.warnOnce('检测到幽灵依赖，请添加到 package.json')
+          logger.table(table, 'warn')
         }
-        logger.table(table)
       }
     })
   }
@@ -160,5 +181,16 @@ export class PhantomDependencyPlugin implements Plugin {
       return { ...pkgJson.devDependencies, ...pkgJson.dependencies }
     }
     return {}
+  }
+
+  /**
+   * 获取 externals 或 consumes 的依赖名
+   * @param item 配置子项
+   */
+  getExternalsPkgName(item) {
+    if (typeof item === 'string') return item
+    if (Object.prototype.toString.call(item) === '[object Object]') {
+      return Object.keys(item)[0]
+    }
   }
 }
