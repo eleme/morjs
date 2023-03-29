@@ -30,7 +30,7 @@ export class PhantomDependencyPlugin implements Plugin {
     const usedDependencies: Record<string, string> = {}
 
     runner.hooks.beforeRun.tap(this.name, () => {
-      const { phantomDependency } = runner.userConfig
+      const { phantomDependency } = runner.userConfig || {}
       if (!phantomDependency) return
 
       runner.hooks.scriptParser.tap(this.name, (transformers, options) => {
@@ -72,7 +72,7 @@ export class PhantomDependencyPlugin implements Plugin {
         externals = [],
         consumes = [],
         watch
-      } = runner.userConfig
+      } = runner.userConfig || {}
       if (!phantomDependency) return
 
       let allDependencies = { ...this.getPkgDepend(runner.getCwd()) }
