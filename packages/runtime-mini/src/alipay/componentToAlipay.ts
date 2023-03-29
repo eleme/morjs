@@ -309,10 +309,11 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
       this.setData(nextProps)
     }
 
-    const changedData = {}
+    let changedData: Record<string, any>
     // 对比前后 data 的值哪些有变化
     for (const dataKey in this.data) {
       if (this.data[dataKey] !== componentData[dataKey]) {
+        if (changedData == null) changedData = {}
         changedData[dataKey] = this.data[dataKey]
       }
       componentData[dataKey] = this.data[dataKey]
@@ -320,7 +321,7 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
 
     // 如果配置了 options.observers 则使用支付宝提供的数据变化观测器，否者触发自定义监听器
     if (!options.options.observers) {
-      if (JSON.stringify(changedData) !== '{}') {
+      if (changedData) {
         invokeObservers.call(this, changedData)
       } else {
         invokeObservers.call(this, nextProps)
