@@ -37,7 +37,7 @@ export class PhantomDependencyPlugin implements Plugin {
         const fileInfoPath = options.fileInfo.path || ''
         if (
           !NODE_MODULE_REGEXP.test(fileInfoPath) &&
-          fileInfoPath.includes(process.cwd())
+          fileInfoPath.includes(runner.getCwd())
         ) {
           this.handlePhantomTransformer(
             transformers,
@@ -52,7 +52,7 @@ export class PhantomDependencyPlugin implements Plugin {
         const fileInfoPath = options.fileInfo.path || ''
         if (
           !NODE_MODULE_REGEXP.test(fileInfoPath) &&
-          fileInfoPath.includes(process.cwd())
+          fileInfoPath.includes(runner.getCwd())
         ) {
           this.handlePhantomTransformer(
             transformers,
@@ -73,7 +73,7 @@ export class PhantomDependencyPlugin implements Plugin {
         consumes = [],
         watch
       } = runner.userConfig
-      let allDependencies = { ...this.getPkgDepend(process.cwd()) }
+      let allDependencies = { ...this.getPkgDepend(runner.getCwd()) }
       ;(srcPaths || []).map((srcPath) => {
         allDependencies = { ...allDependencies, ...this.getPkgDepend(srcPath) }
       })
@@ -82,6 +82,13 @@ export class PhantomDependencyPlugin implements Plugin {
       const aliasAll = {
         ...alias,
         ...this.webpackWrapper?.config?.resolve?.alias
+      }
+      for (const aliasKey in aliasAll) {
+        if (aliasKey.endsWith('$')) {
+          aliasAll[aliasKey.substring(0, aliasKey.length - 1)] =
+            aliasAll[aliasKey]
+          delete aliasAll[aliasKey]
+        }
       }
 
       // 跳过在 externals 或 consumes 中配置的包
