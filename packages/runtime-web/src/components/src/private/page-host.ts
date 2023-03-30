@@ -360,13 +360,16 @@ export default class PageHost extends LitElement implements IPageHost {
       pageHeaderConfig.showHeader,
       pagePath
     )
-    let hideNavBar = enableShowHeader === false
+    // enableShowHeader 有可能为 undefined，代表用户未配置或者取数据异常
+    let showHeader =
+      enableShowHeader ||
+      (this['show-header'] && typeof enableShowHeader === 'undefined')
     let showBack = this['show-back']
 
     try {
       // 通过 url 上的字段隐藏 nav bar，实现动态切换展示/隐藏的功能
       const { search } = location
-      if (search && search.indexOf('hide-header=1') > -1) hideNavBar = true
+      if (search && search.indexOf('hide-header=1') > -1) showHeader = false
 
       const enableShowBack = shouldEnableFor(
         pageHeaderConfig.showBack,
@@ -375,8 +378,7 @@ export default class PageHost extends LitElement implements IPageHost {
       if (typeof enableShowBack === 'boolean') showBack = enableShowBack
     } catch (e) {}
 
-    if ((!this['show-header'] || hideNavBar) && !(enableShowHeader === true))
-      return ''
+    if (!showHeader) return ''
 
     return html` <tiga-header
       default-title="${defaultTitle}"

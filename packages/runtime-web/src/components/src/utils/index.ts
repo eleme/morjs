@@ -104,8 +104,8 @@ export function shouldEnableFor(
   feature: boolean | string[] | ((pagePath: string) => boolean),
   pagePath: string
 ): boolean | undefined {
-  // 未获取到 pagePath 的场景直接返回，不做任何处理
-  if (!pagePath) return
+  // 未获取到 pagePath 或者未传递 feature 的场景 直接返回，不做任何处理
+  if (!pagePath || typeof feature === 'undefined') return
   if (feature === true) return true
   if (feature === false) return false
 
