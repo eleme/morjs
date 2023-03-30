@@ -362,8 +362,9 @@ export default class PageHost extends LitElement implements IPageHost {
     )
     // enableShowHeader 有可能为 undefined，代表用户未配置或者取数据异常
     let showHeader =
-      enableShowHeader ||
-      (this['show-header'] && typeof enableShowHeader === 'undefined')
+      typeof enableShowHeader === 'boolean'
+        ? enableShowHeader
+        : this['show-header']
     let showBack = this['show-back']
 
     try {
