@@ -1,6 +1,6 @@
 {
   "name": "create-mor",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "license": "MIT",
   "authors": [
     "Felix Liu <lyfeyaj@gmail.com> (https://github.com/lyfeyaj)"
@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/eleme/morjs/tree/main/packages/create-mor#readme",
   "dependencies": {
-    "@morjs/cli": "1.0.17"
+    "@morjs/cli": "1.0.18"
   }
 }
