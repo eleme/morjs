@@ -132,7 +132,11 @@ function savePreviousScripts(m: ComposeModuleInfo, type: ScriptsType) {
 // 判断脚本是否发生变化
 // 脚本顺序变化也代表需要重新执行
 function isScriptsChanged(m: ComposeModuleInfo, type: ScriptsType): boolean {
-  const previous = PREVIOUS_SCRIPTS.get(`${m.name}-${m.hash}-${type}`) || {}
+  const previous = PREVIOUS_SCRIPTS.get(`${m.name}-${m.hash}-${type}`) || {
+    scripts: [],
+    options: {},
+    env: {}
+  }
   const current = {
     scripts: m.scripts?.[type] || [],
     options: m.scripts?.options || {},
