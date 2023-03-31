@@ -234,7 +234,12 @@ function clearScreenLine() {
 }
 
 const FILTER_PARAMETERS_REPLACER = '********'
-
+/**
+ * 过滤日志参数，替换为 ********，避免敏感信息泄露，仅支持 对象和 Map
+ * @param obj - 需要过滤的对象
+ * @param depth - 对象层级
+ * @returns 过滤后的对象
+ */
 function filterParameters<T = any>(obj: T, depth = 10): T {
   if (FILTER_LOGGER_PARAMETERS.size === 0) return obj
   if (depth <= 0) return obj
@@ -242,26 +247,28 @@ function filterParameters<T = any>(obj: T, depth = 10): T {
   const restDepth = depth - 1
 
   if (_.isMap(obj)) {
+    const map = new Map() as typeof obj
     obj.forEach(function (value, key) {
       if (FILTER_LOGGER_PARAMETERS.has(key)) {
-        obj.set(key, FILTER_PARAMETERS_REPLACER)
+        map.set(key, FILTER_PARAMETERS_REPLACER)
       } else {
-        obj.set(key, filterParameters(value, restDepth))
+        map.set(key, filterParameters(value, restDepth))
       }
     })
 
-    return obj
+    return map
   }
 
   if (_.isPlainObject(obj)) {
+    const newObj = {} as typeof obj
     for (const key in obj) {
       if (FILTER_LOGGER_PARAMETERS.has(key)) {
-        obj[key] = FILTER_PARAMETERS_REPLACER as unknown as any
+        newObj[key] = FILTER_PARAMETERS_REPLACER as unknown as any
       } else {
-        obj[key] = filterParameters(obj[key], restDepth)
+        newObj[key] = filterParameters(obj[key], restDepth)
       }
     }
-    return obj
+    return newObj
   }
 
   return obj
