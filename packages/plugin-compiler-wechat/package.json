@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-wechat",
-  "version": "1.0.16",
+  "version": "1.0.19",
   "description": "mor complier plugin for wechat miniprogram",
   "keywords": [
     "mor",
@@ -35,6 +35,6 @@
   },
   "dependencies": {
     "@morjs/runtime-mini": "1.0.16",
-    "@morjs/utils": "1.0.9"
+    "@morjs/utils": "1.0.19"
   }
 }

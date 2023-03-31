@@ -1,6 +1,6 @@
 {
   "name": "takin",
-  "version": "1.0.4",
+  "version": "1.0.19",
   "description": "Front end engineering base toolchain and scaffold",
   "main": "lib/index.js",
   "scripts": {
