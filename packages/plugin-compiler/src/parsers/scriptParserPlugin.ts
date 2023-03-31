@@ -1,4 +1,5 @@
 import {
+  asArray,
   CompileTypes,
   EntryBuilderHelpers,
   FileParserOptions,
@@ -244,21 +245,28 @@ export class ScriptParserPlugin implements Plugin {
       ])
     )
 
+    const { consumes, externals } = (runner?.userConfig ||
+      {}) as CompilerUserConfig
+
     // 需要消费的 npm 包
     // 通常用于 主/子 共享及消费依赖的场景
-    const consumingPackages = (
-      (runner?.userConfig as CompilerUserConfig)?.consumes || []
-    ).reduce((res, value) => {
-      if (typeof value === 'string') {
-        res.add(value)
-      } else if (_.isPlainObject(value)) {
-        _.forEach(value, function (v) {
-          res.add(v)
-        })
-      }
+    const consumesOrExternalsPackages = []
+      .concat(asArray(consumes))
+      .concat(
+        // externals 支持的类型比较多，这里只处理 string 和 object
+        asArray(externals)
+      )
+      .reduce((res, value) => {
+        if (typeof value === 'string') {
+          res.add(value)
+        } else if (_.isPlainObject(value)) {
+          _.forEach(value, function (v) {
+            res.add(v)
+          })
+        }
 
-      return res
-    }, new Set<string>())
+        return res
+      }, new Set<string>())
 
     const result: {
       api: false | string
@@ -272,8 +280,9 @@ export class ScriptParserPlugin implements Plugin {
         if (result[name]) return
 
         // 如果子包已通过 consumes 配置 mor 的运行时, 则标记当前运行时为存在
-        if (consumingPackages.has(packageName)) {
+        if (consumesOrExternalsPackages.has(packageName)) {
           result[name] = packageName
+          logger.debug(`在 consumes 或者 externals 中找到 ${packageName} 依赖`)
           return
         }
 
@@ -295,6 +304,8 @@ export class ScriptParserPlugin implements Plugin {
         )
       }
     })
+
+    logger.debug(`运行时自动注入依赖为：`, result)
 
     return result
   }

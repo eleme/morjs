@@ -1,5 +1,7 @@
 import {
+  asArray,
   fsExtra as fs,
+  lodash as _,
   logger,
   Plugin,
   Runner,
@@ -8,7 +10,7 @@ import {
   WebpackWrapper
 } from '@morjs/utils'
 import path from 'path'
-import { NODE_MODULE_REGEXP } from '../constants'
+import { CompilerUserConfig, NODE_MODULE_REGEXP } from '../constants'
 
 /**
  * 检测项目中的幽灵依赖
@@ -72,7 +74,7 @@ export class PhantomDependencyPlugin implements Plugin {
         externals = [],
         consumes = [],
         watch
-      } = runner.userConfig || {}
+      } = (runner.userConfig || {}) as CompilerUserConfig
       if (!phantomDependency) return
 
       let allDependencies = { ...this.getPkgDepend(runner.getCwd()) }
@@ -94,8 +96,11 @@ export class PhantomDependencyPlugin implements Plugin {
       }
 
       // 跳过在 externals 或 consumes 中配置的包
-      const otherDepends = [...externals, ...consumes].map((item) =>
-        this.getExternalsPkgName(item)
+      const otherDepends = [...asArray(externals), ...consumes].reduce(
+        (res, item) => {
+          return res.concat(this.getExternalsPkgName(item))
+        },
+        []
       )
 
       const table = {
@@ -106,7 +111,7 @@ export class PhantomDependencyPlugin implements Plugin {
       // 跳过已在 package.json 和 phantomDependency.exclude 中配置的依赖
       for (const depKey in usedDependencies) {
         if (
-          !(phantomDependency.exclude || []).includes(depKey) &&
+          !(phantomDependency['exclude'] || []).includes(depKey) &&
           !allDependencies[depKey] &&
           !aliasAll[depKey] &&
           !aliasAll[depKey.split('/')[0]] &&
@@ -117,7 +122,7 @@ export class PhantomDependencyPlugin implements Plugin {
       }
 
       if (table.rows.length > 0) {
-        if (phantomDependency.mode === 'error') {
+        if (phantomDependency['mode'] === 'error') {
           logger.error('检测到幽灵依赖，请添加到 package.json')
           logger.table(table, 'error')
 
@@ -137,7 +142,11 @@ export class PhantomDependencyPlugin implements Plugin {
   }
 
   // 检查 script 和 sjs 文件 获取 import 和 require 的依赖进行检测
-  handlePhantomTransformer(transformers, fileInfoPath, usedDependencies) {
+  handlePhantomTransformer(
+    transformers: ts.CustomTransformers,
+    fileInfoPath: string,
+    usedDependencies: Record<string, string>
+  ) {
     transformers.before.push(
       tsTransformerFactory((node) => {
         if (!node) return node
@@ -200,12 +209,14 @@ export class PhantomDependencyPlugin implements Plugin {
 
   /**
    * 获取 externals 或 consumes 的依赖名
+   * NOTE: 有限支持，externals 可能为函数，这种情况下暂时忽略兼容性
    * @param item 配置子项
    */
-  getExternalsPkgName(item) {
+  getExternalsPkgName(item: string | Record<string, any>) {
     if (typeof item === 'string') return item
-    if (Object.prototype.toString.call(item) === '[object Object]') {
-      return Object.keys(item)[0]
+    if (_.isPlainObject(item)) {
+      return Object.keys(item)
     }
+    return []
   }
 }
