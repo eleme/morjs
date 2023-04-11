@@ -311,10 +311,22 @@ function processComponentCompatible(
   }
 }
 
-const UNICODE_ESCAPE_REGEXP = /\\u([a-f0-9]{4})/gi
+function unicodeEscapeRegexp() {
+  return /\\u([a-f0-9]{4})/gi
+}
+
+/**
+ * 判断是否有转义的 unicode 字符
+ * @param content - 内容
+ * @returns 是否有转义的 unicode 字符
+ */
+function hasEscapedUnicode(content: string): boolean {
+  return unicodeEscapeRegexp().test(content)
+}
 
 /**
  * 处理 模版字符串
+ * 兼容支付宝小程序模版字符串语法：{{`xxx ${a}`}} 会被转化为 {{'xxx' + a}}
  */
 function processTemplateString(content: any): any {
   if (typeof content === 'string') {
@@ -333,19 +345,25 @@ function processTemplateString(content: any): any {
             }
           })
           .outputText.replace(/;\n/, '')
-          .replace(/"/g, "'")
-          .replace(/'\\''/g, "'\"'")
+
+        // 处理双引号包裹单引号的问题
+        // 由于后续的逻辑中会将双引号全部替换为单引号
+        // 这里将单引号进行转义处理
+        if (es5Code.includes('"') && es5Code.includes("'")) {
+          es5Code = es5Code.replace(/"([^"]*)"/g, function (s) {
+            return s.replace(/([^\\])?'/g, "$1\\'")
+          })
+        }
+
+        es5Code = es5Code.replace(/"/g, "'").replace(/'\\''/g, "'\"'")
 
         // 判断是否存在 cjk 字符被转换为了 \uxxxx
         // 判断条件为: 转换前不符合 UNICODE_ESCAPE_REGEXP 规则
         //           转换后符合 UNICODE_ESCAPE_REGEXP 规则
-        if (
-          !UNICODE_ESCAPE_REGEXP.test(matchStr) &&
-          UNICODE_ESCAPE_REGEXP.test(es5Code)
-        ) {
+        if (!hasEscapedUnicode(matchStr) && hasEscapedUnicode(es5Code)) {
           // 修复 ts 处理 tempalte literal 时会将中文字符转换为 \uxxxx 的问题
           // 将其恢复为中文字符, 避免 *xml 渲染时显示错误
-          es5Code = es5Code.replace(UNICODE_ESCAPE_REGEXP, function (_, hex) {
+          es5Code = es5Code.replace(unicodeEscapeRegexp(), function (_, hex) {
             return String.fromCharCode(parseInt(hex, 16))
           })
         }
@@ -359,18 +377,18 @@ function processTemplateString(content: any): any {
 }
 
 /**
- * 增加 {{ height: '20rpx' }} 支持
+ * 处理 style 属性中的对象
+ * 增加 {{ height: '20rpx' }} 转换支持，将其转换为 {{morSjs.s({ height: '20rpx' })}}
  */
 function processStyleAttrObject(
   attrName: string,
   node: posthtml.Node,
   context: Record<string, any>
 ) {
-  // 增加 {{ height: '20rpx' }} 支持
   if (
     attrName === 'style' &&
     typeof node.attrs[attrName] === 'string' &&
-    /^ *\{\{ *[a-zA-Z0-9$_]+ *\:[\w\W]+\}\} *$/.test(node.attrs[attrName])
+    /^ *\{\{[\n ]*[a-zA-Z0-9$_]+ *\:[\w\W]+\}\} *$/.test(node.attrs[attrName])
   ) {
     node.attrs[attrName] = node.attrs[attrName].replace(
       /\{\{([\w\W]*?)\}\}/g,
