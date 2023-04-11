@@ -23,7 +23,7 @@ const FeatureList: FeatureItem[] = [
   {
     title: '企业级',
     icon: 'https://img.alicdn.com/imgextra/i3/O1CN01bVt5A71wU1zRDRnbK_!!6000000006310-0-tps-260-256.jpg',
-    description: '经饿了么内部 100+ 项目等公司项目的验证，值得信赖。'
+    description: '经饿了么内部 100+ 公司项目的验证，值得信赖。'
   },
   {
     title: '大量自研',
