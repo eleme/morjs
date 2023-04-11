@@ -1,19 +1,21 @@
 import { defineConfig } from '@morjs/cli'
 
 export default defineConfig([
+  /**
+   * 支付宝小程序编译配置
+   */
   {
     name: 'ali',
     sourceType: 'alipay',
-    target: 'alipay',
-    compileType: 'miniprogram',
-    compileMode: 'bundle'
+    target: 'alipay'
   },
+  /**
+   * 支付宝小程序转 Web 编译配置
+   */
   {
     name: 'web',
     sourceType: 'alipay',
     target: 'web',
-    compileType: 'miniprogram',
-    compileMode: 'bundle',
     globalObject: 'customMy',
     web: {
       showBack: true,

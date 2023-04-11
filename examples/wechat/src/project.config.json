@@ -35,8 +35,7 @@
     "minifyWXSS": true,
     "showES6CompileOption": false
   },
-  "projectname": "mor-web-sample",
-
+  "projectname": "mor-wechat-dsl-sample",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "condition": {},
