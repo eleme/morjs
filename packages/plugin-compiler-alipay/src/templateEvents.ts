@@ -27,6 +27,17 @@ const tagNativeEvent = {
   swiper: ['change', 'transition', 'animationend'],
   'scroll-view': ['scrolltoupper', 'scrolltolower', 'scroll'],
   'movable-view': ['change', 'changeend', 'scale'],
+  'page-container': [
+    'beforeenter',
+    'enter',
+    'entercancelled',
+    'afterenter',
+    'beforeleave',
+    'leave',
+    'leavecancelled',
+    'afterleave',
+    'clickoverlay'
+  ],
   form: ['submit', 'reset'],
   input: ['input', 'confirm', 'focus', 'blur'],
   textarea: ['input', 'confirm', 'focus', 'blur'],
@@ -35,7 +46,7 @@ const tagNativeEvent = {
   'checkbox-group': ['change'],
   switch: ['change'],
   slider: ['change', 'changing'],
-  'picker-view': ['change'],
+  'picker-view': ['change', 'pickstart', 'pickend'],
   picker: ['change'],
   image: ['load', 'error'],
   video: [
@@ -50,8 +61,20 @@ const tagNativeEvent = {
     'fullscreenchange',
     'useraction'
   ],
-  map: ['markertap', 'callouttap', 'controltap', 'regionchange'],
-  'web-view': ['message']
+  map: [
+    'markertap',
+    'callouttap',
+    'controltap',
+    'regionchange',
+    'paneltap',
+    'initcomplete'
+  ],
+  'web-view': ['message', 'load', 'error'],
+  camera: ['ready', 'stop', 'error', 'scancode'],
+  canvas: ['ready'],
+  lifestyle: ['follow'],
+  'subscribe-message': ['complete'],
+  'page-meta': ['scroll']
 } as {
   [tag: string]: string[]
 }
