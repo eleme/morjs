@@ -142,7 +142,13 @@ export const needPromisfiedApis = [
 ]
 
 export function initApi(mor: Record<string, any>) {
-  transformApis(mor, getGlobalObject(), {
-    needPromisfiedApis
-  })
+  transformApis(
+    mor,
+    getGlobalObject(),
+    {
+      needPromisfiedApis
+    },
+    false,
+    false
+  )
 }
