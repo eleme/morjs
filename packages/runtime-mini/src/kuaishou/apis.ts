@@ -7,7 +7,13 @@ import { needPromisfiedApis as needPromisfiedApisForWechat } from '../wechat/api
 const needPromisfiedApis = needPromisfiedApisForWechat.concat(['pay'])
 
 export function initApi(mor) {
-  transformApis(mor, getGlobalObject(), {
-    needPromisfiedApis
-  })
+  transformApis(
+    mor,
+    getGlobalObject(),
+    {
+      needPromisfiedApis
+    },
+    false,
+    false
+  )
 }
