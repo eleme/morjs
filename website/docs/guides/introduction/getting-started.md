@@ -2,7 +2,7 @@
 
 ## 环境准备
 
-MorJS 项目基于 [node](https://nodejs.org/zh-cn/)，请确保已具备较新的 node 环境（>=12.13.0），推荐使用 node 版本管理工具 [nvm](https://github.com/nvm-sh/nvm) 来管理 node（Windows 下使用 [nvm-windows](https://github.com/coreybutler/nvm-windows)），这样可以很方便地切换 node 版本，全局安装时候也不必再使用 `sudo`。
+MorJS 项目基于 [node](https://nodejs.org/zh-cn/)，请确保已具备较新的 node 环境（>=14），推荐使用 node 版本管理工具 [nvm](https://github.com/nvm-sh/nvm) 来管理 node（Windows 下使用 [nvm-windows](https://github.com/coreybutler/nvm-windows)），这样可以很方便地切换 node 版本，全局安装时候也不必再使用 `sudo`。
 
 ```
 # mac 或 linux 下安装 nvm
