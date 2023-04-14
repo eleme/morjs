@@ -127,4 +127,5 @@ $ npm i
 多端产物已构建在 dist 目录下，分别用对应平台的 IDE 打开即可开发预览：
 
 在 [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html) 中打开 `dist/wechat` 目录即可开始微信小程序开发预览
+
 在 [支付宝小程序开发者工具](https://opendocs.alipay.com/mini/ide/download) 中打开 `dist/alipay` 目录即可开始微信小程序开发预览
