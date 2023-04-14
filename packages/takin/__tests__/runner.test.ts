@@ -28,10 +28,10 @@ describe('__tests__/runner.test.ts', () => {
       [path.join(process.cwd(), 'package.json')]: `{
         "name": "takin-unit-test",
         "dependencies": {
-          "@ali/takin-plugin-a": "0.1"
+          "@morjs/takin-plugin-a": "0.1"
         },
         "devDependencies": {
-          "@ali/takin-plugin-b": "0.2"
+          "@morjs/takin-plugin-b": "0.2"
         }
       }`,
       [configFilePath]: `
@@ -41,7 +41,7 @@ describe('__tests__/runner.test.ts', () => {
       `
     })
     jest.mock(
-      '@ali/takin-plugin-a',
+      '@morjs/takin-plugin-a',
       () => {
         class TakinPluginA {
           name = 'takinPluginA'
@@ -54,7 +54,7 @@ describe('__tests__/runner.test.ts', () => {
       { virtual: true }
     )
     jest.mock(
-      '@ali/takin-plugin-b',
+      '@morjs/takin-plugin-b',
       () => {
         class TakinPluginB {
           name = 'takinPluginB'
@@ -254,7 +254,7 @@ describe('__tests__/runner.test.ts', () => {
 
     it('run with userConfig', async () => {
       const config = new Config('takin')
-      config.setPluginAutoLoadPatterns([/^@ali\/takin-plugin-/])
+      config.setPluginAutoLoadPatterns([/^@morjs\/takin-plugin-/])
       await config.autoLoadPlugins()
       const userConfig = await config.loadConfigFromFile()
       const context = {
