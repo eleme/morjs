@@ -23,7 +23,13 @@ Mor 提供了 `create-mor` 和 `mor cli` 工具两种方式来创建新项目，
 
 - **使用 create-mor 创建项目**
 
-确保你安装了符合版本的 Node.js，选定项目目录，在目录终端执行以下任一命令：
+确保你安装了符合版本的 Node.js，选定项目目录
+
+```shell
+$ mkdir myapp && cd myapp # 创建项目目录
+```
+
+在目录终端执行以下任一命令：
 
 ```shell
 $ npm init mor # npm 创建项目
