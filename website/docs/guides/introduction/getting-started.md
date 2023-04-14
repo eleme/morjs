@@ -39,7 +39,7 @@ $ pnpm create mor # pnpm 创建项目
 
 ```shell
 $ mkdir myapp && cd myapp # 创建项目目录
-$ tnpm i @morjs/cli -g # 全局安装 mor cli
+$ npm i @morjs/cli -g # 全局安装 mor cli
 $ mor -v # 查看全局 mor 版本
 ```
 
