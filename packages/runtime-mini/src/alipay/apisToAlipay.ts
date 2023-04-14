@@ -6,6 +6,26 @@ import {
 } from '@morjs/runtime-base'
 import { needPromisfiedApis } from './needPromisfiedApis'
 
+const changeToBuffer = (str) => {
+  const hexA = new Array(0)
+  if (typeof str === 'string') {
+    // 十六进制字符串转字节数组
+    let pos = 0
+    let len = str.length
+    if (len % 2 !== 0) {
+      return null
+    }
+    len /= 2
+    for (let i = 0; i < len; i++) {
+      const s = str.substr(pos, 2)
+      const v = parseInt(s, 16)
+      hexA.push(v)
+      pos += 2
+    }
+    return hexA
+  }
+}
+
 /**
  * 支付宝和微信接口的差异
  * 以微信为准
@@ -175,6 +195,48 @@ const apiTransformConfig: IAPITransformConfig = {
   },
   closeBLEConnection: {
     n: 'disconnectBLEDevice'
+  },
+  getBLEDeviceCharacteristics: {
+    fn: function (global, options) {
+      global.getBLEDeviceCharacteristics({
+        ...options,
+        success: (res) => {
+          const _res = res
+          if (_res.characteristics) {
+            _res.characteristics.forEach((item) => {
+              item.uuid = item.characteristicId
+              delete item.characteristicId
+            })
+          }
+          options.success && options.success(_res)
+        }
+      })
+    }
+  },
+  getBLEDeviceServices: {
+    fn: function (global, options) {
+      global.getBLEDeviceServices({
+        ...options,
+        success: (res) => {
+          const _res = res
+          if (_res.services) {
+            _res.services.forEach((item) => {
+              item.uuid = item.serviceId
+              delete item.serviceId
+            })
+          }
+          options.success && options.success(_res)
+        }
+      })
+    }
+  },
+  onBLECharacteristicValueChange: {
+    fn: function (global, callabck) {
+      global.onBLECharacteristicValueChange((res) => {
+        res.value = changeToBuffer(res.value)
+        callabck && callabck(res)
+      })
+    }
   },
   request: {
     fn: function (global, options) {

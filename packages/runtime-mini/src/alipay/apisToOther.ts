@@ -39,10 +39,17 @@ function isLightColor(r: number, g: number, b: number): boolean {
   return y >= 128
 }
 
+const changeToHex = (buffer) => {
+  const hexArr = Array.prototype.map.call(new Uint8Array(buffer), function (bit) {
+    return ('00' + bit.toString(16)).slice(-2)
+  })
+  return hexArr.join('')
+}
+
 /**
  * 支付宝和微信接口的差异
- * 以微信为准
- * 微信 转 支付宝
+ * 以支付宝为准
+ * 支付宝 转 微信
  */
 const apiTransformConfig: IAPITransformConfig = {
   showActionSheet: {
@@ -234,6 +241,48 @@ const apiTransformConfig: IAPITransformConfig = {
   },
   disconnectBLEDevice: {
     n: 'closeBLEConnection'
+  },
+  getBLEDeviceCharacteristics: {
+    fn: function (global, options) {
+      global.getBLEDeviceCharacteristics({
+        ...options,
+        success: (res) => {
+          const _res = res
+          if (_res.characteristics) {
+            _res.characteristics.forEach((item) => {
+              item.characteristicId = item.uuid
+              delete item.uuid
+            })
+          }
+          options.success && options.success(_res)
+        }
+      })
+    }
+  },
+  getBLEDeviceServices: {
+    fn: function (global, options) {
+      global.getBLEDeviceServices({
+        ...options,
+        success: (res) => {
+          const _res = res
+          if (_res.services) {
+            _res.services.forEach((item) => {
+              item.serviceId = item.uuid
+              delete item.uuid
+            })
+          }
+          options.success && options.success(_res)
+        }
+      })
+    }
+  },
+  onBLECharacteristicValueChange: {
+    fn: function (global, callabck) {
+      global.onBLECharacteristicValueChange((res) => {
+        res.value = changeToHex(res.value)
+        callabck && callabck(res)
+      })
+    }
   },
   request: {
     fn: function (global, options) {
