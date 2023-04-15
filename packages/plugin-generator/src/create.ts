@@ -227,7 +227,14 @@ export default async function create(
       const fs = generator.utils.fsExtra
       const execa = generator.utils.execa
 
-      if (await fs.pathExists(path.join(generator.to, 'package.json'))) {
+      const pkgPath = path.join(generator.to, 'package.json')
+      if (await fs.pathExists(pkgPath)) {
+        // 修改 package.json 名称和描述
+        const pkg = await fs.readJSON(pkgPath)
+        pkg.name = generator.answers.name
+        pkg.description = generator.answers.desc
+        await fs.writeFile(pkgPath, JSON.stringify(pkg, null, 2), 'utf-8')
+
         let command: string
         let startCommand: string
         switch (generator.answers.npmClient) {
