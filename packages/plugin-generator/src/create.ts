@@ -257,9 +257,11 @@ export default async function create(
         const projectDir = path.relative(generator.baseDir, generator.to)
 
         generator.logger.success(
-          `项目初始化完成 ^_^\n\n` +
-            chalk.green(`cd ${projectDir} && ${startCommand}\n\n`) +
-            '即可开始开发。'
+          '项目初始化完成 ^_^\n\n' +
+            chalk.green(
+              (projectDir ? `cd ${projectDir} && ` : '') + startCommand
+            ) +
+            '\n\n即可开始开发。'
         )
       }
     }
