@@ -186,6 +186,11 @@ const apiTransformConfig: IAPITransformConfig = {
   closeBLEConnection: {
     n: 'disconnectBLEDevice'
   },
+  openBluetoothAdapter: {
+    r(res) {
+      res.errno = res.isSupportBLE ? 0 : 10000
+    }
+  },
   getBLEDeviceCharacteristics: {
     fn: function (global, options) {
       global.getBLEDeviceCharacteristics({
