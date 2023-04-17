@@ -152,22 +152,19 @@ export default async function create(
           type: 'text',
           name: 'user',
           message: '用户名',
-          initial: gitUser,
-          validate: (v) => !!v
+          initial: gitUser
         },
         {
           type: 'text',
           name: 'email',
           message: '邮箱',
-          initial: gitEmail,
-          validate: (v) => !!v
+          initial: gitEmail
         },
         {
           type: 'text',
           name: 'git',
           message: '请输入 Git 仓库地址',
-          initial: '',
-          validate: (v) => v != null
+          initial: ''
         },
         {
           name: 'npmClient',
