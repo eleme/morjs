@@ -226,15 +226,15 @@ const apiTransformConfig: IAPITransformConfig = {
     }
   },
   onBLECharacteristicValueChange: {
-    fn: function (global, callabck) {
+    fn: function (global, callback) {
       global.onBLECharacteristicValueChange((res) => {
         res.value = changeToBuffer(res.value)
-        callabck && callabck(res)
+        callback && callback(res)
       })
     }
   },
   onBluetoothDeviceFound: {
-    fn: function (global, callabck) {
+    fn: function (global, callback) {
       global.onBluetoothDeviceFound((res) => {
         const _res = res
         if (_res.devices) {
@@ -242,7 +242,7 @@ const apiTransformConfig: IAPITransformConfig = {
             item.deviceName = item.localName || item.name
           })
         }
-        callabck && callabck(_res)
+        callback && callback(_res)
       })
     }
   },

@@ -295,18 +295,18 @@ const apiTransformConfig: IAPITransformConfig = {
     }
   },
   onBLECharacteristicValueChange: {
-    fn: function (global, callabck) {
-      if (typeof callabck === 'function') {
+    fn: function (global, callback) {
+      if (typeof callback === 'function') {
         global.onBLECharacteristicValueChange((res) => {
           res.value = changeToHex(res.value)
-          callabck && callabck(res)
+          callback && callback(res)
         })
       } else {
-        if (typeof callabck === 'object') {
+        if (typeof callback === 'object') {
           // object sucess
           global.onBLECharacteristicValueChange((res) => {
             res.value = changeToHex(res.value)
-            callabck.success && callabck.success(res)
+            callback.success && callback.success(res)
           })
         }
       }
@@ -322,7 +322,7 @@ const apiTransformConfig: IAPITransformConfig = {
     }
   },
   onBluetoothDeviceFound: {
-    fn: function (global, callabck) {
+    fn: function (global, callback) {
       global.onBluetoothDeviceFound((res) => {
         const _res = res
         if (_res.devices) {
@@ -330,7 +330,7 @@ const apiTransformConfig: IAPITransformConfig = {
             item.deviceName = item.localName || item.name
           })
         }
-        callabck && callabck(_res)
+        callback && callback(_res)
       })
     }
   },
