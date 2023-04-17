@@ -1,5 +1,5 @@
 import type { CommandOptions, Generator, prompts, Runner } from '@morjs/utils'
-import { chalk } from '@morjs/utils'
+import { chalk, execa, logger } from '@morjs/utils'
 import path from 'path'
 
 const PROJECT_NAME_REGEXP =
@@ -50,6 +50,16 @@ export default async function create(
         __dirname,
         '../templates/projects/miniprogram-wechat-ts-sass'
       )
+
+  let gitUser = ''
+  let gitEmail = ''
+
+  try {
+    gitUser = (await execa.command('git config user.name')).stdout
+    gitEmail = (await execa.command('git config user.email')).stdout
+  } catch (error) {
+    logger.debug('获取当前 Git 用户和邮箱失败', error)
+  }
 
   const questions = template
     ? []
@@ -135,6 +145,27 @@ export default async function create(
           message(_, values) {
             return `请输入 ${PROJECT_TYPES[values.projectType]} 的描述`
           },
+          initial: '',
+          validate: (v) => v != null
+        },
+        {
+          type: 'text',
+          name: 'user',
+          message: '用户名',
+          initial: gitUser,
+          validate: (v) => !!v
+        },
+        {
+          type: 'text',
+          name: 'email',
+          message: '邮箱',
+          initial: gitEmail,
+          validate: (v) => !!v
+        },
+        {
+          type: 'text',
+          name: 'git',
+          message: '请输入 Git 仓库地址',
           initial: '',
           validate: (v) => v != null
         },
