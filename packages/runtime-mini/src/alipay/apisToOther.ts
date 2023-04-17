@@ -40,10 +40,23 @@ function isLightColor(r: number, g: number, b: number): boolean {
 }
 
 const changeToHex = (buffer) => {
-  const hexArr = Array.prototype.map.call(new Uint8Array(buffer), function (bit) {
-    return ('00' + bit.toString(16)).slice(-2)
-  })
+  const hexArr = Array.prototype.map.call(
+    new Uint8Array(buffer),
+    function (bit) {
+      return ('00' + bit.toString(16)).slice(-2)
+    }
+  )
   return hexArr.join('')
+}
+
+//  changeToHex reverse changeToBuffer
+const changeToBuffer = (str) => {
+  const buffer = new ArrayBuffer(str.length / 2)
+  const dataView = new DataView(buffer)
+  for (let i = 0; i < str.length; i += 2) {
+    dataView.setUint8(i / 2, parseInt(str.substr(i, 2), 16))
+  }
+  return buffer
 }
 
 /**
@@ -278,9 +291,49 @@ const apiTransformConfig: IAPITransformConfig = {
   },
   onBLECharacteristicValueChange: {
     fn: function (global, callabck) {
-      global.onBLECharacteristicValueChange((res) => {
-        res.value = changeToHex(res.value)
-        callabck && callabck(res)
+      if (typeof callabck === 'function') {
+        global.onBLECharacteristicValueChange((res) => {
+          res.value = changeToHex(res.value)
+          callabck && callabck(res)
+        })
+      } else {
+        if (typeof callabck === 'object') {
+          // object sucess
+          global.onBLECharacteristicValueChange((res) => {
+            res.value = changeToHex(res.value)
+            callabck.success && callabck.success(res)
+          })
+        }
+      }
+    }
+  },
+  writeBLECharacteristicValue: {
+    fn: function (global, options) {
+      global.writeBLECharacteristicValue({
+        ...options,
+        // wx writeBLECharacteristicValue:fail parameter error: parameter.value should be ArrayBuffer;
+        value: changeToBuffer(options.value)
+      })
+    }
+  },
+  onBluetoothDeviceFound: {
+    fn: function (global, callabck) {
+      global.onBluetoothDeviceFound((res) => {
+        const _res = res
+        if (_res.devices) {
+          _res.devices.forEach((item) => {
+            item.deviceName = item.localName || item.name
+          })
+        }
+        callabck && callabck(_res)
+      })
+    }
+  },
+  notifyBLECharacteristicValueChange: {
+    fn: function (global, options) {
+      global.notifyBLECharacteristicValueChange({
+        ...options,
+        state: options.state !== false ? true : false
       })
     }
   },

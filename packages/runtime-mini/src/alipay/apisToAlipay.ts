@@ -6,24 +6,14 @@ import {
 } from '@morjs/runtime-base'
 import { needPromisfiedApis } from './needPromisfiedApis'
 
+//  changeToBuffer
 const changeToBuffer = (str) => {
-  const hexA = new Array(0)
-  if (typeof str === 'string') {
-    // 十六进制字符串转字节数组
-    let pos = 0
-    let len = str.length
-    if (len % 2 !== 0) {
-      return null
-    }
-    len /= 2
-    for (let i = 0; i < len; i++) {
-      const s = str.substr(pos, 2)
-      const v = parseInt(s, 16)
-      hexA.push(v)
-      pos += 2
-    }
-    return hexA
+  const buffer = new ArrayBuffer(str.length / 2)
+  const dataView = new DataView(buffer)
+  for (let i = 0; i < str.length; i += 2) {
+    dataView.setUint8(i / 2, parseInt(str.substr(i, 2), 16))
   }
+  return buffer
 }
 
 /**
@@ -235,6 +225,27 @@ const apiTransformConfig: IAPITransformConfig = {
       global.onBLECharacteristicValueChange((res) => {
         res.value = changeToBuffer(res.value)
         callabck && callabck(res)
+      })
+    }
+  },
+  onBluetoothDeviceFound: {
+    fn: function (global, callabck) {
+      global.onBluetoothDeviceFound((res) => {
+        const _res = res
+        if (_res.devices) {
+          _res.devices.forEach((item) => {
+            item.deviceName = item.localName || item.name
+          })
+        }
+        callabck && callabck(_res)
+      })
+    }
+  },
+  notifyBLECharacteristicValueChange: {
+    fn: function (global, options) {
+      global.notifyBLECharacteristicValueChange({
+        ...options,
+        state: options.state !== false ? true : false
       })
     }
   },
