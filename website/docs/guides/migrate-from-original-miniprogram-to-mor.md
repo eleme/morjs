@@ -21,10 +21,10 @@ v14
 ```diff
 {
    "dependencies": {
-+    "@morjs/core": "^2.3.0",
++    "@morjs/core": "*",
    },
    "devDependencies": {
-+    "@morjs/cli": "^2.3.0",
++    "@morjs/cli": "*",
    }
  }
 ```
