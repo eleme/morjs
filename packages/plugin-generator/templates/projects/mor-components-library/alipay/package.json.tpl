@@ -30,7 +30,7 @@
     "@morjs/core": "*"
   },
   "peerDependencies": {
-    "tslib": "2"
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@morjs/cli": "*",
