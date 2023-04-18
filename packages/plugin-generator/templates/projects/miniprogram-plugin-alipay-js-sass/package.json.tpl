@@ -7,10 +7,10 @@
     "compile": "mor compile --production"
   },
   "keywords": [],
-  <% if (!!user || !!email) { %>
+  <% if (user || email) { %>
   "author": "<%= user %> <<%= email %>>",
   <% } %>
-  <% if (!!git) { %>
+  <% if (git) { %>
   "repository": {
     "type": "git",
     "url": "<%= git %>"
