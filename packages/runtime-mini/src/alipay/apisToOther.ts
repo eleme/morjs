@@ -301,14 +301,12 @@ const apiTransformConfig: IAPITransformConfig = {
           res.value = changeToHex(res.value)
           callback && callback(res)
         })
-      } else {
-        if (typeof callback === 'object') {
-          // object sucess
-          global.onBLECharacteristicValueChange((res) => {
-            res.value = changeToHex(res.value)
-            callback.success && callback.success(res)
-          })
-        }
+      } else if (typeof callback === 'object') {
+        // object sucess
+        global.onBLECharacteristicValueChange((res) => {
+          res.value = changeToHex(res.value)
+          callback.success && callback.success(res)
+        })
       }
     }
   },
