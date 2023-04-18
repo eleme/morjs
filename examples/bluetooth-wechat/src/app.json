@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/bluetooth/bluetooth"
+  ],
+  "window": {
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "bluetooth",
+    "navigationBarTextStyle":"black"
+  }
+}
