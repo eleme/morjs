@@ -34,6 +34,6 @@
   "dependencies": {
     "@morjs/api": "1.0.6",
     "@morjs/utils": "1.0.19",
-    "tslib": "2"
+    "tslib": "^2.3.1"
   }
 }

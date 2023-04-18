@@ -43,7 +43,7 @@
     "@morjs/utils": "1.0.19",
     "nanoid": "3.3.4",
     "postcss-selector-parser": "6.0.11",
-    "tslib": "2",
+    "tslib": "^2.3.1",
     "webpack-bundle-analyzer": "4.8.0",
     "xregexp": "5.1.1"
   },

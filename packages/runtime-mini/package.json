@@ -46,6 +46,6 @@
     "lodash.get": "^4.4.2",
     "lodash.has": "^4.5.2",
     "lodash.set": "^4.3.2",
-    "tslib": "2"
+    "tslib": "^2.3.1"
   }
 }
