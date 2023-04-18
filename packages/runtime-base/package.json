@@ -1,6 +1,6 @@
 {
   "name": "@morjs/runtime-base",
-  "version": "1.0.6",
+  "version": "1.0.26",
   "description": "mor runtime base",
   "keywords": [
     "mor"

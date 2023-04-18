@@ -1,6 +1,6 @@
 {
   "name": "@morjs/cli",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "mor cli",
   "keywords": [
     "mor",
@@ -34,10 +34,10 @@
   },
   "dependencies": {
     "@morjs/plugin-analyzer": "1.0.19",
-    "@morjs/plugin-compiler": "1.0.23",
+    "@morjs/plugin-compiler": "1.0.26",
     "@morjs/plugin-composer": "1.0.19",
-    "@morjs/plugin-generator": "1.0.25",
-    "@morjs/plugin-mocker": "1.0.19",
+    "@morjs/plugin-generator": "1.0.26",
+    "@morjs/plugin-mocker": "1.0.26",
     "@morjs/utils": "1.0.19",
     "v8-compile-cache": "^2.3.0",
     "youch": "^3.2.2",
