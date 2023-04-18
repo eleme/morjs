@@ -169,3 +169,34 @@ export const getRelaunchOptions = () => {
     referrerInfo
   }
 }
+
+/**
+ * 根据页面相对路径，计算出绝对路径 '../swiper/index' => 'pages/swiper/index'
+ * @param {String} relativePath 相对路径
+ * @returns 绝对路径
+ */
+export const getAbsolutePath = (relativePath: string) => {
+  const rootPath = getCurrentPages().pop()?.route
+
+  if (rootPath && relativePath[0] === '.') {
+    const rootParts = rootPath.split('/')
+    const relativeParts = relativePath.split('/')
+    const absoluteParts = [...relativeParts]
+
+    relativeParts.forEach((part, index) => {
+      if (part === '.') {
+        rootParts.pop()
+        absoluteParts.shift()
+      }
+
+      if (part === '..') {
+        index === 0 ? rootParts.splice(-2, 2) : rootParts.pop()
+        absoluteParts.shift()
+      }
+    })
+
+    return rootParts.concat(absoluteParts).join('/')
+  }
+
+  return relativePath
+}

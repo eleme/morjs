@@ -3,7 +3,7 @@ import { history } from './history'
 import { getCurrentPages } from './pageStack'
 import { batchUnloadPage } from './router'
 import { IPage, IRouterApiParams } from './types'
-import { getCustomUrl } from './url'
+import { getAbsolutePath, getCustomUrl } from './url'
 
 interface INavigateTask {
   eventName: string
@@ -14,7 +14,8 @@ const IDLE_TIME = 20
 const NAVIGATE_TASKS: INavigateTask[] = []
 
 function getTo(url: string) {
-  const urlArr = getCustomUrl(url).split('?')
+  const absolutePath = getAbsolutePath(url)
+  const urlArr = getCustomUrl(absolutePath).split('?')
   return {
     pathname: urlArr[0],
     search: urlArr[1] ? `?${urlArr[1]}` : ''
