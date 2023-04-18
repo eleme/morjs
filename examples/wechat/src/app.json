@@ -56,7 +56,9 @@
     "example/navigation-bar/navigation-bar",
     "example/tabbar/tabbar",
 
-    "example/searchbar/searchbar"
+    "example/searchbar/searchbar",
+
+    "example/bluetooth/bluetooth"
   ],
   "window": {
     "navigationBarTextStyle": "black",

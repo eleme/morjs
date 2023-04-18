@@ -16,7 +16,7 @@
     <view class="page-section-title">蓝牙基础</view>
     <view class="page-section-demo">
        <button type="primary" class="button" bind:tap="openBluetoothAdapter">初始化蓝牙</button>
-       <button type="primary" class="button" bind:tap="scanBle">搜索+连接+部署</button>
+       <button type="primary" class="button" bind:tap="closeBluetoothAdapter">关闭本机蓝牙</button>
        <button type="primary" class="button" bind:tap="getBluetoothAdapterState">获取蓝牙状态</button>
     </view>
 

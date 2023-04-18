@@ -1,11 +1,11 @@
 page {
-  background-color: #F7F7F7;
-  border: 1px solid rgba(0,0,0,0);
+  background-color: #f7f7f7;
+  border: 1px solid rgba(0, 0, 0, 0);
   box-sizing: border-box;
 }
 
 .page {
-  font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+  font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
   font-size: 24rpx;
   padding: 32rpx;
   flex: 1;
@@ -48,24 +48,24 @@ page {
 }
 
 button {
-  margin-top:20rpx;
-  margin-bottom:20rpx;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
 }
 
 .bc_blue {
-  background-color: #49A9EE;
+  background-color: #49a9ee;
 }
 
 .bc_red {
-  background-color: #F04134;
+  background-color: #f04134;
 }
 
 .bc_yellow {
-  background-color: #FFBF00;
+  background-color: #ffbf00;
 }
 
 .bc_green {
-  background-color: #00A854;
+  background-color: #00a854;
 }
 
 .form-row {
@@ -102,6 +102,6 @@ button {
   font-size: 34rpx;
   text-align: center;
   line-height: 88rpx;
-  background-color: #108ee9!important;
+  background-color: #00a854 !important;
   border-radius: 5rpx;
 }
