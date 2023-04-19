@@ -6,6 +6,16 @@ import {
 } from '@morjs/runtime-base'
 import { needPromisfiedApis } from './needPromisfiedApis'
 
+//  changeToBuffer
+const changeToBuffer = (str) => {
+  const buffer = new ArrayBuffer(str.length / 2)
+  const dataView = new DataView(buffer)
+  for (let i = 0; i < str.length; i += 2) {
+    dataView.setUint8(i / 2, parseInt(str.substr(i, 2), 16))
+  }
+  return buffer
+}
+
 /**
  * 支付宝和微信接口的差异
  * 以微信为准
@@ -175,6 +185,74 @@ const apiTransformConfig: IAPITransformConfig = {
   },
   closeBLEConnection: {
     n: 'disconnectBLEDevice'
+  },
+  openBluetoothAdapter: {
+    r(res) {
+      res.errno = res.isSupportBLE ? 0 : 10000
+    }
+  },
+  getBLEDeviceCharacteristics: {
+    fn: function (global, options) {
+      global.getBLEDeviceCharacteristics({
+        ...options,
+        success: (res) => {
+          const _res = res
+          if (_res.characteristics) {
+            _res.characteristics.forEach((item) => {
+              item.uuid = item.characteristicId
+              delete item.characteristicId
+            })
+          }
+          options.success && options.success(_res)
+        }
+      })
+    }
+  },
+  getBLEDeviceServices: {
+    fn: function (global, options) {
+      global.getBLEDeviceServices({
+        ...options,
+        success: (res) => {
+          const _res = res
+          if (_res.services) {
+            _res.services.forEach((item) => {
+              item.uuid = item.serviceId
+              delete item.serviceId
+            })
+          }
+          options.success && options.success(_res)
+        }
+      })
+    }
+  },
+  onBLECharacteristicValueChange: {
+    fn: function (global, callback) {
+      global.onBLECharacteristicValueChange((res) => {
+        res.value = changeToBuffer(res.value)
+        callback && callback(res)
+      })
+    }
+  },
+  onBluetoothDeviceFound: {
+    fn: function (global, callback) {
+      global.onBluetoothDeviceFound((res) => {
+        const _res = res
+        if (_res.devices) {
+          _res.devices.forEach((item) => {
+            item.deviceName = item.localName || item.name
+          })
+        }
+        callback && callback(_res)
+      })
+    }
+  },
+  notifyBLECharacteristicValueChange: {
+    fn: function (global, options) {
+      global.notifyBLECharacteristicValueChange({
+        ...options,
+        state: options.state !== false ? true : false
+      })
+    }
   },
   request: {
     fn: function (global, options) {
