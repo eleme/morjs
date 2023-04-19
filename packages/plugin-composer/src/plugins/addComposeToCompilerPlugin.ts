@@ -211,7 +211,12 @@ export class AddComposeToCompilerPlugin implements Plugin {
           }
 
           const subpackageName = config.name || 'miniprogram_subpacakge'
-          const root = generateTempDir(tempDir, 'subpackage', subpackageName)
+          const root = generateTempDir(
+            tempDir,
+            config.name,
+            'subpackage',
+            subpackageName
+          )
           const hash = generateHash({ mode: 'compile' }, subpackageName)
           const outputFrom = path.join(root, hash)
 
