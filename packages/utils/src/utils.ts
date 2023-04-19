@@ -2,8 +2,14 @@ import consolePng from 'console-png'
 import { delimiter, dirname, relative, resolve } from 'path'
 import qrImage from 'qr-image'
 import slash from 'slash'
-import { asArray, esbuild, logger } from 'takin'
-import { CompileModuleKind, CompileModuleKindType } from './constants'
+import { asArray, COLORS, esbuild, execa, logger } from 'takin'
+import {
+  COMMAND_TIMEOUT,
+  CompileModuleKind,
+  CompileModuleKindType
+} from './constants'
+import { ComposeModuleScriptCommand } from './hooks'
+import { Changeable } from './types'
 
 /**
  * 基于可选值生成描述信息
@@ -255,4 +261,201 @@ export function getRelativePath(from, to, forcePosix = true) {
  */
 export function resolveDependency(depName: string) {
   return require.resolve(depName)
+}
+
+/**
+ * 运行模块脚本并标记脚本运行状态
+ */
+export async function execCommands({
+  commands = [],
+  tips = '',
+  env = {},
+  cwd,
+  options = {},
+  timeout = COMMAND_TIMEOUT,
+  callbacks = {},
+  throwOnError = false,
+  verbose = false
+}: {
+  /**
+   * 需要执行的脚本
+   */
+  commands: ComposeModuleScriptCommand[]
+  /**
+   * 脚本执行提示信息
+   */
+  tips?: string
+  /**
+   * 脚本执行环境变量
+   */
+  env?: Record<string, string>
+  /**
+   * 脚本执行选项，参考 execa 的 options: https://github.com/sindresorhus/execa
+   */
+  options?: Record<string, any>
+  /**
+   * 脚本执行超时时间，单位为毫秒，默认为 30000
+   */
+  timeout?: number
+  /**
+   * 当前工作区
+   */
+  cwd: string
+  /**
+   * 脚本执行回调函数
+   */
+  callbacks?: {
+    beforeAll?: (commands: ComposeModuleScriptCommand[]) => Promise<void> | void
+    /**
+     * 执行每个命令之前执行的函数
+     * @param command - 当前执行的脚本
+     * @returns 修改后的脚本及命令执行信息
+     */
+    beforeEach?: (
+      commandStr: string,
+      command: ComposeModuleScriptCommand
+    ) =>
+      | Promise<{ command: string; info?: string }>
+      | { command: string; info?: string }
+    afterEach?: (
+      result: any,
+      command: ComposeModuleScriptCommand
+    ) => Promise<void> | void
+    afterAll?: (commands: ComposeModuleScriptCommand[]) => Promise<void> | void
+    onError?: (err?: Error) => string | void
+  }
+  /**
+   * 脚本执行失败时是否抛出异常，默认为 false
+   */
+  throwOnError?: boolean
+  /**
+   * 是否打印脚本执行日志，默认为 false
+   */
+  verbose?: boolean
+}) {
+  const message = tips || ''
+  const scripts = commands || []
+  const commonCommandEnv = env || {}
+  const commonCommandOptions = options || {}
+
+  await callbacks?.beforeAll?.(scripts)
+
+  function containsError(msg: string): boolean {
+    return String(msg || '').includes('Error')
+  }
+
+  function markError(msg: string): string {
+    if (!msg) return ''
+    return String(msg).replace(/Error/g, COLORS.error('Error'))
+  }
+
+  let execFailed = false
+  let error: Error
+
+  try {
+    for await (const command of scripts) {
+      let cmd: string =
+        (typeof command === 'string' ? command : command?.command) || ''
+      let comandInfo = `执行命令: ${cmd}`
+
+      if (typeof callbacks?.beforeEach === 'function') {
+        const res = await callbacks.beforeEach(cmd, command)
+        cmd = res.command
+        comandInfo = res.info || `执行命令: ${cmd}`
+      }
+
+      // 自定义命令选项和环境变量
+      let commandOptions: Record<string, any> = {}
+      let commandEnv: Record<string, any> = {}
+      if (typeof command !== 'string') {
+        commandOptions = command?.options || {}
+        commandEnv = command?.env || {}
+      }
+
+      // 简单判断下是否为 shell 命令
+      // 有关 shell 选项带来的执行差异, 参见: https://github.com/sindresorhus/execa#shell
+      const shell =
+        cmd.includes('||') ||
+        cmd.includes('&&') ||
+        cmd.includes('"') ||
+        cmd.includes("'")
+
+      logger.info(comandInfo)
+
+      const stdioOptions: Record<string, string> = {}
+      // 开启详细日志
+      if (verbose) {
+        stdioOptions.stdout = 'inherit'
+        stdioOptions.stderr = 'inherit'
+      } else {
+        stdioOptions.stdin = 'ignore'
+      }
+
+      const execOptions: Changeable<execa.Options> = {
+        cwd: cwd,
+        // 追加 node_modules/.bin 路径信息
+        env: setNPMBinPATH(cwd, {
+          // 默认自动关闭 husky 避免 git 相关的校验
+          HUSKY: '0',
+          ...process.env,
+          // 设置 yarn 缓存文件夹
+          // 避免通过 yarn 安装 node_modules 时
+          // yarn 多实例可能带来的缓存冲突问题
+          // 但会增加一些构建时长
+          // ...{ YARN_CACHE_FOLDER: path.join(moduleInfo.root, '.yarn') },
+          ...commonCommandEnv,
+          ...commandEnv
+        }),
+        timeout,
+        shell,
+        ...stdioOptions,
+        // 支持自定义命令选项
+        ...commonCommandOptions,
+        ...commandOptions
+      }
+
+      logger.debug('命令详情:', execOptions)
+
+      const result = await execa.command(cmd, execOptions)
+
+      // 执行脚本后置回调
+      if (typeof callbacks?.afterEach === 'function') {
+        await callbacks.afterEach(result, command)
+      }
+
+      // 打印可能出现的日志, 部分脚本可能会打印错误日志但是不正常退出
+      let possibleErrorMsg: string = ''
+      if (containsError(result.stdout)) {
+        possibleErrorMsg = markError(result.stdout)
+      }
+      if (containsError(result.stderr)) {
+        possibleErrorMsg = possibleErrorMsg
+          ? [possibleErrorMsg, markError(result.stderr)].join('\n')
+          : markError(result.stderr)
+      }
+      if (possibleErrorMsg) {
+        logger.warnOnce(
+          `${comandInfo}, 日志包含异常信息, 但未正确退出, 请检查: \n${possibleErrorMsg}`
+        )
+        execFailed = true
+      }
+    }
+
+    await callbacks?.afterAll?.(scripts)
+  } catch (err) {
+    error = new Error(`${message}执行失败, 原因: ${err.message}`)
+    if (err.name) error.name = err.name
+    error.stack = err.stack
+    execFailed = true
+  }
+
+  // 提示修复手段
+  if (execFailed) {
+    let errorTips = ''
+    if (typeof callbacks?.onError === 'function') {
+      errorTips = callbacks.onError(error) || errorTips
+    }
+    if (throwOnError && error) throw error
+    if (errorTips) logger.warnOnce(errorTips)
+  }
 }

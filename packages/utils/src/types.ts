@@ -289,3 +289,7 @@ export interface EntryBuilderHelpers {
    */
   replaceExtAsExpected(filePath: string): string
 }
+
+export type Changeable<T> = {
+  -readonly [k in keyof T]: T[k]
+}
