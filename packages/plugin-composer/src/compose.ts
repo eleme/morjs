@@ -63,7 +63,10 @@ function sortByKeys<T = Record<string, any>>(obj: T): T {
 /**
  * 为 模块配置生成 hash 信息, 用于判断是否需要重新下载
  */
-export function generateHash(options: BaseModuleSchemaType, name: string) {
+export function generateComposeModuleHash(
+  options: BaseModuleSchemaType,
+  name: string
+) {
   // 将对象按照 key 值排序，避免顺序问题导致 hash 值不一致
   const obj = sortByKeys(pick(options, ['git', 'npm', 'tar', 'dist', 'mode']))
   const content = JSON.stringify(obj)
@@ -212,7 +215,7 @@ async function loadOrGenerateComposeInfo(
     )
   }
 
-  const hash = generateHash(options, name)
+  const hash = generateComposeModuleHash(options, name)
   const isHashMatched = info?.hash === hash
   const source = path.resolve(cwd, root, hash)
 
@@ -998,7 +1001,7 @@ function tryLoadPreCompiledHost(
   const hostName = 'miniprogram_host'
 
   // 这里 hash 为固定的值, 无实际用处
-  const hash = generateHash({ mode: 'compile' }, hostName)
+  const hash = generateComposeModuleHash({ mode: 'compile' }, hostName)
 
   const host: ComposeModuleInfo = {
     type: 'host',

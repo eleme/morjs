@@ -12,7 +12,7 @@ import {
 import path from 'path'
 import {
   composeHostAndModules,
-  generateHash,
+  generateComposeModuleHash,
   generateTempDir,
   prepareHostAndModules
 } from '../compose'
@@ -217,7 +217,10 @@ export class AddComposeToCompilerPlugin implements Plugin {
             'subpackage',
             subpackageName
           )
-          const hash = generateHash({ mode: 'compile' }, subpackageName)
+          const hash = generateComposeModuleHash(
+            { mode: 'compile' },
+            subpackageName
+          )
           const outputFrom = path.join(root, hash)
 
           // 重置编译输出目录
