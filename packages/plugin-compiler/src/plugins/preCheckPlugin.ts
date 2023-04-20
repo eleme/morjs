@@ -1,5 +1,4 @@
 import {
-  EntryType,
   logger,
   Plugin,
   Runner,
@@ -9,9 +8,9 @@ import {
 import { CompilerUserConfig, COMPILE_COMMAND_NAME } from '../constants'
 
 const SOURCETYPE_CORE_CORRESPONDENCE = {
-  origin: ['App', 'Page', 'Component'],
-  alipay: ['aApp', 'aPage', 'aComponent'],
-  wechat: ['wApp', 'wPage', 'wComponent']
+  origin: { app: 'App', page: 'Page', component: 'Component' },
+  alipay: { app: 'aApp', page: 'aPage', component: 'aComponent' },
+  wechat: { app: 'wApp', page: 'wPage', component: 'wComponent' }
 }
 
 /**
@@ -27,14 +26,24 @@ export class PreCheckPlugin implements Plugin {
 
       runner.hooks.scriptParser.tap(this.name, (transformers, options) => {
         const { sourceType } = runner.userConfig as CompilerUserConfig
-        const { path, entryType } = options.fileInfo
+        const { entryName, entryType, content: fileContent } = options.fileInfo
 
-        if (
-          [EntryType.app, EntryType.page, EntryType.component].includes(
+        const rightCore =
+          SOURCETYPE_CORE_CORRESPONDENCE[sourceType]?.[entryType]
+        // 与配置 DSL 不一致的运行时
+        const oppositeCore =
+          SOURCETYPE_CORE_CORRESPONDENCE[this.oppositeSourceType(sourceType)]?.[
             entryType
-          )
-        ) {
-          this.isCoreSameSourceType(transformers, sourceType, path)
+          ]
+
+        if (rightCore && oppositeCore && fileContent.includes(oppositeCore)) {
+          this.isCoreSameSourceType({
+            transformers,
+            sourceType,
+            entryName,
+            rightCore,
+            oppositeCore
+          })
         }
 
         return transformers
@@ -42,12 +51,25 @@ export class PreCheckPlugin implements Plugin {
     })
   }
 
-  // 运行时 core 和 配置的 sourceType 类型是否一致
-  isCoreSameSourceType(
-    transformers: ts.CustomTransformers,
-    sourceType: string,
-    path: string
-  ) {
+  oppositeSourceType(sourceType) {
+    return sourceType === 'alipay'
+      ? 'wechat'
+      : sourceType === 'wechat'
+      ? 'alipay'
+      : null
+  }
+
+  /**
+   * 运行时 core 和 配置的 sourceType 类型是否一致
+   * @param transformers
+   */
+  isCoreSameSourceType({
+    transformers,
+    sourceType,
+    entryName,
+    rightCore,
+    oppositeCore
+  }) {
     transformers.before.push(
       tsTransformerFactory((node) => {
         if (!node) return node
@@ -58,13 +80,12 @@ export class PreCheckPlugin implements Plugin {
           ts.isIdentifier(node.expression.expression)
         ) {
           const { escapedText } = node.expression.expression
-          if (
-            escapedText &&
-            !SOURCETYPE_CORE_CORRESPONDENCE.origin.includes(escapedText) &&
-            !SOURCETYPE_CORE_CORRESPONDENCE[sourceType].includes(escapedText)
-          ) {
+
+          if (escapedText && oppositeCore === escapedText) {
             logger.warn(
-              `文件 ${path} 运行时使用的 ${escapedText} 与配置项中 DSL 类型 ${sourceType} 不匹配，请检查并更改`
+              `检测到运行时与用户配置 sourceType 类型 ${sourceType} 不匹配\n` +
+                `文件路径：${entryName} \n` +
+                `建议修改 ${escapedText} 为 ${rightCore}，否则可能引发非预期的问题`
             )
           }
         }
