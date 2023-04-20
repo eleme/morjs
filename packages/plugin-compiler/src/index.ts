@@ -34,6 +34,7 @@ import { InjectGetAppPlugin } from './plugins/injectGetAppPlugin'
 import { ModuleSharingAndConsumingPlugin } from './plugins/moduleSharingAndConsumingPlugin'
 import { OptimizeSplitChunksPlugin } from './plugins/optimizeSplitChunksPlugin'
 import { PhantomDependencyPlugin } from './plugins/phantomDependencyPlugin'
+import { PreCheckPlugin } from './plugins/preCheckPlugin'
 import { ProgressPlugin } from './plugins/progressPlugin'
 import { RuntimeInjectPlugin } from './plugins/runtimeInjectPlugin'
 import { preprocess } from './preprocessors/codePreprocessor'
@@ -83,6 +84,7 @@ class MorCompile {
     new AliasSupportPlugin().apply(runner)
     new DefineSupportPlugin().apply(runner)
     new PhantomDependencyPlugin().apply(runner)
+    new PreCheckPlugin().apply(runner)
 
     // 应用 parser 插件
     new ConfigParserPlugin().apply(runner)
