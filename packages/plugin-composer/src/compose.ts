@@ -1357,7 +1357,12 @@ export async function composeHostAndModules(
   }
 
   // 保存 compose 的汇总结果到文件中
-  await saveComposeResults(host, modules, tempDir)
+  await saveComposeResults(
+    host,
+    modules,
+    tempDir,
+    runner?.userConfig?.name || ''
+  )
 
   logHostAndModulesInfos(host, modules, true, toState)
 
@@ -1373,14 +1378,17 @@ export async function composeHostAndModules(
 async function saveComposeResults(
   host: ComposeModuleInfo,
   modules: ComposeModuleInfo[],
-  tempDir: string
+  tempDir: string,
+  configName: string
 ) {
-  await fs.ensureDir(getComposerTempRoot(tempDir))
-
-  const filePath = path.join(
+  const composeBaseDir = path.join(
     getComposerTempRoot(tempDir),
-    'compose-results.json'
+    normalizeName(configName)
   )
+
+  await fs.ensureDir(composeBaseDir)
+
+  const filePath = path.join(composeBaseDir, 'compose-results.json')
 
   await fs.writeJson(
     filePath,
