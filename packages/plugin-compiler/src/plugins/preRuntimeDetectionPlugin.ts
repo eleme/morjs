@@ -17,8 +17,8 @@ const SOURCETYPE_CORE_CORRESPONDENCE = {
  * 进行编译的相关检查，对不符合要求的进行警告
  * 1. 运行时 core 和 配置的 sourceType 类型是否一致
  */
-export class PreCheckPlugin implements Plugin {
-  name = 'PreCheckPlugin'
+export class PreRuntimeDetectionPlugin implements Plugin {
+  name = 'PreRuntimeDetectionPlugin'
   apply(runner: Runner<any>) {
     runner.hooks.beforeRun.tap(this.name, () => {
       // 非 compile 命令 跳过
@@ -36,7 +36,12 @@ export class PreCheckPlugin implements Plugin {
             entryType
           ]
 
-        if (rightCore && oppositeCore && fileContent.includes(oppositeCore)) {
+        if (
+          rightCore &&
+          oppositeCore &&
+          fileContent &&
+          fileContent.includes(oppositeCore)
+        ) {
           this.isCoreSameSourceType({
             transformers,
             sourceType,
