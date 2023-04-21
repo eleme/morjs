@@ -74,7 +74,7 @@
     "postcss": "8.4.21",
     "posthtml": "0.16.6",
     "qr-image": "3.2.0",
-    "sass": "1.59.2",
+    "sass": "1.60.0",
     "sass-loader": "12.6.0",
     "slash": "3.0.0",
     "style-loader": "3.3.1",
