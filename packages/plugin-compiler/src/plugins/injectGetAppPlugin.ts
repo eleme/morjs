@@ -40,24 +40,29 @@ function generateGlobalScript(
   moduleKind: CompileModuleKindType,
   globalObject: string
 ) {
-  let exportClause: string
+  let commonjsExports = ''
+  let esmoduleExport = ''
 
   if (moduleKind === CompileModuleKind.CommonJS) {
-    exportClause = 'module.exports ='
+    commonjsExports = `
+module.exports = {
+  fetchApp: fetchApp,
+  initApp: initApp
+};`
   } else {
-    exportClause = 'export default'
+    esmoduleExport = 'export '
   }
 
   return `var $app;
 
 // 模拟全局 getApp
-function fetchApp () {
+${esmoduleExport}function fetchApp () {
   if ($app != null) return $app;
   if (typeof getApp === 'function') return getApp();
 };
 
 // 模拟 app.js 初始化
-function initApp (app) {
+${esmoduleExport}function initApp (app) {
   if ($app != null) return;
   $app = app || {};
 
@@ -86,12 +91,7 @@ function initApp (app) {
     $app.onLaunch(typeof fn === 'function' ? fn() : {});
   }
 };
-
-${exportClause} {
-  fetchApp: fetchApp,
-  initApp: initApp
-};
-`
+${commonjsExports}`
 }
 
 /**
