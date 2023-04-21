@@ -34,7 +34,8 @@ export default async function StyleLoader(
       fileContent = (
         await postcss
           .default(plugins)
-          .process(fileContent, {
+          // postcss 不支持传入 null 或 undefined
+          .process(fileContent == null ? '' : fileContent, {
             from: this.resourcePath
           })
           .async()
