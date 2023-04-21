@@ -257,21 +257,12 @@ async function esbuildTransform(
 }
 
 /**
- * 支持 ts 和 esbuild 两种编译方式
- * 1. 如果没有插件的情况下, 自动使用 esbuild 以构建速度为主
- * 2. 如果有外部插件 或 需求输出 declaration 则使用 ts 编译
- * @param fileContent 文件内容
- * @param fileType 文件类型，如 script 或 sjs
- * @param options 文件解析选项
- * @param transformers 自定义 ts transformers
- * @returns 编译后文件内容 outputText 和 sourceMapText
+ * 解析 ts 或 js 或 sjs 或 wxs 文件编译参数
  */
-export async function scriptTransformer(
-  fileContent: string,
+function parseCompilerOption(
   fileType: FileType,
-  options: FileParserOptions,
-  transformers?: ts.CustomTransformers
-): Promise<ITransformOutput> {
+  options: FileParserOptions
+): ICompileOption {
   const { userConfig, fileInfo } = options
   const composedPlugins = getComposedCompilerPlugins()
 
@@ -312,6 +303,84 @@ export async function scriptTransformer(
       moduleKind = CompileModuleKind.CommonJS
     }
   }
+
+  return {
+    moduleKind,
+    importHelpers,
+    compileTarget,
+    declaration,
+    esModuleInterop,
+    allowSyntheticDefaultImports,
+    autoCorrectModuleKind
+  }
+}
+
+/**
+ * 编译 sjs 文件
+ * @param fileContent 文件内容
+ * @param fileType 文件类型 sjs
+ * @param options 文件解析选项
+ * @param transformers 自定义 ts transformers
+ * @returns 编译后文件内容 outputText 和 sourceMapText
+ */
+export function sjsScriptTransformer(
+  fileContent: string,
+  fileType: FileType,
+  options: FileParserOptions,
+  transformers?: ts.CustomTransformers
+): ITransformOutput {
+  const { fileInfo } = options
+  const {
+    moduleKind,
+    importHelpers,
+    compileTarget,
+    declaration,
+    esModuleInterop,
+    allowSyntheticDefaultImports
+  } = parseCompilerOption(fileType, options)
+
+  return tsTransform(
+    fileInfo.path,
+    fileContent,
+    options.userConfig.compileMode,
+    {
+      moduleKind,
+      importHelpers,
+      compileTarget,
+      declaration,
+      esModuleInterop,
+      allowSyntheticDefaultImports
+    },
+    transformers
+  )
+}
+
+/**
+ * 支持 ts 和 esbuild 两种编译方式
+ * 1. 如果没有插件的情况下, 自动使用 esbuild 以构建速度为主
+ * 2. 如果有外部插件 或 需求输出 declaration 则使用 ts 编译
+ * @param fileContent 文件内容
+ * @param fileType 文件类型，如 script 或 sjs
+ * @param options 文件解析选项
+ * @param transformers 自定义 ts transformers
+ * @returns 编译后文件内容 outputText 和 sourceMapText
+ */
+export async function scriptTransformer(
+  fileContent: string,
+  fileType: FileType,
+  options: FileParserOptions,
+  transformers?: ts.CustomTransformers
+): Promise<ITransformOutput> {
+  const { fileInfo } = options
+  let {
+    moduleKind,
+    importHelpers,
+    compileTarget,
+    declaration,
+    esModuleInterop,
+    allowSyntheticDefaultImports,
+    autoCorrectModuleKind
+  } = parseCompilerOption(fileType, options)
 
   // 当 importHelpers 为 true 且 module 不为 commonjs 时
   // 需要额外判断文件是否为 commonjs

@@ -1,5 +1,6 @@
 import {
   EntryBuilderHelpers,
+  EntryFileType,
   FileParserOptions,
   logger,
   Plugin,
@@ -15,6 +16,7 @@ import {
   getComposedCompilerPlugins
 } from '../compilerPlugins'
 import { CompilerUserConfig, COMPILE_COMMAND_NAME } from '../constants'
+import { sjsScriptTransformer } from '../transformers/scriptTransformer'
 
 const EntryBuilderMap = new WeakMap<Runner, EntryBuilderHelpers>()
 
@@ -82,7 +84,7 @@ export class TemplateParserPlugin implements Plugin {
           sjsSrcAttrName: composedPlugins.sjsSrcAttrName[target],
           sjsModuleAttrName: composedPlugins.sjsModuleAttrName[target],
           isSupportSjsContent: composedPlugins.isSupportSjsContent[target],
-          extname: composedPlugins.fileType[sourceType].sjs
+          extname: composedPlugins.fileType[target].sjs
         }
       }
 
@@ -361,13 +363,36 @@ export class TemplateParserPlugin implements Plugin {
         const newEntryFileName = slash(
           path.join(path.dirname(options.fileInfo.entryName), sjsFileName)
         )
+        let sjsContent = String(node.content[0] || '')
+        const sjsFileOptions = {
+          userConfig: options.userConfig,
+          loaderContext: options.loaderContext,
+          fileInfo: {
+            path: path.join(path.dirname(options.fileInfo.path), sjsFileName),
+            content: sjsContent,
+            extname: sjsConfig.target.extname,
+            entryName: newEntryFileName,
+            entryFileType: EntryFileType.sjs,
+            entryType: options.fileInfo.entryType
+          }
+        }
+        const sjsTransformers = this.runner.hooks.sjsParser.call(
+          {
+            before: [],
+            after: [],
+            afterDeclarations: []
+          },
+          sjsFileOptions
+        )
+        sjsContent = sjsScriptTransformer(
+          sjsContent,
+          EntryFileType.sjs,
+          sjsFileOptions,
+          sjsTransformers
+        ).code
 
         // 输出额外文件
-        entryBuilder.setEntrySource(
-          newEntryFileName,
-          String(node.content[0] || ''),
-          'additional'
-        )
+        entryBuilder.setEntrySource(newEntryFileName, sjsContent, 'additional')
 
         // 清空内嵌的脚本内容
         node.content = []

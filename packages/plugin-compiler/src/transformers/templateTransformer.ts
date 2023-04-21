@@ -3,7 +3,9 @@ import { FileParserOptions, posthtml } from '@morjs/utils'
 export type PostHtmlCustomPlugin = (
   tree: posthtml.Node,
   options: FileParserOptions
-) => ReturnType<posthtml.Plugin<any>>
+) =>
+  | ReturnType<posthtml.Plugin<any>>
+  | Promise<ReturnType<posthtml.Plugin<any>>>
 
 export async function templateTransformer(
   fileContent: string,
