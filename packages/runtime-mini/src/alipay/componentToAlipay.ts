@@ -297,61 +297,64 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   // 初始化 props
   options.props = Object.assign(props, options.props || {})
 
-  // 接收变更，需要开启 component2 支持
-  const originalDeriveDataFromProps = options.deriveDataFromProps
-  options.deriveDataFromProps = function (nextProps = {}) {
-    // 用于判断 nextProps 不为空对象
-    let hasProps = false
+  // 如果使用官方提供的 observers 则跳过自实现的事件监听
+  if (
+    !getGlobalObject().canIUse('component.observers') ||
+    !options.options?.observers
+  ) {
+    // 接收变更，需要开启 component2 支持
+    const originalDeriveDataFromProps = options.deriveDataFromProps
+    options.deriveDataFromProps = function (nextProps = {}) {
+      // 用于判断 nextProps 不为空对象
+      let hasProps = false
 
-    // 遍历所有更新的 prop 并触发更新
-    for (const prop in nextProps) {
-      // 支付宝中 prop 为函数时, 通常代表事件, 此处直接跳过赋值
-      if (typeof nextProps[prop] === 'function') continue
+      // 遍历所有更新的 prop 并触发更新
+      for (const prop in nextProps) {
+        // 支付宝中 prop 为函数时, 通常代表事件, 此处直接跳过赋值
+        if (typeof nextProps[prop] === 'function') continue
 
-      hasProps = true
+        hasProps = true
 
-      const originalValue = this.properties[prop]
+        const originalValue = this.properties[prop]
 
-      // 更新 properties 和 data
-      // 微信小程序中的 properties 和 data 是一致的
-      // 都包含 包括内部数据和属性值
-      this.properties[prop] = nextProps[prop]
-      this.data[prop] = nextProps[prop]
+        // 更新 properties 和 data
+        // 微信小程序中的 properties 和 data 是一致的
+        // 都包含 包括内部数据和属性值
+        this.properties[prop] = nextProps[prop]
+        this.data[prop] = nextProps[prop]
 
-      // 执行属性监听器
-      if (
-        propertiesWithObserver[prop] &&
-        !(pureDataPattern && pureDataPattern.test(prop))
-      ) {
-        try {
-          propertiesWithObserver[prop].call(
-            this,
-            nextProps[prop],
-            originalValue
-          )
-        } catch (e) {
-          logger.error(
-            `组件 ${this.is} 属性监听器 properties.${prop}.observer 报错: `,
-            e
-          )
+        // 执行属性监听器
+        if (
+          propertiesWithObserver[prop] &&
+          !(pureDataPattern && pureDataPattern.test(prop))
+        ) {
+          try {
+            propertiesWithObserver[prop].call(
+              this,
+              nextProps[prop],
+              originalValue
+            )
+          } catch (e) {
+            logger.error(
+              `组件 ${this.is} 属性监听器 properties.${prop}.observer 报错: `,
+              e
+            )
+          }
         }
       }
-    }
-    // 触发一次更新
-    if (hasProps) {
-      this.setData(nextProps)
-    }
+      // 触发一次更新
+      if (hasProps) {
+        this.setData(nextProps)
+      }
 
-    // 如果配置了 options.observers 则使用支付宝提供的数据变化观测器，否者触发自定义监听器
-    if (!options.options?.observers) {
       const changedData = { ...(this[MOR_PREV_DATA] || {}), ...nextProps }
       this[MOR_PREV_DATA] = null
       invokeObservers.call(this, changedData)
-    }
 
-    // 执行原函数
-    if (originalDeriveDataFromProps)
-      originalDeriveDataFromProps.call(this, nextProps)
+      // 执行原函数
+      if (originalDeriveDataFromProps)
+        originalDeriveDataFromProps.call(this, nextProps)
+    }
   }
 }
 
@@ -378,7 +381,12 @@ function hookComponentLifeCycle(options: Record<string, any>) {
     this.properties = { ...(this.data || {}) }
     for (const prop in this.props || {}) {
       if (typeof prop === 'function') continue
-      this.properties[prop] = this.props[prop]
+      // 若使用官方提供的 observers，不能将 props 的值放到 data 里
+      if (
+        !getGlobalObject().canIUse('component.observers') ||
+        !options.observers
+      )
+        this.properties[prop] = this.props[prop]
     }
     this.data = this.properties
   }
