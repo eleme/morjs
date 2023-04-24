@@ -143,6 +143,11 @@ export class ScriptParserPlugin implements Plugin {
           this.autoInjectCoreLib(transformers, options)
         }
 
+        // 为支付宝自定义组件注入 options 配置项
+        if (target === 'alipay') {
+          this.injectComponentOptions(transformers, options)
+        }
+
         return transformers
       })
 
@@ -583,5 +588,70 @@ export class ScriptParserPlugin implements Plugin {
     }
 
     return allVisitors[transformType]
+  }
+
+  /**
+   * 自动注入 Component 的 options 配置以开启官方功能
+   * 1. 若 observers 有值，则开启 options.observers = true
+   */
+  injectComponentOptions(
+    transformers: ts.CustomTransformers,
+    options: FileParserOptions
+  ) {
+    if (!options.fileInfo.content.includes('Component')) return transformers
+
+    function visitor(node: ts.Node, ctx: ts.TransformationContext) {
+      const factory = ctx.factory
+
+      if (
+        ts.isExpressionStatement(node) &&
+        ts.isCallExpression(node.expression) &&
+        ts.isIdentifier(node.expression.expression) &&
+        node.expression.expression.escapedText === 'wComponent'
+      ) {
+        const propertiesNode = node.expression.arguments[0]?.['properties']
+        if (!propertiesNode) return node
+
+        let hasObservers = false
+        propertiesNode.map((propNode) => {
+          if (
+            ts.isPropertyAssignment(propNode) &&
+            ts.isIdentifier(propNode?.name) &&
+            propNode?.name?.escapedText === 'observers'
+          ) {
+            hasObservers = true
+          }
+        })
+
+        if (!hasObservers) return node
+
+        const args = [...propertiesNode]
+        args.push(
+          factory.createPropertyAssignment(
+            factory.createIdentifier('options'),
+            factory.createObjectLiteralExpression(
+              [
+                factory.createPropertyAssignment(
+                  factory.createIdentifier('observers'),
+                  factory.createTrue()
+                )
+              ],
+              false
+            )
+          )
+        )
+
+        return factory.updateExpressionStatement(
+          node,
+          factory.createCallExpression(node.expression.expression, undefined, [
+            factory.createObjectLiteralExpression([...args], true)
+          ])
+        )
+      }
+
+      return node
+    }
+
+    transformers.before.push(tsTransformerFactory(visitor))
   }
 }
