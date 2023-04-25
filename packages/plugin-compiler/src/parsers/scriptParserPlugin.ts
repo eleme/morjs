@@ -30,10 +30,10 @@ const WebpackWrapperMap = new WeakMap<Runner, WebpackWrapper>()
 type TransformTypes = keyof typeof GlobalObjectTransformTypes
 
 const MOR_IDENTIFIERS = {
-  Api: '$MOR_API',
-  App: '$MOR_APP',
-  Page: '$MOR_PAGE',
-  Component: '$MOR_COMPONENT'
+  Api: '__MOR_API__',
+  App: '__MOR_APP__',
+  Page: '__MOR_PAGE__',
+  Component: '__MOR_COMPONENT__'
 } as const
 
 const MINIPROGRAM_CONSTRUCTOR_MAPPINGS = {
@@ -447,10 +447,10 @@ export class ScriptParserPlugin implements Plugin {
   /**
    * 自动注入 mor 的运行时
    *
-   * - 自动替换 App 为 $MOR_APP
-   * - 自动替换 Page 为 $MOR_PAGE
-   * - 自动替换 Component 为 $MOR_COMPONENT
-   * - 替换完成后, 在后置的检查中, 基于 $MOR_* 是否存在，自动注入引用代码
+   * - 自动替换 App 为 __MOR_APP__
+   * - 自动替换 Page 为 __MOR_PAGE__
+   * - 自动替换 Component 为 __MOR_COMPONENT__
+   * - 替换完成后, 在后置的检查中, 基于 __MOR_*__ 是否存在，自动注入引用代码
    */
   autoInjectCoreLib(
     transformers: ts.CustomTransformers,
