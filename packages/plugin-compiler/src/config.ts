@@ -551,7 +551,8 @@ export async function buildWebpackConfig(
     srcPaths,
     compileMode,
     compileType,
-    compilerOptions
+    compilerOptions,
+    processNodeModules
   } = userConfig
   const targetDescription = composedPlugins.targetDescription[target]
 
@@ -720,6 +721,13 @@ export async function buildWebpackConfig(
     chain.resolve.extensionAlias.set(ext, [...AllConfigFileTypes])
   })
   chain.resolve.mainFields.merge(composedPlugins.resolveMainFields[target])
+  // 开启处理 node_modules 代表能够支持直接将 node_modules 组件库中的源码组件
+  // 编译为目标平台的组件，需要拓展组件库的解析目录支持，追加源码平台的 mainFields
+  if (processNodeModules) {
+    chain.resolve.mainFields.merge(
+      composedPlugins.resolveMainFields[sourceType]
+    )
+  }
   // 开启 symlinks 确保相同文件不会因为是 symlink 而被重复打包
   chain.resolve.symlinks(true)
   // 添加 npm 解析目录
