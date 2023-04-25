@@ -243,6 +243,12 @@ function hackSetData() {
  * 添加 properties 和 observers 支持
  */
 function injectPropertiesAndObserversSupport(options: Record<string, any>) {
+  if (
+    getGlobalObject()?.canIUse?.('component.observers') &&
+    options.options.observers !== false
+  )
+    options.options = { ...options.options, observers: true }
+
   const properties = options.properties || {}
   // 属性监听器
   const propertiesWithObserver = {}
@@ -302,11 +308,16 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   options.deriveDataFromProps = function (nextProps = {}) {
     // 用于判断 nextProps 不为空对象
     let hasProps = false
+    const updateProps = {}
 
     // 遍历所有更新的 prop 并触发更新
     for (const prop in nextProps) {
       // 支付宝中 prop 为函数时, 通常代表事件, 此处直接跳过赋值
       if (typeof nextProps[prop] === 'function') continue
+
+      // 哪些 prop 发生了改变
+      if (nextProps[prop] !== this.props[prop])
+        updateProps[prop] = nextProps[prop]
 
       hasProps = true
 
@@ -339,12 +350,12 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     }
     // 触发一次更新
     if (hasProps) {
-      this.setData(nextProps)
+      this.setData(updateProps)
     }
 
     // 如果配置了 options.observers 则使用支付宝提供的数据变化观测器，否者触发自定义监听器
     if (!options.options?.observers) {
-      const changedData = { ...(this[MOR_PREV_DATA] || {}), ...nextProps }
+      const changedData = { ...(this[MOR_PREV_DATA] || {}), ...updateProps }
       this[MOR_PREV_DATA] = null
       invokeObservers.call(this, changedData)
     }
