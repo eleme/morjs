@@ -455,10 +455,20 @@ const apiTransformConfig: IAPITransformConfig = {
       }
       return global.createIntersectionObserver(options)
     }
+  },
+  getSystemInfo: {
+    r: getSystemInfoResult
+  },
+  getSystemInfoSync: {
+    r: getSystemInfoResult
+  },
+  getSystemInfoAsync: {
+    n: 'getSystemInfo',
+    r: getSystemInfoResult
   }
 }
 
-function getOpenUserInfo(res) {
+function getOpenUserInfo(res: any) {
   const userInfo = JSON.parse(res.response).response
 
   if (userInfo) {
@@ -476,7 +486,11 @@ function getOpenUserInfo(res) {
   }
 }
 
-export function initApi(mor) {
+function getSystemInfoResult(res: any) {
+  res.SDKVersion = getGlobalObject()?.SDKVersion
+}
+
+export function initApi(mor: any) {
   transformApis(mor, getGlobalObject(), {
     needPromisfiedApis,
     apiTransformConfig
