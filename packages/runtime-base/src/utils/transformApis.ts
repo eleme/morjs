@@ -286,7 +286,9 @@ export function transformApis(
           return markAsUnsupport(actualApiName)()
         }
 
-        return global[actualApiName](options, ...args)
+        const res = global[actualApiName](options, ...args)
+        apiConfig?.r?.(res)
+        return res
       }
     }
   })
