@@ -243,7 +243,11 @@ function hackSetData() {
  * 添加 properties 和 observers 支持
  */
 function injectPropertiesAndObserversSupport(options: Record<string, any>) {
-  if (getGlobalObject().canIUse('component.observers'))
+  if (
+    getGlobalObject() &&
+    getGlobalObject().canIUse?.('component.observers') &&
+    options.options.observers !== false
+  )
     options.options = { ...options.options, observers: true }
 
   const properties = options.properties || {}
@@ -347,12 +351,12 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     }
     // 触发一次更新
     if (hasProps) {
-      this.setData(options.options?.observers ? updateProps : nextProps)
+      this.setData(updateProps)
     }
 
     // 如果配置了 options.observers 则使用支付宝提供的数据变化观测器，否者触发自定义监听器
     if (!options.options?.observers) {
-      const changedData = { ...(this[MOR_PREV_DATA] || {}), ...nextProps }
+      const changedData = { ...(this[MOR_PREV_DATA] || {}), ...updateProps }
       this[MOR_PREV_DATA] = null
       invokeObservers.call(this, changedData)
     }
