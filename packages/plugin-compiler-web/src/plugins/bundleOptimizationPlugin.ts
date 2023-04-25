@@ -37,12 +37,12 @@ export class BundleOptimizationPlugin implements Plugin {
         react: {
           name: 'react',
           test: /[\\/]react|react-dom[\\/]/,
-          priority: 3
+          priority: 4
         },
         // runtime-web 运行时
         web: {
           name: `${mor.name}.w`,
-          test: /@ali[\\/]openmor-runtime-web/,
+          test: /(@morjs[\\/]|@ali[\\/]openmor-)runtime-web/,
           priority: 3
         },
 
