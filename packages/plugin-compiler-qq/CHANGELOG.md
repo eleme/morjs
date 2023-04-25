@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.34](https://github.com/eleme/morjs/compare/v1.0.33...v1.0.34) (2023-04-25)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-qq
+
+
+
+
+
 ## [1.0.33](https://github.com/eleme/morjs/compare/v1.0.32...v1.0.33) (2023-04-25)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-qq
