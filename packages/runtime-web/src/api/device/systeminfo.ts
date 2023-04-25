@@ -11,8 +11,6 @@ function contains(arr, needle) {
 
 function systemInfo() {
   const info = {
-    // NOTE: 这里暂时以最新版本的支付宝小程序基础库为准
-    SDKVersion: '2.8.9',
     model: md.mobile(),
     pixelRatio: window.devicePixelRatio, //设备像素比。
     windowWidth: document.body.clientWidth,
@@ -63,11 +61,15 @@ function systemInfo() {
 }
 
 export default {
+  // NOTE: 这里暂时以最新版本的支付宝小程序基础库为准
+  SDKVersion: '2.8.9',
+
   getSystemInfo() {
     return new Promise((resolve) => {
       resolve(systemInfo())
     })
   },
+
   getSystemInfoSync() {
     return systemInfo()
   }
