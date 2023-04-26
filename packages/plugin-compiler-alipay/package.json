@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-alipay",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "description": "mor complier plugin for alipay mini program",
   "keywords": [
     "mor",
