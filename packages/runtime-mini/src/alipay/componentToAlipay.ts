@@ -22,9 +22,9 @@ const isComponent2Enabled = canIUse('component2')
 // 检查是否支持 observers
 const isObserversSupported = canIUse('component.observers')
 // 检查是否支持 relations
-const isRelationsSupported = canIUse('conponent.relations')
+const isRelationsSupported = canIUse('component.relations')
 // 检查是否支持 externalClasses
-const isExternalClassesSupported = canIUse('conponent.externalClasses')
+const isExternalClassesSupported = canIUse('component.externalClasses')
 
 /**
  * 确保组件有对应的对象的存在
