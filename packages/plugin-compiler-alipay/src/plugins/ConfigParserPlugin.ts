@@ -317,6 +317,15 @@ export default class AlipayCompilerConfigParserPlugin implements Plugin {
             }
           }
 
+          // 支付宝不支持 subpackages，仅支持 subPackages
+          if (
+            isAlipaySimilarTarget &&
+            config.subpackages &&
+            !config.subPackages
+          ) {
+            config.subPackages = config.subpackages
+          }
+
           // plugin.json 转换
           config = this.transformPluginJson(config, options)
 
