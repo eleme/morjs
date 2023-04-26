@@ -316,8 +316,10 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
       if (typeof nextProps[prop] === 'function') continue
 
       // 哪些 prop 发生了改变
-      if (nextProps[prop] !== this.props[prop])
+      const isPropChanged = nextProps[prop] !== this.props[prop]
+      if (isPropChanged) {
         updateProps[prop] = nextProps[prop]
+      }
 
       hasProps = true
 
@@ -329,8 +331,9 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
       this.properties[prop] = nextProps[prop]
       this.data[prop] = nextProps[prop]
 
-      // 执行属性监听器
+      // 执行属性监听器，仅执行发生了变化的属性
       if (
+        isPropChanged &&
         propertiesWithObserver[prop] &&
         !(pureDataPattern && pureDataPattern.test(prop))
       ) {
