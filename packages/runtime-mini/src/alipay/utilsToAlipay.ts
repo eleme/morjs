@@ -195,12 +195,7 @@ export function injectComponentSelectorMethodsSupport(
   }
 
   // 如果支付宝已支持 selectComponent 或 selectAllComponents 则不注入
-  if (!isSelectComponentSupported || type === 'page') {
-    // 选择组件支持
-    options.selectComponent = generateSelectFunction('selectComponent')
-    // 选择组件支持(多个)
-    options.selectAllComponents = generateSelectFunction('selectAllComponents')
-  } else {
+  if (isSelectComponentSupported && type === 'component') {
     // 选择组件支持
     options.selectComponent = function (...args: any) {
       return this.$selectComponent(...args)
@@ -209,6 +204,11 @@ export function injectComponentSelectorMethodsSupport(
     options.selectAllComponents = function (...args: any) {
       return this.$selectAllComponents(...args)
     }
+  } else {
+    // 选择组件支持
+    options.selectComponent = generateSelectFunction('selectComponent')
+    // 选择组件支持(多个)
+    options.selectAllComponents = generateSelectFunction('selectAllComponents')
   }
 
   // 如果支付宝已支持 selectOwnerComponent 则不注入
