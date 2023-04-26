@@ -83,7 +83,7 @@ export default defineConfig([
 > 注意：我们内部并没有使用任何社区的组件库，各第三方 UI 框架表现不同，相关的兼容性需要具体进一步验证
 
 1. 安装需要接入的第三方 UI 框架，具体方式请参照各 UI 框架的文档
-2. 在配置文件 `mor.config.ts` 中添加对 `node_modules` 的处理，具体配置项 `processNodeModules`，相关文档请查阅 [MorJS 基础用法 - 配置 processNodeModules](https://mor.eleme.io/guides/basic/config/#processnodemodules---%E6%98%AF%E5%90%A6%E5%A4%84%E7%90%86-node_modules)
+2. 在配置文件 `mor.config.ts` 中添加对 `node_modules` 的处理，具体配置项 `processNodeModules`，相关文档请查阅 [MorJS 基础用法 - 配置 processNodeModules](/guides/basic/config/#processnodemodules---%E6%98%AF%E5%90%A6%E5%A4%84%E7%90%86-node_modules)
 
 ```typescript
 // mor.config.ts
@@ -100,13 +100,13 @@ export default defineConfig([
 ]
 ```
 
-3. 在项目中直接按照 **_实际路径_** 引用组件
+3. 在项目中按 [照组件库规范](/specifications/component) 来引用组件，或按照实际路径引用组件，比如："@vant/weapp/popup/index" 或 "@vant/weapp/lib/popup/index"
 
 ```json
 {
   "usingComponents": {
-    "van-popup": "@vant/weapp/lib/popup/index", // 引用 @vant/weapp 的 popup 组件
-    "t-button": "tdesign-miniprogram/miniprogram_dist/button/button" // 引用 tdesign-miniprogram 的 button 组件
+    "van-button": "@vant/weapp/button/index", // 引用 @vant/weapp 的 button 组件
+    "van-popup": "@vant/weapp/lib/popup/index" // 引用 @vant/weapp 的 popup 组件
   }
 }
 ```
