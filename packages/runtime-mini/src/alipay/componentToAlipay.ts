@@ -243,11 +243,11 @@ function hackSetData() {
  * 添加 properties 和 observers 支持
  */
 function injectPropertiesAndObserversSupport(options: Record<string, any>) {
-  if (
-    getGlobalObject()?.canIUse?.('component.observers') &&
-    options.options.observers !== false
-  )
-    options.options = { ...options.options, observers: true }
+  // 如果支付宝小程序基础库已支持 observers 且用户未手动关闭 observers
+  // 则直接自动启用 observers 监听器代替 MorJS 本身的实现逻辑
+  if (isObserversSupported && options.options.observers !== false) {
+    options.options.observers = true
+  }
 
   const properties = options.properties || {}
   // 属性监听器
@@ -257,7 +257,7 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   const pureDataPattern = options.pureDataPattern
 
   // 准备 props 以及 propertiesWithObserver
-  const props = {}
+  const props: Record<string, any> = {}
   Object.keys(properties).forEach((key) => {
     const prop = convertPropertyByType(properties[key] || {})
     props[key] = prop.value
@@ -308,7 +308,7 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   options.deriveDataFromProps = function (nextProps = {}) {
     // 用于判断 nextProps 不为空对象
     let hasProps = false
-    const updateProps = {}
+    const updateProps: Record<string, any> = {}
 
     // 遍历所有更新的 prop 并触发更新
     for (const prop in nextProps) {
@@ -441,8 +441,13 @@ function injectComponentInstanceMethodSupport(options: Record<string, any>) {
   }
 }
 
+const canIUse = function (name: string): boolean {
+  return !!getGlobalObject()?.canIUse?.(name)
+}
 // 检查是否支持 component2
-const isComponent2Enabled = !!getGlobalObject().canIUse?.('component2')
+const isComponent2Enabled = canIUse('component2')
+// 检查是否支持 observers
+const isObserversSupported = canIUse('component.observers')
 
 /**
  * 其他小程序转支付宝的 Component 差异抹平
