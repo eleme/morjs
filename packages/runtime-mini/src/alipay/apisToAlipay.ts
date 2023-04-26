@@ -465,6 +465,16 @@ const apiTransformConfig: IAPITransformConfig = {
   getSystemInfoAsync: {
     n: 'getSystemInfo',
     r: getSystemInfoResult
+  },
+  nextTick: {
+    fn: function (global, callback) {
+      if (typeof callback !== 'function') return
+      if (typeof global?.nextTick === 'function') {
+        return global.nextTick(callback)
+      } else {
+        return setTimeout(callback, 0)
+      }
+    }
   }
 }
 

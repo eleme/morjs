@@ -1,8 +1,9 @@
-import { compose, getGlobalObject, logger } from '@morjs/runtime-base'
+import { compose, logger } from '@morjs/runtime-base'
 import get from 'lodash.get'
 import has from 'lodash.has'
 import set from 'lodash.set'
 import {
+  canIUse,
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,
   injectHasBehaviorSupport,
@@ -15,10 +16,6 @@ const MOR_PREFIX = 'mor' as const
  * 用于在组件实例中保存 data 更新前的数据
  */
 const MOR_PREV_DATA = `$${MOR_PREFIX}PrevData` as const
-
-function canIUse(name: string): boolean {
-  return !!getGlobalObject()?.canIUse?.(name)
-}
 
 // 检查是否支持 component2
 const isComponent2Enabled = canIUse('component2')

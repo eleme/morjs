@@ -1,5 +1,9 @@
 import { getGlobalObject, markAsUnsupport } from '@morjs/runtime-base'
 
+export function canIUse(name: string): boolean {
+  return !!getGlobalObject()?.canIUse?.(name)
+}
+
 /**
  * 标记不支持的实例方法
  */
@@ -70,8 +74,13 @@ export function injectHasBehaviorSupport(
   }
 }
 
+const isSelectOwnerComponentSupported = canIUse(
+  'component.selectOwnerComponent'
+)
+const isSelectComponentSupported = canIUse('component.$selectComponent')
+
 /**
- * 注入 $morSaveRef / selectComponent / selectComponents / selectOwnerComponent 方法
+ * 注入 $morSaveRef / selectComponent / selectAllComponents / selectOwnerComponent 方法
  * 通过 支付宝小程序的 ref 来实现
  */
 export function injectComponentSelectorMethodsSupport(
@@ -92,6 +101,8 @@ export function injectComponentSelectorMethodsSupport(
 
     // 保存引用方关联
     component.$morOwnerComponent = this
+
+    return component
   }
 
   // 移除关联
@@ -127,7 +138,7 @@ export function injectComponentSelectorMethodsSupport(
 
   // 生成选择器
   function generateSelectFunction(
-    selectType: 'selectComponent' | 'selectComponents'
+    selectType: 'selectComponent' | 'selectAllComponents'
   ) {
     return function (selector: string): any {
       const childComponents = this.$morChildComponents || []
@@ -183,15 +194,29 @@ export function injectComponentSelectorMethodsSupport(
     }
   }
 
-  // 选择组件支持
-  options.selectComponent = generateSelectFunction('selectComponent')
+  // 如果支付宝已支持 selectComponent 或 selectAllComponents 则不注入
+  if (!isSelectComponentSupported || type === 'page') {
+    // 选择组件支持
+    options.selectComponent = generateSelectFunction('selectComponent')
+    // 选择组件支持(多个)
+    options.selectAllComponents = generateSelectFunction('selectAllComponents')
+  } else {
+    // 选择组件支持
+    options.selectComponent = function (...args: any) {
+      return this.$selectComponent(...args)
+    }
+    // 选择组件支持(多个)
+    options.selectAllComponents = function (...args: any) {
+      return this.$selectAllComponents(...args)
+    }
+  }
 
-  // 选择组件支持(多个)
-  options.selectComponents = generateSelectFunction('selectComponents')
-
-  // 选额父组件支持
-  options.selectOwnerComponent = function () {
-    return this.$morOwnerComponent
+  // 如果支付宝已支持 selectOwnerComponent 则不注入
+  if (!isSelectOwnerComponentSupported || type === 'page') {
+    // 选额父组件支持
+    options.selectOwnerComponent = function () {
+      return this.$morOwnerComponent
+    }
   }
 }
 
