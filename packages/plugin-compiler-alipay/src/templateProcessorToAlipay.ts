@@ -15,7 +15,7 @@ const TAG_SPECIFIC_PROP_NAME_MAPPINGS = {
 }
 
 // 通过 支付宝小程序的 ref 来实现
-// selectComponent/selectComponents/selectOwnComponent 方法
+// selectComponent/selectAllComponents/selectOwnComponent 方法
 const MOR_REF_METHOD_NAME = '$morSaveRef'
 
 /**
