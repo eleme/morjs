@@ -237,7 +237,7 @@ export class TemplateParserPlugin implements Plugin {
         // 触发源码转换
         if (sourceProcessor.onNodeAttrExit) {
           sourceProcessor.onNodeAttrExit(
-            directivesMap[attrName],
+            directivesMap[attrName] || attrName,
             node,
             options,
             nodeContext
@@ -247,7 +247,7 @@ export class TemplateParserPlugin implements Plugin {
         // 触发目标代码转换
         if (targetProcessor.onNodeAttrExit) {
           targetProcessor.onNodeAttrExit(
-            directivesMap[attrName],
+            directivesMap[attrName] || attrName,
             node,
             options,
             nodeContext
