@@ -16,6 +16,17 @@ const MOR_PREFIX = 'mor' as const
  */
 const MOR_PREV_DATA = `$${MOR_PREFIX}PrevData` as const
 
+function canIUse(name: string): boolean {
+  return !!getGlobalObject()?.canIUse?.(name)
+}
+
+// 检查是否支持 component2
+const isComponent2Enabled = canIUse('component2')
+// 检查是否支持 observers
+const isObserversSupported = canIUse('component.observers')
+// 检查是否支持 relations
+const isRelationsSupported = canIUse('conponent.relations')
+
 /**
  * 确保组件有对应的对象的存在
  *
@@ -47,6 +58,11 @@ function checkOptions(options: Record<string, any>): void {
     logger.warn(
       `组件中包含支付宝小程序不支持的 moved 生命周期, 请自行适配相关逻辑`
     )
+  }
+
+  // 如果支持 relations 且用户未手动关闭，则默认开启
+  if (isRelationsSupported && options.options?.relations !== false) {
+    options.options.relations = true
   }
 }
 
@@ -443,14 +459,6 @@ function injectComponentInstanceMethodSupport(options: Record<string, any>) {
     return this.$page?.$viewId
   }
 }
-
-const canIUse = function (name: string): boolean {
-  return !!getGlobalObject()?.canIUse?.(name)
-}
-// 检查是否支持 component2
-const isComponent2Enabled = canIUse('component2')
-// 检查是否支持 observers
-const isObserversSupported = canIUse('component.observers')
 
 /**
  * 其他小程序转支付宝的 Component 差异抹平
