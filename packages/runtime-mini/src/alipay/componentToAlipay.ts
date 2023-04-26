@@ -23,6 +23,8 @@ const isComponent2Enabled = canIUse('component2')
 const isObserversSupported = canIUse('component.observers')
 // 检查是否支持 relations
 const isRelationsSupported = canIUse('conponent.relations')
+// 检查是否支持 externalClasses
+const isExternalClassesSupported = canIUse('conponent.externalClasses')
 
 /**
  * 确保组件有对应的对象的存在
@@ -60,6 +62,14 @@ function checkOptions(options: Record<string, any>): void {
   // 如果支持 relations 且用户未手动关闭，则默认开启
   if (isRelationsSupported && options.options?.relations !== false) {
     options.options.relations = true
+  }
+
+  // 如果支持 externalClasses 且用户未手动关闭，则默认开启
+  if (
+    isExternalClassesSupported &&
+    options.options?.externalClasses !== false
+  ) {
+    options.options.externalClasses = true
   }
 }
 
