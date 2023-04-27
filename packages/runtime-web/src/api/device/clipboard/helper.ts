@@ -37,7 +37,7 @@ function command(type) {
   try {
     return document.execCommand(type)
   } catch (err) {
-    return false
+    return err
   }
 }
 
