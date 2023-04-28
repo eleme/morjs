@@ -4,6 +4,7 @@ import select from 'select'
  * Creates a fake textarea element with a value.
  * @param {String} value
  * @return {HTMLElement}
+ * @source: copy from https://github.com/zenorocha/clipboard.js/blob/master/src/common/create-fake-element.js
  */
 
 function createFakeElement(value) {
@@ -32,6 +33,7 @@ function createFakeElement(value) {
  * Executes a given operation type.
  * @param {String} type
  * @return {Boolean}
+ * @source: copy from https://github.com/zenorocha/clipboard.js/blob/master/src/common/command.js
  */
 function command(type) {
   try {
@@ -44,11 +46,13 @@ function command(type) {
 const NOT_SUPPORT_COMMAND =
   "your browser doesn't support document.execCommand('copy')."
 const isSupportCommandCopy = () => document.queryCommandSupported('copy')
+
 /**
  * Create fake copy action wrapper using a fake element.
  * @param {String} target
  * @param {Object} options
  * @return {String}
+ * @source: copy from https://github.com/zenorocha/clipboard.js/blob/master/src/actions/copy.js
  */
 export const copy = (value, options) => {
   return new Promise((resolve, reject) => {
