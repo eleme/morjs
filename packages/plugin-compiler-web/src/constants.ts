@@ -150,6 +150,8 @@ export const UserConfigSchema = z.object({
            * 用于传递业务对某个组件的特殊配置, 比如 map 组件传递 key
            */
           components: z.record(z.any()).optional(),
+          /* 用于传递业务对某个 api 的特殊配置，比如 clipboard 切换实现方式 */
+          apis: z.record(z.any()).optional(),
           /**
            * 用于自定义 URL 中 query 部分的 tabBarKey 的实际名称，该 key 作用于 URL 的
            * query，并将拿到到值，用于获取 app.json 中的 tabbar 内容，以此实现通过 URL 参数
