@@ -17,7 +17,7 @@ export default {
       /*
         两个使用场景：
          1. 不支持 navigator.clipboard 的兜底
-         2. 某些银行 app 存在 navigator.clipboard，但是无法正常使用复制功能
+         2. 某些容器虽然存在 navigator.clipboard，但是无法正常使用复制功能
       */
       return copy(text, { container: document.body })
     }
