@@ -1,4 +1,5 @@
 import { FileParserOptions, posthtml } from '@morjs/utils'
+import { sjsModuleAttrName, sjsTagName } from './constants'
 import { isNativeTag } from './templateTags'
 
 type NodeAttributes = Record<string, string | number | boolean>
@@ -14,7 +15,7 @@ const TAG_SPECIFIC_PROP_NAME_MAPPINGS = {
 }
 
 // 通过 支付宝小程序的 ref 来实现
-// selectComponent/selectComponents/selectOwnComponent 方法
+// selectComponent/selectAllComponents/selectOwnComponent 方法
 const MOR_REF_METHOD_NAME = '$morSaveRef'
 
 /**
@@ -30,54 +31,56 @@ export const templateProcessorToAlipay = {
     options: FileParserOptions,
     context: Record<string, any>
   ): void {
-    if (!node || !node.attrs) return
+    if (!node) return
+
+    if (node.attrs) {
+      const usingComponentNames: string[] = context.usingComponentNames || []
+
+      // 检查当前节点是否为自定义组件标签, 如果是则需要通过 ref 注入组件实例到页面或组件
+      if (usingComponentNames.includes(node.tag as string)) {
+        node.attrs.ref = MOR_REF_METHOD_NAME
+        // 支付宝小程序自定义组件设置 id 无效
+        // 在这里单独保存下
+        if (node.attrs.id) node.attrs.morTagId = node.attrs.id
+        // 保存 tag 标签名称
+        node.attrs.morTagName = node.tag
+      }
+
+      // 检查 block 的 hidden 属性
+      // 并替换为 a:if
+      // 原因为: 支付宝不支持, 小程序IDE编译过程中会输出警告
+      if (node.tag === 'block' && node.attrs['hidden']) {
+        const blockIf = {
+          ...node,
+          ...{
+            attrs: {
+              'a:if':
+                (node.attrs as NodeAttributes)['hidden'] === true
+                  ? '{{true}}'
+                  : node.attrs['hidden']
+            },
+            content: []
+          }
+        }
+        const blockElse = { ...node, ...{ attrs: {} } }
+        ;(blockElse.attrs as NodeAttributes)['a:else'] = true
+        node.content = [blockIf, blockElse]
+
+        delete node.attrs['hidden']
+      }
+
+      // 检查 同一个 node 中是否同时存在 a:if 和 a:key
+      // 如果同时存在 则 将 a:key 替换为 key
+      if (node.attrs['a:if'] && node.attrs['a:key']) {
+        if (!node.attrs['key']) {
+          node.attrs['key'] = node.attrs['a:key']
+          delete node.attrs['a:key']
+        }
+      }
+    }
 
     // 支付宝不支持 大写的标签名, 需要全部转换为小写
     if (node.tag) node.tag = node.tag.toLowerCase()
-
-    const usingComponentNames: string[] = context.usingComponentNames || []
-
-    // 检查当前节点是否为自定义组件标签, 如果是则需要通过 ref 注入组件实例到页面或组件
-    if (usingComponentNames.includes(node.tag as string)) {
-      node.attrs.ref = MOR_REF_METHOD_NAME
-      // 支付宝小程序自定义组件设置 id 无效
-      // 在这里单独保存下
-      if (node.attrs.id) node.attrs.morTagId = node.attrs.id
-      // 保存 tag 标签名称
-      node.attrs.morTagName = node.tag
-    }
-
-    // 检查 block 的 hidden 属性
-    // 并替换为 a:if
-    // 原因为: 支付宝不支持, 小程序IDE编译过程中会输出警告
-    if (node.tag === 'block' && node.attrs['hidden']) {
-      const blockIf = {
-        ...node,
-        ...{
-          attrs: {
-            'a:if':
-              (node.attrs as NodeAttributes)['hidden'] === true
-                ? '{{true}}'
-                : node.attrs['hidden']
-          },
-          content: []
-        }
-      }
-      const blockElse = { ...node, ...{ attrs: {} } }
-      ;(blockElse.attrs as NodeAttributes)['a:else'] = true
-      node.content = [blockIf, blockElse]
-
-      delete node.attrs['hidden']
-    }
-
-    // 检查 同一个 node 中是否同时存在 a:if 和 a:key
-    // 如果同时存在 则 将 a:key 替换为 key
-    if (node.attrs['a:if'] && node.attrs['a:key']) {
-      if (!node.attrs['key']) {
-        node.attrs['key'] = node.attrs['a:key']
-        delete node.attrs['a:key']
-      }
-    }
   },
 
   onNodeAttr(attrName: string, node: posthtml.Node): void {
@@ -110,6 +113,36 @@ export const templateProcessorToAlipay = {
         node.attrs[replaceAttrName] = node.attrs[attrName]
         delete node.attrs[attrName]
       }
+    }
+  },
+
+  onNodeAttrExit(
+    attrName: string,
+    node: posthtml.Node,
+    options: FileParserOptions,
+    context: Record<string, any>
+  ): void {
+    // 支付宝不支持将 sjs 模块的名称命名为 this
+    // 这里需要将其转换为 thisSjs
+    if (
+      node.tag === sjsTagName &&
+      attrName === sjsModuleAttrName &&
+      node.attrs[attrName] === 'this'
+    ) {
+      node.attrs[attrName] = 'thisSjs'
+      // 标记当前页面模版中存在 sjs 模块名称为 this
+      context.hasSjsModuleAttrNameAsThis = true
+    }
+
+    // 如果当前页面有 this 作为 sjs 模块名称
+    // 则
+    if (
+      context.hasSjsModuleAttrNameAsThis &&
+      node.tag !== sjsTagName &&
+      typeof node.attrs[attrName] === 'string' &&
+      node.attrs[attrName].includes('this.')
+    ) {
+      node.attrs[attrName] = node.attrs[attrName].replace(/this\./g, 'thisSjs.')
     }
   }
 }

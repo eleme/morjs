@@ -205,8 +205,9 @@ export default defineConfig([
 
 ## Adapter 扩展配置
 
-`adapters` 配置为一个数组，支持配置多个 adapter 执行顺序从上到下，其优先级高于 mock 逻辑，mock
-优先级则高于原生方法（未命中配置 originMap 的情况下）
+`adapters` 配置用于支持 `mock` 的扩展能力，其返回结果的优先级高于 `mock` 逻辑，`mock` 优先级则高于原生方法（未命中配置 originMap 的情况下）
+
+`adapters` 配置项接收一个数组，支持配置多个 `adapter`，其执行顺序和优先级从上到下，当命中某个 `adapter`，返回正确的结果后，将不会再执行后续的 `adapter`
 
 ### 如何使用 Adapter
 

@@ -39,5 +39,6 @@
 
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
-  "condition": {}
+  "condition": {},
+  "appid":"testAppId"
 }

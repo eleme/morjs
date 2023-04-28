@@ -1,6 +1,6 @@
 {
   "name": "@morjs/runtime-base",
-  "version": "1.0.6",
+  "version": "1.0.34",
   "description": "mor runtime base",
   "keywords": [
     "mor"
@@ -37,6 +37,6 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "tslib": "2"
+    "tslib": "^2.3.1"
   }
 }

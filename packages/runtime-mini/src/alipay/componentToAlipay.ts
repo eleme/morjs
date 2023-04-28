@@ -1,12 +1,30 @@
-import { compose, getGlobalObject, logger } from '@morjs/runtime-base'
+import { compose, logger } from '@morjs/runtime-base'
 import get from 'lodash.get'
 import has from 'lodash.has'
+import set from 'lodash.set'
 import {
+  canIUse,
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,
   injectHasBehaviorSupport,
   markUnsupportMethods
 } from './utilsToAlipay'
+
+const MOR_PREFIX = 'mor' as const
+
+/**
+ * 用于在组件实例中保存 data 更新前的数据
+ */
+const MOR_PREV_DATA = `$${MOR_PREFIX}PrevData` as const
+
+// 检查是否支持 component2
+const isComponent2Enabled = canIUse('component2')
+// 检查是否支持 observers
+const isObserversSupported = canIUse('component.observers')
+// 检查是否支持 relations
+const isRelationsSupported = canIUse('component.relations')
+// 检查是否支持 externalClasses
+const isExternalClassesSupported = canIUse('component.externalClasses')
 
 /**
  * 确保组件有对应的对象的存在
@@ -39,6 +57,19 @@ function checkOptions(options: Record<string, any>): void {
     logger.warn(
       `组件中包含支付宝小程序不支持的 moved 生命周期, 请自行适配相关逻辑`
     )
+  }
+
+  // 如果支持 relations 且用户未手动关闭，则默认开启
+  if (isRelationsSupported && options.options?.relations !== false) {
+    options.options.relations = true
+  }
+
+  // 如果支持 externalClasses 且用户未手动关闭，则默认开启
+  if (
+    isExternalClassesSupported &&
+    options.options?.externalClasses !== false
+  ) {
+    options.options.externalClasses = true
   }
 }
 
@@ -206,9 +237,41 @@ function convertPropertyByType(property: any): {
 }
 
 /**
+ * 覆盖 this.setData 方法, 用于监听数据变化
+ */
+function hackSetData() {
+  const originalSetData = this.setData
+  if (!originalSetData) {
+    logger.error(`[mor] 劫持 setData 失败, 可能导致无法正确触发更新`)
+  }
+
+  // 初始化 data
+  if (this.data) this[MOR_PREV_DATA] = this.data
+
+  this.setData = (
+    nextData: Record<string, any> = {},
+    callback?: () => void
+  ): void => {
+    for (const key in nextData) {
+      set(nextData, key, nextData[key])
+    }
+
+    this[MOR_PREV_DATA] = { ...(this[MOR_PREV_DATA] || {}), ...nextData }
+
+    return originalSetData.call(this, nextData, callback)
+  }
+}
+
+/**
  * 添加 properties 和 observers 支持
  */
 function injectPropertiesAndObserversSupport(options: Record<string, any>) {
+  // 如果支付宝小程序基础库已支持 observers 且用户未手动关闭 observers
+  // 则直接自动启用 observers 监听器代替 MorJS 本身的实现逻辑
+  if (isObserversSupported && options.options.observers !== false) {
+    options.options.observers = true
+  }
+
   const properties = options.properties || {}
   // 属性监听器
   const propertiesWithObserver = {}
@@ -217,7 +280,7 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   const pureDataPattern = options.pureDataPattern
 
   // 准备 props 以及 propertiesWithObserver
-  const props = {}
+  const props: Record<string, any> = {}
   Object.keys(properties).forEach((key) => {
     const prop = convertPropertyByType(properties[key] || {})
     props[key] = prop.value
@@ -268,11 +331,18 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   options.deriveDataFromProps = function (nextProps = {}) {
     // 用于判断 nextProps 不为空对象
     let hasProps = false
+    const updateProps: Record<string, any> = {}
 
     // 遍历所有更新的 prop 并触发更新
     for (const prop in nextProps) {
       // 支付宝中 prop 为函数时, 通常代表事件, 此处直接跳过赋值
       if (typeof nextProps[prop] === 'function') continue
+
+      // 哪些 prop 发生了改变
+      const isPropChanged = nextProps[prop] !== this.props[prop]
+      if (isPropChanged) {
+        updateProps[prop] = nextProps[prop]
+      }
 
       hasProps = true
 
@@ -284,8 +354,9 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
       this.properties[prop] = nextProps[prop]
       this.data[prop] = nextProps[prop]
 
-      // 执行属性监听器
+      // 执行属性监听器，仅执行发生了变化的属性
       if (
+        isPropChanged &&
         propertiesWithObserver[prop] &&
         !(pureDataPattern && pureDataPattern.test(prop))
       ) {
@@ -305,11 +376,15 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     }
     // 触发一次更新
     if (hasProps) {
-      this.setData(nextProps)
+      this.setData(updateProps)
     }
 
-    // 触发监听器
-    invokeObservers.call(this, nextProps)
+    // 如果配置了 options.observers 则使用支付宝提供的数据变化观测器，否者触发自定义监听器
+    if (!options.options?.observers) {
+      const changedData = { ...(this[MOR_PREV_DATA] || {}), ...updateProps }
+      this[MOR_PREV_DATA] = null
+      invokeObservers.call(this, changedData)
+    }
 
     // 执行原函数
     if (originalDeriveDataFromProps)
@@ -352,6 +427,7 @@ function hookComponentLifeCycle(options: Record<string, any>) {
   }
 
   options.onInit = compose([
+    hackSetData,
     // 注入 createIntersectionObserver 方法
     injectCreateIntersectionObserverSupport(),
     initPropertiesAndData,
@@ -390,9 +466,6 @@ function injectComponentInstanceMethodSupport(options: Record<string, any>) {
     return this.$page?.$viewId
   }
 }
-
-// 检查是否支持 component2
-const isComponent2Enabled = !!getGlobalObject().canIUse?.('component2')
 
 /**
  * 其他小程序转支付宝的 Component 差异抹平

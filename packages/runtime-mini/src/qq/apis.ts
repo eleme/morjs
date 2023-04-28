@@ -13,7 +13,13 @@ const needPromisfiedApis = needPromisfiedApisForWechat.concat([
 ])
 
 export function initApi(mor) {
-  transformApis(mor, getGlobalObject(), {
-    needPromisfiedApis
-  })
+  transformApis(
+    mor,
+    getGlobalObject(),
+    {
+      needPromisfiedApis
+    },
+    false,
+    false
+  )
 }

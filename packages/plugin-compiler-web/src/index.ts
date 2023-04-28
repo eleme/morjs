@@ -99,7 +99,7 @@ class WebCompilerPlugin implements MorPlugin {
           new GenerateJSXEntryPlugin(wrapper).apply(runner)
           new HtmlSupportPlugin(wrapper).apply(runner)
           await new DevServerPlugin(wrapper).apply(runner)
-          new BundleOptimizationPlugin(wrapper).apply()
+          new BundleOptimizationPlugin(wrapper).apply(runner)
         }
         // 非 bundle 模式适配
         else {

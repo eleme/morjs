@@ -305,6 +305,27 @@ export default class AlipayCompilerConfigParserPlugin implements Plugin {
       this.runner.hooks.configParser.tapPromise(
         this.name,
         async (config, options) => {
+          // 支付宝不支持大写的标签名，这里统一转换为小写
+          if (isAlipaySimilarTarget && config.usingComponents) {
+            for (const componentName in config.usingComponents || {}) {
+              const newComponentName = componentName.toLowerCase()
+              if (newComponentName !== componentName) {
+                config.usingComponents[newComponentName] =
+                  config.usingComponents[componentName]
+                delete config.usingComponents[componentName]
+              }
+            }
+          }
+
+          // 支付宝不支持 subpackages，仅支持 subPackages
+          if (
+            isAlipaySimilarTarget &&
+            config.subpackages &&
+            !config.subPackages
+          ) {
+            config.subPackages = config.subpackages
+          }
+
           // plugin.json 转换
           config = this.transformPluginJson(config, options)
 

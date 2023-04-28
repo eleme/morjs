@@ -42,7 +42,7 @@ function systemInfo() {
     model = md.mobile() + ' ' + (md.version('iPhone') || md.version('iPad'))
     version = md.versionStr('iPhone') || md.versionStr('iPad')
     const sss = md.userAgent() && md.userAgent().split(';')
-    //判断UA里边有没有Build信息，通过这个拿到安卓的具体机型
+    //判断 UA 里边有没有 Build 信息，通过这个拿到安卓的具体机型
     const i = contains(sss, 'Build/')
     if (i > -1) {
       model = sss[i].substring(0, sss[i].indexOf('Build/'))
@@ -61,11 +61,15 @@ function systemInfo() {
 }
 
 export default {
+  // NOTE: 这里暂时以最新版本的支付宝小程序基础库为准
+  SDKVersion: '2.8.9',
+
   getSystemInfo() {
     return new Promise((resolve) => {
       resolve(systemInfo())
     })
   },
+
   getSystemInfoSync() {
     return systemInfo()
   }

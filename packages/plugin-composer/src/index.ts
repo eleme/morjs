@@ -7,7 +7,7 @@ import {
   Runner,
   validKeysMessage
 } from '@morjs/utils'
-import { compose } from './compose'
+import { compose, generateComposeModuleHash } from './compose'
 import {
   COMMAND_NAME,
   ComposerUserConfig,
@@ -19,7 +19,7 @@ import { ExtraComposeOptionsPlugin } from './plugins/extraComposeOptionsPlugin'
 import { LoadScriptsAndDistForComposePlugin } from './plugins/loadScriptsAndDistForComposePlugin'
 import { overrideUserConfig } from './utils'
 
-export { ComposerUserConfig }
+export { ComposerUserConfig, generateComposeModuleHash }
 
 class MorComposer {
   name: string

@@ -19,6 +19,7 @@ import CliPlugin from './plugins/cliPlugin'
 import PrettyErrorPlugin from './plugins/prettyErrorPlugin'
 
 export * from '@morjs/plugin-compiler'
+export { generateComposeModuleHash } from '@morjs/plugin-composer'
 export * from '@morjs/utils'
 /**
  * 允许通过API修改命令行版本号

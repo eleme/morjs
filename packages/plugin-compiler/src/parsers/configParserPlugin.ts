@@ -77,22 +77,22 @@ export class ConfigParserPlugin implements Plugin {
 
                 if (referencePath) config.usingComponents[key] = referencePath
               }
+            }
 
-              // 为页面和组件注入全局组件
-              // 为节约编译性能，目前的全局组件注入比较粗暴
-              // 直接为每个页面和组件添加全局组件
-              // 没有分析页面的 template 中是否实际有引用
-              if (shouldInjectGlobalComponents && isPageOrComponent) {
-                const entry = entryBuilder.getEntryByFilePath(fileInfo.path)
-                for (const name of globalComponentNames) {
-                  // 如果已存在同名组件, 则跳过
-                  if (config.usingComponents[name]) continue
+            // 为页面和组件注入全局组件
+            // 为节约编译性能，目前的全局组件注入比较粗暴
+            // 直接为每个页面和组件添加全局组件
+            // 没有分析页面的 template 中是否实际有引用
+            if (shouldInjectGlobalComponents && isPageOrComponent) {
+              if (!config.usingComponents) config.usingComponents = {}
+              const entry = entryBuilder.getEntryByFilePath(fileInfo.path)
+              for (const name of globalComponentNames) {
+                // 如果已存在同名组件, 则跳过
+                if (config.usingComponents[name]) continue
 
-                  const referencePath =
-                    entryBuilder.getGlobalComponentRelativePath(entry, name)
-                  if (referencePath)
-                    config.usingComponents[name] = referencePath
-                }
+                const referencePath =
+                  entryBuilder.getGlobalComponentRelativePath(entry, name)
+                if (referencePath) config.usingComponents[name] = referencePath
               }
             }
 

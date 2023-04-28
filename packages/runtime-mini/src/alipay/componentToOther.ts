@@ -564,7 +564,8 @@ function hookComponentLifeCycle(
   const lifetimes = componentOptions.lifetimes
 
   componentOptions.created = lifetimes.created = compose([
-    needsToObserversLifeCycle ? hackSetData : emptyFn
+    needsToObserversLifeCycle ? hackSetData : emptyFn,
+    callOriginalFn('created')
   ])
 
   componentOptions.attached = lifetimes.attached = compose([

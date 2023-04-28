@@ -1,4 +1,4 @@
-import { aApp } from '@ali/mor-core'
+import { aApp } from '@morjs/core'
 
 aApp({
   onLaunch() {

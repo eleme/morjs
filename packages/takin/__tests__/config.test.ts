@@ -14,10 +14,10 @@ describe('__tests__/config.test.ts', () => {
       [path.join(process.cwd(), 'package.json')]: `{
         "name": "takin-unit-test",
         "dependencies": {
-          "@ali/takin-plugin-a": "0.1"
+          "@morjs/takin-plugin-a": "0.1"
         },
         "devDependencies": {
-          "@ali/takin-plugin-b": "0.2"
+          "@morjs/takin-plugin-b": "0.2"
         },
         "takin": {
           "name": "takin-pkg"
@@ -35,7 +35,7 @@ describe('__tests__/config.test.ts', () => {
       `
     })
     jest.mock(
-      '@ali/takin-plugin-a',
+      '@morjs/takin-plugin-a',
       () => {
         class TakinPluginA {
           name = 'takinPluginA'
@@ -48,7 +48,7 @@ describe('__tests__/config.test.ts', () => {
       { virtual: true }
     )
     jest.mock(
-      '@ali/takin-plugin-b',
+      '@morjs/takin-plugin-b',
       () => {
         class TakinPluginB {
           name = 'takinPluginB'
@@ -59,18 +59,18 @@ describe('__tests__/config.test.ts', () => {
       { virtual: true }
     )
     jest.mock(
-      '@ali/takin-plugin-b/package.json',
+      '@morjs/takin-plugin-b/package.json',
       () => {
         return {
-          name: '@ali/takin-plugin-b',
+          name: '@morjs/takin-plugin-b',
           version: '2.0'
         }
       },
       { virtual: true }
     )
-    jest.mock('@ali/takin-plugin-export-error', () => {}, { virtual: true })
+    jest.mock('@morjs/takin-plugin-export-error', () => {}, { virtual: true })
     jest.mock(
-      '@ali/takin-plugin-apply-error',
+      '@morjs/takin-plugin-apply-error',
       () => {
         class TakinPluginApplyError {
           apply = undefined
@@ -80,7 +80,7 @@ describe('__tests__/config.test.ts', () => {
       { virtual: true }
     )
     jest.mock(
-      '@ali/takin-plugin-constructor-error',
+      '@morjs/takin-plugin-constructor-error',
       () => {
         return {}
       },
@@ -163,21 +163,21 @@ describe('__tests__/config.test.ts', () => {
 
     await config.autoLoadPlugins()
 
-    expect(config.usedPlugins.get('@ali/takin-plugin-a')).toBeTruthy()
-    expect(config.usedPlugins.get('@ali/takin-plugin-a')).toHaveProperty(
+    expect(config.usedPlugins.get('@morjs/takin-plugin-a')).toBeTruthy()
+    expect(config.usedPlugins.get('@morjs/takin-plugin-a')).toHaveProperty(
       'version',
       '1.0'
     )
-    expect(config.usedPlugins.get('@ali/takin-plugin-a')).toHaveProperty(
+    expect(config.usedPlugins.get('@morjs/takin-plugin-a')).toHaveProperty(
       'pluginType',
       'auto'
     )
-    expect(config.usedPlugins.get('@ali/takin-plugin-b')).toBeTruthy()
-    expect(config.usedPlugins.get('@ali/takin-plugin-b')).toHaveProperty(
+    expect(config.usedPlugins.get('@morjs/takin-plugin-b')).toBeTruthy()
+    expect(config.usedPlugins.get('@morjs/takin-plugin-b')).toHaveProperty(
       'version',
       '2.0'
     )
-    expect(config.usedPlugins.get('@ali/takin-plugin-b')).toHaveProperty(
+    expect(config.usedPlugins.get('@morjs/takin-plugin-b')).toHaveProperty(
       'pluginType',
       'auto'
     )
@@ -191,13 +191,13 @@ describe('__tests__/config.test.ts', () => {
       [path.join(process.cwd(), 'package.json')]: `{
         "name": "takin-unit-test",
         "dependencies": {
-          "@ali/takin-plugin-a": "0.1"
+          "@morjs/takin-plugin-a": "0.1"
         },
         "devDependencies": {
-          "@ali/takin-plugin-b": "0.2",
-          "@ali/takin-plugin-export-error": "0.3",
-          "@ali/takin-plugin-apply-error": "0.4",
-          "@ali/takin-plugin-constructor-error": "0.5"
+          "@morjs/takin-plugin-b": "0.2",
+          "@morjs/takin-plugin-export-error": "0.3",
+          "@morjs/takin-plugin-apply-error": "0.4",
+          "@morjs/takin-plugin-constructor-error": "0.5"
         },
         "takin": {
           "name": "takin-pkg"
@@ -219,12 +219,16 @@ describe('__tests__/config.test.ts', () => {
       await config.autoLoadPlugins()
     }).rejects.toThrow(PluginError)
 
-    expect(config.usedPlugins.get('@ali/takin-plugin-a')).toBeFalsy()
-    expect(config.usedPlugins.get('@ali/takin-plugin-b')).toBeFalsy()
-    expect(config.usedPlugins.get('@ali/takin-plugin-export-error')).toBeFalsy()
-    expect(config.usedPlugins.get('@ali/takin-plugin-apply-error')).toBeFalsy()
+    expect(config.usedPlugins.get('@morjs/takin-plugin-a')).toBeFalsy()
+    expect(config.usedPlugins.get('@morjs/takin-plugin-b')).toBeFalsy()
     expect(
-      config.usedPlugins.get('@ali/takin-plugin-constructor-error')
+      config.usedPlugins.get('@morjs/takin-plugin-export-error')
+    ).toBeFalsy()
+    expect(
+      config.usedPlugins.get('@morjs/takin-plugin-apply-error')
+    ).toBeFalsy()
+    expect(
+      config.usedPlugins.get('@morjs/takin-plugin-constructor-error')
     ).toBeFalsy()
   })
 

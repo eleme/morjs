@@ -25,19 +25,28 @@
 
 <h1 align="center">MorJS</h1>
 
-<p align="center">中文可发音为<em>魔</em>，是基于小程序 DSL（微信、支付宝）的，可扩展的多端研发框架，支持 <a href='https://developers.weixin.qq.com/miniprogram/dev/framework/' target='_blank'>微信</a>、<a href='https://opendocs.alipay.com/mini/development' target='_blank'>支付宝</a>、<a href='https://smartprogram.baidu.com/developer/index.html' target='_blank'>百度</a>、<a href='https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview/' target='_blank'>字节</a>、<a href='https://q.qq.com/wiki/develop/miniprogram/frame/' target='_blank'>QQ</a>、<a href='https://mp.kuaishou.com/docs/develop/guide/introduction.html' target='_blank'>快手</a>、<a href='https://miniapp.open.taobao.com/docV3.htm?docId=117766&docType=1' target='_blank'>淘宝</a>、<a href='https://open.dingtalk.com/document/orgapp/develop-org-mini-programs' target='_blank'>钉钉</a> 小程序、Web 等应用。MorJS 以多端编译为基础，配以面向全生命周期的插件体系，覆盖从源码到构建产物的每个阶段，支持各类功能扩展和业务需求。</p>
+<p align="center">Mor (发音为 /mɔːr/，类似 more)，是饿了么开发的一款基于小程序 DSL 的，可扩展的多端研发框架，使用小程序原生 DSL 构建，使用者只需书写一套（微信或支付宝）小程序，就可以通过 Mor 的转端编译能力，将源码分别编译出可以在不同端（<a href='https://developers.weixin.qq.com/miniprogram/dev/framework/' target='_blank'>微信</a>/<a href='https://opendocs.alipay.com/mini/development' target='_blank'>支付宝</a>/<a href='https://smartprogram.baidu.com/developer/index.html' target='_blank'>百度</a>/<a href='https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview/' target='_blank'>字节</a>/<a href='https://open.dingtalk.com/document/orgapp/develop-org-mini-programs' target='_blank'>钉钉</a>/<a href='https://mp.kuaishou.com/docs/develop/guide/introduction.html' target='_blank'>快手</a>/<a href='https://q.qq.com/wiki/develop/miniprogram/frame/' target='_blank'>QQ</a>/<a href='https://miniapp.open.taobao.com/docV3.htm?docId=117766&docType=1' target='_blank'>淘宝</a>/Web…）运行的产物。</p>
+
+<p align="center">MorJS 以多端编译为基础，配以面向全生命周期的插件体系，覆盖从源码到构建产物的每个阶段，支持各类功能扩展和业务需求，无论是基础的页面和组件还是复杂的分包和插件，MorJS 都可以胜任，帮助你高效地开发多端小程序。</p>
 
 ### [📚 快速上手 MorJS →](https://mor.eleme.io/guides/introduction/getting-started)
 
-## 核心特性
+## 优势与核心能力
 
-- 💎 **DSL 支持**：支持使用微信小程序 DSL 或 支付宝小程序 DSL 编写小程序
-- 🌴 **多端支持**：支持一键转换为各类小程序平台及 Web 应用, 节省双倍人力
-- 📦 **开箱即用**：MorJS 内置了脚手架、构建、分析、多端编译等，仅需一个依赖即可上手开发
-- 🎉 **方便扩展**：MorJS 实现了完备的生命周期，并使其插件化，MorJS 内部功能也全由插件完成。此外还支持插件和插件集，以满足功能和垂直域的分层需求
-- 🚀 **大量自研**：多端组件打包、文档工具、请求库、数据流、复杂小程序集成、小程序形态转换等，满足日常项目的周边需求
-- 🚄 **面向未来**：在满足需求的同时，我们也不会停止对新技术的探索。比如 多端扩充、高性能渲染方案 等
-- 🌍 **企业级**：经饿了么内部 100+ 公司项目的验证，值得信赖
+Mor 是一套基于小程序 DSL (支付宝或微信) 的框架。他的易用性、标准化和灵活性，使得开发者能更好地专注于业务，让开发成本，招聘、管理、测试各方面成本都大幅下降，提高开发者的工作效率。
+
+- ⭐️ **易用性**：
+  - 💎 **DSL 支持**：可使用微信小程序 DSL 或 支付宝小程序 DSL 编写小程序，无额外使用成本；
+  - 🌴 **多端支持**：支持将一套小程序转换为各类小程序平台及 Web 应用, 节省双倍人力；
+  - 🚀 **快速接入**：仅需引入两个包，增加一个配置文件，即可简单快速接入到现有小程序项目；
+- 🌟 **标准化**：
+  - 📦 **开箱即用**：内置了脚手架、构建、分析、多端编译等完整研发能力，仅需一个依赖即可上手开发；
+  - 🌈 **表现一致**：通过编译时+运行时抹平多端差异性，让不同平台的小程序获得一致的用户体验；
+  - 🖇 **形态转换**：支持同一个项目的不同的形态，允许小程序、分包、插件不同形态之间的相互转换；
+- ✨ **灵活性**：
+  - 🎉 **方便扩展**：Mor 将完备的生命周期和内部功能插件化，使用插件(集)以满足功能和垂直域的分层需求；
+  - 📚 **类型支持**：除小程序标准文件类型外，还支持 ts、less/scss、jsonc/json5 等多种文件类型；
+  - 🧰 **按需适配**：可根据需求选择性接入适配能力，小项目仅需编译功能，中等项目可结合编译和页面注入能力，大型项目推荐使用复杂小程序集成能力；
 
 ## 贡献
 

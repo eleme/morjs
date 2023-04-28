@@ -55,18 +55,23 @@ export const MOR_RUNTIME_NPMS = {
 
 /**
  * 生成 mor 运行时正则
+ * 1. 用于实现转端运行时自动注入的检测
+ * 2. 用于确保 API 转端处理时，跳过 MorJS 内部的代码
  * 注意: 这个正则必须包含两个捕获(即两对小括号), 第二个捕获字符串用于逻辑判断
  * 参见: plugins/runtimeInjectPlugin.ts 中的代码
  */
 function generateMorRuntimeRegexp() {
   const rootDir = slash(path.resolve(__dirname, '..'))
-  let packages = MOR_RUNTIME_NPMS.api.concat(MOR_RUNTIME_NPMS.core)
+  let packages = MOR_RUNTIME_NPMS.api
+    .concat(MOR_RUNTIME_NPMS.core)
+    .concat('@morjs/runtime-base')
 
   // 代表为仓库代码
   if (rootDir.endsWith('packages/plugin-compiler')) {
     packages = packages.concat([
       rootDir.replace(/\//g, '\\/').replace(/plugin-compiler$/, 'core'),
-      rootDir.replace(/\//g, '\\/').replace(/plugin-compiler$/, 'api')
+      rootDir.replace(/\//g, '\\/').replace(/plugin-compiler$/, 'api'),
+      rootDir.replace(/\//g, '\\/').replace(/plugin-compiler$/, 'runtime-base')
     ])
   }
 

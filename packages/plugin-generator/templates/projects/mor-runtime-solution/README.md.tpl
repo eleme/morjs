@@ -1,4 +1,4 @@
-# @ali/mor-runtime-solution-<%= name %>
+# mor-runtime-solution-<%= name %>
 <% if (!_.isEmpty(desc)) { %><%= desc %>
 <% } %>
 # Mor 使用

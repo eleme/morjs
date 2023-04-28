@@ -34,7 +34,6 @@ export const mergeExecution = (array, key = 'callback') => {
         /*
           业务中多次在 callback 中 再次 setData，如果不移除重复的callback，会导致callback中有
           my.createAnimation 值的时候，后续的设置为空（export 之后，animation后续不再有值）
-          详情可参考 @ali/alsc-miniapp-component 的 alsc-popup 组件
         */
         const btoa = window.btoa(encodeURIComponent(func.toString()))
         const index = funcBtoas.indexOf(btoa)

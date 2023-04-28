@@ -39,10 +39,30 @@ function isLightColor(r: number, g: number, b: number): boolean {
   return y >= 128
 }
 
+const changeToHex = (buffer) => {
+  const hexArr = Array.prototype.map.call(
+    new Uint8Array(buffer),
+    function (bit) {
+      return ('00' + bit.toString(16)).slice(-2)
+    }
+  )
+  return hexArr.join('')
+}
+
+//  changeToHex reverse changeToBuffer
+const changeToBuffer = (str) => {
+  const buffer = new ArrayBuffer(str.length / 2)
+  const dataView = new DataView(buffer)
+  for (let i = 0; i < str.length; i += 2) {
+    dataView.setUint8(i / 2, parseInt(str.substr(i, 2), 16))
+  }
+  return buffer
+}
+
 /**
  * 支付宝和微信接口的差异
- * 以微信为准
- * 微信 转 支付宝
+ * 以支付宝为准
+ * 支付宝 转 微信
  */
 const apiTransformConfig: IAPITransformConfig = {
   showActionSheet: {
@@ -234,6 +254,91 @@ const apiTransformConfig: IAPITransformConfig = {
   },
   disconnectBLEDevice: {
     n: 'closeBLEConnection'
+  },
+  openBluetoothAdapter: {
+    r(res) {
+      res.isSupportBLE = res.errno === 0
+    }
+  },
+  getBLEDeviceCharacteristics: {
+    fn: function (global, options) {
+      global.getBLEDeviceCharacteristics({
+        ...options,
+        success: (res) => {
+          const _res = res
+          if (_res.characteristics) {
+            _res.characteristics.forEach((item) => {
+              item.characteristicId = item.uuid
+              delete item.uuid
+            })
+          }
+          options.success && options.success(_res)
+        }
+      })
+    }
+  },
+  getBLEDeviceServices: {
+    fn: function (global, options) {
+      global.getBLEDeviceServices({
+        ...options,
+        success: (res) => {
+          const _res = res
+          if (_res.services) {
+            _res.services.forEach((item) => {
+              item.serviceId = item.uuid
+              delete item.uuid
+            })
+          }
+          options.success && options.success(_res)
+        }
+      })
+    }
+  },
+  onBLECharacteristicValueChange: {
+    fn: function (global, callback) {
+      if (typeof callback === 'function') {
+        global.onBLECharacteristicValueChange((res) => {
+          res.value = changeToHex(res.value)
+          callback && callback(res)
+        })
+      } else if (typeof callback === 'object') {
+        // object sucess
+        global.onBLECharacteristicValueChange((res) => {
+          res.value = changeToHex(res.value)
+          callback.success && callback.success(res)
+        })
+      }
+    }
+  },
+  writeBLECharacteristicValue: {
+    fn: function (global, options) {
+      global.writeBLECharacteristicValue({
+        ...options,
+        // wx writeBLECharacteristicValue:fail parameter error: parameter.value should be ArrayBuffer;
+        value: changeToBuffer(options.value)
+      })
+    }
+  },
+  onBluetoothDeviceFound: {
+    fn: function (global, callback) {
+      global.onBluetoothDeviceFound((res) => {
+        const _res = res
+        if (_res.devices) {
+          _res.devices.forEach((item) => {
+            item.deviceName = item.localName || item.name
+          })
+        }
+        callback && callback(_res)
+      })
+    }
+  },
+  notifyBLECharacteristicValueChange: {
+    fn: function (global, options) {
+      global.notifyBLECharacteristicValueChange({
+        ...options,
+        state: options.state !== false ? true : false
+      })
+    }
   },
   request: {
     fn: function (global, options) {

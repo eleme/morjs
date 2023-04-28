@@ -161,7 +161,14 @@ export const UserConfigSchema = z.object({
           /**
            * 用于配置是否允许覆盖全局对象中的方法
            */
-          apiNoConflict: z.boolean().optional()
+          apiNoConflict: z.boolean().optional(),
+          // 用于支持在代码中动态设置 header 的展示与隐藏
+          pageHeaderConfig: z
+            .object({
+              showHeader: z.boolean().optional(),
+              showBack: z.boolean().optional()
+            })
+            .optional()
         })
         .default({})
     })

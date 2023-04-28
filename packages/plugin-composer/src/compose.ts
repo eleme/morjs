@@ -1,15 +1,12 @@
-import type {
-  ComposeModuleInfo,
-  ComposeModuleScriptCommand
-} from '@morjs/utils'
 import {
   asArray,
   chalk,
   COLORS,
-  COMMAND_TIMEOUT,
+  ComposeModuleInfo,
+  ComposeModuleScriptCommand,
   ComposeModuleStates,
   downloader,
-  execa,
+  execCommands,
   fsExtra as fs,
   isUnicodeSupported,
   lodash,
@@ -18,8 +15,7 @@ import {
   pRetry as retry,
   QUEUE,
   RETRY_TIMES,
-  Runner,
-  setNPMBinPATH
+  Runner
 } from '@morjs/utils'
 import crypto from 'crypto'
 import path from 'path'
@@ -35,10 +31,6 @@ import {
   MODULE_MODE_NAMES,
   MODULE_TYPE_NAMES
 } from './constants'
-
-type Changeable<T> = {
-  -readonly [k in keyof T]: T[k]
-}
 
 const {
   pick,
@@ -71,7 +63,10 @@ function sortByKeys<T = Record<string, any>>(obj: T): T {
 /**
  * 为 模块配置生成 hash 信息, 用于判断是否需要重新下载
  */
-export function generateHash(options: BaseModuleSchemaType, name: string) {
+export function generateComposeModuleHash(
+  options: BaseModuleSchemaType,
+  name: string
+) {
   // 将对象按照 key 值排序，避免顺序问题导致 hash 值不一致
   const obj = sortByKeys(pick(options, ['git', 'npm', 'tar', 'dist', 'mode']))
   const content = JSON.stringify(obj)
@@ -132,7 +127,11 @@ function savePreviousScripts(m: ComposeModuleInfo, type: ScriptsType) {
 // 判断脚本是否发生变化
 // 脚本顺序变化也代表需要重新执行
 function isScriptsChanged(m: ComposeModuleInfo, type: ScriptsType): boolean {
-  const previous = PREVIOUS_SCRIPTS.get(`${m.name}-${m.hash}-${type}`) || {}
+  const previous = PREVIOUS_SCRIPTS.get(`${m.name}-${m.hash}-${type}`) || {
+    scripts: [],
+    options: {},
+    env: {}
+  }
   const current = {
     scripts: m.scripts?.[type] || [],
     options: m.scripts?.options || {},
@@ -153,12 +152,17 @@ function isScriptsChanged(m: ComposeModuleInfo, type: ScriptsType): boolean {
   return result
 }
 
+function normalizeName(name: string) {
+  return name.replace(/[^a-zA-Z0-9-_]/g, '_').replace(/^_+/, '')
+}
+
 /**
  * 载入或生成模块信息, 模块中的路径信息均为相对于 cwd 的路径
  * @param options - 模块基础信息
  * @param cwd - 工作目录
  * @param tempDir - 临时文件夹
  * @param type - 模块类型
+ * @param configName - 当前用户配置名称，用于生成模块 root 地址
  * @param fromState - 指定开始的最大 state 状态
  * @returns Compose 模块信息
  */
@@ -167,6 +171,7 @@ async function loadOrGenerateComposeInfo(
   cwd: string,
   tempDir: string,
   type: ComposeModuleInfo['type'],
+  configName: string,
   fromState?: ComposeModuleStates
 ): Promise<ComposeModuleInfo> {
   const downloadType = downloader.chooseDownloadType(options)
@@ -187,13 +192,14 @@ async function loadOrGenerateComposeInfo(
   )
 
   // 替换非 字母、数字、- 的字符为 _ 并去除开头的 _
-  const name = (
+  const name = normalizeName(
     options.name || downloader.getModuleName(downloadType, downloadOptions)
   )
-    .replace(/[^a-zA-Z0-9-_]/g, '_')
-    .replace(/^_+/, '')
 
-  const root = path.relative(cwd, generateTempDir(tempDir, type, name))
+  const root = path.relative(
+    cwd,
+    generateTempDir(tempDir, configName || '', type, name)
+  )
 
   let info: ComposeModuleInfo
   const infoFilePath = path.resolve(cwd, root, COMPOSE_INFO_FILE)
@@ -209,7 +215,7 @@ async function loadOrGenerateComposeInfo(
     )
   }
 
-  const hash = generateHash(options, name)
+  const hash = generateComposeModuleHash(options, name)
   const isHashMatched = info?.hash === hash
   const source = path.resolve(cwd, root, hash)
 
@@ -319,11 +325,13 @@ async function saveModuleComposeInfo(
  */
 export function generateTempDir(
   baseDir: string,
+  configName: string,
   type: ComposeModuleInfo['type'],
   name: string
 ): string {
   return path.join(
     getComposerTempRoot(baseDir),
+    normalizeName(configName),
     type === 'host' ? 'hosts' : 'modules',
     name
   )
@@ -381,19 +389,7 @@ async function runScripts(
   const scripts = moduleInfo?.scripts?.[type] || []
   const commonCommandEnv = moduleInfo?.scripts?.env || {}
   const commonCommandOptions = moduleInfo?.scripts?.options || {}
-
-  if (scripts.length) {
-    logger.info(`${message}开始执行...`)
-  }
-
-  function containsError(msg: string): boolean {
-    return String(msg || '').includes('Error')
-  }
-
-  function markError(msg: string): string {
-    if (!msg) return ''
-    return String(msg).replace(/Error/g, COLORS.error('Error'))
-  }
+  const startTime = Date.now()
 
   // 脚本注入模块地址信息, 便于脚本通过环境变量获取模块信息
   const moduleInfoEnvs = {
@@ -415,137 +411,78 @@ async function runScripts(
 
   const sourcePath = path.resolve(cwd, moduleInfo.source)
 
-  let execFailed = false
-  let error: Error
+  await execCommands({
+    tips: message,
+    commands: scripts,
+    env: {
+      ...moduleInfoEnvs,
+      ...commonCommandEnv
+    },
+    options: commonCommandOptions,
+    cwd: sourcePath,
+    throwOnError,
+    verbose,
+    callbacks: {
+      beforeAll: () => {
+        if (scripts.length) {
+          logger.info(`${message}开始执行...`)
+        }
+      },
+      afterAll: () => {
+        // 集成完成后执行的脚本不保存状态
+        if (type !== 'composed') {
+          // 执行成功之后标记 state
+          moduleInfo.state = ComposeModuleStates[`${type}ScriptsExecuted`]
+        }
 
-  try {
-    const startTime = Date.now()
-
-    for await (const command of scripts) {
-      // 执行路径替换
-      // 如 node MOR_COMPOSER_MODULE_CWD/abc 转换为
-      //    node /project-root-dir/abc
-      let cmd: string =
-        (typeof command === 'string' ? command : command?.command) || ''
-      for (const moduleEnv in moduleInfoEnvs) {
-        cmd = cmd.replace(new RegExp(moduleEnv, 'g'), moduleInfoEnvs[moduleEnv])
-      }
-
-      // 自定义命令选项和环境变量
-      let commandOptions: Record<string, any> = {}
-      let commandEnv: Record<string, any> = {}
-      if (typeof command !== 'string') {
-        commandOptions = command?.options || {}
-        commandEnv = command?.env || {}
-      }
-
-      // 简单判断下是否为 shell 命令
-      // 有关 shell 选项带来的执行差异, 参见: https://github.com/sindresorhus/execa#shell
-      const shell =
-        cmd.includes('||') ||
-        cmd.includes('&&') ||
-        cmd.includes('"') ||
-        cmd.includes("'")
-
-      const comandInfo = `模块 ${moduleInfo.name} 执行命令: ${cmd}`
-      logger.info(comandInfo)
-
-      const stdioOptions: Record<string, string> = {}
-      // 开启详细日志
-      if (verbose) {
-        stdioOptions.stdout = 'inherit'
-        stdioOptions.stderr = 'inherit'
-      } else {
-        stdioOptions.stdin = 'ignore'
-      }
-
-      const execOptions: Changeable<execa.Options> = {
-        cwd: sourcePath,
-        // 追加 node_modules/.bin 路径信息
-        env: setNPMBinPATH(sourcePath, {
-          // 默认自动关闭 husky 避免 git 相关的校验
-          HUSKY: '0',
-          ...process.env,
-          ...moduleInfoEnvs,
-          // 设置 yarn 缓存文件夹
-          // 避免通过 yarn 安装 node_modules 时
-          // yarn 多实例可能带来的缓存冲突问题
-          // 但会增加一些构建时长
-          // ...{ YARN_CACHE_FOLDER: path.join(moduleInfo.root, '.yarn') },
-          ...commonCommandEnv,
-          ...commandEnv
-        }),
-        timeout: COMMAND_TIMEOUT,
-        shell,
-        ...stdioOptions,
-        // 支持自定义命令选项
-        ...commonCommandOptions,
-        ...commandOptions
-      }
-
-      logger.debug('命令详情:', execOptions)
-
-      const result = await execa.command(cmd, execOptions)
-
-      // 打印可能出现的日志, 部分脚本可能会打印错误日志但是不正常退出
-      let possibleErrorMsg: string = ''
-      if (containsError(result.stdout)) {
-        possibleErrorMsg = markError(result.stdout)
-      }
-      if (containsError(result.stderr)) {
-        possibleErrorMsg = possibleErrorMsg
-          ? [possibleErrorMsg, markError(result.stderr)].join('\n')
-          : markError(result.stderr)
-      }
-      if (possibleErrorMsg) {
-        logger.warnOnce(
-          `${comandInfo}, 日志包含异常信息, 但未正确退出, 请检查: \n${possibleErrorMsg}`
-        )
-        execFailed = true
+        if (scripts.length) {
+          logger.success(
+            `${message}执行成功, 耗时: ${(
+              (Date.now() - startTime) /
+              1000
+            ).toFixed(3)}s`
+          )
+        }
+      },
+      beforeEach: (commandStr) => {
+        // 执行路径替换
+        // 如 node MOR_COMPOSER_MODULE_CWD/abc 转换为
+        //    node /project-root-dir/abc
+        let cmd = commandStr
+        for (const moduleEnv in moduleInfoEnvs) {
+          cmd = cmd.replace(
+            new RegExp(moduleEnv, 'g'),
+            moduleInfoEnvs[moduleEnv]
+          )
+        }
+        return {
+          command: cmd,
+          info: `模块 ${moduleInfo.name} 执行命令: ${cmd}`
+        }
+      },
+      onError: (error) => {
+        const dirsShouldBeDeleted = [moduleInfo.source]
+        if (moduleInfo?.output?.to) {
+          dirsShouldBeDeleted.push(moduleInfo.output.to)
+        }
+        const tips = `可尝试删除 ${dirsShouldBeDeleted.join(
+          ' 及 '
+        )} 文件夹后重新运行命令`
+        if (throwOnError && error) {
+          error.message = `${error.message}\n${tips}`
+        }
+        return tips
       }
     }
-
-    // 集成完成后执行的脚本不保存状态
-    if (type !== 'composed') {
-      // 执行成功之后标记 state
-      moduleInfo.state = ComposeModuleStates[`${type}ScriptsExecuted`]
-    }
-
-    if (scripts.length) {
-      logger.success(
-        `${message}执行成功, 耗时: ${((Date.now() - startTime) / 1000).toFixed(
-          3
-        )}s`
-      )
-    }
-  } catch (err) {
-    error = new Error(`${message}执行失败, 原因: ${err.message}`)
-    if (err.name) error.name = err.name
-    error.stack = err.stack
-    execFailed = true
-  }
-
-  // 提示修复手段
-  if (execFailed) {
-    const dirsShouldBeDeleted = [moduleInfo.source]
-    if (moduleInfo?.output?.to) {
-      dirsShouldBeDeleted.push(moduleInfo.output.to)
-    }
-    const tips = `可尝试删除 ${dirsShouldBeDeleted.join(
-      ' 及 '
-    )} 文件夹后重新运行命令`
-    if (throwOnError && error) {
-      error.message = `${error.message}\n${tips}`
-      throw error
-    } else {
-      logger.warnOnce(tips)
-    }
-  }
+  })
 }
 
 /**
  * 载入模块配置文件
  * 如果 配置已存在 则跳过载入
+ * @param moduleInfo - 模块信息
+ * @param outputPath - 产物输出目录
+ * @param cwd - 当前工作区
  */
 async function loadModuleConfig(
   moduleInfo: ComposeModuleInfo,
@@ -1064,7 +1001,7 @@ function tryLoadPreCompiledHost(
   const hostName = 'miniprogram_host'
 
   // 这里 hash 为固定的值, 无实际用处
-  const hash = generateHash({ mode: 'compile' }, hostName)
+  const hash = generateComposeModuleHash({ mode: 'compile' }, hostName)
 
   const host: ComposeModuleInfo = {
     type: 'host',
@@ -1118,6 +1055,7 @@ export async function prepareHostAndModules(
   let modules: ComposeModuleInfo[] = []
 
   const cwd = runner.config.cwd
+  const configName = runner.userConfig?.name || ''
 
   // 如果是通过 compile 命令启动的 compose
   // 编译类型为 miniprogram 则忽略 host 配置
@@ -1131,6 +1069,7 @@ export async function prepareHostAndModules(
         cwd,
         tempDir,
         'host',
+        configName,
         fromState
       )
     } else {
@@ -1153,7 +1092,14 @@ export async function prepareHostAndModules(
   if (options?.modules?.length) {
     modules = await Promise.all(
       options.modules.map(function (m) {
-        return loadOrGenerateComposeInfo(m, cwd, tempDir, m.type, fromState)
+        return loadOrGenerateComposeInfo(
+          m,
+          cwd,
+          tempDir,
+          m.type,
+          configName,
+          fromState
+        )
       })
     )
   }
@@ -1411,7 +1357,12 @@ export async function composeHostAndModules(
   }
 
   // 保存 compose 的汇总结果到文件中
-  await saveComposeResults(host, modules, tempDir)
+  await saveComposeResults(
+    host,
+    modules,
+    tempDir,
+    runner?.userConfig?.name || ''
+  )
 
   logHostAndModulesInfos(host, modules, true, toState)
 
@@ -1427,14 +1378,17 @@ export async function composeHostAndModules(
 async function saveComposeResults(
   host: ComposeModuleInfo,
   modules: ComposeModuleInfo[],
-  tempDir: string
+  tempDir: string,
+  configName: string
 ) {
-  await fs.ensureDir(getComposerTempRoot(tempDir))
-
-  const filePath = path.join(
+  const composeBaseDir = path.join(
     getComposerTempRoot(tempDir),
-    'compose-results.json'
+    normalizeName(configName)
   )
+
+  await fs.ensureDir(composeBaseDir)
+
+  const filePath = path.join(composeBaseDir, 'compose-results.json')
 
   await fs.writeJson(
     filePath,

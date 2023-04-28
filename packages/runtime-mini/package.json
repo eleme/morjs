@@ -1,6 +1,6 @@
 {
   "name": "@morjs/runtime-mini",
-  "version": "1.0.6",
+  "version": "1.0.39",
   "description": "mor runtime for miniprogram",
   "keywords": [
     "mor",
@@ -41,10 +41,11 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@morjs/runtime-base": "1.0.6",
+    "@morjs/runtime-base": "1.0.34",
     "clone-deep": "^4.0.1",
     "lodash.get": "^4.4.2",
     "lodash.has": "^4.5.2",
-    "tslib": "2"
+    "lodash.set": "^4.3.2",
+    "tslib": "^2.3.1"
   }
 }

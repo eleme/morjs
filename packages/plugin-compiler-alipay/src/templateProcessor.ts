@@ -80,5 +80,16 @@ export const templateProcessor = {
     } else if (shouldProcessToOther(options)) {
       templateProcessorToOther.onNodeAttr(attrName, node, options, context)
     }
+  },
+
+  onNodeAttrExit(
+    attrName: string,
+    node: posthtml.Node,
+    options: FileParserOptions,
+    context: Record<string, any>
+  ): void {
+    if (shouldProcessToAlipay(options)) {
+      templateProcessorToAlipay.onNodeAttrExit(attrName, node, options, context)
+    }
   }
 }
