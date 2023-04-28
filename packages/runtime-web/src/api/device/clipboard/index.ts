@@ -7,7 +7,7 @@ const isSupportNavigatorClipboard = () =>
 const requireUseCommand =
   get(window.$MOR_APP_CONFIG, 'apis.clipboard') === 'command'
 
-const NOT_SUPPORT_CLIPBOARD = 'Your browser not support clipboard api!'
+const NOT_SUPPORT_CLIPBOARD = "Your browser doesn't support clipboard api."
 
 const reject = (reason = NOT_SUPPORT_CLIPBOARD) => Promise.reject(reason)
 

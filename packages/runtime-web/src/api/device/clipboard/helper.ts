@@ -41,7 +41,8 @@ function command(type) {
   }
 }
 
-const NOT_SUPPORT_COMMAND = 'your browser not support query command!'
+const NOT_SUPPORT_COMMAND =
+  "your browser doesn't support document.execCommand('copy')."
 const isSupportCommandCopy = () => document.queryCommandSupported('copy')
 /**
  * Create fake copy action wrapper using a fake element.
