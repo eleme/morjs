@@ -1,6 +1,7 @@
 import { css, html, property } from 'lit-element'
 import throttle from 'lodash.throttle'
 import { BaseElement } from '../../baseElement'
+import { requestAnimationFrame } from '../../utils'
 import BooleanConverter from '../../utils/bool-converter'
 import { findScrollParent, getElementVisibleRatio } from './helper'
 const preventHandle = (e) => {
@@ -43,12 +44,12 @@ export default class View extends BaseElement {
   }
 
   firstUpdated() {
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       // firstUpdated 触发时，addEventListener 方法不一定会收到组件注册的 appear，disappear 事件，根据lit官方提示，做延迟处理
       if (this.needBindAppear) {
         this.watchTouchMove()
       }
-    }, 0)
+    })
   }
 
   private scrollParent: Element = null
