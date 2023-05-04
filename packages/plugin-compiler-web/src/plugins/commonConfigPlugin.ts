@@ -113,7 +113,13 @@ export class CommonConfigPlugin implements Plugin {
         // 配置 targets 以保证低版本浏览器的兼容性
         presets: [
           [require(resolveDependency('@babel/preset-env')), babelEnvOptions],
-          require(resolveDependency('@babel/preset-react'))
+          [
+            require(resolveDependency('@babel/preset-react')),
+            {
+              // 允许自定义属性
+              throwIfNamespace: false
+            }
+          ]
         ],
         plugins: [
           [

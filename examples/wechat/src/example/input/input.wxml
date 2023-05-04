@@ -7,6 +7,16 @@
     <view class="page__bd">
         <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">错误提示</view>
 
+        <view class="weui-cells__title">双向绑定文本框</view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_active">
+                <view class="weui-cell__bd">
+                    <input model:value="{{bindingValue}}" class="weui-input" placeholder-class="weui-input__placeholder" placeholder="请输入文本" />
+                </view>
+            </view>
+        </view>
+        <view class="weui-cells__tips">输入框的内容：{{bindingValue}}</view>
+
         <view class="weui-cells__title">单选列表项</view>
         <view class="weui-cells weui-cells_radio weui-cells_after-title">
             <radio-group bindchange="radioChange">

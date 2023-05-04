@@ -44,15 +44,38 @@ export default function (node: ElementNode, context: Context) {
       const arraryExp = t.arrayExpression(
         eventAtts.map((att: EventAttributeNode) => {
           context.mergeDatabindingVars(att.value)
+          // 双向绑定语法糖，自动为event生成function
+          const eventExpression = att.isTwoWayBinding
+            ? t.arrowFunctionExpression(
+                [t.identifier('event')],
+                t.callExpression(
+                  t.memberExpression(
+                    t.identifier('this'),
+                    t.identifier('setData')
+                  ),
+                  [
+                    t.objectExpression([
+                      t.objectProperty(
+                        t.identifier(att.value.bindingExpression),
+                        t.memberExpression(
+                          t.memberExpression(
+                            t.identifier('event'),
+                            t.identifier('detail')
+                          ),
+                          t.identifier('value')
+                        )
+                      )
+                    ])
+                  ]
+                )
+              )
+            : databindingForValue(att.value)
           return t.objectExpression([
             t.objectProperty(
               t.identifier('name'),
               t.stringLiteral(att.name.toLowerCase())
             ),
-            t.objectProperty(
-              t.identifier('event'),
-              databindingForValue(att.value)
-            ),
+            t.objectProperty(t.identifier('event'), eventExpression),
             t.objectProperty(
               t.identifier('catch'),
               t.booleanLiteral(att.isCatch)

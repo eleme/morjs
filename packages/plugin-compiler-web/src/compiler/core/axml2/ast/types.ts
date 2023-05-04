@@ -38,6 +38,7 @@ export type ElementAtrrbute =
   | StyleAttributeNode
   | ClassAttributeNode
   | NamedSlotAttributeNode
+  | TwoWayBindingAttributeNode
   | UnSupportAttribute
 
 export interface Document extends BaseNode {
@@ -332,18 +333,21 @@ export interface EventAttributeNode extends BaseNode {
   name: string // 事件名称
   value: DataBindingNode // 事件值,
   isCatch: boolean // 是否捕获事件
+  isTwoWayBinding?: boolean // 是否是双向绑定事件
 }
 
 export function eventAttributeNode(
   name: string,
   value: DataBindingNode,
-  isCatch: boolean = false
+  isCatch: boolean = false,
+  isTwoWayBinding: boolean = false
 ): EventAttributeNode {
   return {
     type: 'EventAttributeNode',
     name,
     value,
-    isCatch
+    isCatch,
+    isTwoWayBinding
   }
 }
 
@@ -370,6 +374,20 @@ export interface StyleAttributeNode extends BaseNode {
 export function styleAttributeNode(value: DataBindingNode): StyleAttributeNode {
   return {
     type: 'StyleAttributeNode',
+    value
+  }
+}
+
+export interface TwoWayBindingAttributeNode extends BaseNode {
+  type: 'TwoWayBindingAttributeNode'
+  value: DataBindingNode
+}
+
+export function twoWayBindingAttributeNode(
+  value: DataBindingNode
+): TwoWayBindingAttributeNode {
+  return {
+    type: 'TwoWayBindingAttributeNode',
     value
   }
 }

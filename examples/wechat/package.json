@@ -11,7 +11,9 @@
   "repository": "git@github.com:eleme/morjs.git",
   "scripts": {
     "dev": "mor compile -w --no-cache",
-    "build": "mor compile"
+    "dev:web": "mor compile -w --name web --no-cache",
+    "build": "mor compile",
+    "build:web": "mor compile --name web"
   },
   "dependencies": {
     "@morjs/core": "*"

@@ -4,7 +4,11 @@ import {
   EventAttributeNode
 } from '../../types'
 
-export default function (attName: string, value: string): EventAttributeNode {
+export default function (
+  attName: string,
+  value: string,
+  isTwoWayBinding: boolean
+): EventAttributeNode {
   if (isEventAttribute(attName)) {
     const isCatch = attName.startsWith('catch')
     let eventName
@@ -14,7 +18,12 @@ export default function (attName: string, value: string): EventAttributeNode {
       eventName = attName.substring(2)
     }
     eventName = eventName.replace(eventName[0], eventName[0].toLowerCase())
-    return eventAttributeNode(eventName, dataBindingNode(value), isCatch)
+    return eventAttributeNode(
+      eventName,
+      dataBindingNode(value),
+      isCatch,
+      isTwoWayBinding
+    )
   }
   return null
 }

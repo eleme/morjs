@@ -9,7 +9,8 @@ const ElementAtrrbuteTransforms = {
   ClassAttributeNode: require('./ClassAttributeNode').default,
   StyleAttributeNode: require('./StyleAttributeNode').default,
   RefAttributeNode: require('./RefAttributeNode').default,
-  NamedSlotAttributeNode: require('./NamedSlotAttributeNode').default
+  NamedSlotAttributeNode: require('./NamedSlotAttributeNode').default,
+  TwoWayBindingAttributeNode: require('./TwoWayBindingAttributeNode').default
 }
 
 export default function (

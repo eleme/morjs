@@ -1,13 +1,16 @@
 import { IXMLElement } from '../IXmlNode'
 import { attributeNode, dataBindingNode, ElementAtrrbute } from '../types'
 
+const EventAttributesParser = require('./event/index').default
+
 const AttributesParseer = [
   require('./unsupport/index').default,
-  require('./event/index').default,
+  EventAttributesParser,
   require('./class/index').default,
   require('./style/index').default,
   require('./ref/index').default,
-  require('./slot/index').default
+  require('./slot/index').default,
+  require('./two-way-binding/index').default
 ]
 
 export default function (xmlElement: IXMLElement): ElementAtrrbute[] {
@@ -25,6 +28,17 @@ export default function (xmlElement: IXMLElement): ElementAtrrbute[] {
 
       if (att) {
         if (att.type !== 'UnSupportAttributeNode') attributes.push(att)
+
+        // 双向绑定语法糖，自动补充onInput方法
+        if (att.type === 'TwoWayBindingAttributeNode') {
+          const inputEvent = EventAttributesParser(
+            'onInput',
+            att.value.bindingExpression,
+            true
+          )
+
+          attributes.push(inputEvent)
+        }
       } else {
         attributes.push(attributeNode(key, dataBindingNode(value)))
       }

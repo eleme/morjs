@@ -588,7 +588,11 @@ export class KBComponent extends React.PureComponent<any, IState> {
         if (eventInfo.catch) {
           e.stopPropagation()
         }
-        const func = this.componentConfig[eventInfo.event]
+        // 双向绑定时，event为function
+        const func = typeof eventInfo.event === 'function'
+          ? eventInfo.event
+          : this.componentConfig[eventInfo.event]
+
         func && func.call(this.componentConfig, eventConvert(e))
       }
     }
