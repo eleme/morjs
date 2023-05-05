@@ -131,7 +131,9 @@ function injectEventSupport(options: Record<string, any>) {
     params = {},
     opts = {}
   ) {
-    name = name.replace(/^[a-zA-Z]{1}/, (s: string) => s.toUpperCase())
+    name = name
+      .replace(/^[a-zA-Z]{1}/, (s: string) => s.toUpperCase())
+      .replace(/-./g, (s) => s[1].toUpperCase())
 
     // 自定义组件的事件中需要包含 data- 属性
     const dataset = {}
