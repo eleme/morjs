@@ -125,3 +125,11 @@ export const getCurrentPagePath = () => {
     return currentPage.path
   } catch (e) {}
 }
+
+const REFRESH_INTERVAL = 1000 / 60
+export const requestAnimationFrame = (callback) => {
+  if (typeof window.requestAnimationFrame === 'function')
+    return window.requestAnimationFrame(callback)
+
+  return setTimeout(callback, REFRESH_INTERVAL)
+}
