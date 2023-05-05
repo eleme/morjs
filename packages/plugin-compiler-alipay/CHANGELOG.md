@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.42](https://github.com/eleme/morjs/compare/v1.0.41...v1.0.42) (2023-05-05)
+
+
+### Features
+
+* **plugin-compiler-alipay:** 添加对 bind:abc-def 事件写法的支持 ([c533d92](https://github.com/eleme/morjs/commit/c533d92e669cb0dcd84598ade3a64e4574a85f77))
+
+
+
+
+
 ## [1.0.39](https://github.com/eleme/morjs/compare/v1.0.38...v1.0.39) (2023-04-26)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-alipay
