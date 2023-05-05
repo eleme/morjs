@@ -240,7 +240,9 @@ function processEventsAttributes(attrName: string, node: posthtml.Node) {
   if (eventPrefix && eventAttrName) {
     const eventName =
       eventPrefix +
-      eventAttrName.replace(/^[a-zA-Z]{1}/, (s) => s.toUpperCase())
+      eventAttrName
+        .replace(/^[a-zA-Z]{1}/, (s) => s.toUpperCase())
+        .replace(/-./g, (s) => s[1].toUpperCase())
     node.attrs[eventName] = node.attrs[attrName]
     delete node.attrs[attrName]
   }
