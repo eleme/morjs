@@ -389,6 +389,10 @@ function ensureDataAndMethodsAndLifetimes(
     delete options.ready
     options.lifetimes.ready = ready
 
+    const moved = options.lifetimes.moved || options.moved
+    delete options.moved
+    options.lifetimes.moved = moved
+
     const detached = options.lifetimes.detached || options.detached
     delete options.detached
     options.lifetimes.detached = detached
