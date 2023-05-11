@@ -128,6 +128,11 @@ export interface CompilerRuntimeConfig {
    * 通过 initBehavior 进行初始化
    */
   behavior?: string
+  /**
+   * Mixin 运行时支持
+   * 通过 initMixin 进行初始化
+   */
+  mixin?: string
 }
 
 /**

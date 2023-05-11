@@ -573,6 +573,10 @@ export const CompilerCliConfig: ICliConfig = {
         name: 'Behavior 运行时注入, 编译时替换 Behavior({}) 为 mor 的运行时',
         desc: '跨端编译且源码类型非支付宝小程序时, 默认为: true'
       },
+      mixin: {
+        name: 'Mixin 运行时注入, 编译时替换 Mixin({}) 为 mor 的运行时',
+        desc: '跨端编译且源码类型为支付宝小程序时, 默认为: true'
+      },
       api: {
         name: 'API 运行时注入, 全局对象替换方式',
         valuesDesc() {
@@ -916,6 +920,7 @@ export const CompilerUserConfigSchema = z.object({
       page: z.boolean().optional(),
       component: z.boolean().optional(),
       behavior: z.boolean().optional(),
+      mixin: z.boolean().optional(),
       api: z.boolean().optional().or(z.nativeEnum(GlobalObjectTransformTypes))
     })
     .or(z.boolean())
