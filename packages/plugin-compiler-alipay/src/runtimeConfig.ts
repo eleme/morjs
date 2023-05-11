@@ -27,14 +27,14 @@ export function getRuntimeFiles(sourceType: string, target: string) {
       api = generatePath('apisToOther')
       page = generatePath('pageToOther')
       component = generatePath('componentToOther')
-      mixin = generatePath('mixinToOther')
+      mixin = generatePath('behaviorOrMixin')
     }
     // 其他端转支付宝(微信 => 支付宝)
     else if (isSimilarTarget(target)) {
       api = generatePath('apisToAlipay')
       page = generatePath('pageToAlipay')
       component = generatePath('componentToAlipay')
-      behavior = generatePath('behaviorToAlipay')
+      behavior = generatePath('behaviorOrMixin')
     }
   }
 
