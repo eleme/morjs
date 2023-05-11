@@ -1,8 +1,8 @@
 import { compose } from '@morjs/runtime-base'
+import { injectHasBehaviorSupport } from './behaviorOrMixin'
 import {
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,
-  injectHasBehaviorSupport,
   markUnsupportMethods
 } from './utilsToAlipay'
 

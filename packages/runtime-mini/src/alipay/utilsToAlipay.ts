@@ -1,5 +1,4 @@
 import { getGlobalObject, markAsUnsupport } from '@morjs/runtime-base'
-import type { BehaviorOrMixinOptions } from './behaviorOrMixin'
 
 export function canIUse(name: string): boolean {
   return !!getGlobalObject()?.canIUse?.(name)
@@ -26,36 +25,6 @@ export function markUnsupportMethods(
         options[methodName] = markAsUnsupport(`this.${methodName} 的调用`)
       }
     })
-}
-
-/**
- * 注入 hasBehavior 方法支持
- */
-export function injectHasBehaviorSupport(
-  options: Record<string, any>,
-  behaviors?: BehaviorOrMixinOptions[]
-) {
-  // 保存当前页面或组件中的 behaviors
-  behaviors = behaviors || []
-
-  function hasBehavior(
-    behaviors: BehaviorOrMixinOptions[],
-    behavior: BehaviorOrMixinOptions
-  ): boolean {
-    if (!behavior) return false
-
-    if (behaviors.indexOf(behavior) !== -1) return true
-
-    for (let i = 0; i < behaviors.length; i++) {
-      if (hasBehavior(behaviors[i]?.behaviors || [], behavior)) return true
-    }
-
-    return false
-  }
-
-  options.hasBehavior = function (behavior: BehaviorOrMixinOptions): boolean {
-    return hasBehavior(behaviors, behavior)
-  }
 }
 
 const isSelectOwnerComponentSupported = canIUse(

@@ -1,35 +1,4 @@
 import { getSharedProperty, logger } from '@morjs/runtime-base'
-import type { BehaviorOrMixinOptions } from './behaviorOrMixin'
-
-/**
- * 注入 hasMixin 方法支持
- */
-export function injectHasMixinSupport(
-  options: Record<string, any>,
-  mixins?: BehaviorOrMixinOptions[]
-) {
-  // 保存当前页面或组件中的 mixins
-  mixins = mixins || []
-
-  function hasMixin(
-    mixins: BehaviorOrMixinOptions[],
-    mixin: BehaviorOrMixinOptions
-  ): boolean {
-    if (!mixin) return false
-
-    if (mixins.indexOf(mixin) !== -1) return true
-
-    for (let i = 0; i < mixins.length; i++) {
-      if (hasMixin(mixins[i]?.mixins || [], mixin)) return true
-    }
-
-    return false
-  }
-
-  options.hasMixin = function (mixin: BehaviorOrMixinOptions): boolean {
-    return hasMixin(mixins, mixin)
-  }
-}
 
 interface IEventDetail {
   name?: string

@@ -1,8 +1,5 @@
-import {
-  addEventProxy,
-  injectHasMixinSupport,
-  injectInstanceMethodsSupport
-} from './utilsToOther'
+import { injectHasMixinSupport } from './behaviorOrMixin'
+import { addEventProxy, injectInstanceMethodsSupport } from './utilsToOther'
 
 /**
  * 支付宝转其他端的 Page 差异抹平

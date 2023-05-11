@@ -71,3 +71,48 @@ export function Mixin(
 ): Omit<BehaviorOrMixinOptions, 'definitionFilter'> {
   return BehaviorOrMixin(options, 'mixins')
 }
+
+function hasBehaviorOrMixin(
+  items: BehaviorOrMixinOptions[],
+  item: BehaviorOrMixinOptions
+): boolean {
+  if (!item) return false
+
+  if (items.indexOf(item) !== -1) return true
+
+  for (let i = 0; i < items.length; i++) {
+    if (hasBehaviorOrMixin(items[i]?.items || [], item)) return true
+  }
+
+  return false
+}
+
+/**
+ * 注入 hasBehavior 方法支持
+ */
+export function injectHasBehaviorSupport(
+  options: Record<string, any>,
+  behaviors?: BehaviorOrMixinOptions[]
+) {
+  // 保存当前页面或组件中的 behaviors
+  behaviors = behaviors || []
+
+  options.hasBehavior = function (behavior: BehaviorOrMixinOptions): boolean {
+    return hasBehaviorOrMixin(behaviors, behavior)
+  }
+}
+
+/**
+ * 注入 hasMixin 方法支持
+ */
+export function injectHasMixinSupport(
+  options: Record<string, any>,
+  mixins?: BehaviorOrMixinOptions[]
+) {
+  // 保存当前页面或组件中的 mixins
+  mixins = mixins || []
+
+  options.hasMixin = function (mixin: BehaviorOrMixinOptions): boolean {
+    return hasBehaviorOrMixin(mixins, mixin)
+  }
+}
