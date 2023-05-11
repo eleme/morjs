@@ -19,6 +19,7 @@ export function getRuntimeFiles(sourceType: string, target: string) {
   let page: string
   let component: string
   let behavior: string
+  let mixin: string
 
   if (sourceType !== target) {
     // 支付宝转其他端
@@ -26,6 +27,7 @@ export function getRuntimeFiles(sourceType: string, target: string) {
       api = generatePath('apisToOther')
       page = generatePath('pageToOther')
       component = generatePath('componentToOther')
+      mixin = generatePath('mixinToOther')
     }
     // 其他端转支付宝(微信 => 支付宝)
     else if (isSimilarTarget(target)) {
@@ -41,6 +43,7 @@ export function getRuntimeFiles(sourceType: string, target: string) {
     app,
     page,
     component,
-    behavior
+    behavior,
+    mixin
   }
 }
