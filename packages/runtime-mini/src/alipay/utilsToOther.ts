@@ -1,33 +1,20 @@
 import { getSharedProperty, logger } from '@morjs/runtime-base'
-
-/**
- * 自定义组件扩展
- * 参考文档: https://opendocs.alipay.com/mini/05bdpv?pathHash=4a676f9c
- */
-export type DefinitionFilter = <T extends Record<string, any>>(
-  /** 使用该 mixin 的 component/mixin 的定义对象 */
-  defFields: T,
-  /** 该 mixin 所使用的 mixin 的 definitionFilter 函数列表 */
-  definitionFilterArr?: DefinitionFilter[]
-) => void
-
-export interface MixinOptions {
-  definitionFilter?: DefinitionFilter
-  mixins?: MixinOptions[]
-  [k: string]: any
-}
+import type { BehaviorOrMixinOptions } from './behaviorOrMixin'
 
 /**
  * 注入 hasMixin 方法支持
  */
 export function injectHasMixinSupport(
   options: Record<string, any>,
-  mixins?: MixinOptions[]
+  mixins?: BehaviorOrMixinOptions[]
 ) {
   // 保存当前页面或组件中的 mixins
   mixins = mixins || []
 
-  function hasMixin(mixins: MixinOptions[], mixin: MixinOptions): boolean {
+  function hasMixin(
+    mixins: BehaviorOrMixinOptions[],
+    mixin: BehaviorOrMixinOptions
+  ): boolean {
     if (!mixin) return false
 
     if (mixins.indexOf(mixin) !== -1) return true
@@ -39,7 +26,7 @@ export function injectHasMixinSupport(
     return false
   }
 
-  options.hasMixin = function (mixin: MixinOptions): boolean {
+  options.hasMixin = function (mixin: BehaviorOrMixinOptions): boolean {
     return hasMixin(mixins, mixin)
   }
 }
