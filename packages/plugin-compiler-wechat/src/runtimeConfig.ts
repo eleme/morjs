@@ -6,6 +6,10 @@ function generatePath(fileName: string): string {
   return require.resolve(`@morjs/runtime-mini/lib/wechat/${fileName}.js`)
 }
 
+function generateAlipayPath(fileName: string): string {
+  return require.resolve(`@morjs/runtime-mini/lib/alipay/${fileName}.js`)
+}
+
 /**
  * 获取运行时抹平相关代码路径
  * @param sourceType - 源码类型
@@ -17,9 +21,11 @@ export function getRuntimeFiles(sourceType: string, target: string) {
   let page: string
   let component: string
   let behavior: string
+  let mixin: string
 
   if (sourceType !== target) {
     api = generatePath('apis')
+    mixin = generateAlipayPath('mixinToOther')
   }
 
   return {
@@ -27,6 +33,7 @@ export function getRuntimeFiles(sourceType: string, target: string) {
     app,
     page,
     component,
-    behavior
+    behavior,
+    mixin
   }
 }
