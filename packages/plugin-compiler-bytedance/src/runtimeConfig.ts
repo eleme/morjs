@@ -27,7 +27,7 @@ export function getRuntimeFiles(sourceType: string, target: string) {
 
   if (sourceType !== target && target === CurrentTarget) {
     api = generatePath('apis')
-    mixin = generateAlipayPath('mixinToOther')
+    mixin = generateAlipayPath('behaviorOrMixin')
   }
 
   return {
