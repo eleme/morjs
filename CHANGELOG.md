@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.44](https://github.com/eleme/morjs/compare/v1.0.43...v1.0.44) (2023-05-12)
+
+### Bug Fixes
+
+- **plugin-compiler-web:** 修复 web 组件转换在生产模式下 js 文件名称错误及内容为空的问题 ([7501253](https://github.com/eleme/morjs/commit/750125345e1d37db180d8d3a4de66b171e573339))
+- **plugin-compiler:** 修复 web 编译在生产模式下 css 文件可能未被压缩的问题 ([ed509e4](https://github.com/eleme/morjs/commit/ed509e4948025bcb24f76114e1e719a10302c031))
+
 ## [1.0.43](https://github.com/eleme/morjs/compare/v1.0.42...v1.0.43) (2023-05-09)
 
 ### Bug Fixes
