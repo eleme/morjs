@@ -922,7 +922,9 @@ export async function buildWebpackConfig(
           : userConfig.cssMinimizer
       const cssMinimizerName = `cssMinimizer-${userConfig.cssMinimizer}`
       const cssMinifyConfig: Record<string, any> = {
-        test: new RegExp(`\\${composedPlugins.fileType[target].style}$`)
+        test: new RegExp(
+          `(\\${composedPlugins.fileType[target].style}|\\.css)$`
+        )
       }
 
       const cssMinimizerOptions = userConfig.cssMinimizerOptions || {}
