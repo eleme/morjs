@@ -8,12 +8,16 @@ export class ExtractOrInjectCssPlugin implements Plugin {
   name = 'MorWebExtractOrInjectCssPlugin'
   constructor(public wrapper: WebpackWrapper) {}
   apply(runner: Runner<any>) {
-    const { web = {}, mode } = (runner.userConfig ||
-      {}) as WebCompilerUserConfig & {
+    const {
+      web = {},
+      mode,
+      compileMode
+    } = (runner.userConfig || {}) as WebCompilerUserConfig & {
+      compileMode: string
       mode: string
     }
 
-    this.setupCssSupport(web, fileNameConfig(mode))
+    this.setupCssSupport(web, fileNameConfig(mode, compileMode))
   }
 
   /**

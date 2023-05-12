@@ -161,8 +161,8 @@ export class CommonConfigPlugin implements Plugin {
     }
 
     // 设置 filename
-    chain.output.filename(`${fileNameConfig(mode)}.js`)
-    chain.output.chunkFilename(`${fileNameConfig(mode)}.js`)
+    chain.output.filename(`${fileNameConfig(mode, compileMode)}.js`)
+    chain.output.chunkFilename(`${fileNameConfig(mode, compileMode)}.js`)
 
     // 编译为 web 不需要支持 其他小程序的原生文件支持, 这里移除掉
     chain.module.rules.delete('native')

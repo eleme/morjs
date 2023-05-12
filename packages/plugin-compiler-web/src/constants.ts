@@ -54,8 +54,10 @@ export function generateEntryRoot(srcPath: string) {
 /**
  * 获取 webpack 文件名称配置
  */
-export function fileNameConfig(mode: string) {
-  return mode === 'production' ? '[name].[contenthash:6]' : '[name]'
+export function fileNameConfig(mode: string, compileMode: string) {
+  return mode === 'production' && compileMode === 'bundle'
+    ? '[name].[contenthash:6]'
+    : '[name]'
 }
 
 /**
