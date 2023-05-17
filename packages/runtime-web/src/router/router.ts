@@ -150,7 +150,6 @@ function unloadPage(page: IPage) {
   if (page != null) {
     const pageEl = document.getElementById(page.pageId)
     if (pageEl) {
-      page?.onUnload?.()
       ReactDOM.unmountComponentAtNode(pageEl)
       pageEl?.parentNode?.removeChild(pageEl)
     }
