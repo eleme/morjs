@@ -224,7 +224,7 @@ export class Tabbar extends BaseElement {
     const query = this.getTabQuery()
     if (query) url = `${url}?${query}`
 
-    my?.navigateTo({
+    my?.switchTab({
       url
     })
   }

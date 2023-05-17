@@ -93,6 +93,16 @@ function getRootElement() {
   return rootElement ? rootElement : document?.getElementById('app')
 }
 
+const pushPage = (page) => {
+  const allPages = [...pageStack]
+  // 移除页面中已经存在的此页面（先删除后直接将此页面推入顶栈即可）
+  allPages.forEach(
+    (p, index) => page.pageId === p.pageId && pageStack.splice(index, 1)
+  )
+
+  pageStack.push(page)
+}
+
 function loadPage(location: ILocation, component: string) {
   const pageId = getPageId(location)
   const pageEl = document.getElementById(pageId)
@@ -100,7 +110,7 @@ function loadPage(location: ILocation, component: string) {
     const page = pageStack.find(
       (pageItem) => pageItem.pageId === pageId
     ) as IPage
-    pageStack.push(page)
+    pushPage(page)
     page?.onShow?.()
     pageEl.style.display = 'block'
   } else {
@@ -140,10 +150,18 @@ function unloadPage(page: IPage) {
   if (page != null) {
     const pageEl = document.getElementById(page.pageId)
     if (pageEl) {
-      page?.onUnload?.()
       ReactDOM.unmountComponentAtNode(pageEl)
       pageEl?.parentNode?.removeChild(pageEl)
     }
+  }
+}
+
+const unLoadOrHidePage = (page) => {
+  const existPage = pageStack.find((item) => item.pageId === page.pageId)
+  if (!existPage) {
+    unloadPage(page)
+  } else {
+    hidePage(page)
   }
 }
 
@@ -154,19 +172,26 @@ export function batchUnloadPage(delta: number) {
     lastPageIndex >= 0 ? lastPageIndex : 0,
     delta
   )
-  deletedPages.forEach((page) => {
-    const existPage = pageStack.find((item) => item.pageId === page.pageId)
-    if (!existPage) {
+  deletedPages.forEach(unLoadOrHidePage)
+}
+
+// 按照回调结果卸载页面
+export function unloadPageByCondition(callback) {
+  const allPages = [...pageStack]
+
+  allPages.forEach((page, index) => {
+    const hitCondition = callback(page)
+    if (hitCondition === true) {
+      // 从路由栈中移除该页面
+      pageStack.splice(index, 1)
+      // 命中条件，说明该页面需要删除或者隐藏
       unloadPage(page)
-    } else {
-      hidePage(page)
     }
   })
 }
 
 function pageCreateHandler(e: { detail: any }) {
   const pageConfig = createPageConfig(e.detail)
-
   switch (routerAction.action) {
     case Action.PUSH:
       pageStack.push(pageConfig)
