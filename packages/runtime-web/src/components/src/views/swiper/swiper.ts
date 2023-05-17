@@ -390,6 +390,9 @@ export default class TigaSwiper extends LitElement {
 
     return html`
       <style>
+        tiga-swiper {
+          display: block;
+        }
         ${styles}
           .tiga-swiper-${this.swiperId}
           > .swiper-container
