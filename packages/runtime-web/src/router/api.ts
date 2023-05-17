@@ -1,7 +1,8 @@
 import { appendApis, DEFAULT_API_NO_CONFLICT } from '../api/utils/extendApi'
+import { isTabBarPage } from './helper'
 import { history } from './history'
 import { getCurrentPages } from './pageStack'
-import { batchUnloadPage } from './router'
+import { batchUnloadPage, unloadPageByCondition } from './router'
 import { IPage, IRouterApiParams } from './types'
 import { getAbsolutePath, getCustomUrl } from './url'
 
@@ -41,7 +42,7 @@ const routerFunctions: Record<string, any> = {
   navigateTo: _navigateTo,
   navigateBack: _navigateBack,
   redirectTo: _redirectTo,
-  switchTab: _reLaunch, // switchTab 暂时使用 reLaunch 方法清理掉页面栈（TODO: switchTab 二次切换页面是可以直接使用缓存页面的，不触发生命周期，后续完善）
+  switchTab: _switchTab,
   reLaunch: _reLaunch
 }
 
@@ -164,4 +165,17 @@ function _reLaunch(options: IRouterApiParams) {
   const length = window.getCurrentPages().length
   batchUnloadPage(length - 1)
   redirectTo({ url })
+}
+
+function _switchTab(options: IRouterApiParams) {
+  const { url } = options || {}
+
+  if (!url) {
+    console.error('url 不能为空')
+    return
+  }
+
+  unloadPageByCondition((page) => !isTabBarPage(page.path)) // 整理路由栈，将非 tabBar 页面移除
+
+  navigateTo({ url })
 }
