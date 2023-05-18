@@ -17,7 +17,7 @@ export const SCROLL_OFFSET_PROPERTIES = [
 ]
 
 export const getProperties = (element, properties = []) => {
-  if (!element) return null
+  if (!element) return {}
 
   return properties.reduce((pre, curr) => {
     pre[curr] = element[curr]
