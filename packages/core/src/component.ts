@@ -409,14 +409,6 @@ const isAlipayTarget =
   getEnv() === ENV_TYPE.DINGDING ||
   getEnv() === ENV_TYPE.TAOBAO
 
-const ALIPAY_COMPONENT_LIFETIMES_METHODS = [
-  'onInit',
-  'deriveDataFromProps',
-  'didMount',
-  'didUpdate',
-  'didUnmount',
-  'onError'
-]
 const WECHAT_COMPONENT_LIFETIMES_METHODS = [
   'created',
   'attached',
@@ -425,6 +417,14 @@ const WECHAT_COMPONENT_LIFETIMES_METHODS = [
   'detached',
   'error'
 ]
+const ALIPAY_COMPONENT_LIFETIMES_METHODS = [
+  'onInit',
+  'deriveDataFromProps',
+  'didMount',
+  'didUpdate',
+  'didUnmount',
+  'onError'
+].concat(WECHAT_COMPONENT_LIFETIMES_METHODS)
 
 function getComponentLifetimesMethods(sourceType: SOURCE_TYPE) {
   return sourceType === SOURCE_TYPE.WECHAT
@@ -555,10 +555,9 @@ function processMixinsOrBehaviors<
 
   // 合并 生命周期 函数
   Object.keys(lifetimesFunctions).forEach((name) => {
+    // const originalFn = sourceType === SOURCE_TYPE.WECHAT ? componentOptions?.lifetimes?.[name] || componentOptions[name] : componentOptions[name]
     const originalFn =
-      sourceType === SOURCE_TYPE.WECHAT
-        ? componentOptions?.lifetimes?.[name] || componentOptions[name]
-        : componentOptions[name]
+      componentOptions?.lifetimes?.[name] || componentOptions[name]
 
     componentOptions[name] = function (...args: any[]): void {
       try {
@@ -573,9 +572,9 @@ function processMixinsOrBehaviors<
     }
 
     // 微信 DSL 需要确保 lifetimes 中函数和 组件中一致
-    if (sourceType === SOURCE_TYPE.WECHAT) {
-      componentOptions.lifetimes[name] = componentOptions[name]
-    }
+    // if (sourceType === SOURCE_TYPE.WECHAT) {
+    componentOptions.lifetimes[name] = componentOptions[name]
+    // }
   })
 }
 
