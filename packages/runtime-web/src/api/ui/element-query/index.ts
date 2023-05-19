@@ -2,7 +2,7 @@
 import { getRootView, updateRootView } from '../../global'
 import { wait } from '../../utils'
 import IntersectionObserver from './intersection-observer'
-import { getPlainObjectFromRect } from './utils'
+import { FIELD_CONFIG_METHODS_MAP, mapTarget } from './utils'
 
 export default {
   createIntersectionObserver(options?) {
@@ -44,21 +44,7 @@ class SelectorQuery {
   boundingClientRect() {
     const target = this.target
     this.execPromises.push(
-      wait().then(() => {
-        if (!target) {
-          return null
-        }
-        if (target instanceof HTMLElement) {
-          const rect = target.getBoundingClientRect()
-          return getPlainObjectFromRect(rect)
-        } else {
-          const rects = []
-          target.forEach((el) => {
-            rects.push(getPlainObjectFromRect(el.getBoundingClientRect()))
-          })
-          return rects
-        }
-      })
+      wait().then(() => mapTarget(target, FIELD_CONFIG_METHODS_MAP.rect))
     )
 
     return this
@@ -67,28 +53,37 @@ class SelectorQuery {
   scrollOffset() {
     const target = this.target
     this.execPromises.push(
+      wait().then(() =>
+        mapTarget(target, FIELD_CONFIG_METHODS_MAP.scrollOffset)
+      )
+    )
+
+    return this
+  }
+
+  fields(config) {
+    const target = this.target
+
+    this.execPromises.push(
       wait().then(() => {
-        if (!target) {
-          return null
-        }
-        if (target instanceof HTMLElement) {
-          const rect = {
-            scrollTop: target.scrollTop,
-            scrollLeft: target.scrollLeft
-          }
-          return rect
-        } else {
-          const rects = []
-          target.forEach((el) => {
-            rects.push({
-              scrollTop: el.scrollTop,
-              scrollLeft: el.scrollLeft
-            })
-          })
-          return rects
-        }
+        return mapTarget(target, (el: HTMLElement) => {
+          return Object.keys(config).reduce((res, key) => {
+            if (
+              config[key] &&
+              typeof FIELD_CONFIG_METHODS_MAP[key] === 'function'
+            ) {
+              const value = FIELD_CONFIG_METHODS_MAP[key](el, config[key])
+
+              if (typeof value === 'object') res = { ...res, ...value }
+              else res[key] = value
+            }
+
+            return res
+          }, {})
+        })
       })
     )
+
     return this
   }
 
