@@ -6,7 +6,7 @@ import {
   logger
 } from '@morjs/runtime-base'
 import clone from 'clone-deep'
-import { injectHasMixinSupport } from './behaviorOrMixin'
+import { injectHasMixinSupport } from '../common/behaviorOrMixin'
 import { addEventProxy, injectInstanceMethodsSupport } from './utilsToOther'
 
 const MOR_PREFIX = 'mor' as const

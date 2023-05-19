@@ -6,8 +6,8 @@ function generatePath(fileName: string): string {
   return require.resolve(`@morjs/runtime-mini/lib/wechat/${fileName}.js`)
 }
 
-function generateAlipayPath(fileName: string): string {
-  return require.resolve(`@morjs/runtime-mini/lib/alipay/${fileName}.js`)
+function generateCommonPath(fileName: string): string {
+  return require.resolve(`@morjs/runtime-mini/lib/common/${fileName}.js`)
 }
 
 /**
@@ -25,7 +25,7 @@ export function getRuntimeFiles(sourceType: string, target: string) {
 
   if (sourceType !== target) {
     api = generatePath('apis')
-    mixin = generateAlipayPath('behaviorOrMixin')
+    mixin = generateCommonPath('behaviorOrMixin')
   }
 
   return {

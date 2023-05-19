@@ -417,6 +417,8 @@ const WECHAT_COMPONENT_LIFETIMES_METHODS = [
   'detached',
   'error'
 ]
+
+// 支付宝基础库 2.8.5(2022-12-29) 起新增 lifetimes 定义段，支持 created、attached 等组件节点树维度的生命周期函数
 const ALIPAY_COMPONENT_LIFETIMES_METHODS = [
   'onInit',
   'deriveDataFromProps',
@@ -555,7 +557,6 @@ function processMixinsOrBehaviors<
 
   // 合并 生命周期 函数
   Object.keys(lifetimesFunctions).forEach((name) => {
-    // const originalFn = sourceType === SOURCE_TYPE.WECHAT ? componentOptions?.lifetimes?.[name] || componentOptions[name] : componentOptions[name]
     const originalFn =
       componentOptions?.lifetimes?.[name] || componentOptions[name]
 
@@ -571,10 +572,7 @@ function processMixinsOrBehaviors<
       if (originalFn) originalFn.call(this, ...args)
     }
 
-    // 微信 DSL 需要确保 lifetimes 中函数和 组件中一致
-    // if (sourceType === SOURCE_TYPE.WECHAT) {
     componentOptions.lifetimes[name] = componentOptions[name]
-    // }
   })
 }
 

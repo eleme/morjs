@@ -8,6 +8,10 @@ function generatePath(fileName: string): string {
   return require.resolve(`@morjs/runtime-mini/lib/alipay/${fileName}.js`)
 }
 
+function generateCommonPath(fileName: string): string {
+  return require.resolve(`@morjs/runtime-mini/lib/common/${fileName}.js`)
+}
+
 /**
  * 获取运行时抹平相关代码路径
  * @param sourceType - 源码类型
@@ -27,14 +31,14 @@ export function getRuntimeFiles(sourceType: string, target: string) {
       api = generatePath('apisToOther')
       page = generatePath('pageToOther')
       component = generatePath('componentToOther')
-      mixin = generatePath('behaviorOrMixin')
+      mixin = generateCommonPath('behaviorOrMixin')
     }
     // 其他端转支付宝(微信 => 支付宝)
     else if (isSimilarTarget(target)) {
       api = generatePath('apisToAlipay')
       page = generatePath('pageToAlipay')
       component = generatePath('componentToAlipay')
-      behavior = generatePath('behaviorOrMixin')
+      behavior = generateCommonPath('behaviorOrMixin')
     }
   }
 

@@ -1,5 +1,5 @@
 import { compose } from '@morjs/runtime-base'
-import { injectHasBehaviorSupport } from './behaviorOrMixin'
+import { injectHasBehaviorSupport } from '../common/behaviorOrMixin'
 import {
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,

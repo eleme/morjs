@@ -1,4 +1,4 @@
-import { injectHasMixinSupport } from './behaviorOrMixin'
+import { injectHasMixinSupport } from '../common/behaviorOrMixin'
 import { addEventProxy, injectInstanceMethodsSupport } from './utilsToOther'
 
 /**
