@@ -27,53 +27,6 @@ export function markUnsupportMethods(
     })
 }
 
-/**
- * 自定义组件扩展
- * 参考文档: https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/extend.html
- */
-export type DefinitionFilter = <T extends Record<string, any>>(
-  /** 使用该 behavior 的 component/behavior 的定义对象 */
-  defFields: T,
-  /** 该 behavior 所使用的 behavior 的 definitionFilter 函数列表 */
-  definitionFilterArr?: DefinitionFilter[]
-) => void
-
-export interface BehaviorOptions {
-  definitionFilter?: DefinitionFilter
-  behaviors?: BehaviorOptions[]
-  [k: string]: any
-}
-
-/**
- * 注入 hasBehavior 方法支持
- */
-export function injectHasBehaviorSupport(
-  options: Record<string, any>,
-  behaviors?: BehaviorOptions[]
-) {
-  // 保存当前页面或组件中的 behaviors
-  behaviors = behaviors || []
-
-  function hasBehavior(
-    behaviors: BehaviorOptions[],
-    behavior: BehaviorOptions
-  ): boolean {
-    if (!behavior) return false
-
-    if (behaviors.indexOf(behavior) !== -1) return true
-
-    for (let i = 0; i < behaviors.length; i++) {
-      if (hasBehavior(behaviors[i]?.behaviors || [], behavior)) return true
-    }
-
-    return false
-  }
-
-  options.hasBehavior = function (behavior: BehaviorOptions): boolean {
-    return hasBehavior(behaviors, behavior)
-  }
-}
-
 const isSelectOwnerComponentSupported = canIUse(
   'component.selectOwnerComponent'
 )

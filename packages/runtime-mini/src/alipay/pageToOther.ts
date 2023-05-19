@@ -1,3 +1,4 @@
+import { injectHasMixinSupport } from '../common/behaviorOrMixin'
 import { addEventProxy, injectInstanceMethodsSupport } from './utilsToOther'
 
 /**
@@ -6,4 +7,5 @@ import { addEventProxy, injectInstanceMethodsSupport } from './utilsToOther'
 export function initPage(options: Record<string, any>): void {
   addEventProxy(options)
   injectInstanceMethodsSupport(options)
+  injectHasMixinSupport(options, options.mixins || [])
 }

@@ -38,6 +38,7 @@ const WebpackWrapperMap = new WeakMap<Runner, WebpackWrapper>()
  * - 提供 page 抹平
  * - 提供 component 抹平
  * - 提供 behavior 抹平
+ * - 提供 mixin 抹平
  *
  * 通过 插件获取 runtime 文件地址, 并基于配置自动注入到响应的 js 文件中
  */
@@ -117,6 +118,11 @@ export class RuntimeInjectPlugin implements Plugin {
           autoInjectRuntime?.['behavior'] === true) &&
         targetRuntimes.behavior
 
+      // 是否支持 mixin： 已开启 mixin 开关且 target 运行时支持 mixin
+      const supportMixin =
+        (autoInjectRuntime === true || autoInjectRuntime?.['mixin'] === true) &&
+        targetRuntimes.mixin
+
       // 处理 @morjs/core 和 @morjs/api 运行时的注入
       runner.hooks.preprocessorParser.tap(
         this.name,
@@ -144,6 +150,26 @@ export class RuntimeInjectPlugin implements Plugin {
               fileContent
             )
             fileContent = `${importBehaviorClause}${fileContent}`
+          }
+
+          // 检查是是否开启 mixin 运行时注入配置
+          // 检查 mixin 特征
+          // 不符合的不处理
+          // 只处理用户文件，不处理 node_modules
+          if (
+            supportMixin &&
+            fileInfo.path !== targetRuntimes.mixin &&
+            (/\s*Mixin( +)?\(/.test(fileContent) ||
+              /=Mixin( +)?\(/.test(fileContent))
+          ) {
+            const importMixinClause = makeImportClause(
+              moduleKind,
+              targetRuntimes.mixin,
+              'Mixin',
+              'Mixin',
+              fileContent
+            )
+            fileContent = `${importMixinClause}${fileContent}`
           }
 
           // 只处理 @morjs/core 或 @morjs/api 的运行时修改

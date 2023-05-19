@@ -8,6 +8,10 @@ function generatePath(fileName: string): string {
   return require.resolve(`@morjs/runtime-mini/lib/qq/${fileName}.js`)
 }
 
+function generateCommonPath(fileName: string): string {
+  return require.resolve(`@morjs/runtime-mini/lib/common/${fileName}.js`)
+}
+
 /**
  * 获取运行时抹平相关代码路径
  * @param sourceType - 源码类型
@@ -19,9 +23,11 @@ export function getRuntimeFiles(sourceType: string, target: string) {
   let page: string
   let component: string
   let behavior: string
+  let mixin: string
 
   if (sourceType !== target && target === CurrentTarget) {
     api = generatePath('apis')
+    mixin = generateCommonPath('behaviorOrMixin')
   }
 
   return {
@@ -29,6 +35,7 @@ export function getRuntimeFiles(sourceType: string, target: string) {
     app,
     page,
     component,
-    behavior
+    behavior,
+    mixin
   }
 }

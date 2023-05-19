@@ -452,6 +452,10 @@ export function applyDefaults(
         userConfig.autoInjectRuntime.behavior =
           userConfig.autoInjectRuntime.behavior ?? true
       }
+      if (sourceType === SourceTypes.alipay) {
+        userConfig.autoInjectRuntime.mixin =
+          userConfig.autoInjectRuntime.mixin ?? true
+      }
     }
   }
 

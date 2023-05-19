@@ -13,7 +13,9 @@ export interface IAnyFunc {
 export function compose<T extends IAnyFunc>(stack: T[]) {
   return function (...args: any[]): void {
     for (const fn of stack) {
-      fn.call(this, ...args)
+      if (Object.prototype.toString.call(fn) === '[object Function]') {
+        fn.call(this, ...args)
+      }
     }
   }
 }

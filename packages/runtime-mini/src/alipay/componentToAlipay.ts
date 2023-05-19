@@ -2,11 +2,11 @@ import { compose, logger } from '@morjs/runtime-base'
 import get from 'lodash.get'
 import has from 'lodash.has'
 import set from 'lodash.set'
+import { injectHasBehaviorSupport } from '../common/behaviorOrMixin'
 import {
   canIUse,
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,
-  injectHasBehaviorSupport,
   markUnsupportMethods
 } from './utilsToAlipay'
 
@@ -25,6 +25,8 @@ const isObserversSupported = canIUse('component.observers')
 const isRelationsSupported = canIUse('component.relations')
 // 检查是否支持 externalClasses
 const isExternalClassesSupported = canIUse('component.externalClasses')
+// 检查是否支持 lifetimes
+const isLifetimesSupported = canIUse('component.lifetimes')
 
 /**
  * 确保组件有对应的对象的存在
@@ -53,9 +55,9 @@ function checkOptions(options: Record<string, any>): void {
     )
   }
 
-  if (options.moved || options.lifetimes.moved) {
+  if (!isLifetimesSupported && (options.moved || options.lifetimes.moved)) {
     logger.warn(
-      `组件中包含支付宝小程序不支持的 moved 生命周期, 请自行适配相关逻辑`
+      `组件中包含支付宝小程序低版本不支持的 moved 生命周期, 请升级基础库版本至 2.8.5 或以上，若不升级基础库则需自行适配相关逻辑`
     )
   }
 
@@ -71,6 +73,11 @@ function checkOptions(options: Record<string, any>): void {
   ) {
     options.options.externalClasses = true
   }
+
+  // 如果支持 lifetimes 且用户未手动关闭，则默认开启
+  if (isLifetimesSupported && options.options?.lifetimes !== false) {
+    options.options.lifetimes = true
+  }
 }
 
 /**
@@ -78,7 +85,7 @@ function checkOptions(options: Record<string, any>): void {
  * @param options - 组件选项
  */
 function cleanOptions(options: Record<string, any>): void {
-  delete options.lifetimes
+  !isLifetimesSupported && delete options.lifetimes
   delete options.created
   delete options.attached
   delete options.ready
@@ -433,23 +440,23 @@ function hookComponentLifeCycle(options: Record<string, any>) {
     // 注入 createIntersectionObserver 方法
     injectCreateIntersectionObserverSupport(),
     initPropertiesAndData,
-    callOriginalFn('created'),
+    !isLifetimesSupported && callOriginalFn('created'),
     callOriginalFn('onInit')
   ])
 
   options.didMount = compose([
-    callOriginalFn('attached'),
+    !isLifetimesSupported && callOriginalFn('attached'),
     callOriginalFn('didMount'),
-    callOriginalFn('ready')
+    !isLifetimesSupported && callOriginalFn('ready')
   ])
 
   options.didUnmount = compose([
-    callOriginalFn('detached'),
+    !isLifetimesSupported && callOriginalFn('detached'),
     callOriginalFn('didUnmount')
   ])
 
   options.onError = compose([
-    callOriginalFn('error'),
+    !isLifetimesSupported && callOriginalFn('error'),
     callOriginalFn('onError')
   ])
 }

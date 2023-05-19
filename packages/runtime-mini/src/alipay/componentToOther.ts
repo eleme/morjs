@@ -6,6 +6,7 @@ import {
   logger
 } from '@morjs/runtime-base'
 import clone from 'clone-deep'
+import { injectHasMixinSupport } from '../common/behaviorOrMixin'
 import { addEventProxy, injectInstanceMethodsSupport } from './utilsToOther'
 
 const MOR_PREFIX = 'mor' as const
@@ -677,6 +678,9 @@ export function initComponent(options: Record<string, any>): void {
     hookObserversLifeCycle(options)
     injectWildcardObserversProps(options)
   }
+
+  // 注入 hasMixin 支持
+  injectHasMixinSupport(options.methods, options.mixins || [])
 
   // 注入组件生命周期
   hookComponentLifeCycle(options, needsToObserversLifeCycle)
