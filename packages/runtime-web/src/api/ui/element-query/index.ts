@@ -1,6 +1,6 @@
 // 节点相关查询接口
 import { getRootView, updateRootView } from '../../global'
-import { wait } from '../../utils'
+import { isFunction, isObject, wait } from '../../utils'
 import IntersectionObserver from './intersection-observer'
 import { FIELD_CONFIG_METHODS_MAP, mapTarget } from './utils'
 
@@ -17,6 +17,7 @@ class SelectorQuery {
   private target: HTMLElement | NodeListOf<HTMLElement>
 
   private execPromises: Promise<any>[] = []
+  private fieldsPromise: Promise<any>[] = []
 
   select(selector: string) {
     this.target = getRootView().querySelector(selector) as HTMLElement
@@ -61,27 +62,28 @@ class SelectorQuery {
     return this
   }
 
-  fields(config) {
+  fields(config, callback) {
     const target = this.target
 
-    this.execPromises.push(
-      wait().then(() => {
-        return mapTarget(target, (el: HTMLElement) => {
-          return Object.keys(config).reduce((res, key) => {
-            if (
-              config[key] &&
-              typeof FIELD_CONFIG_METHODS_MAP[key] === 'function'
-            ) {
-              const value = FIELD_CONFIG_METHODS_MAP[key](el, config[key])
+    this.fieldsPromise.push(
+      wait()
+        .then(() => {
+          return mapTarget(target, (el: HTMLElement) => {
+            return Object.keys(config).reduce((res, key) => {
+              if (
+                config[key] &&
+                typeof FIELD_CONFIG_METHODS_MAP[key] === 'function'
+              ) {
+                const value = FIELD_CONFIG_METHODS_MAP[key](el, config[key])
 
-              if (typeof value === 'object') res = { ...res, ...value }
-              else res[key] = value
-            }
-
-            return res
-          }, {})
+                if (isObject(value)) res = { ...res, ...value }
+                else res[key] = value
+              }
+              return res
+            }, {})
+          })
         })
-      })
+        .then((res) => isFunction(callback) && callback(res))
     )
 
     return this
@@ -89,7 +91,11 @@ class SelectorQuery {
 
   exec(callback) {
     Promise.all(this.execPromises).then((res) => {
-      callback(res)
+      isFunction(callback) && callback(res)
     })
+
+    if (this.fieldsPromise.length > 0) {
+      Promise.all(this.fieldsPromise)
+    }
   }
 }
