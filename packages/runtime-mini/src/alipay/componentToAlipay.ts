@@ -16,16 +16,22 @@ const MOR_PREFIX = 'mor' as const
  * 用于在组件实例中保存 data 更新前的数据
  */
 const MOR_PREV_DATA = `$${MOR_PREFIX}PrevData` as const
+// 用于记录 DeriveDataFromProps 生命周期的第一次触发
+const MOR_FIRST_DERIVE_DATA_FROM_PROPS =
+  `$${MOR_PREFIX}FirstDeriveDataFromProps` as const
+// 用于记录 InitPropertiesAndData 方法的第一次触发
+const MOR_FIRST_INIT_PROPERTIES_AND_DATA =
+  `$${MOR_PREFIX}FirstInitPropertiesAndData` as const
 
 // 检查是否支持 component2
 const isComponent2Enabled = canIUse('component2')
-// 检查是否支持 observers
+// 检查是否支持 observers 基础库 2.8.1
 const isObserversSupported = canIUse('component.observers')
 // 检查是否支持 relations
 const isRelationsSupported = canIUse('component.relations')
 // 检查是否支持 externalClasses
 const isExternalClassesSupported = canIUse('component.externalClasses')
-// 检查是否支持 lifetimes
+// 检查是否支持 lifetimes 基础库 2.8.5
 const isLifetimesSupported = canIUse('component.lifetimes')
 
 /**
@@ -338,6 +344,14 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   // 接收变更，需要开启 component2 支持
   const originalDeriveDataFromProps = options.deriveDataFromProps
   options.deriveDataFromProps = function (nextProps = {}) {
+    // 1. 当基础库版本支持 lifetimes 时，由于生命周期执行委托给了原生，需跳过首次执行，若不跳过则会导致，
+    //    data 同步 nextProps 后，传入的值前后对比未发现变更，而使在第一次初始化不触发 observer 的监听
+    // 2. 当基础库版本不支持 lifetimes 时，使用 mor 的自实现，正常执行以下流程
+    if (!this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] && isObserversSupported) {
+      this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] = true
+      return
+    }
+
     // 用于判断 nextProps 不为空对象
     let hasProps = false
     const updateProps: Record<string, any> = {}
@@ -420,13 +434,23 @@ function hookComponentLifeCycle(options: Record<string, any>) {
     }
   }
 
+  /**
+   * 初始化同步 properties 和 data 的值，为了兼容不同基础库版本，此处需触发两次
+   * 第一次同步在 onInit 之后 created 之前，目的是让 created 中可以取到 properties 的 key
+   * 第二次同步是在 created 之后 attached 之前，目的是让 attached 之后的生命周期能正常从 properties 取值
+   */
   const initPropertiesAndData = function () {
-    this.properties = { ...(this.data || {}) }
-    for (const prop in this.props || {}) {
-      if (typeof prop === 'function') continue
-      this.properties[prop] = this.props[prop]
+    if (!this[MOR_FIRST_INIT_PROPERTIES_AND_DATA]) {
+      this.properties = this.properties || {}
+      for (const prop in this.props || {}) {
+        if (typeof prop === 'function') continue
+        this.properties[prop] = this.props[prop]
+      }
+      this[MOR_FIRST_INIT_PROPERTIES_AND_DATA] = true
+    } else {
+      this.properties = { ...this.properties, ...(this.data || {}) }
+      this.data = this.properties
     }
-    this.data = this.properties
   }
 
   // export => ref 映射
@@ -437,14 +461,14 @@ function hookComponentLifeCycle(options: Record<string, any>) {
 
   options.onInit = compose([
     hackSetData,
-    // 注入 createIntersectionObserver 方法
     injectCreateIntersectionObserverSupport(),
-    initPropertiesAndData,
-    !isLifetimesSupported && callOriginalFn('created'),
-    callOriginalFn('onInit')
+    callOriginalFn('onInit'),
+    initPropertiesAndData
   ])
 
   options.didMount = compose([
+    initPropertiesAndData,
+    !isLifetimesSupported && callOriginalFn('created'),
     !isLifetimesSupported && callOriginalFn('attached'),
     callOriginalFn('didMount'),
     !isLifetimesSupported && callOriginalFn('ready')
