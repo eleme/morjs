@@ -338,6 +338,14 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   // 接收变更，需要开启 component2 支持
   const originalDeriveDataFromProps = options.deriveDataFromProps
   options.deriveDataFromProps = function (nextProps = {}) {
+    // 1. 当基础库版本支持 lifetimes 时，由于生命周期执行委托给了原生，
+    //    需跳过首次执行，否则会导致传入的 props 在第一次初始化不触发 observer 的监听
+    // 2. 当基础库版本不支持 lifetimes 时，使用 mor 的自实现，正常执行以下流程
+    if (!this.isFirstInvoked && isLifetimesSupported) {
+      this.isFirstInvoked = true
+      return
+    }
+
     // 用于判断 nextProps 不为空对象
     let hasProps = false
     const updateProps: Record<string, any> = {}
@@ -420,13 +428,24 @@ function hookComponentLifeCycle(options: Record<string, any>) {
     }
   }
 
+  /**
+   * 初始化混用 properties 和 data 的值，为了兼容不同基础库版本，此处需触发两次
+   * 第一次混用在 onInit 之后 created 之前，目的是让 created 中可以取到 properties 的 key
+   * 第二次混用是在 created 之后 attached 之前，目的是让 attached 之后的生命周期能正常从 properties 取值
+   */
   const initPropertiesAndData = function () {
-    this.properties = { ...(this.data || {}) }
+    this.properties = !this.isFirstInitPropertiesAndData
+      ? this.properties || {}
+      : { ...(this.data || {}) }
     for (const prop in this.props || {}) {
       if (typeof prop === 'function') continue
       this.properties[prop] = this.props[prop]
     }
-    this.data = this.properties
+    if (!this.isFirstInitPropertiesAndData) {
+      this.isFirstInitPropertiesAndData = true
+    } else {
+      this.data = this.properties
+    }
   }
 
   // export => ref 映射
@@ -437,14 +456,14 @@ function hookComponentLifeCycle(options: Record<string, any>) {
 
   options.onInit = compose([
     hackSetData,
-    // 注入 createIntersectionObserver 方法
     injectCreateIntersectionObserverSupport(),
-    initPropertiesAndData,
-    !isLifetimesSupported && callOriginalFn('created'),
-    callOriginalFn('onInit')
+    callOriginalFn('onInit'),
+    initPropertiesAndData
   ])
 
   options.didMount = compose([
+    initPropertiesAndData,
+    !isLifetimesSupported && callOriginalFn('created'),
     !isLifetimesSupported && callOriginalFn('attached'),
     callOriginalFn('didMount'),
     !isLifetimesSupported && callOriginalFn('ready')
