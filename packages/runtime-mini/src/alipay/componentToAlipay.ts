@@ -25,13 +25,13 @@ const MOR_FIRST_INIT_PROPERTIES_AND_DATA =
 
 // 检查是否支持 component2
 const isComponent2Enabled = canIUse('component2')
-// 检查是否支持 observers
+// 检查是否支持 observers 基础库 2.8.1
 const isObserversSupported = canIUse('component.observers')
 // 检查是否支持 relations
 const isRelationsSupported = canIUse('component.relations')
 // 检查是否支持 externalClasses
 const isExternalClassesSupported = canIUse('component.externalClasses')
-// 检查是否支持 lifetimes
+// 检查是否支持 lifetimes 基础库 2.8.5
 const isLifetimesSupported = canIUse('component.lifetimes')
 
 /**
@@ -347,7 +347,7 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     // 1. 当基础库版本支持 lifetimes 时，由于生命周期执行委托给了原生，需跳过首次执行，若不跳过则会导致，
     //    data 同步 nextProps 后，传入的值前后对比未发现变更，而使在第一次初始化不触发 observer 的监听
     // 2. 当基础库版本不支持 lifetimes 时，使用 mor 的自实现，正常执行以下流程
-    if (!this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] && isLifetimesSupported) {
+    if (!this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] && isObserversSupported) {
       this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] = true
       return
     }
