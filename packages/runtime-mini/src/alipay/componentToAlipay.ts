@@ -16,6 +16,12 @@ const MOR_PREFIX = 'mor' as const
  * 用于在组件实例中保存 data 更新前的数据
  */
 const MOR_PREV_DATA = `$${MOR_PREFIX}PrevData` as const
+// 用于记录 DeriveDataFromProps 生命周期的第一次触发
+const MOR_FIRST_DERIVE_DATA_FROM_PROPS =
+  `$${MOR_PREFIX}FirstDeriveDataFromProps` as const
+// 用于记录 InitPropertiesAndData 方法的第一次触发
+const MOR_FIRST_INIT_PROPERTIES_AND_DATA =
+  `$${MOR_PREFIX}FirstInitPropertiesAndData` as const
 
 // 检查是否支持 component2
 const isComponent2Enabled = canIUse('component2')
@@ -338,11 +344,11 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   // 接收变更，需要开启 component2 支持
   const originalDeriveDataFromProps = options.deriveDataFromProps
   options.deriveDataFromProps = function (nextProps = {}) {
-    // 1. 当基础库版本支持 lifetimes 时，由于生命周期执行委托给了原生，
-    //    需跳过首次执行，否则会导致传入的 props 在第一次初始化不触发 observer 的监听
+    // 1. 当基础库版本支持 lifetimes 时，由于生命周期执行委托给了原生，需跳过首次执行，若不跳过则会导致，
+    //    data 同步 nextProps 后，传入的值前后对比未发现变更，而使在第一次初始化不触发 observer 的监听
     // 2. 当基础库版本不支持 lifetimes 时，使用 mor 的自实现，正常执行以下流程
-    if (!this.isFirstInvoked && isLifetimesSupported) {
-      this.isFirstInvoked = true
+    if (!this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] && isLifetimesSupported) {
+      this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] = true
       return
     }
 
@@ -429,21 +435,20 @@ function hookComponentLifeCycle(options: Record<string, any>) {
   }
 
   /**
-   * 初始化混用 properties 和 data 的值，为了兼容不同基础库版本，此处需触发两次
-   * 第一次混用在 onInit 之后 created 之前，目的是让 created 中可以取到 properties 的 key
-   * 第二次混用是在 created 之后 attached 之前，目的是让 attached 之后的生命周期能正常从 properties 取值
+   * 初始化同步 properties 和 data 的值，为了兼容不同基础库版本，此处需触发两次
+   * 第一次同步在 onInit 之后 created 之前，目的是让 created 中可以取到 properties 的 key
+   * 第二次同步是在 created 之后 attached 之前，目的是让 attached 之后的生命周期能正常从 properties 取值
    */
   const initPropertiesAndData = function () {
-    this.properties = !this.isFirstInitPropertiesAndData
-      ? this.properties || {}
-      : { ...(this.data || {}) }
-    for (const prop in this.props || {}) {
-      if (typeof prop === 'function') continue
-      this.properties[prop] = this.props[prop]
-    }
-    if (!this.isFirstInitPropertiesAndData) {
-      this.isFirstInitPropertiesAndData = true
+    if (!this[MOR_FIRST_INIT_PROPERTIES_AND_DATA]) {
+      this.properties = this.properties || {}
+      for (const prop in this.props || {}) {
+        if (typeof prop === 'function') continue
+        this.properties[prop] = this.props[prop]
+      }
+      this[MOR_FIRST_INIT_PROPERTIES_AND_DATA] = true
     } else {
+      this.properties = { ...this.properties, ...(this.data || {}) }
       this.data = this.properties
     }
   }
