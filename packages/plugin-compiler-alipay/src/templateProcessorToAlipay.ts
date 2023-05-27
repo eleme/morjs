@@ -23,7 +23,7 @@ const TAG_SPECIFIC_PROP_NAME_MAPPINGS = {
 const MOR_REF_METHOD_NAME = '$morSaveRef'
 
 // 双向绑定dataset
-const TWO_WAY_BING_DATASET = {
+const TWO_WAY_BINDING_DATASET = {
   morTwoWayBindingMethod: 'data-mortwowaybindingmethod',
   morTwoWayBindingEventKey: 'data-mortwowaybindingeventkey',
   morTwoWayBindingValue: 'data-mortwowaybindingvalue'
@@ -330,11 +330,11 @@ function processTwoWayBinding(node, context) {
         }
 
         // 双向绑定信息，存在dataset上,命名使用小写，兼容web端的dataset小写
-        node.attrs[TWO_WAY_BING_DATASET.morTwoWayBindingMethod] =
+        node.attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingMethod] =
           node.attrs[tagComponent.bindEventName]
-        node.attrs[TWO_WAY_BING_DATASET.morTwoWayBindingEventKey] =
+        node.attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingEventKey] =
           tagComponent.bindEventKey
-        node.attrs[TWO_WAY_BING_DATASET.morTwoWayBindingValue] =
+        node.attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingValue] =
           twoWayBindingRightKey
 
         // 自定义事件，劫持tag组件事件
