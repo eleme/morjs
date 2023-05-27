@@ -61,6 +61,12 @@ Page({
         name: '搜索相关',
         open: false,
         pages: ['searchbar']
+      },
+      {
+        id: 'function',
+        name: '特性相关',
+        open: false,
+        pages: ['two-way-binding']
       }
     ]
   },

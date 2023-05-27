@@ -11,7 +11,9 @@
   "repository": "git@github.com:eleme/morjs.git",
   "scripts": {
     "dev": "mor compile -w --no-cache",
-    "build": "mor compile"
+    "build": "mor compile",
+    "dev:web": "mor compile -w --name web --no-cache",
+    "dev:ali": "mor compile -w --name alipay --no-cache"
   },
   "dependencies": {
     "@morjs/core": "*"

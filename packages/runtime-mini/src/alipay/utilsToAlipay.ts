@@ -174,6 +174,51 @@ export function injectComponentSelectorMethodsSupport(
 }
 
 /**
+ * 注入双向绑定方法
+ */
+export function injectTwoWayBindingMethodsSupport(
+  options: Record<string, any>
+) {
+  // 双向绑定劫持自定义事件
+  options.$morTwoWayBindingProxy = function (event) {
+    const {
+      mortwowaybindingmethod,
+      mortwowaybindingeventkey,
+      mortwowaybindingvalue
+    } = event.target.dataset
+
+    this.setData({
+      [mortwowaybindingvalue]: event?.detail?.[mortwowaybindingeventkey]
+    })
+
+    // 双向绑定时，tag上自定义的响应事件
+    if (mortwowaybindingmethod) {
+      this[mortwowaybindingmethod]?.(event)
+    }
+  }
+
+  // 自定义组件的双向绑定方法
+  options.$morParentCompTwoWayBindingProxy = function (data, props) {
+    try {
+      const childCompTwoWayBindingMap = JSON.parse(
+        props.morChildCompTwoWayBindingMap
+      )
+
+      Object.keys(childCompTwoWayBindingMap).forEach((childKey) => {
+        // 子组件props 滞后 data，更新父组件data
+        if (data[childKey] !== props[childKey]) {
+          this.setData({
+            [childCompTwoWayBindingMap[childKey]]: data[childKey]
+          })
+        }
+      })
+    } catch (e) {
+      console.warn(`${e}`)
+    }
+  }
+}
+
+/**
  * 为组件或页面注入 this.createIntersectionObserver 支持
  * 原因: 支付宝仅 2.7.4 及以上页面有该方法, 但组件无该方法
  * @param context 组件或页面上下文, 即 this 对象

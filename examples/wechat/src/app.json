@@ -58,7 +58,9 @@
 
     "example/searchbar/searchbar",
 
-    "example/bluetooth/bluetooth"
+    "example/bluetooth/bluetooth",
+
+    "example/two-way-binding/two-way-binding"
   ],
   "window": {
     "navigationBarTextStyle": "black",

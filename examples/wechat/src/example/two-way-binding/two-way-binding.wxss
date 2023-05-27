@@ -1,0 +1,21 @@
+page {
+  background: #f1f1f1;
+}
+
+.section {
+  margin-top: 20px;
+}
+
+.gray {
+  background: #ddd;
+}
+
+.swiper {
+  background: #ddd;
+  height: 100px;
+}
+
+.center {
+  text-align: center;
+  line-height: 100px;
+}

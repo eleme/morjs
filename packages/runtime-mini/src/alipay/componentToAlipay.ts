@@ -7,6 +7,7 @@ import {
   canIUse,
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,
+  injectTwoWayBindingMethodsSupport,
   markUnsupportMethods
 } from './utilsToAlipay'
 
@@ -352,6 +353,9 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
       return
     }
 
+    // data变化触发双向绑定
+    this.props?.onMorChildCompTwoWayBindingProxy(this.data, this.props)
+
     // 用于判断 nextProps 不为空对象
     let hasProps = false
     const updateProps: Record<string, any> = {}
@@ -520,6 +524,9 @@ export function initComponent(options: Record<string, any>) {
 
   // 标记不支持的实例方法
   markUnsupportMethods(options.methods)
+
+  // 注入双向绑定方法
+  injectTwoWayBindingMethodsSupport(options.methods)
 
   // 增加组件实例方法支持
   injectComponentInstanceMethodSupport(options.methods)

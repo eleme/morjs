@@ -44,6 +44,26 @@ export const templateDirectives = {
   key: 'a:key'
 }
 
+// 支持双向绑定的组件配置
+export const twoWayBindingComponents = {
+  input: {
+    bindEventName: 'onInput',
+    bindEventKey: 'value'
+  },
+  textarea: {
+    bindEventName: 'onInput',
+    bindEventKey: 'value'
+  },
+  swiper: {
+    bindEventName: 'onChange',
+    bindEventKey: 'current'
+  },
+  switch: {
+    bindEventName: 'onChange',
+    bindEventKey: 'value'
+  }
+}
+
 /**
  * 支付宝相关小程序
  * 由于 阿里系 小程序已支付宝小程序为基础

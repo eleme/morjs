@@ -1,6 +1,6 @@
 {
   "description": "项目配置文件",
-  "miniprogramRoot": "./",
+  "miniprogramRoot": "../dist/wechat",
   "packOptions": {
     "ignore": []
   },
