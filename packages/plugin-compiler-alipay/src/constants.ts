@@ -61,6 +61,10 @@ export const twoWayBindingComponents = {
   switch: {
     bindEventName: 'onChange',
     bindEventKey: 'value'
+  },
+  slider: {
+    bindEventName: 'onChange',
+    bindEventKey: 'value'
   }
 }
 

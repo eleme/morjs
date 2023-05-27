@@ -31,6 +31,10 @@
   <view>上方 swiper 位于第 {{ currentSwiperItem + 1 }} 页</view>
 </view>
 
+<view class="section">
+  <slider model:value="{{sliderValue}}"/>
+  <view>上方slider的值为{{sliderValue}}</view>
+</view>
 <!--<view class="section">-->
 <!--  <view class="gray">-->
 <!--    <another-comp model:scroll-top="{{scrollTop1}}" />-->
