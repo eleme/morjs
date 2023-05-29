@@ -24,9 +24,9 @@ const MOR_REF_METHOD_NAME = '$morSaveRef'
 
 // 双向绑定dataset
 const TWO_WAY_BINDING_DATASET = {
-  morTwoWayBindingMethod: 'data-mortwowaybindingmethod',
-  morTwoWayBindingEventKey: 'data-mortwowaybindingeventkey',
-  morTwoWayBindingValue: 'data-mortwowaybindingvalue'
+  morTwoWayBindingMethod: 'data-mortwbmethod',
+  morTwoWayBindingEventKey: 'data-mortwbkey',
+  morTwoWayBindingValue: 'data-mortwbvalue'
 }
 
 /**
@@ -310,8 +310,7 @@ function processTwoWayBinding(node, context) {
       // 自定义组件
       const usingComponentNames: string[] = context.usingComponentNames || []
       if (usingComponentNames.includes(node.tag as string)) {
-        node.attrs.onMorChildCompTwoWayBindingProxy =
-          '$morParentCompTwoWayBindingProxy'
+        node.attrs.onMorChildTWBProxy = '$morParentTWBProxy'
 
         // custom-property -> customProperty
         const processedLeftKey = twoWayBindingLeftKey.replace(/-./g, (s) =>
@@ -320,8 +319,7 @@ function processTwoWayBinding(node, context) {
 
         // 同一个tag，多个双向绑定时，存储键值对，供运行时消费
         twoWayBindingMap[processedLeftKey] = twoWayBindingRightKey
-        node.attrs.morChildCompTwoWayBindingMap =
-          JSON.stringify(twoWayBindingMap)
+        node.attrs.morChildTWBMap = JSON.stringify(twoWayBindingMap)
       } else {
         // 已支持双向绑定的tag组件
         const tagComponent = twoWayBindingComponents[node.tag]
@@ -338,7 +336,7 @@ function processTwoWayBinding(node, context) {
           twoWayBindingRightKey
 
         // 自定义事件，劫持tag组件事件
-        node.attrs[tagComponent.bindEventName] = '$morTwoWayBindingProxy'
+        node.attrs[tagComponent.bindEventName] = '$morTWBProxy'
       }
     }
   })

@@ -17,10 +17,13 @@
 
 <view class="section">
   <view class="gray">
+    <checkbox model:checked="{{checkboxChecked}}" />
+    <radio model:checked="{{radioChecked}}" />
     <switch model:checked="{{switchChecked}}" />
   </view>
-  <view>switch当前状态：{{switchChecked}}</view>
+  <view>checkbox当前状态：{{checkboxChecked}} radio当前状态：{{radioChecked}} switch当前状态：{{switchChecked}}</view>
 </view>
+
 
 <view class="section">
   <swiper class="swiper" model:current="{{ currentSwiperItem }}">
@@ -35,9 +38,9 @@
   <slider model:value="{{sliderValue}}"/>
   <view>上方slider的值为{{sliderValue}}</view>
 </view>
-<!--<view class="section">-->
-<!--  <view class="gray">-->
-<!--    <another-comp model:scroll-top="{{scrollTop1}}" />-->
-<!--  </view>-->
-<!--  上面这个组件中的滚动位置是 {{scrollTop1}}px-->
-<!--</view>-->
+<view class="section">
+  上面这个滚动在组件内，滚动位置是 {{scrollTop1}}px
+  <view class="gray">
+    <another-comp model:scroll-top="{{scrollTop1}}" />
+  </view>
+</view>

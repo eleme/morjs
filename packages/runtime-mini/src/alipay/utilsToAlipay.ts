@@ -1,4 +1,4 @@
-import { getGlobalObject, markAsUnsupport } from '@morjs/runtime-base'
+import { getGlobalObject, logger, markAsUnsupport } from '@morjs/runtime-base'
 
 export function canIUse(name: string): boolean {
   return !!getGlobalObject()?.canIUse?.(name)
@@ -180,40 +180,35 @@ export function injectTwoWayBindingMethodsSupport(
   options: Record<string, any>
 ) {
   // 双向绑定劫持自定义事件
-  options.$morTwoWayBindingProxy = function (event) {
-    const {
-      mortwowaybindingmethod,
-      mortwowaybindingeventkey,
-      mortwowaybindingvalue
-    } = event.target.dataset
+  options.$morTWBProxy = function (event) {
+    const { mortwbmethod, mortwbkey, mortwbvalue } =
+      event?.target?.dataset ?? {}
 
     this.setData({
-      [mortwowaybindingvalue]: event?.detail?.[mortwowaybindingeventkey]
+      [mortwbvalue]: event?.detail?.[mortwbkey]
     })
 
     // 双向绑定时，tag上自定义的响应事件
-    if (mortwowaybindingmethod) {
-      this[mortwowaybindingmethod]?.(event)
+    if (mortwbmethod) {
+      this[mortwbmethod]?.(event)
     }
   }
 
-  // 自定义组件的双向绑定方法
-  options.$morParentCompTwoWayBindingProxy = function (data, props) {
+  // 自定义组件的双向绑定方法 $morParentTWBProxy
+  options.$morParentTWBProxy = function (data, props) {
     try {
-      const childCompTwoWayBindingMap = JSON.parse(
-        props.morChildCompTwoWayBindingMap
-      )
+      const map = JSON.parse(props.morChildTWBMap)
 
-      Object.keys(childCompTwoWayBindingMap).forEach((childKey) => {
+      Object.keys(map).forEach((childKey) => {
         // 子组件props 滞后 data，更新父组件data
         if (data[childKey] !== props[childKey]) {
           this.setData({
-            [childCompTwoWayBindingMap[childKey]]: data[childKey]
+            [map[childKey]]: data[childKey]
           })
         }
       })
     } catch (e) {
-      console.warn(`${e}`)
+      logger.warn(`${e}`)
     }
   }
 }

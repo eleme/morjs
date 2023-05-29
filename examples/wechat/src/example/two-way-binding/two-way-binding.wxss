@@ -1,9 +1,10 @@
 page {
+  height: 100vh;
   background: #f1f1f1;
 }
 
 .section {
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .gray {

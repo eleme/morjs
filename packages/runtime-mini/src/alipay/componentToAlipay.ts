@@ -354,7 +354,7 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     }
 
     // data变化触发双向绑定
-    this.props.onMorChildCompTwoWayBindingProxy?.(this.data, this.props)
+    this.props.onMorChildTWBProxy?.(this.data, this.props)
 
     // 用于判断 nextProps 不为空对象
     let hasProps = false

@@ -65,6 +65,14 @@ export const twoWayBindingComponents = {
   slider: {
     bindEventName: 'onChange',
     bindEventKey: 'value'
+  },
+  checkbox: {
+    bindEventName: 'onChange',
+    bindEventKey: 'value'
+  },
+  radio: {
+    bindEventName: 'onChange',
+    bindEventKey: 'value'
   }
 }
 
