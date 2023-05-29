@@ -73,6 +73,14 @@ export const twoWayBindingComponents = {
   radio: {
     bindEventName: 'onChange',
     bindEventKey: 'value'
+  },
+  picker: {
+    bindEventName: 'onChange',
+    bindEventKey: 'value'
+  },
+  'picker-view': {
+    bindEventName: 'onChange',
+    bindEventKey: 'value'
   }
 }
 
