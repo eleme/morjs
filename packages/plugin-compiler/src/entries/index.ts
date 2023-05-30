@@ -1698,7 +1698,11 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * * @param globPattern - 模式
    */
   async buildByGlob(globPattern?: string) {
-    const { ignore } = this.userConfig
+    const {
+      ignore,
+      customEntries,
+      conditionalCompile: { fileExt = [] }
+    } = this.userConfig
     const { compiler, watching } = this.webpackWrapper
     const fs = this.fs
 
@@ -1719,6 +1723,59 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       // 如果没有 negative pattern 则全部返回 true
       if (antiIgnorePatterns.length === 0) return true
       return antiMatcher(str)
+    }
+    // 判断两个路径所属目录是否一致
+    const isSameFileDir = (originPath, newPath) => {
+      return path.dirname(originPath) === path.dirname(newPath)
+    }
+    // 判断两个路径的文件类型是否一致
+    const isSameFileType = (originPath, newPath) => {
+      const getFileType = (extName) => {
+        return /\.(j|t)s$/.test(extName)
+          ? EntryFileType.script
+          : /\.json(c|5)?$/.test(extName)
+          ? EntryFileType.config
+          : extName
+      }
+      return (
+        getFileType(path.extname(originPath)) ===
+        getFileType(path.extname(newPath))
+      )
+    }
+    // 判断两个路径的文件 是否是文件维度的条件编译 的同一目标
+    const isSameFileExt = (originPath, newPath) => {
+      const originBaseArr = path.basename(originPath).split('.')
+      const newBaseArr = path.basename(newPath).split('.')
+      const checkBaseName = (baseArr) => {
+        if (Number(baseArr.length) === 2) {
+          return true
+        } else if (Number(baseArr.length) === 3) {
+          return fileExt.includes(`.${baseArr[1]}`)
+        }
+        return false
+      }
+      return (
+        originBaseArr[0] === newBaseArr[0] &&
+        checkBaseName(originBaseArr) &&
+        checkBaseName(newBaseArr)
+      )
+    }
+    // 已配置 customEntries 的文件不再添加 entry
+    const isIncludesCustomEntries = (str: string) => {
+      for (const item in customEntries) {
+        const addedEntryPath = path.resolve(
+          this.runner.getCwd(),
+          customEntries[item] as string
+        )
+        if (
+          isSameFileDir(addedEntryPath, str) &&
+          isSameFileType(addedEntryPath, str) &&
+          isSameFileExt(addedEntryPath, str)
+        ) {
+          return true
+        }
+      }
+      return false
     }
 
     const globOptions = {
@@ -1769,7 +1826,11 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     for await (const p of globStream) {
       const filePath = p.toString()
 
-      if (!isMatchAntiPatterns(filePath)) continue
+      if (
+        !isMatchAntiPatterns(filePath) ||
+        isIncludesCustomEntries(path.normalize(filePath))
+      )
+        continue
 
       // glob 生成的路径为 posix 类型
       // 需要 normalize 为适配不同系统的路径
