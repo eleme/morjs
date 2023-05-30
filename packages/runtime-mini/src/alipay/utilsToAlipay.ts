@@ -1,4 +1,4 @@
-import { getGlobalObject, markAsUnsupport } from '@morjs/runtime-base'
+import { getGlobalObject, logger, markAsUnsupport } from '@morjs/runtime-base'
 
 export function canIUse(name: string): boolean {
   return !!getGlobalObject()?.canIUse?.(name)
@@ -169,6 +169,46 @@ export function injectComponentSelectorMethodsSupport(
     // 选额父组件支持
     options.selectOwnerComponent = function () {
       return this.$morOwnerComponent
+    }
+  }
+}
+
+/**
+ * 注入双向绑定方法
+ */
+export function injectTwoWayBindingMethodsSupport(
+  options: Record<string, any>
+) {
+  // 双向绑定劫持自定义事件
+  options.$morTWBProxy = function (event) {
+    const { mortwbmethod, mortwbkey, mortwbvalue } =
+      event?.target?.dataset ?? {}
+
+    this.setData({
+      [mortwbvalue]: event?.detail?.[mortwbkey]
+    })
+
+    // 双向绑定时，tag上自定义的响应事件
+    if (mortwbmethod) {
+      this[mortwbmethod]?.(event)
+    }
+  }
+
+  // 自定义组件的双向绑定方法 $morParentTWBProxy
+  options.$morParentTWBProxy = function (data, props) {
+    try {
+      const map = JSON.parse(props.morChildTWBMap)
+
+      Object.keys(map).forEach((childKey) => {
+        // 子组件props 滞后 data，更新父组件data
+        if (data[childKey] !== props[childKey]) {
+          this.setData({
+            [map[childKey]]: data[childKey]
+          })
+        }
+      })
+    } catch (e) {
+      logger.warn(`${e}`)
     }
   }
 }

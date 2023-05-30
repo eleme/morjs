@@ -1,5 +1,9 @@
 import { FileParserOptions, posthtml } from '@morjs/utils'
-import { sjsModuleAttrName, sjsTagName } from './constants'
+import {
+  sjsModuleAttrName,
+  sjsTagName,
+  twoWayBindingComponents
+} from './constants'
 import { isNativeTag } from './templateTags'
 
 type NodeAttributes = Record<string, string | number | boolean>
@@ -17,6 +21,13 @@ const TAG_SPECIFIC_PROP_NAME_MAPPINGS = {
 // 通过 支付宝小程序的 ref 来实现
 // selectComponent/selectAllComponents/selectOwnComponent 方法
 const MOR_REF_METHOD_NAME = '$morSaveRef'
+
+// 双向绑定dataset
+const TWO_WAY_BINDING_DATASET = {
+  morTwoWayBindingMethod: 'data-mortwbmethod',
+  morTwoWayBindingEventKey: 'data-mortwbkey',
+  morTwoWayBindingValue: 'data-mortwbvalue'
+}
 
 /**
  * 自定义 template 处理
@@ -77,6 +88,9 @@ export const templateProcessorToAlipay = {
           delete node.attrs['a:key']
         }
       }
+
+      // 处理双向绑定
+      processTwoWayBinding(node, context)
     }
 
     // 支付宝不支持 大写的标签名, 需要全部转换为小写
@@ -270,4 +284,60 @@ function processComponentCompatible(node: posthtml.Node) {
       delete node.attrs['bind:getuserinfo']
     }
   }
+}
+
+/**
+ * 处理双向绑定
+ */
+function processTwoWayBinding(node, context) {
+  const twoWayBindingMap = {}
+  Object.keys(node.attrs).forEach((attrName) => {
+    // 双向绑定语法符合model:xx，如model:value={{bindingValue}}
+    const leftKeyMatchedResult = attrName?.match(/model:(.*)/)
+    if (leftKeyMatchedResult?.[1]) {
+      // model:value -> value
+      const twoWayBindingLeftKey = leftKeyMatchedResult[1]
+      node.attrs[twoWayBindingLeftKey] = node.attrs[attrName]
+      delete node.attrs[attrName]
+
+      // {{bindingValue}} -> bindingValue
+      const rightKeyMatchedResult =
+        typeof node.attrs[twoWayBindingLeftKey] === 'string'
+          ? node.attrs[twoWayBindingLeftKey]?.match(/{{(.+?)}}/)
+          : []
+      const twoWayBindingRightKey = rightKeyMatchedResult[1]?.trim()
+
+      // 自定义组件
+      const usingComponentNames: string[] = context.usingComponentNames || []
+      if (usingComponentNames.includes(node.tag as string)) {
+        node.attrs.onMorChildTWBProxy = '$morParentTWBProxy'
+
+        // custom-property -> customProperty
+        const processedLeftKey = twoWayBindingLeftKey.replace(/-./g, (s) =>
+          s[1].toUpperCase()
+        )
+
+        // 同一个tag，多个双向绑定时，存储键值对，供运行时消费
+        twoWayBindingMap[processedLeftKey] = twoWayBindingRightKey
+        node.attrs.morChildTWBMap = JSON.stringify(twoWayBindingMap)
+      } else {
+        // 已支持双向绑定的tag组件
+        const tagComponent = twoWayBindingComponents[node.tag]
+        if (!tagComponent) {
+          return
+        }
+
+        // 双向绑定信息，存在dataset上,命名使用小写，兼容web端的dataset小写
+        node.attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingMethod] =
+          node.attrs[tagComponent.bindEventName]
+        node.attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingEventKey] =
+          tagComponent.bindEventKey
+        node.attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingValue] =
+          twoWayBindingRightKey
+
+        // 自定义事件，劫持tag组件事件
+        node.attrs[tagComponent.bindEventName] = '$morTWBProxy'
+      }
+    }
+  })
 }
