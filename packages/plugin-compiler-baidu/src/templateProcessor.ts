@@ -25,9 +25,19 @@ function shouldProcess(options: FileParserOptions): boolean {
  */
 export const templateProcessor = {
   onNode(node: posthtml.Node, options: FileParserOptions): void {
-    if (shouldProcess(options) === false) return
-    tranformBindData(node)
-    transformForIFDirective(node)
+    if (shouldProcess(options)) {
+      transformForIFDirective(node)
+    }
+  },
+
+  onNodeAttr(
+    attrName: string,
+    node: posthtml.Node,
+    options: FileParserOptions
+  ): void {
+    if (shouldProcess(options)) {
+      tranformTwoWayBindingData(attrName, node)
+    }
   },
 
   onNodeAttrExit(
@@ -39,7 +49,7 @@ export const templateProcessor = {
 
     // 百度小程序 swan 中不支持组件包含 type 属性
     if (attrName === 'type') {
-      logger.warn(
+      logger.warnOnce(
         `${node.tag} 元素包含 \`type\` 属性，会导致百度小程序报错，请替换属性名称\n` +
           `文件路径: ${options.fileInfo.path}`
       )
@@ -75,10 +85,15 @@ export const templateProcessor = {
     //    <view s-for="persions trackBy item"></view>
     // 参见语法: https://smartprogram.baidu.com/docs/develop/framework/view_for/
     if (attrName === templateDirectives.key) {
+      // 如果 trackBy 为 *this 则替换为 forItem 的别名或默认的 item
+      const trackByValue =
+        node.attrs[templateDirectives.key] === '*this'
+          ? node.attrs[templateDirectives.forItem] || 'item'
+          : node.attrs[templateDirectives.key]
       node.attrs[templateDirectives.for] = [
         node.attrs[templateDirectives.for],
         templateDirectives.key,
-        node.attrs[templateDirectives.key]
+        trackByValue
       ].join(' ')
 
       delete node.attrs[templateDirectives.key]
@@ -172,7 +187,7 @@ function removeBrackets(value: string): string {
 /**
  * 判断是否{{}}数据绑定
  *
- * @param {string} value 属性值
+ * @param value 属性值
  */
 function hasBrackets(value = ''): boolean {
   const trimed = value.trim()
@@ -181,6 +196,8 @@ function hasBrackets(value = ''): boolean {
 
 /**
  * 转换数据绑定为双向绑定语法，仅百度小程序需要转换
+ * 1. 部分官网上示例的双向绑定组件属性，直接替换
+ * 2. 微信转百度时，替换 model:xxx='{{value}}' 为 xxx='{=value=}'
  *
  * @param {Object} node 节点对象
  * @param {String} type 构建类型
@@ -192,17 +209,27 @@ const BIND_DATA_MAP = {
   'movable-view': ['x', 'y'],
   slider: ['value']
 }
-function tranformBindData(node: posthtml.Node) {
-  const attrs = BIND_DATA_MAP[node.tag as string]
-  if (!attrs) return
-  if (!node.attrs) return
+function tranformTwoWayBindingData(attrName: string, node: posthtml.Node) {
+  if (!attrName || !node || !node.attrs) return
 
-  for (const attrName in attrs) {
-    if (!node.attrs[attrName]) continue
-    if (!hasBrackets(node.attrs[attrName] as string)) continue
+  const attrs = node.attrs
+  const leftKeyMatchedResult = attrName?.match(/model:(.*)/)
+  const attrValue = attrs[attrName]
 
-    node.attrs[attrName] = `{=${removeBrackets(
-      node.attrs[attrName] as string
-    )}=}`
+  if (!attrValue) return
+
+  // 替换 model:xxx='{{value}}' 为 xxx='{=value=}'
+  if (leftKeyMatchedResult?.[1]) {
+    attrs[leftKeyMatchedResult[1]] = `{=${removeBrackets(attrValue)}=}`
+    delete attrs[attrName]
+  }
+  // 部分官网上示例的双向绑定组件属性，直接替换
+  else {
+    const recommandBindingAttrs = BIND_DATA_MAP[node.tag as string]
+
+    if (!recommandBindingAttrs) return
+    if (recommandBindingAttrs.includes(attrName) && hasBrackets(attrValue)) {
+      attrs[attrName] = `{=${removeBrackets(attrValue)}=}`
+    }
   }
 }
