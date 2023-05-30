@@ -2,7 +2,7 @@
 
 <view class="section">
   <view class="gray" model:value="{{value}}">
-    <input model:value="{{value}}" onInput="onInput"/>
+    <input model:value="{{value}}" bindinput="onInput"/>
     <input model:value="{{value}}"/>
   </view>
   <view>上方输入框中的值为：{{value}}</view>

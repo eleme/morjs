@@ -25,6 +25,11 @@ export default defineConfig([
     sourceType: 'wechat',
     target: 'bytedance'
   },
+  {
+    name: 'swan',
+    sourceType: 'wechat',
+    target: 'baidu'
+  },
   /**
    * 微信小程序转 Web 编译配置
    */
