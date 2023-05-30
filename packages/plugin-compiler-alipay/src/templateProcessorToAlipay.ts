@@ -287,30 +287,37 @@ function processComponentCompatible(node: posthtml.Node) {
 }
 
 /**
- * 处理双向绑定
+ * 处理微信转支付宝的双向绑定支持
  */
-function processTwoWayBinding(node, context) {
+function processTwoWayBinding(
+  node: posthtml.Node,
+  context: Record<string, any>
+) {
+  if (!node.attrs) return
+
   const twoWayBindingMap = {}
-  Object.keys(node.attrs).forEach((attrName) => {
+
+  const attrs = node.attrs
+
+  Object.keys(attrs).forEach((attrName) => {
     // 双向绑定语法符合model:xx，如model:value={{bindingValue}}
     const leftKeyMatchedResult = attrName?.match(/model:(.*)/)
     if (leftKeyMatchedResult?.[1]) {
       // model:value -> value
       const twoWayBindingLeftKey = leftKeyMatchedResult[1]
-      node.attrs[twoWayBindingLeftKey] = node.attrs[attrName]
-      delete node.attrs[attrName]
+      const attrValue = attrs[attrName]
+      attrs[twoWayBindingLeftKey] = attrValue
+      delete attrs[attrName]
 
       // {{bindingValue}} -> bindingValue
       const rightKeyMatchedResult =
-        typeof node.attrs[twoWayBindingLeftKey] === 'string'
-          ? node.attrs[twoWayBindingLeftKey]?.match(/{{(.+?)}}/)
-          : []
+        typeof attrValue === 'string' ? attrValue.match(/{{(.+?)}}/) : []
       const twoWayBindingRightKey = rightKeyMatchedResult[1]?.trim()
 
       // 自定义组件
       const usingComponentNames: string[] = context.usingComponentNames || []
       if (usingComponentNames.includes(node.tag as string)) {
-        node.attrs.onMorChildTWBProxy = '$morParentTWBProxy'
+        attrs.onMorChildTWBProxy = '$morParentTWBProxy'
 
         // custom-property -> customProperty
         const processedLeftKey = twoWayBindingLeftKey.replace(/-./g, (s) =>
@@ -319,24 +326,24 @@ function processTwoWayBinding(node, context) {
 
         // 同一个tag，多个双向绑定时，存储键值对，供运行时消费
         twoWayBindingMap[processedLeftKey] = twoWayBindingRightKey
-        node.attrs.morChildTWBMap = JSON.stringify(twoWayBindingMap)
+        attrs.morChildTWBMap = JSON.stringify(twoWayBindingMap)
       } else {
         // 已支持双向绑定的tag组件
-        const tagComponent = twoWayBindingComponents[node.tag]
+        const tagComponent = twoWayBindingComponents[node.tag as string]
         if (!tagComponent) {
           return
         }
 
-        // 双向绑定信息，存在dataset上,命名使用小写，兼容web端的dataset小写
-        node.attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingMethod] =
-          node.attrs[tagComponent.bindEventName]
-        node.attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingEventKey] =
+        // 双向绑定信息，存在 dataset 上,命名使用小写，兼容web端的dataset小写
+        attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingMethod] =
+          attrs[tagComponent.bindEventName]
+        attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingEventKey] =
           tagComponent.bindEventKey
-        node.attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingValue] =
+        attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingValue] =
           twoWayBindingRightKey
 
         // 自定义事件，劫持tag组件事件
-        node.attrs[tagComponent.bindEventName] = '$morTWBProxy'
+        attrs[tagComponent.bindEventName] = '$morTWBProxy'
       }
     }
   })
