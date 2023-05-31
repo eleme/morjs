@@ -1,4 +1,4 @@
-import { Plugin, Runner } from '@morjs/utils'
+import { CompileTypes, Plugin, Runner } from '@morjs/utils'
 
 /**
  * 抖音支持异步分包插件
@@ -18,7 +18,8 @@ export class BytedanceAsyncSubpackagePlugin implements Plugin {
       const { target, compileType } = userConfig
       if (
         target === 'bytedance' &&
-        ['miniprogram', 'subpackage'].includes(compileType)
+        (compileType === CompileTypes.miniprogram ||
+          compileType === CompileTypes.subpackage)
       ) {
         runner.hooks.beforeBuildEntries.tapPromise(
           this.name,
