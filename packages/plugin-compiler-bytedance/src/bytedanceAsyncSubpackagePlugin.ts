@@ -3,8 +3,8 @@ import { Plugin, Runner } from '@morjs/utils'
 /**
  * 抖音支持异步分包插件
  */
-export class AsyncSubpackagePlugin implements Plugin {
-  name = 'AsyncSubpackagePlugin'
+export class BytedanceAsyncSubpackagePlugin implements Plugin {
+  name = 'BytedanceAsyncSubpackagePlugin'
   runner?: Runner
 
   apply(runner: Runner<any>) {
@@ -31,9 +31,13 @@ export class AsyncSubpackagePlugin implements Plugin {
               await entryBuilder.buildByGlob()
             } else if (compileType === 'miniprogram') {
               // 小程序项目 部分分包配置了 common: true 时执行
-              for (const item of entryBuilder?.appJson?.subpackages || []) {
+              const subpackagesArr =
+                entryBuilder?.appJson?.subpackages ||
+                entryBuilder?.appJson?.subPackages ||
+                []
+              for await (const item of subpackagesArr) {
                 if (item.common === true && item.root) {
-                  await entryBuilder.buildByGlob(`${item.root}/**`)
+                  entryBuilder.buildByGlob(`${item.root}/**`)
                 }
               }
             }
