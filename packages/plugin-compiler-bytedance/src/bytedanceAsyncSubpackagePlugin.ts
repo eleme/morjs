@@ -37,7 +37,7 @@ export class BytedanceAsyncSubpackagePlugin implements Plugin {
                 []
               for await (const item of subpackagesArr) {
                 if (item.common === true && item.root) {
-                  entryBuilder.buildByGlob(`${item.root}/**`)
+                  await entryBuilder.buildByGlob(`${item.root}/**`)
                 }
               }
             }
