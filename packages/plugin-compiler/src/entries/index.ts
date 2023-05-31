@@ -1456,12 +1456,6 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       if (customEntryName) {
         // 如果传入了自定义 customEntryName 则直接使用
         entryName = customEntryName + realExtname
-        priority = this.calculateEntryPriority(
-          extname,
-          isConditionalFile,
-          priorityAmplifier,
-          entryType
-        )
       }
       // 通过文件生成 entryName
       else {
@@ -1476,25 +1470,20 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
             new RegExp(`${this.conditionalFileExtsPattern}\\${extname}$`, 'i'),
             realExtname
           )
-
-          priority = this.calculateEntryPriority(
-            extname,
-            isConditionalFile,
-            priorityAmplifier,
-            entryType
-          )
         } else {
           entryName = relativePath.replace(
             new RegExp(`\\${extname}$`, 'i'),
             realExtname
           )
-          priority = this.calculateEntryPriority(
-            extname,
-            isConditionalFile,
-            0,
-            entryType
-          )
         }
+
+        // 统一计算 entry 的优先级
+        priority = this.calculateEntryPriority(
+          extname,
+          isConditionalFile,
+          priorityAmplifier,
+          entryType
+        )
       }
 
     // 文件条件编译: 过滤掉多余的文件
@@ -1558,6 +1547,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * @param extname - 文件后缀名
    * @param isConditionalFile - 是否为条件编译文件
    * @param priorityAmplifier - 放大条件编译文件的优先级, 放大数字为 5 * priorityAmplifier
+   * @param entryType - Entry 分类，根据类型返回既定值
    */
   private calculateEntryPriority(
     extname: string,
