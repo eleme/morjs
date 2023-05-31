@@ -25,7 +25,7 @@ export class BytedanceAsyncSubpackagePlugin implements Plugin {
           this.name,
           async (entryBuilder) => {
             if (
-              compileType === 'subpackage' &&
+              compileType === CompileTypes.subpackage &&
               entryBuilder?.subpackageJson?.common === true
             ) {
               // 分包项目场 且配置了 common: true 时执行
