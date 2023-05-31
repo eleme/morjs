@@ -1426,58 +1426,76 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
 
     let entryName: EntryName
     let isConditionalFile = false
+    let priorityAmplifier = 0
+
+    // 判断当前文件是否为条件编译的文件
+    const relativePathWithoutExt = path.basename(relativePath, extname)
+    if (
+      this.conditionalFileExts.length &&
+      this.conditionalFileExtsRegExp.test(relativePathWithoutExt)
+    ) {
+      isConditionalFile = true
+
+      // 不同后缀的条件编译文件，优先级不一样, 当用户配置了多个条件编译的时候
+      // 条件编译后缀的先后顺序需要能够, 影响到文件优先级
+      // 计算方式为数组最后一个放大倍数为 0, 位置每前进一位 + 1
+      // 负数重置为 0
+      const conditionalExt = path.extname(relativePathWithoutExt)
+      priorityAmplifier =
+        this.conditionalFileExts.length -
+        this.conditionalFileExts.indexOf(conditionalExt)
+      priorityAmplifier = priorityAmplifier < 0 ? 0 : priorityAmplifier
+    }
 
     entryType = entryType ?? EntryType.unknown
     const entryFileType = this.extToEntryFileType(extname)
 
     let priority: EntryPriority
 
-    // 如果传入了自定义 customEntryName 则直接使用
-    if (customEntryName) {
-      entryName = customEntryName + realExtname
-    }
-    // 通过文件生成 entryName
-    else {
-      const relativePathWithoutExt = path.basename(relativePath, extname)
-      // 替换 entry 名称为转换后的名称
-      //  如 file.wx.less => file.acss
-      //    file.less => file.acss
-      //    file.wx.ts => file
-      //    file.ts => file
-      // 同时获取 entry 的优先级
-      if (
-        this.conditionalFileExts.length &&
-        this.conditionalFileExtsRegExp.test(relativePathWithoutExt)
-      ) {
-        entryName = relativePath.replace(
-          new RegExp(`${this.conditionalFileExtsPattern}\\${extname}$`, 'i'),
-          realExtname
-        )
-        isConditionalFile = true
-
-        // 不同后缀的条件编译文件，优先级不一样, 当用户配置了多个条件编译的时候
-        // 条件编译后缀的先后顺序需要能够, 影响到文件优先级
-        // 计算方式为数组最后一个放大倍数为 0, 位置每前进一位 + 1
-        // 负数重置为 0
-        const conditionalExt = path.extname(relativePathWithoutExt)
-        let priorityAmplifier =
-          this.conditionalFileExts.length -
-          this.conditionalFileExts.indexOf(conditionalExt)
-        priorityAmplifier = priorityAmplifier < 0 ? 0 : priorityAmplifier
-
+    if (filePath)
+      if (customEntryName) {
+        // 如果传入了自定义 customEntryName 则直接使用
+        entryName = customEntryName + realExtname
         priority = this.calculateEntryPriority(
           extname,
           isConditionalFile,
-          priorityAmplifier
+          priorityAmplifier,
+          entryType
         )
-      } else {
-        entryName = relativePath.replace(
-          new RegExp(`\\${extname}$`, 'i'),
-          realExtname
-        )
-        priority = this.calculateEntryPriority(extname, isConditionalFile, 0)
       }
-    }
+      // 通过文件生成 entryName
+      else {
+        // 替换 entry 名称为转换后的名称
+        //  如 file.wx.less => file.acss
+        //    file.less => file.acss
+        //    file.wx.ts => file
+        //    file.ts => file
+        // 同时获取 entry 的优先级
+        if (isConditionalFile) {
+          entryName = relativePath.replace(
+            new RegExp(`${this.conditionalFileExtsPattern}\\${extname}$`, 'i'),
+            realExtname
+          )
+
+          priority = this.calculateEntryPriority(
+            extname,
+            isConditionalFile,
+            priorityAmplifier,
+            entryType
+          )
+        } else {
+          entryName = relativePath.replace(
+            new RegExp(`\\${extname}$`, 'i'),
+            realExtname
+          )
+          priority = this.calculateEntryPriority(
+            extname,
+            isConditionalFile,
+            0,
+            entryType
+          )
+        }
+      }
 
     // 文件条件编译: 过滤掉多余的文件
     if (this.entries.has(entryName)) {
@@ -1544,8 +1562,12 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
   private calculateEntryPriority(
     extname: string,
     isConditionalFile: boolean,
-    priorityAmplifier: number = 0
+    priorityAmplifier: number = 0,
+    entryType: EntryType
   ): EntryPriority {
+    if (entryType === EntryType.custom) {
+      return EntryPriority.CustomEntry
+    }
     if (isConditionalFile) {
       // 按照优先级自动放大
       return EntryPriority.Conditional + 5 * priorityAmplifier
@@ -1698,11 +1720,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * * @param globPattern - 模式
    */
   async buildByGlob(globPattern?: string) {
-    const {
-      ignore,
-      customEntries,
-      conditionalCompile: { fileExt = [] }
-    } = this.userConfig
+    const { ignore } = this.userConfig
     const { compiler, watching } = this.webpackWrapper
     const fs = this.fs
 
@@ -1724,60 +1742,6 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       if (antiIgnorePatterns.length === 0) return true
       return antiMatcher(str)
     }
-    // 判断两个路径所属目录是否一致
-    const isSameFileDir = (originPath, newPath) => {
-      return path.dirname(originPath) === path.dirname(newPath)
-    }
-    // 判断两个路径的文件类型是否一致
-    const isSameFileType = (originPath, newPath) => {
-      const getFileType = (extName) => {
-        return /\.(j|t)s$/.test(extName)
-          ? EntryFileType.script
-          : /\.json(c|5)?$/.test(extName)
-          ? EntryFileType.config
-          : extName
-      }
-      return (
-        getFileType(path.extname(originPath)) ===
-        getFileType(path.extname(newPath))
-      )
-    }
-    // 判断两个路径的文件 是否是文件维度的条件编译 的同一目标
-    const isSameFileExt = (originPath, newPath) => {
-      const originBaseArr = path.basename(originPath).split('.')
-      const newBaseArr = path.basename(newPath).split('.')
-      const checkBaseName = (baseArr) => {
-        if (Number(baseArr.length) === 2) {
-          return true
-        } else if (Number(baseArr.length) === 3) {
-          return fileExt.includes(`.${baseArr[1]}`)
-        }
-        return false
-      }
-      return (
-        originBaseArr[0] === newBaseArr[0] &&
-        checkBaseName(originBaseArr) &&
-        checkBaseName(newBaseArr)
-      )
-    }
-    // 已配置 customEntries 的文件不再添加 entry
-    const isIncludesCustomEntries = (str: string) => {
-      for (const item in customEntries) {
-        const addedEntryPath = path.resolve(
-          this.runner.getCwd(),
-          customEntries[item] as string
-        )
-        if (
-          isSameFileDir(addedEntryPath, str) &&
-          isSameFileType(addedEntryPath, str) &&
-          isSameFileExt(addedEntryPath, str)
-        ) {
-          return true
-        }
-      }
-      return false
-    }
-
     const globOptions = {
       fs: fs as unknown as FS,
       ignore: ignorePattern,
@@ -1826,11 +1790,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     for await (const p of globStream) {
       const filePath = p.toString()
 
-      if (
-        !isMatchAntiPatterns(filePath) ||
-        isIncludesCustomEntries(path.normalize(filePath))
-      )
-        continue
+      if (!isMatchAntiPatterns(filePath)) continue
 
       // glob 生成的路径为 posix 类型
       // 需要 normalize 为适配不同系统的路径
