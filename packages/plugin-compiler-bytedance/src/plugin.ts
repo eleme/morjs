@@ -1,5 +1,6 @@
 import type { Plugin, Runner, webpack, WebpackWrapper } from '@morjs/utils'
 import { asArray } from '@morjs/utils'
+import { BytedanceAsyncSubpackagePlugin } from './bytedanceAsyncSubpackagePlugin'
 
 const PLUGIN_EXT_PREFIX = 'ext://'
 
@@ -40,5 +41,7 @@ export class BytedanceCompilerPlugin implements Plugin {
 
       wrapper.chain.externals(externals)
     })
+
+    new BytedanceAsyncSubpackagePlugin().apply(runner)
   }
 }
