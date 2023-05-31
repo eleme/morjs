@@ -1450,41 +1450,37 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     entryType = entryType ?? EntryType.unknown
     const entryFileType = this.extToEntryFileType(extname)
 
-    let priority: EntryPriority
-
-    if (filePath)
-      if (customEntryName) {
-        // 如果传入了自定义 customEntryName 则直接使用
-        entryName = customEntryName + realExtname
-      }
-      // 通过文件生成 entryName
-      else {
-        // 替换 entry 名称为转换后的名称
-        //  如 file.wx.less => file.acss
-        //    file.less => file.acss
-        //    file.wx.ts => file
-        //    file.ts => file
-        // 同时获取 entry 的优先级
-        if (isConditionalFile) {
-          entryName = relativePath.replace(
-            new RegExp(`${this.conditionalFileExtsPattern}\\${extname}$`, 'i'),
-            realExtname
-          )
-        } else {
-          entryName = relativePath.replace(
-            new RegExp(`\\${extname}$`, 'i'),
-            realExtname
-          )
-        }
-
-        // 统一计算 entry 的优先级
-        priority = this.calculateEntryPriority(
-          extname,
-          isConditionalFile,
-          priorityAmplifier,
-          entryType
+    if (customEntryName) {
+      // 如果传入了自定义 customEntryName 则直接使用
+      entryName = customEntryName + realExtname
+    }
+    // 通过文件生成 entryName
+    else {
+      // 替换 entry 名称为转换后的名称
+      //  如 file.wx.less => file.acss
+      //    file.less => file.acss
+      //    file.wx.ts => file
+      //    file.ts => file
+      // 同时获取 entry 的优先级
+      if (isConditionalFile) {
+        entryName = relativePath.replace(
+          new RegExp(`${this.conditionalFileExtsPattern}\\${extname}$`, 'i'),
+          realExtname
+        )
+      } else {
+        entryName = relativePath.replace(
+          new RegExp(`\\${extname}$`, 'i'),
+          realExtname
         )
       }
+    }
+    // 统一计算 entry 的优先级
+    const priority = this.calculateEntryPriority(
+      extname,
+      isConditionalFile,
+      priorityAmplifier,
+      entryType
+    )
 
     // 文件条件编译: 过滤掉多余的文件
     if (this.entries.has(entryName)) {
