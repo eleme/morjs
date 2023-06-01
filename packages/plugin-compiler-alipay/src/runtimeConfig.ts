@@ -2,14 +2,11 @@ import { isSimilarTarget, target as CurrentTarget } from './constants'
 
 /**
  * 生成文件路径
+ * @param dir - 目录
  * @param fileName - 文件名
  */
-function generatePath(fileName: string): string {
-  return require.resolve(`@morjs/runtime-mini/lib/alipay/${fileName}.js`)
-}
-
-function generateCommonPath(fileName: string): string {
-  return require.resolve(`@morjs/runtime-mini/lib/common/${fileName}.js`)
+function generatePath(dir: string, fileName: string): string {
+  return require.resolve(`@morjs/runtime-mini/lib/${dir}/${fileName}.js`)
 }
 
 /**
@@ -28,17 +25,17 @@ export function getRuntimeFiles(sourceType: string, target: string) {
   if (sourceType !== target) {
     // 支付宝转其他端
     if (sourceType === CurrentTarget && !isSimilarTarget(target)) {
-      api = generatePath('apisToOther')
-      page = generatePath('pageToOther')
-      component = generatePath('componentToOther')
-      mixin = generateCommonPath('behaviorOrMixin')
+      api = generatePath('alipay', 'apisToOther')
+      page = generatePath('alipay', 'pageToOther')
+      component = generatePath('alipay', 'componentToOther')
+      mixin = generatePath('common', 'behaviorOrMixin')
     }
     // 其他端转支付宝(微信 => 支付宝)
     else if (isSimilarTarget(target)) {
-      api = generatePath('apisToAlipay')
-      page = generatePath('pageToAlipay')
-      component = generatePath('componentToAlipay')
-      behavior = generateCommonPath('behaviorOrMixin')
+      api = generatePath('alipay', 'apisToAlipay')
+      page = generatePath('alipay', 'pageToAlipay')
+      component = generatePath('alipay', 'componentToAlipay')
+      behavior = generatePath('common', 'behaviorOrMixin')
     }
   }
 

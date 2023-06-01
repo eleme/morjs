@@ -88,13 +88,13 @@ export const templateProcessorToAlipay = {
           delete node.attrs['a:key']
         }
       }
-
-      // 处理双向绑定
-      processTwoWayBinding(node, context)
     }
 
     // 支付宝不支持 大写的标签名, 需要全部转换为小写
     if (node.tag) node.tag = node.tag.toLowerCase()
+
+    // 处理双向绑定支持
+    processTwoWayBinding(node, context)
   },
 
   onNodeAttr(attrName: string, node: posthtml.Node): void {
@@ -293,58 +293,63 @@ function processTwoWayBinding(
   node: posthtml.Node,
   context: Record<string, any>
 ) {
-  if (!node.attrs) return
-
-  const twoWayBindingMap = {}
-
   const attrs = node.attrs
+  if (!attrs) return
 
-  Object.keys(attrs).forEach((attrName) => {
+  Object.keys(attrs).forEach(function (attrName) {
     // 双向绑定语法符合model:xx，如model:value={{bindingValue}}
     const leftKeyMatchedResult = attrName?.match(/model:(.*)/)
-    if (leftKeyMatchedResult?.[1]) {
-      // model:value -> value
-      const twoWayBindingLeftKey = leftKeyMatchedResult[1]
-      const attrValue = attrs[attrName]
-      attrs[twoWayBindingLeftKey] = attrValue
-      delete attrs[attrName]
 
-      // {{bindingValue}} -> bindingValue
-      const rightKeyMatchedResult =
-        typeof attrValue === 'string' ? attrValue.match(/{{(.+?)}}/) : []
-      const twoWayBindingRightKey = rightKeyMatchedResult[1]?.trim()
+    if (!leftKeyMatchedResult?.[1]) return
 
-      // 自定义组件
-      const usingComponentNames: string[] = context.usingComponentNames || []
-      if (usingComponentNames.includes(node.tag as string)) {
-        attrs.onMorChildTWBProxy = '$morParentTWBProxy'
+    // model:value -> value
+    const twoWayBindingLeftKey = leftKeyMatchedResult[1]
+    const attrValue = attrs[attrName]
+    attrs[twoWayBindingLeftKey] = attrValue
+    delete attrs[attrName]
 
-        // custom-property -> customProperty
-        const processedLeftKey = twoWayBindingLeftKey.replace(/-./g, (s) =>
-          s[1].toUpperCase()
-        )
+    // {{bindingValue}} -> bindingValue
+    const rightKeyMatchedResult =
+      typeof attrValue === 'string' ? attrValue.match(/{{(.+?)}}/) : []
+    const twoWayBindingRightKey = rightKeyMatchedResult[1]?.trim()
 
-        // 同一个tag，多个双向绑定时，存储键值对，供运行时消费
-        twoWayBindingMap[processedLeftKey] = twoWayBindingRightKey
-        attrs.morChildTWBMap = JSON.stringify(twoWayBindingMap)
-      } else {
-        // 已支持双向绑定的tag组件
-        const tagComponent = twoWayBindingComponents[node.tag as string]
-        if (!tagComponent) {
-          return
+    // 自定义组件
+    const usingComponentNames: string[] = context.usingComponentNames || []
+    if (usingComponentNames.includes(node.tag as string)) {
+      attrs.onMorChildTWBProxy = '$morParentTWBProxy'
+
+      // custom-property -> customProperty
+      const processedLeftKey = twoWayBindingLeftKey.replace(/-./g, (s) =>
+        s[1].toUpperCase()
+      )
+
+      // 同一个 tag，多个双向绑定时，存储键值对，供运行时消费
+      // 格式为 a:b,c:d
+      const bindMap = `${processedLeftKey}:${twoWayBindingRightKey}`
+      if (attrs.morChildTwbMap) {
+        if (!attrs.morChildTwbMap.includes(bindMap)) {
+          attrs.morChildTwbMap = `${attrs.morChildTwbMap},${bindMap}`
         }
-
-        // 双向绑定信息，存在 dataset 上,命名使用小写，兼容web端的dataset小写
-        attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingMethod] =
-          attrs[tagComponent.bindEventName]
-        attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingEventKey] =
-          tagComponent.bindEventKey
-        attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingValue] =
-          twoWayBindingRightKey
-
-        // 自定义事件，劫持tag组件事件
-        attrs[tagComponent.bindEventName] = '$morTWBProxy'
+      } else {
+        attrs.morChildTwbMap = bindMap
       }
+    } else {
+      // 已支持双向绑定的tag组件
+      const tagComponent = twoWayBindingComponents[node.tag as string]
+      if (!tagComponent) {
+        return
+      }
+
+      // 双向绑定信息，存在 dataset 上,命名使用小写，兼容web端的dataset小写
+      attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingMethod] =
+        attrs[tagComponent.bindEventName]
+      attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingEventKey] =
+        tagComponent.bindEventKey
+      attrs[TWO_WAY_BINDING_DATASET.morTwoWayBindingValue] =
+        twoWayBindingRightKey
+
+      // 自定义事件，劫持tag组件事件
+      attrs[tagComponent.bindEventName] = '$morTWBProxy'
     }
   })
 }
