@@ -143,7 +143,7 @@ export default defineConfig([
     "dev:ali": "mor compile --name ali", // 编译构建配置名为 ali 的产物
     "dev:wx": "mor compile --name wx", // 编译构建配置名为 wx 的产物
     "dev:dy": "mor compile --name dy", // 编译构建配置名为 dy 的产物
-    "build": "mor compile --production" // 开启生成环境构建所有端
+    "build": "mor compile --production" // 开启生产环境构建所有端
   }
 }
 ```

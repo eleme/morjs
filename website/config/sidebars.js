@@ -190,6 +190,7 @@ module.exports = {
       collapsed: false,
       items: [
         'guides/advance/use-community-component',
+        'guides/advance/learn-create-component-library',
         'guides/advance/subpackage-volume-optimization'
       ]
     }
