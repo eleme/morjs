@@ -35,8 +35,3 @@ export const templateDirectives = {
   forIndex: 'ks:for-index',
   key: 'ks:key'
 }
-
-/**
- * 自定义 template 处理
- */
-export const templateProcessor = {}
