@@ -188,7 +188,10 @@ module.exports = {
       label: 'MorJS 开发博客',
       type: 'category',
       collapsed: false,
-      items: ['guides/advance/subpackage-volume-optimization']
+      items: [
+        'guides/advance/use-community-component',
+        'guides/advance/subpackage-volume-optimization'
+      ]
     }
     // {
     //   label: 'MorJS 更新日志',
