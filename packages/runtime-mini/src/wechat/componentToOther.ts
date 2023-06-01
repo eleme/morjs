@@ -16,7 +16,7 @@ function ensureOptions(options: Record<string, any>): void {
 }
 
 /**
- * 其他小程序转支付宝的 Component 差异抹平
+ * 微信转其他小程序的 Component 差异抹平
  */
 export function initComponent(options: Record<string, any>) {
   // 确保选项必要字段存在

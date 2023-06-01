@@ -1,7 +1,7 @@
 import { injectTwoWayBindingMethodsSupport } from './utilsToOther'
 
 /**
- * 支付宝转其他端的 Page 差异抹平
+ * 微信转其他小程序的 Page 差异抹平
  */
 export function initPage(options: Record<string, any>): void {
   options = options || {}
