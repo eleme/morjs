@@ -40,8 +40,3 @@ export const templateDirectives = {
   forIndex: 'tt:for-index',
   key: 'tt:key'
 }
-
-/**
- * 自定义 template 处理
- */
-export const templateProcessor = {}
