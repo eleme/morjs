@@ -179,8 +179,21 @@ export function injectComponentSelectorMethodsSupport(
 export function injectTwoWayBindingMethodsSupport(
   options: Record<string, any>
 ) {
+  const allTwoWayBindingMappings: Record<string, Record<string, string>> = {}
+  function parseTwoWayBingMap(str: string) {
+    if (allTwoWayBindingMappings[str]) return allTwoWayBindingMappings[str]
+
+    const map: Record<string, string> = {}
+    str.split(',').forEach(function (pair) {
+      const [key, value] = pair.split(':')
+      map[key] = value
+    })
+    allTwoWayBindingMappings[str] = map
+    return map
+  }
+
   // 双向绑定劫持自定义事件
-  options.$morTWBProxy = function (event) {
+  options.$morTWBProxy = function (event: Record<string, any>) {
     const { mortwbmethod, mortwbkey, mortwbvalue } =
       event?.target?.dataset ?? {}
 
@@ -195,18 +208,24 @@ export function injectTwoWayBindingMethodsSupport(
   }
 
   // 自定义组件的双向绑定方法 $morParentTWBProxy
-  options.$morParentTWBProxy = function (data, props) {
-    try {
-      const map = JSON.parse(props.morChildTWBMap)
+  options.$morParentTWBProxy = function (
+    data: Record<string, any>,
+    props: Record<string, any>
+  ) {
+    if (typeof props.morChildTwbMap !== 'string') return
 
-      Object.keys(map).forEach((childKey) => {
-        // 子组件props 滞后 data，更新父组件data
+    try {
+      const map = parseTwoWayBingMap(props.morChildTwbMap)
+      const updates: Record<string, any> = {}
+      let hasUpdates = false
+      for (const childKey in map) {
+        // 子组件 props 滞后 data，更新父组件 data
         if (data[childKey] !== props[childKey]) {
-          this.setData({
-            [map[childKey]]: data[childKey]
-          })
+          hasUpdates = true
+          updates[map[childKey]] = data[childKey]
         }
-      })
+      }
+      if (hasUpdates) this.setData(updates)
     } catch (e) {
       logger.warn(`${e}`)
     }

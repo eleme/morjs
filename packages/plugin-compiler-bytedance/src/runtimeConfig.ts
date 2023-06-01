@@ -1,15 +1,13 @@
+import { target as WechatTarget } from '@morjs/plugin-compiler-wechat'
 import { target as CurrentTarget } from './constants'
 
 /**
  * 生成文件路径
+ * @param dir - 目录
  * @param fileName - 文件名
  */
-function generatePath(fileName: string): string {
-  return require.resolve(`@morjs/runtime-mini/lib/bytedance/${fileName}.js`)
-}
-
-function generateCommonPath(fileName: string): string {
-  return require.resolve(`@morjs/runtime-mini/lib/common/${fileName}.js`)
+function generatePath(dir: string, fileName: string): string {
+  return require.resolve(`@morjs/runtime-mini/lib/${dir}/${fileName}.js`)
 }
 
 /**
@@ -26,8 +24,14 @@ export function getRuntimeFiles(sourceType: string, target: string) {
   let mixin: string
 
   if (sourceType !== target && target === CurrentTarget) {
-    api = generatePath('apis')
-    mixin = generateCommonPath('behaviorOrMixin')
+    api = generatePath('bytedance', 'apis')
+    mixin = generatePath('common', 'behaviorOrMixin')
+
+    // 微信 DSL 转 字节
+    if (sourceType === WechatTarget) {
+      component = generatePath('wechat', 'componentToOther')
+      page = generatePath('wechat', 'pageToOther')
+    }
   }
 
   return {
