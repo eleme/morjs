@@ -1,14 +1,16 @@
 import * as apisToAlipay from './alipay/apisToAlipay'
 import * as apisToOther from './alipay/apisToOther'
-import * as componentToAlipay from './alipay/componentToAlipay'
-import * as componentToOther from './alipay/componentToOther'
+import * as otherComponentToAlipay from './alipay/componentToAlipay'
+import * as alipayComponentToOther from './alipay/componentToOther'
 import * as pageToAlipay from './alipay/pageToAlipay'
-import * as pageToOther from './alipay/pageToOther'
+import * as alipayPageToOther from './alipay/pageToOther'
 import * as apisToBaidu from './baidu/apis'
 import * as apisToByteDance from './bytedance/apis'
 import * as apisToKuaishou from './kuaishou/apis'
 import * as apisToQQ from './qq/apis'
 import * as apisToWechat from './wechat/apis'
+import * as wechatComponentToOther from './wechat/componentToOther'
+import * as wechatPageToOther from './wechat/pageToOther'
 
 interface InitAdapterOptions {
   sourceType: 'alipay' | 'wechat'
@@ -64,8 +66,8 @@ export function initAdapters(options: InitAdapterOptions) {
         break
     }
 
-    componentAdapters.push(componentToOther)
-    pageAdapters.push(pageToOther)
+    componentAdapters.push(alipayComponentToOther)
+    pageAdapters.push(alipayPageToOther)
     apiAdapters.push(apisToOther)
   }
 
@@ -73,7 +75,7 @@ export function initAdapters(options: InitAdapterOptions) {
   else if (sourceType === 'wechat') {
     switch (target) {
       case 'alipay':
-        componentAdapters.push(componentToAlipay)
+        componentAdapters.push(otherComponentToAlipay)
         pageAdapters.push(pageToAlipay)
         apiAdapters.push(apisToAlipay)
         break
@@ -81,12 +83,16 @@ export function initAdapters(options: InitAdapterOptions) {
         apiAdapters.push(apisToBaidu)
         break
       case 'bytedance':
+        componentAdapters.push(otherComponentToAlipay)
+        pageAdapters.push(pageToAlipay)
         apiAdapters.push(apisToByteDance)
         break
       case 'qq':
         apiAdapters.push(apisToQQ)
         break
       case 'kuaishou':
+        componentAdapters.push(wechatComponentToOther)
+        pageAdapters.push(wechatPageToOther)
         apiAdapters.push(apisToKuaishou)
         break
     }
