@@ -36,7 +36,7 @@ const TWO_WAY_BINDING_COMPONENTS = {
     bindEventKey: 'value'
   },
   'picker-view': {
-    bindEventName: 'bind:change',
+    bindEventName: 'change',
     bindEventKey: 'value'
   }
 }
