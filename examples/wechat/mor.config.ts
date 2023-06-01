@@ -1,10 +1,11 @@
 import { defineConfig, logger, Plugin, Runner } from '@morjs/cli'
 
 /**
- * 插件示例，简单处理示例项目中微信 DSL 转支付宝不兼容的地方
+ * NOTE: 插件示例，简单处理示例项目中微信 DSL 转支付宝不兼容的地方
+ * MorJS 无法覆盖所有小程序差异，通常情况下可以结合项目实际情况通过插件来自行处理
  */
 class TransformUnsupportTagForAlipayPlugin implements Plugin {
-  name = 'transformUnsupportTagPlugin'
+  name = 'TransformUnsupportTagForAlipayPlugin'
   apply(runner: Runner) {
     const unsupportedTags = ['i', 'span', 'img', 'h2', 'strong', 'em', 'a']
     runner.hooks.templateParser.tap(this.name, function (tree) {
@@ -58,8 +59,11 @@ export default defineConfig([
     sourceType: 'wechat',
     target: 'bytedance'
   },
+  /**
+   * 微信小程序转百度小程序编译配置
+   */
   {
-    name: 'swan',
+    name: 'baidu',
     sourceType: 'wechat',
     target: 'baidu'
   },
