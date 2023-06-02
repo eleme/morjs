@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.51](https://github.com/eleme/morjs/compare/v1.0.50...v1.0.51) (2023-06-02)
+
+
+### Features
+
+* **plugin-compiler-bytedance:** 增加字节小程序双向绑定编译能力支持 ([6a03f1c](https://github.com/eleme/morjs/commit/6a03f1c786e1474418b47d292ed8c9054a8cd87b))
+
+
+
+
+
 ## [1.0.50](https://github.com/eleme/morjs/compare/v1.0.49...v1.0.50) (2023-05-31)
 
 

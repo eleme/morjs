@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.51](https://github.com/eleme/morjs/compare/v1.0.50...v1.0.51) (2023-06-02)
+
+
+### Bug Fixes
+
+* **plugin-compiler-wechat:** 修复微信双向绑定在抖音和快手端未正确处理 picker-view 的问题 ([ea4b6c9](https://github.com/eleme/morjs/commit/ea4b6c9feb2f8da981583d5a207b7f46472c811c))
+
+
+### Features
+
+* **plugin-compiler-wechat:** 增加微信转其他类似于微信端的双向绑定支持 ([74f5b13](https://github.com/eleme/morjs/commit/74f5b1345ee63aef91f58369328b2338bb277ab0))
+
+
+
+
+
 ## [1.0.50](https://github.com/eleme/morjs/compare/v1.0.49...v1.0.50) (2023-05-31)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-wechat
