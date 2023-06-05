@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.52](https://github.com/eleme/morjs/compare/v1.0.51...v1.0.52) (2023-06-05)
+
+
+### Bug Fixes
+
+* **plugin-mocker:** 修复 windows 下 mock 编译报错的问题 ([#50](https://github.com/eleme/morjs/issues/50)) ([6f78eac](https://github.com/eleme/morjs/commit/6f78eacd3dac0ab9168da34cf9f127945a7b671b))
+
+
+
+
+
 ## [1.0.50](https://github.com/eleme/morjs/compare/v1.0.49...v1.0.50) (2023-05-31)
 
 **Note:** Version bump only for package @morjs/plugin-mocker

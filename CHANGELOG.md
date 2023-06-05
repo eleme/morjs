@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.52](https://github.com/eleme/morjs/compare/v1.0.51...v1.0.52) (2023-06-05)
+
+### Bug Fixes
+
+- **core:** 修复支付宝 DSL 下 lifetimes 无值可能导致报错的问题 ([#51](https://github.com/eleme/morjs/issues/51)) ([644f9b2](https://github.com/eleme/morjs/commit/644f9b208ca50af5158ac39af9216465d0dda638))
+- **plugin-mocker:** 修复 windows 下 mock 编译报错的问题 ([#50](https://github.com/eleme/morjs/issues/50)) ([6f78eac](https://github.com/eleme/morjs/commit/6f78eacd3dac0ab9168da34cf9f127945a7b671b))
+
 ## [1.0.51](https://github.com/eleme/morjs/compare/v1.0.50...v1.0.51) (2023-06-02)
 
 ### Bug Fixes
