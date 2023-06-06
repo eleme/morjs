@@ -61,7 +61,7 @@ export default class Mock {
           : 'Mock 功能已开启, Debug 功能已关闭, 所有接口调用记录被隐藏'
       )
     } catch (err) {
-      logger.warn('Mock 功能开启失败，JsApi 全部使用原生')
+      logger.warn('Mock 功能开启失败，JSAPI 全部使用原生')
     }
 
     this.config = {

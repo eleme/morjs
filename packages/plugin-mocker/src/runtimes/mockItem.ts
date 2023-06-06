@@ -15,10 +15,14 @@ export default class MockItem {
   }
 
   public run() {
-    const result =
+    let result =
       typeof this.mockFn === 'function'
         ? this.mockFn(this.callItem.opts, this.callItem.callback)
         : this.mockFn
+
+    // 兼容 ESModule 写法
+    if (result.__esModule === true && result.default != null)
+      result = result.default
 
     // on 在初次调用的时候，不需要执行 callback
     if (this.callItem.name !== 'on') {
@@ -30,9 +34,7 @@ export default class MockItem {
       }
     }
 
-    return result.__esModule === true && result.default != null
-      ? result.default
-      : result
+    return result
   }
 
   private handlePromise(fn: Promise<any>) {
