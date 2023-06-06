@@ -99,7 +99,7 @@ export default class Mock {
     })
   }
 
-  private mockFn(origin: GlobalFunction, key: string, args: any[]) {
+  private async mockFn(origin: GlobalFunction, key: string, args: any[]) {
     const originalGlobal = this.originalGlobal
     const adapters = this.adapters
     const config = this.config
@@ -119,11 +119,11 @@ export default class Mock {
 
       if (Array.isArray(adapters) && adapters.length > 0) {
         // 配置了 adapters
-        for (const adapter of adapters) {
+        for await (const adapter of adapters) {
           if (mockFn === undefined) {
             // key、args、context 是提供给 adapter 适配特殊逻辑及返回结果的
             // originalGlobal 是提供给 adapter 接入第三方 mock 渠道发起原生请求
-            const adapterRes = adapter.run({
+            const adapterRes = await adapter.run({
               apiName: key,
               apiArguments: args,
               mockContext: config.context,
