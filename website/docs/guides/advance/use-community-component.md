@@ -153,8 +153,12 @@ export default defineConfig([
 - Q: 为什么 MorJS 接入组件库不需要执行 IDE 构建 npm 包？
 - A: 默认的 bundle 打包模式下，MorJS 会生成闭包并基于规则合并 js 文件，同时将小程序多端组件自动提取到产物对应的 npm_components 目录，但如果 compileMode 配置的是 transform 模式，会因为该编译模式下并不处理 node_modules 和多端组件，所以得走常规的微信构建 npm
 
+---
+
 - Q: 为什么我按照规范(xxx/button/index)引用组件转其他端会报 Can't resolve 'xxx' in 'xxx' 的错误？
 - A: MorJS 是通过目录结构结合 package.json 的 [目录指向字段配置](https://mor.eleme.io/specifications/component#%E7%9B%AE%E5%BD%95%E5%AD%97%E6%AE%B5%E9%85%8D%E7%BD%AE) 来实现的，若转端读取的字段入口对应目录下没有组件产物，编译引入组件时将报上述错误，可以把使用路径改为组件实际路径，或联系组件开发者补充 main 入口字段
+
+---
 
 - Q: 社区组件库中使用的字体资源文件会被一同编译吗？
 - A: 不会，针对 node_modules 中的非预期文件类型不会进行处理，请把资源文件改为引用 cdn 资源

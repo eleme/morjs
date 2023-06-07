@@ -66,7 +66,10 @@ module.exports = {
           label: '多端兼容性',
           type: 'category',
           collapsed: true,
-          items: ['guides/compatibilities/alipay-to-wechat']
+          items: [
+            'guides/compatibilities/wechat-to-other',
+            'guides/compatibilities/alipay-to-wechat'
+          ]
         }
       ]
     },
