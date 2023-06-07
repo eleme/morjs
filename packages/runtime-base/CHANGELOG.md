@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.53](https://github.com/eleme/morjs/compare/v1.0.52...v1.0.53) (2023-06-07)
+
+
+### Bug Fixes
+
+* **runtime-base:** 修复 qq 等端 request 不执行的问题 ([#54](https://github.com/eleme/morjs/issues/54)) ([52fa701](https://github.com/eleme/morjs/commit/52fa7018d1b0a5798eca184cfd866acf9a09c709))
+
+
+
+
+
 ## [1.0.46](https://github.com/eleme/morjs/compare/v1.0.45...v1.0.46) (2023-05-19)
 
 

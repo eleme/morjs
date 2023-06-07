@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.53](https://github.com/eleme/morjs/compare/v1.0.52...v1.0.53) (2023-06-07)
+
+### Bug Fixes
+
+- **plugin-mocker:** 修复 mock JSAPI 的异步方法获取 ESModule 数据需要使用 .default 的问题 ([#55](https://github.com/eleme/morjs/issues/55)) ([7476a47](https://github.com/eleme/morjs/commit/7476a4769b77f210126a34f826fc4425e047ff1d))
+- **runtime-base:** 修复 qq 等端 request 不执行的问题 ([#54](https://github.com/eleme/morjs/issues/54)) ([52fa701](https://github.com/eleme/morjs/commit/52fa7018d1b0a5798eca184cfd866acf9a09c709))
+
 ## [1.0.52](https://github.com/eleme/morjs/compare/v1.0.51...v1.0.52) (2023-06-05)
 
 ### Bug Fixes
