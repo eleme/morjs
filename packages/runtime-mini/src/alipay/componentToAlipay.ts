@@ -440,8 +440,8 @@ function hookComponentLifeCycle(options: Record<string, any>) {
 
   /**
    * 初始化同步 properties 和 data 的值，为了兼容不同基础库版本，此处需触发两次
-   * 第一次同步在 onInit 之后 created 之前，目的是让 created 中可以取到 properties 的 key
-   * 第二次同步是在 created 之后 attached 之前，目的是让 attached 之后的生命周期能正常从 properties 取值
+   * 第一次同步在 onInit 之前，目的是让 properties 同步 props 的值
+   * 第二次同步是在 created 之前，目的是让之后的生命周期能正常从 data 和 properties 中取值
    */
   const initPropertiesAndData = function () {
     if (!this[MOR_FIRST_INIT_PROPERTIES_AND_DATA]) {
@@ -463,15 +463,40 @@ function hookComponentLifeCycle(options: Record<string, any>) {
     delete options.export
   }
 
+  /**
+   * 生命周期执行顺序:
+   * 1. 执行 hackSetData 劫持 setData，把需要变更的数据存入 MOR_PREV_DATA
+   * 2. 执行第一次 initPropertiesAndData，使 properties 同步 props 的值
+   * 3. 执行 onInit 生命周期
+   * 4. 触发 deriveDataFromProps
+   *  4.1 当基础库版本支持 lifetimes 时，需要跳过首次执行，防止 data 同步 nextProps 后无法触发下一步的 observer
+   *  4.2 当基础库版本不支持 lifetimes 时，需要正常执行，来触发 Mor 自实现的 observers 监听
+   * 5. 触发 observers 监听
+   *  5.1 当基础库版本支持 lifetimes 时，此时 data 还未同步新值，故会触发原生事件的 observers 监听
+   *  5.2 当基础库版本不支持 lifetimes 时，需要借助上一步 deriveDataFromProps，触发 invokeObservers 来实现 observers 监听，入参有两部分值:
+   *    5.2.1 deriveDataFromProps 入参 nextProps，取其中发生了变更的 key，即 props 中的变更的参数
+   *    5.2.2 第一步劫持的 setData 所保存的 MOR_PREV_DATA，即 data 中的变更的参数
+   * 6. 执行第二次 initPropertiesAndData，使 data 和 properties 同步所有的数据
+   * 7. 执行 created 生命周期，此后可兼容从 data 和 properties 取值
+   * 8. 执行 attached 生命周期
+   * …
+   */
   options.onInit = compose([
     hackSetData,
     injectCreateIntersectionObserverSupport(),
-    callOriginalFn('onInit'),
-    initPropertiesAndData
+    initPropertiesAndData,
+    callOriginalFn('onInit')
   ])
 
+  if (isLifetimesSupported) {
+    options.lifetimes.created = compose([
+      initPropertiesAndData,
+      callOriginalFn('created')
+    ])
+  }
+
   options.didMount = compose([
-    initPropertiesAndData,
+    !isLifetimesSupported && initPropertiesAndData,
     !isLifetimesSupported && callOriginalFn('created'),
     !isLifetimesSupported && callOriginalFn('attached'),
     callOriginalFn('didMount'),
