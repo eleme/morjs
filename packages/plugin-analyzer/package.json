@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-analyzer",
-  "version": "1.0.50",
+  "version": "1.0.54",
   "description": "mor analyzer plugin",
   "keywords": [
     "mor",
@@ -32,6 +32,6 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@morjs/utils": "1.0.50"
+    "@morjs/utils": "1.0.54"
   }
 }

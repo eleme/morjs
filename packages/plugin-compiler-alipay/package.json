@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-alipay",
-  "version": "1.0.53",
+  "version": "1.0.54",
   "description": "mor complier plugin for alipay mini program",
   "keywords": [
     "mor",
@@ -35,7 +35,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@morjs/runtime-mini": "1.0.53",
-    "@morjs/utils": "1.0.50"
+    "@morjs/runtime-mini": "1.0.54",
+    "@morjs/utils": "1.0.54"
   }
 }
