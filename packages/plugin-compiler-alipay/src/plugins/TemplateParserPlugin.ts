@@ -48,12 +48,13 @@ export default class AlipayCompilerTemplateParserPlugin implements Plugin {
 
       const sjsFileName = `${MOR_HELPER_FILE()}${sjsFileType}`
       const sjsHelperName = 'morSjs'
-      const sjsHelperFnName = `${sjsHelperName}.s`
+      // 判断是否存在 morSjs.xxx( 方法调用
+      const sjsHelperFnRegExp = new RegExp(`${sjsHelperName}\\.[a-zA-Z]+\\(`)
       runner.hooks.postprocessorParser.tap(this.name, (content, options) => {
         if (
           options.fileInfo.entryFileType === EntryFileType.template &&
           content &&
-          content.includes(sjsHelperFnName)
+          sjsHelperFnRegExp.test(content)
         ) {
           // 追加 sjs 文件
           this.addSjsHelperSupport(entryHelper, sjsFileName)
@@ -98,6 +99,7 @@ function hump2dash(humpStr) {
     }
     return result.join('');
 }
+
 // 微信无法使用 Object.keys for of for in 遍历对象
 // 序列化后自行实现
 function objectKeys(obj) {
@@ -149,6 +151,7 @@ function objectKeys(obj) {
     walk(step);
     return keys;
 }
+
 // sjs 脚本支持度有限，手动实现 assign
 function assign(target, from) {
     objectKeys(from).forEach(function (key) {
@@ -168,8 +171,50 @@ function s(obj) {
   return obj;
 }
 
+// 判断类型
+function toType(obj) {
+  return typeof obj;
+}
+
+// 小写转换
+function toLowerCase(str) {
+  return typeof str === 'string' ? str.toLowerCase() : '';
+}
+
+// 大写转换
+function toUpperCase(str) {
+  return typeof str === 'string' ? str.toUpperCase() : '';
+}
+
+// 字符串或数组的 slice 方法支持
+function slice(arrOrStr, start, end) {
+  return arrOrStr.slice(start, end);
+}
+
+// 字符串或数组的 includes 方法支持
+function includes(arrOrStr, part) {
+  return arrOrStr.indexOf(part) !== -1;
+}
+
+// 字符串或数组的 indexOf 方法支持
+function indexOf(arrOrStr, part) {
+  return arrOrStr.indexOf(part);
+}
+
+// 字符串或数组的 includes 方法支持
+function toString(str) {
+  return str.toString();
+}
+
 module.exports = {
-  s: s
+  s: s,
+  toType: toType,
+  toLowerCase: toLowerCase,
+  toUpperCase: toUpperCase,
+  slice: slice,
+  includes: includes,
+  indexOf: indexOf,
+  toString: toString
 };
 `,
       'additional'

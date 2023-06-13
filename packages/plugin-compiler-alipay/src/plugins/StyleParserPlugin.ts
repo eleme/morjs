@@ -7,7 +7,7 @@ import {
 } from '@morjs/utils'
 import { isSimilarTarget } from '../constants'
 
-const UNSUPPORT_SELECTOR_REGEXP = /(\s+[>|+]\s+)|\*/
+const UNSUPPORT_SELECTOR_REGEXP = /(\s+[>|+]\s+)|\*|\~/
 
 /**
  * 支付宝 样式 文件转译
@@ -34,7 +34,7 @@ export default class AlipayCompilerStyleParserPlugin implements Plugin {
                 ).length
               ) {
                 logger.warnOnce(
-                  `当前编译目标 ${target} 中的样式 不支持 "> * +" 等选择器\n` +
+                  `当前编译目标 ${target} 中的样式 不支持 "> * + ~" 等选择器\n` +
                     `文件路径: ${options.fileInfo.path}`
                 )
               }
