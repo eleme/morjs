@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.54](https://github.com/eleme/morjs/compare/v1.0.53...v1.0.54) (2023-06-09)
+
+### Bug Fixes
+
+- **runtime-mini:** 修复微信转支付宝小程序后组件在 created 阶段无法从 data 中获取 properties 值的问题 ([#58](https://github.com/eleme/morjs/issues/58)) ([07f7ff9](https://github.com/eleme/morjs/commit/07f7ff9d0cf8afc5fa5df6511f7467497a6522cf))
+
+### Features
+
+- **takin:** 优化生成器逻辑增加模版解析对 <%_ 或 _%> 或 -%> 的支持 ([#57](https://github.com/eleme/morjs/issues/57)) ([e82bb63](https://github.com/eleme/morjs/commit/e82bb63c23e27f8094083be6057e724a5fd7c0fa))
+
 ## [1.0.53](https://github.com/eleme/morjs/compare/v1.0.52...v1.0.53) (2023-06-07)
 
 ### Bug Fixes
