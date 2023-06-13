@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler",
-  "version": "1.0.54",
+  "version": "1.0.55",
   "description": "mor compiler plugin",
   "keywords": [
     "mor",
@@ -30,14 +30,14 @@
   },
   "dependencies": {
     "@morjs/api": "1.0.53",
-    "@morjs/plugin-compiler-alipay": "1.0.54",
+    "@morjs/plugin-compiler-alipay": "1.0.55",
     "@morjs/plugin-compiler-baidu": "1.0.54",
     "@morjs/plugin-compiler-bytedance": "1.0.54",
-    "@morjs/plugin-compiler-dingding": "1.0.54",
+    "@morjs/plugin-compiler-dingding": "1.0.55",
     "@morjs/plugin-compiler-kuaishou": "1.0.54",
     "@morjs/plugin-compiler-qq": "1.0.54",
-    "@morjs/plugin-compiler-taobao": "1.0.54",
-    "@morjs/plugin-compiler-web": "1.0.54",
+    "@morjs/plugin-compiler-taobao": "1.0.55",
+    "@morjs/plugin-compiler-web": "1.0.55",
     "@morjs/plugin-compiler-wechat": "1.0.54",
     "@morjs/runtime-mini": "1.0.54",
     "@morjs/utils": "1.0.54",
