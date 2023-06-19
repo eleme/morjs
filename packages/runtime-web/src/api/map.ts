@@ -1,15 +1,5 @@
 export default {
   createMapContext(id) {
-    // {
-    //   clearRoute: '',
-    //   getCenterLocation: 'getCenterLocation',
-    //   moveToLocation: 'moveToLocation',
-    //   updateComponents: '',
-    //   showRoute: 'showRoute',
-    //   showsCompass: 'showsCompass',
-    //   showsScale: 'showsScale',
-    //   gestureEnable: '',
-    // };
     return window[`__AMAP_CONTENT_${id.toUpperCase()}`]
   },
   getMapInfo({ success }) {

@@ -4,6 +4,7 @@ import UICanvas from './src/api/ui/canvas/index'
 import UIChooseCity from './src/api/ui/chooseCity/index'
 import UIDatePicker from './src/api/ui/datePicker/index'
 import UIInteractive from './src/api/ui/interactive/index'
+import MapAPI from './src/api/ui/map/index'
 import UIMultiLevelSelect from './src/api/ui/multiLevelSelect/index'
 import UIOptionSelect from './src/api/ui/optionSelect/index'
 import './src/base/tabbar'
@@ -26,3 +27,4 @@ appendApis(pageScrollTo, DEFAULT_API_NO_CONFLICT)
 appendApis(OpenAPI, DEFAULT_API_NO_CONFLICT)
 appendApis(UIChooseCity, DEFAULT_API_NO_CONFLICT)
 appendApis(UICanvas, DEFAULT_API_NO_CONFLICT)
+appendApis(MapAPI, DEFAULT_API_NO_CONFLICT)

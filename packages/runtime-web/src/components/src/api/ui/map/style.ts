@@ -6,9 +6,6 @@ export default css`
     overflow: hidden;
   }
 
-  .marker {
-  }
-
   .icon-append-str {
     color: #33b276;
     font-size: 14px;
@@ -31,6 +28,15 @@ export default css`
   .callout-layout-wrap {
     position: relative;
     box-shadow: 0 16px 40px 0 rgba(0, 51, 65, 0.1);
+    display: flex;
+  }
+
+  .callout-layout-wrap-no-style {
+    box-shadow: none;
+  }
+
+  .custom-content {
+    width: max-content;
   }
 
   .callout-wrap-type-0 {
@@ -58,7 +64,6 @@ export default css`
     margin-right: 8px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     line-height: 1;
   }
@@ -161,6 +166,7 @@ export default css`
     z-index: 110;
     cursor: default;
   }
+
   .amap-markers {
     z-index: 120;
   }
@@ -214,7 +220,6 @@ export default css`
     position: absolute;
     left: 0;
     z-index: 140;
-    width: 320px;
   }
   .amap-menu {
     position: absolute;
@@ -605,4 +610,94 @@ export default css`
     border-top: solid 1px #fff;
     border-bottom: solid 1px #fff;
   }
+  .amap-geolocation-con .amap-geo {
+    background: #fff
+      url(https://webapi.amap.com/theme/v1.3/markers/b/loc_gray.png) 50% 50%
+      no-repeat;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    right: 4px;
+  }
+  .amap-locate-loading .amap-geo {
+    background-image: url(https://webapi.amap.com/theme/v1.3/loading.gif);
+  }
+  .amap-locate {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: url(https://webapi.amap.com/theme/v1.3/map_view.png);
+    _background: url(https://webapi.amap.com/theme/v1.3/map_view.gif);
+    background-position: -130px -185px;
+    cursor: pointer;
+  }
 `
+
+export function handleStyleText(styleObject) {
+  return Object.keys(styleObject || {}).reduce((acc, cur) => {
+    return `${cur}:${(styleObject || {})[cur]};${acc}`
+  }, '')
+}
+
+export function collectStyleObject(self, name, value) {
+  self.styleObject = {
+    ...self.styleObject,
+    [name]: value
+  }
+}
+
+export const onCommonStyleChange = (self, name, value = 0) => {
+  const attributes = self.parentNode?.attributes || {}
+  const layout = attributes.layout?.value
+
+  if (
+    self.nodeName !== 'TIGA-MAP-BOX' &&
+    layout !== 'horizontal' &&
+    layout !== 'vertical' &&
+    (self.styleObject || {}).position !== 'absolute'
+  ) {
+    const { top, right, bottom, left } = self.styleObject || {}
+    const horizontalAlign = attributes['horizontal-align']
+    const verticalAlign = attributes['vertical-align']
+
+    collectStyleObject(self, 'position', 'absolute')
+    collectStyleObject(self, 'left', left || 0)
+    collectStyleObject(self, 'right', right || left || 0)
+    collectStyleObject(self, 'top', top || 0)
+    collectStyleObject(self, 'bottom', bottom || top || 0)
+
+    if (horizontalAlign || verticalAlign)
+      collectStyleObject(self, 'margin', 'auto')
+  }
+
+  switch (name) {
+    case 'width':
+    case 'height':
+    case 'padding':
+    case 'padding-left':
+    case 'padding-top':
+    case 'padding-right':
+    case 'padding-bottom':
+    case 'border-radius':
+    case 'border-width':
+      collectStyleObject(self, name, `${value}px`)
+      break
+    case 'left':
+    case 'top':
+    case 'right':
+    case 'bottom':
+      if (layout === 'horizontal' || layout === 'vertical') {
+        collectStyleObject(self, `margin-${name}`, `${value}px`)
+      } else {
+        collectStyleObject(self, name, `${value}px`)
+      }
+      break
+    case 'border-color':
+      collectStyleObject(self, 'border', 'solid')
+      break
+    case 'background-color':
+      collectStyleObject(self, name, value || '#000000')
+      break
+  }
+}

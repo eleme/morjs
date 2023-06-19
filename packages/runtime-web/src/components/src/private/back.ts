@@ -25,7 +25,7 @@ class Back extends BaseElement {
   connectedCallback() {
     super.connectedCallback()
 
-    this.addEventListener('click', this.back)
+    this.addEventListener('tap', this.back)
   }
 
   back() {
