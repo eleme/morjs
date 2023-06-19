@@ -3,6 +3,7 @@ import { injectHasBehaviorSupport } from '../common/behaviorOrMixin'
 import {
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,
+  injectTwoWayBindingMethodsSupport,
   markUnsupportMethods
 } from './utilsToAlipay'
 
@@ -43,6 +44,9 @@ export function initPage(options: Record<string, any>): void {
   const onLoadFns = [injectCreateIntersectionObserverSupport()]
   if (typeof options.onLoad === 'function') onLoadFns.push(options.onLoad)
   options.onLoad = compose(onLoadFns)
+
+  // 注入双向绑定支持
+  injectTwoWayBindingMethodsSupport(options)
 
   // 注入页面事件支持
   injectPageEventSupport(options)

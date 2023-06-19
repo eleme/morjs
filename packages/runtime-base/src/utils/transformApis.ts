@@ -211,7 +211,9 @@ export function transformApis(
       }
 
       // 处理 request
-      if (actualApiName === 'request') return getOriginalRequest(global)
+      if (actualApiName === 'request') {
+        return getOriginalRequest(global)(options)
+      }
 
       // promisify 处理
       if (needPromisfiedApis.indexOf(apiName) !== -1) {

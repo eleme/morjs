@@ -67,6 +67,41 @@ export default class AlipayCompilerSjsParserPlugin implements Plugin {
           )
         }
 
+        /**
+         * 处理 export default function name() {} 的情况
+         * 原因： 微信不支持 exports.default = name 这种语法，会报错
+         * 这里转换为 module.exports = function name() {}
+         */
+        if (ts.isFunctionDeclaration(node) && node.modifiers?.length) {
+          const exportKeyword = node.modifiers[0]
+          const exportDefaultKeyword = node.modifiers[1]
+          if (
+            ts.isToken(exportKeyword) &&
+            exportKeyword.kind === ts.SyntaxKind.ExportKeyword &&
+            ts.isToken(exportDefaultKeyword) &&
+            exportDefaultKeyword.kind === ts.SyntaxKind.DefaultKeyword
+          ) {
+            return factory.createExpressionStatement(
+              factory.createBinaryExpression(
+                factory.createPropertyAccessExpression(
+                  factory.createIdentifier('module'),
+                  factory.createIdentifier('exports')
+                ),
+                factory.createToken(ts.SyntaxKind.EqualsToken),
+                factory.createFunctionExpression(
+                  undefined,
+                  node.asteriskToken,
+                  node.name,
+                  node.typeParameters,
+                  node.parameters,
+                  node.type,
+                  node.body
+                )
+              )
+            )
+          }
+        }
+
         return node
       })
     )

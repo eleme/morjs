@@ -10,8 +10,8 @@
   <view class="responseview">
     <text>{{text}}</text>
   </view>
-  
-  
+
+
   <view class="page-section">
     <view class="page-section-title">蓝牙基础</view>
     <view class="page-section-demo">
@@ -30,7 +30,7 @@
 
     <view class="page-section-title">连接设备</view>
     <view class="page-section-demo">
-       <input class="input" onInput="bindKeyInput" type="{{text}}" placeholder="输入要连接的设备的deviceId"></input>
+       <input class="input" bindinput="bindKeyInput" type="{{text}}" placeholder="输入要连接的设备的deviceId"></input>
        <button type="primary" class="button" bind:tap="connectBLEDevice">连接设备</button>
        <button type="primary" class="button" bind:tap="getBLEDeviceServices">获取设备服务</button>
        <button type="primary" class="button" bind:tap="getBLEDeviceCharacteristics">获取读写特征</button>
@@ -51,7 +51,7 @@
        <button type="primary" class="button" bind:tap="offBluetoothAdapterStateChange">取消本机蓝牙状态监听</button>
        <button type="primary" class="button" bind:tap="BLEConnectionStateChange">蓝牙连接状态变化</button>
        <button type="primary" class="button" bind:tap="offBLEConnectionStateChange">取消蓝牙连接状态监听</button>
-       
+
     </view>
 
   </view>

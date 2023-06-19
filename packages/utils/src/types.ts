@@ -288,6 +288,12 @@ export interface EntryBuilderHelpers {
    * @returns 替换过后缀的文件路径
    */
   replaceExtAsExpected(filePath: string): string
+
+  /**
+   * 通过 glob 的方式构建 entry
+   * * @param globPattern - 模式
+   */
+  buildByGlob(globPattern?: string): Promise<void>
 }
 
 export type Changeable<T> = {

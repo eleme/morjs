@@ -15,7 +15,7 @@ import { MockerUserConfigSchema } from './constants'
 export * from './constants'
 
 // mock 运行时代码
-const MOCK_RUNTIME_FILE = path.resolve(__dirname, 'runtimes', 'mock.js')
+const MOCK_RUNTIME_FILE = slash(path.resolve(__dirname, 'runtimes', 'mock.js'))
 
 const MOCK_FILE_NAME = 'mor.mock'
 
@@ -151,7 +151,7 @@ class Mocker {
         // 数组:接收两个参数 ①: 静态文件或包地址 ②: 初始化配置
         adapterItems.push(`new ${adapterName}(${JSON.stringify(a[1])})`)
         try {
-          const mockerAdapterFilePath = customRequire.resolve(a[0])
+          const mockerAdapterFilePath = slash(customRequire.resolve(a[0]))
           return `import ${adapterName} from '${mockerAdapterFilePath}';`
         } catch (e) {
           logger.warnOnce(`路径为 ${a[0]} 的 adapter 文件(包)未找到`)
@@ -160,7 +160,7 @@ class Mocker {
         // 字符串: 静态文件或包地址
         adapterItems.push(`new ${adapterName}()`)
         try {
-          const mockerAdapterFilePath = customRequire.resolve(a)
+          const mockerAdapterFilePath = slash(customRequire.resolve(a))
           return `import ${adapterName} from '${mockerAdapterFilePath}';`
         } catch (e) {
           logger.warnOnce(`路径为 ${a} 的 adapter 文件(包)未找到`)

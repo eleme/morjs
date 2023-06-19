@@ -3,6 +3,77 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.55](https://github.com/eleme/morjs/compare/v1.0.54...v1.0.55) (2023-06-13)
+
+### Features
+
+- **plugin-compiler-alipay:** 完善支付宝转微信 sjs 中 export default function xxx(){} 的转换支持 ([f907bb2](https://github.com/eleme/morjs/commit/f907bb2333b46a4a03e0b1d926f8bd4491aed198))
+- **plugin-compiler-alipay:** 完善支付宝转微信不兼容选择器提示信息 ([eacdf5e](https://github.com/eleme/morjs/commit/eacdf5e60898e2ad30533c1407d81c2eca0202b0))
+- **plugin-compiler-alipay:** 完善支付宝转微信时模版中对部分方法调用的支持 ([4780b28](https://github.com/eleme/morjs/commit/4780b28140551e0ae5b1d3cfe4e4b139928bb59c))
+- **takin:** 优化生成器逻辑增加模版解析对 <%_ 或 _%> 或 -%> 的支持 ([1982ed6](https://github.com/eleme/morjs/commit/1982ed631ac1ae5aedf7a0d00092ccf433fc5cd7))
+
+## [1.0.54](https://github.com/eleme/morjs/compare/v1.0.53...v1.0.54) (2023-06-09)
+
+### Bug Fixes
+
+- **runtime-mini:** 修复微信转支付宝小程序后组件在 created 阶段无法从 data 中获取 properties 值的问题 ([#58](https://github.com/eleme/morjs/issues/58)) ([07f7ff9](https://github.com/eleme/morjs/commit/07f7ff9d0cf8afc5fa5df6511f7467497a6522cf))
+
+### Features
+
+- **takin:** 优化生成器逻辑增加模版解析对 <%_ 或 _%> 或 -%> 的支持 ([#57](https://github.com/eleme/morjs/issues/57)) ([e82bb63](https://github.com/eleme/morjs/commit/e82bb63c23e27f8094083be6057e724a5fd7c0fa))
+
+## [1.0.53](https://github.com/eleme/morjs/compare/v1.0.52...v1.0.53) (2023-06-07)
+
+### Bug Fixes
+
+- **plugin-mocker:** 修复 mock JSAPI 的异步方法获取 ESModule 数据需要使用 .default 的问题 ([#55](https://github.com/eleme/morjs/issues/55)) ([7476a47](https://github.com/eleme/morjs/commit/7476a4769b77f210126a34f826fc4425e047ff1d))
+- **runtime-base:** 修复 qq 等端 request 不执行的问题 ([#54](https://github.com/eleme/morjs/issues/54)) ([52fa701](https://github.com/eleme/morjs/commit/52fa7018d1b0a5798eca184cfd866acf9a09c709))
+
+## [1.0.52](https://github.com/eleme/morjs/compare/v1.0.51...v1.0.52) (2023-06-05)
+
+### Bug Fixes
+
+- **core:** 修复支付宝 DSL 下 lifetimes 无值可能导致报错的问题 ([#51](https://github.com/eleme/morjs/issues/51)) ([644f9b2](https://github.com/eleme/morjs/commit/644f9b208ca50af5158ac39af9216465d0dda638))
+- **plugin-mocker:** 修复 windows 下 mock 编译报错的问题 ([#50](https://github.com/eleme/morjs/issues/50)) ([6f78eac](https://github.com/eleme/morjs/commit/6f78eacd3dac0ab9168da34cf9f127945a7b671b))
+
+## [1.0.51](https://github.com/eleme/morjs/compare/v1.0.50...v1.0.51) (2023-06-02)
+
+### Bug Fixes
+
+- **plugin-compiler-wechat:** 修复微信双向绑定在抖音和快手端未正确处理 picker-view 的问题 ([ea4b6c9](https://github.com/eleme/morjs/commit/ea4b6c9feb2f8da981583d5a207b7f46472c811c))
+
+### Features
+
+- **plugin-compiler-bytedance:** 增加字节小程序双向绑定编译能力支持 ([6a03f1c](https://github.com/eleme/morjs/commit/6a03f1c786e1474418b47d292ed8c9054a8cd87b))
+- **plugin-compiler-kuaishou:** 增加快手小程序双向绑定编译能力支持 ([53e72ee](https://github.com/eleme/morjs/commit/53e72eeb98f54f1300d12166e039da9495bb9284))
+- **plugin-compiler-wechat:** 增加微信转其他类似于微信端的双向绑定支持 ([74f5b13](https://github.com/eleme/morjs/commit/74f5b1345ee63aef91f58369328b2338bb277ab0))
+- **runtime-mini:** 增加字节小程序及快手小程序运行时双向绑定支持 ([653767f](https://github.com/eleme/morjs/commit/653767f44d954fedfd435cbc4a86889e310d1e30))
+
+## [1.0.50](https://github.com/eleme/morjs/compare/v1.0.49...v1.0.50) (2023-05-31)
+
+### Features
+
+- **plugin-compiler-bytedance:** 新增抖音分包异步化编译支持 ([#46](https://github.com/eleme/morjs/issues/46)) ([6e2ede2](https://github.com/eleme/morjs/commit/6e2ede2782bdbdc259d81deb603fccabc3f8f136))
+
+## [1.0.49](https://github.com/eleme/morjs/compare/v1.0.48...v1.0.49) (2023-05-30)
+
+### Features
+
+- **plugin-compiler-baidu:** 完善微信转百度双向绑定适配以及修复 s-for 指令适配逻辑 ([3d15094](https://github.com/eleme/morjs/commit/3d15094eb983f8148690dda08c80c480474335b5))
+
+## [1.0.48](https://github.com/eleme/morjs/compare/v1.0.47...v1.0.48) (2023-05-23)
+
+### Bug Fixes
+
+- **plugin-generator:** 替换脚手架生成的 eslint 配置项，防止 eslint-config-prettier 8.0 所有子包收束到 prettier 后的报错 ([#43](https://github.com/eleme/morjs/issues/43)) ([004ce55](https://github.com/eleme/morjs/commit/004ce55b1fad286f83f25521ff0f1ad87000f58e))
+- **runtime-mini:** 修改生命周期执行顺序，修复微信 DSL 首次传入 props 未执行 observer 的问题 ([#44](https://github.com/eleme/morjs/issues/44)) ([3ee2f9a](https://github.com/eleme/morjs/commit/3ee2f9ac1588e8bce0078bde9b2d56b61e3767f1))
+
+## [1.0.47](https://github.com/eleme/morjs/compare/v1.0.46...v1.0.47) (2023-05-22)
+
+### Features
+
+- **runtime-web:** fields 调用和 scrollOffset,boundingClientRect 调用隔离 ([#42](https://github.com/eleme/morjs/issues/42)) ([f6d23e1](https://github.com/eleme/morjs/commit/f6d23e1accc72d1b8140ffb7c0475518ec9394b7))
+
 ## [1.0.46](https://github.com/eleme/morjs/compare/v1.0.45...v1.0.46) (2023-05-19)
 
 ### Features

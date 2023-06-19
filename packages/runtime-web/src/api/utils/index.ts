@@ -135,3 +135,7 @@ export const wait = (millisecond = 67) => {
     setTimeout(resolve, millisecond)
   })
 }
+
+export const isObject = (param) => param && typeof param === 'object'
+
+export const isFunction = (param) => typeof param === 'function'

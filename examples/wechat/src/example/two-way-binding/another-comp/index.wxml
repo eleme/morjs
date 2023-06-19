@@ -1,0 +1,5 @@
+<view>
+  <scroll-view scroll-y scroll-top="{{scrollTop}}" style="height: 100px" bind:scroll="onScroll">
+    <view wx:for="{{list}}">第 {{index + 1}} 行</view>
+  </scroll-view>
+</view>

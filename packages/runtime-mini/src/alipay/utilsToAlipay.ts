@@ -1,4 +1,4 @@
-import { getGlobalObject, markAsUnsupport } from '@morjs/runtime-base'
+import { getGlobalObject, logger, markAsUnsupport } from '@morjs/runtime-base'
 
 export function canIUse(name: string): boolean {
   return !!getGlobalObject()?.canIUse?.(name)
@@ -169,6 +169,65 @@ export function injectComponentSelectorMethodsSupport(
     // 选额父组件支持
     options.selectOwnerComponent = function () {
       return this.$morOwnerComponent
+    }
+  }
+}
+
+/**
+ * 注入双向绑定方法
+ */
+export function injectTwoWayBindingMethodsSupport(
+  options: Record<string, any>
+) {
+  const allTwoWayBindingMappings: Record<string, Record<string, string>> = {}
+  function parseTwoWayBingMap(str: string) {
+    if (allTwoWayBindingMappings[str]) return allTwoWayBindingMappings[str]
+
+    const map: Record<string, string> = {}
+    str.split(',').forEach(function (pair) {
+      const [key, value] = pair.split(':')
+      map[key] = value
+    })
+    allTwoWayBindingMappings[str] = map
+    return map
+  }
+
+  // 双向绑定劫持自定义事件
+  options.$morTWBProxy = function (event: Record<string, any>) {
+    const { mortwbmethod, mortwbkey, mortwbvalue } =
+      event?.target?.dataset ?? {}
+
+    this.setData({
+      [mortwbvalue]: event?.detail?.[mortwbkey]
+    })
+
+    // 双向绑定时，tag上自定义的响应事件
+    if (mortwbmethod) {
+      this[mortwbmethod]?.(event)
+    }
+  }
+
+  // 自定义组件的双向绑定方法 $morParentTWBProxy
+  options.$morParentTWBProxy = function (
+    data: Record<string, any>,
+    props: Record<string, any>
+  ) {
+    if (typeof props.morChildTwbMap !== 'string') return
+
+    try {
+      const map = parseTwoWayBingMap(props.morChildTwbMap)
+      const updates: Record<string, any> = {}
+      let hasUpdates = false
+      for (const childKey in map) {
+        // 子组件 props 滞后 data，更新父组件 data
+        if (data[childKey] !== props[childKey]) {
+          hasUpdates = true
+          updates[map[childKey]] = data[childKey]
+        }
+      }
+      if (hasUpdates) this.setData(updates)
+    } catch (e) {
+      logger.warn(`${e}`)
     }
   }
 }

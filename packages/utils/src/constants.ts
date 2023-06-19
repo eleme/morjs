@@ -150,6 +150,7 @@ export enum EntryType {
 
 /**
  * Entry 文件优先级:
+ *  - 配置了自定义入口文件 customEntries 的值为 1000
  *  - 条件编译文件 20, 基础值为 20, 配置多个条件编译后缀时, 位置越靠前的后缀优先级越高, 步进为 5
  *  - native 文件 15
  *  - 微信 DSL 文件 10, 如 wxss 或 wxml 或 wxs 文件
@@ -157,6 +158,7 @@ export enum EntryType {
  *  - 普通文件 0, 如 js 或 ts 或 json 文件
  */
 export enum EntryPriority {
+  CustomEntry = 1000,
   Conditional = 20,
   Native = 15,
   Wechat = 10,

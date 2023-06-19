@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.54](https://github.com/eleme/morjs/compare/v1.0.53...v1.0.54) (2023-06-09)
+
+**Note:** Version bump only for package @morjs/plugin-generator
+
+
+
+
+
+## [1.0.50](https://github.com/eleme/morjs/compare/v1.0.49...v1.0.50) (2023-05-31)
+
+**Note:** Version bump only for package @morjs/plugin-generator
+
+
+
+
+
+## [1.0.48](https://github.com/eleme/morjs/compare/v1.0.47...v1.0.48) (2023-05-23)
+
+
+### Bug Fixes
+
+* **plugin-generator:** 替换脚手架生成的 eslint 配置项，防止 eslint-config-prettier 8.0 所有子包收束到 prettier 后的报错 ([#43](https://github.com/eleme/morjs/issues/43)) ([004ce55](https://github.com/eleme/morjs/commit/004ce55b1fad286f83f25521ff0f1ad87000f58e))
+
+
+
+
+
 ## [1.0.31](https://github.com/eleme/morjs/compare/v1.0.30...v1.0.31) (2023-04-21)
 
 **Note:** Version bump only for package @morjs/plugin-generator

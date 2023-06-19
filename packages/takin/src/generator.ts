@@ -321,12 +321,14 @@ export class Generator implements Required<GeneratorOptions> {
    * 生成终端的 prompts 问题
    */
   async prompting() {
-    this.answers = await prompts(this.questions, {
-      onCancel() {
-        // 用户取消时自动退出
-        process.exit(0)
-      }
-    })
+    if (this.questions?.length) {
+      this.answers = await prompts(this.questions, {
+        onCancel() {
+          // 用户取消时自动退出
+          process.exit(0)
+        }
+      })
+    }
   }
 
   /**
@@ -361,10 +363,21 @@ export class Generator implements Required<GeneratorOptions> {
 
   /**
    * 拷贝模版文件
+   *
+   * 基于 lodash.template 方法来解析模版，并增加了对
+   * 1. <%_  _%> 的支持，可用于移除前后的空格或 Tab 符号
+   * 2. 增加了对 -%> 的支持，可用于移除控制语句引入的换行符
    * @param opts - 拷贝选项
    */
   async copyTemplate(opts: GeneratorCopyOptions) {
-    const tpl = await fs.readFile(opts.path, 'utf-8')
+    let tpl = await fs.readFile(opts.path, 'utf-8')
+
+    // 移除控制语句前 <%_  _%> 后的空格或 Tab 符号
+    tpl = tpl.replace(/[ \t]*<%_/gm, '<%').replace(/_%>[ \t]*/gm, '%>')
+
+    // 移除控制语句结尾引入的换行符
+    tpl = tpl.replace(/-%>(?:\r\n|\r|\n)?/gm, '%>')
+
     const content = template(tpl)(opts.context)
     await fs.mkdirp(dirname(opts.to))
     logger.success(`写入: ${relative(this.baseDir, opts.to)}`)

@@ -371,11 +371,10 @@ function ensureDataAndMethodsAndLifetimes(
 ): void {
   if (!options.methods) options.methods = {}
   if (!options.data) options.data = {}
+  if (!options.lifetimes) options.lifetimes = {}
 
   // 如果 微信DSL
   if (sourceType === SOURCE_TYPE.WECHAT) {
-    if (!options.lifetimes) options.lifetimes = {}
-
     // 微信中 lifetimes 中的优先级高于 options 中的方法
     const created = options.lifetimes.created || options.created
     delete options.created
@@ -418,7 +417,10 @@ const WECHAT_COMPONENT_LIFETIMES_METHODS = [
   'error'
 ]
 
-// 支付宝基础库 2.8.5(2022-12-29) 起新增 lifetimes 定义段，支持 created、attached 等组件节点树维度的生命周期函数
+/**
+ * 支付宝基础库 2.8.5 (2022-12-29) 起新增 lifetimes 定义段，
+ * 支持 created、attached 等组件节点树维度的生命周期函数
+ */
 const ALIPAY_COMPONENT_LIFETIMES_METHODS = [
   'onInit',
   'deriveDataFromProps',

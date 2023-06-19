@@ -737,8 +737,8 @@ async function composeAllModulesIntoHost(
     }
     // 分包的配置合并入 app.json 的 subpackages 中
     else if (module.type === 'subpackage') {
-      // 不处理 root 为空或 pages 为空的分包
-      if (!config.root || isEmpty(config.pages)) {
+      // 不处理 root 为空或 pages 为空的分包（异步化分包除外）
+      if (!config.root || (isEmpty(config.pages) && config.common !== true)) {
         logger.warnOnce(
           `模块 ${module.name} 的分包配置文件中 root 或 pages 为空`
         )

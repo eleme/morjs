@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "comp": "./comp/index",
+    "another-comp": "./another-comp/index"
+  }
+}

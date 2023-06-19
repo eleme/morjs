@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.54](https://github.com/eleme/morjs/compare/v1.0.53...v1.0.54) (2023-06-09)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-baidu
+
+
+
+
+
+## [1.0.53](https://github.com/eleme/morjs/compare/v1.0.52...v1.0.53) (2023-06-07)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-baidu
+
+
+
+
+
+## [1.0.51](https://github.com/eleme/morjs/compare/v1.0.50...v1.0.51) (2023-06-02)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-baidu
+
+
+
+
+
+## [1.0.50](https://github.com/eleme/morjs/compare/v1.0.49...v1.0.50) (2023-05-31)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-baidu
+
+
+
+
+
+## [1.0.49](https://github.com/eleme/morjs/compare/v1.0.48...v1.0.49) (2023-05-30)
+
+
+### Features
+
+* **plugin-compiler-baidu:** 完善微信转百度双向绑定适配以及修复 s-for 指令适配逻辑 ([3d15094](https://github.com/eleme/morjs/commit/3d15094eb983f8148690dda08c80c480474335b5))
+
+
+
+
+
+## [1.0.48](https://github.com/eleme/morjs/compare/v1.0.47...v1.0.48) (2023-05-23)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-baidu
+
+
+
+
+
 ## [1.0.46](https://github.com/eleme/morjs/compare/v1.0.45...v1.0.46) (2023-05-19)
 
 

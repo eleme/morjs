@@ -66,7 +66,10 @@ module.exports = {
           label: '多端兼容性',
           type: 'category',
           collapsed: true,
-          items: ['guides/compatibilities/alipay-to-wechat']
+          items: [
+            'guides/compatibilities/wechat-to-other',
+            'guides/compatibilities/alipay-to-wechat'
+          ]
         }
       ]
     },
@@ -188,7 +191,11 @@ module.exports = {
       label: 'MorJS 开发博客',
       type: 'category',
       collapsed: false,
-      items: ['guides/advance/subpackage-volume-optimization']
+      items: [
+        'guides/advance/use-community-component',
+        'guides/advance/learn-create-component-library',
+        'guides/advance/subpackage-volume-optimization'
+      ]
     }
     // {
     //   label: 'MorJS 更新日志',

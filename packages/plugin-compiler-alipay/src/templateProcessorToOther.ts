@@ -2,6 +2,7 @@ import {
   FileParserOptions,
   logger,
   posthtml,
+  tsTransformerFactory,
   typescript as ts
 } from '@morjs/utils'
 import {
@@ -24,9 +25,14 @@ export const templateProcessorToOther = {
   onNode(node: posthtml.Node, options: FileParserOptions): void {
     processComponentCompatible(node, options)
 
-    // 处理模版字符串
     if (node.content && node.content.length) {
-      node.content = node.content.map((value) => processTemplateString(value))
+      node.content = node.content.map(function (value) {
+        // 处理函数调用
+        return processAttrFuncionCall(
+          // 处理模版字符串
+          processTemplateString(value)
+        )
+      })
     }
   },
 
@@ -53,9 +59,12 @@ export const templateProcessorToOther = {
     // a:else 检查
     processAElseCheck(attrName, node, options)
 
-    // 模版字符串处理
     if (node.attrs[attrName]) {
-      node.attrs[attrName] = processTemplateString(node.attrs[attrName])
+      // 方法调用转换支持
+      node.attrs[attrName] = processAttrFuncionCall(
+        // 模版字符串处理
+        processTemplateString(node.attrs[attrName])
+      )
     }
 
     // 事件处理
@@ -399,4 +408,85 @@ function processStyleAttrObject(
       }
     )
   }
+}
+
+// 支持的函数调用
+const SUPPORT_FUNCTION_CALL_NAMES = [
+  'toLowerCase',
+  'toUpperCase',
+  'slice',
+  'includes',
+  'toString',
+  'indexOf'
+]
+// 判断是否包含符合条件的调用方式
+const FUNCTION_CALL_REGEXP = new RegExp(
+  `(\\.(${SUPPORT_FUNCTION_CALL_NAMES.join('|')})\\(|typeof )`
+)
+/**
+ * 处理属性中的方法调用，支持：
+ * - typeof a === 'string' => morSjs.toType(a) === 'string'
+ * - a.toLowerCase() => morSjs.toLowerCase(a)
+ * - a.toUpperCase() => morSjs.toUpperCase(a)
+ * - a.slice(0,1) => morSjs.slice(a, 0, 1)
+ * - a.includes(b) => morSjs.includes(a, b)
+ * - a.indexOf(b) => morSjs.indexOf(a, b)
+ * - a.toString() => morSjs.toString(a)
+ */
+function processAttrFuncionCall(value: string) {
+  if (!value) return value
+  if (typeof value !== 'string') return value
+  if (!/{{(.*?)}}/.test(value)) return value
+  if (!FUNCTION_CALL_REGEXP.test(value)) return value
+
+  return value.replace(/{{(.*?)}}/g, function (matchStr, captureStr) {
+    if (!FUNCTION_CALL_REGEXP.test(matchStr)) return matchStr
+
+    ts.transpileModule(captureStr, {
+      compilerOptions: {
+        module: ts.ModuleKind.None,
+        target: ts.ScriptTarget.Latest,
+        noImplicitUseStrict: true
+      },
+      transformers: {
+        before: [
+          tsTransformerFactory(function (node) {
+            // 处理 typeof
+            if (ts.isTypeOfExpression(node)) {
+              captureStr = captureStr.replace(
+                node.getText(),
+                `morSjs.toType(${node.expression.getFullText().trim()})`
+              )
+            }
+
+            // 处理函数调用
+            if (
+              ts.isCallExpression(node) &&
+              ts.isPropertyAccessExpression(node.expression)
+            ) {
+              const functionName = node.expression
+                .getChildAt(node.expression.getChildCount() - 1)
+                ?.getText?.()
+              if (SUPPORT_FUNCTION_CALL_NAMES.includes(functionName)) {
+                const arg1 = node.expression
+                  .getText()
+                  .replace(new RegExp(`\\.${functionName}$`), '')
+                const allArgs = [arg1].concat(
+                  node.arguments.map((arg) => arg.getText())
+                )
+
+                captureStr = captureStr.replace(
+                  node.getText(),
+                  `morSjs.${functionName}(${allArgs.join(',')})`
+                )
+              }
+            }
+            return node
+          })
+        ]
+      }
+    })
+
+    return `{{${captureStr}}}`
+  })
 }

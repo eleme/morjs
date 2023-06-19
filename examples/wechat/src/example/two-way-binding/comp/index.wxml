@@ -1,0 +1,5 @@
+<input model:value="{{customValue3}}" />
+<view>组件内部input:{{customValue3}}</view>
+
+<input model:value="{{customValue1}}" />
+<input model:value="{{customValue2}}" />
