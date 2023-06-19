@@ -1,7 +1,7 @@
-import Box from '../map/box'
-import Image from '../map/image'
-import Element from '../map/map'
-import Text from '../map/text'
+import Image from '../api/ui//map/image'
+import Box from '../api/ui/map/box'
+import Element from '../api/ui/map/map'
+import Text from '../api/ui/map/text'
 import { defineElement } from '../utils'
 
 defineElement('tiga-map', Element)

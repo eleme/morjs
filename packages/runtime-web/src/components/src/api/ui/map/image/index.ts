@@ -1,12 +1,13 @@
 import { css, html, internalProperty, LitElement, property } from 'lit-element'
-import { onCommonStyleChange, uuid } from '../property'
+import { uuid } from '../../../../utils'
+import { handleStyleText, onCommonStyleChange } from '../style'
 
 export default class Image extends LitElement {
   static get styles() {
     return css`
       :host {
         display: inline-block;
-        overflow: hidden;
+        font-size: 0;
       }
     `
   }
@@ -66,7 +67,7 @@ export default class Image extends LitElement {
   placeholder
 
   @internalProperty()
-  cssText = ''
+  styleObject = {}
 
   onStyleChange(name, value) {
     onCommonStyleChange(this, name, value)
@@ -82,9 +83,12 @@ export default class Image extends LitElement {
   }
 
   render() {
-    return html`<img
-      id="${this.id || uuid()}"
-      style="${this.cssText}"
+    const cssText = handleStyleText(this.styleObject)
+    const id = this.id || uuid()
+
+    return html` <img
+      id="${id}"
+      style="${cssText}"
       src="${this.src || this.placeholder}"
     />`
   }

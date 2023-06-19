@@ -10,7 +10,6 @@ import FileAPI from './file/index'
 import ImageAPI from './image'
 import KeyboardAPI from './keyboard'
 import LocationAPI from './location'
-import MapAPI from './map'
 import { my } from './my'
 import NetworkAPI from './network'
 import PrivateAPI from './private/index'
@@ -43,7 +42,6 @@ appendApis(
     ...convertApis(DeviceMakePhoneCallAPI),
     ...convertApis(DeviceClipboardAPI),
     ...convertApis(ReportAnalyticsAPI),
-    ...convertApis(MapAPI),
     ...convertApis(VideoAPI),
     ...convertApis(RouterExtensionAPI),
     ...convertApis(PrivateAPI),

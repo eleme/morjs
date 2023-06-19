@@ -1,5 +1,10 @@
 import { css, html, internalProperty, LitElement, property } from 'lit-element'
-import { handleCssText, onCommonStyleChange, uuid } from '../property'
+import { uuid } from '../../../../utils'
+import {
+  collectStyleObject,
+  handleStyleText,
+  onCommonStyleChange
+} from '../style'
 
 export default class Text extends LitElement {
   static get styles() {
@@ -88,7 +93,7 @@ export default class Text extends LitElement {
   ['font-weight'] = 'normal'
 
   @internalProperty()
-  cssText = ''
+  styleObject = {}
 
   @internalProperty()
   value = ''
@@ -100,19 +105,19 @@ export default class Text extends LitElement {
         this.value = value
         break
       case 'color':
-        handleCssText(this, name, value)
+        collectStyleObject(this, name, value)
         break
       case 'font-weight':
-        handleCssText(this, name, value || 'normal')
+        collectStyleObject(this, name, value || 'normal')
         break
       case 'text-align':
-        handleCssText(this, name, value || 'left')
+        collectStyleObject(this, name, value || 'left')
         break
       case 'font-size':
-        handleCssText(this, name, `${value}px`)
+        collectStyleObject(this, name, `${value}px`)
         break
       case 'stroke-color':
-        handleCssText(this, 'text-shadow', `${value} 1px 1px`)
+        collectStyleObject(this, 'text-shadow', `${value} 1px 1px`)
         break
     }
   }
@@ -133,10 +138,12 @@ export default class Text extends LitElement {
   }
 
   render() {
+    const cssText = handleStyleText(this.styleObject)
+
     return html`
       <div
         id="${this.id || uuid()}"
-        style="${this.cssText}"
+        style="${cssText}"
         @click="${this._handleClick}"
       >
         ${this.value}
