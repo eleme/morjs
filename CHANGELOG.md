@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.56](https://github.com/eleme/morjs/compare/v1.0.55...v1.0.56) (2023-06-20)
+
+### Features
+
+- **plugin-compiler:** 优化项目配置文件载入逻辑，不需要输出项目配置文件时跳过查找 ([a4cda13](https://github.com/eleme/morjs/commit/a4cda13f21690bd2be6c3ebe1da730d6fc813bf0))
+- **runtime-web:** 地图重构 & 支持高级定制渲染 ([#60](https://github.com/eleme/morjs/issues/60)) ([eda6b66](https://github.com/eleme/morjs/commit/eda6b66fc8f2dd8c76e15ab881dc68cf07be8ba6))
+
 ## [1.0.55](https://github.com/eleme/morjs/compare/v1.0.54...v1.0.55) (2023-06-13)
 
 ### Features
