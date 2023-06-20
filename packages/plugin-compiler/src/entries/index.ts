@@ -1970,9 +1970,12 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
 
     const projectConfigFiles = composedPlugins.projectConfigFiles[target] || []
 
-    // 取最后一个名称为 entry 名称
+    // 最后一个文件为实际要输出的 entry 文件名
+    // 如果未取到值则代表不需要生成项目配置文件
     const projectConfigFileEntryName =
       projectConfigFiles[projectConfigFiles.length - 1]
+
+    if (!projectConfigFileEntryName) return
 
     let projectConfigFile: string
 
