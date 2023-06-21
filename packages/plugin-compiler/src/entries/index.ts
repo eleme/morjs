@@ -1808,6 +1808,16 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    */
   async buildByCompileType(compileType: CompileType, compileMode: CompileMode) {
     let appJson: IAppConfig
+    const customEntries = this.userConfig?.customEntries || {}
+
+    // 手动指定入口配置文件时，会有绝对路径，默认情况下 morjs 会限制绝对路径为 srcPaths 中
+    // 这里兼容下 自定义入口文件 所在的文件夹
+    const generateSearchPaths = (fileName: string) => {
+      if (!path.isAbsolute(fileName)) return this.srcPaths
+      const dirname = path.dirname(fileName)
+      if (this.srcPaths.includes(dirname)) return this.srcPaths
+      return [dirname].concat(this.srcPaths)
+    }
 
     // 分包配置优先从 context 中获取
     // 如果可以拿到 则代表是独立分包
@@ -1824,10 +1834,14 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     await this.tryAddProjectConfigFile()
 
     // 小程序配置
+    const appEntry = customEntries['app.json'] || 'app'
+    const searchPaths = generateSearchPaths(appEntry)
     const appJsonPath = await this.tryReachFileByExts(
-      this.userConfig?.customEntries?.['app.json'] || 'app',
+      appEntry,
       this.configWithConditionalExts,
-      this.srcPaths
+      searchPaths,
+      null,
+      searchPaths
     )
 
     // 尝试载入全局文件
@@ -1865,10 +1879,14 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
 
     // 插件构建
     else if (compileType === CompileTypes.plugin) {
+      const pluginEntry = customEntries['plugin.json'] || 'plugin'
+      const searchPaths = generateSearchPaths(pluginEntry)
       const pluginJsonPath = await this.tryReachFileByExts(
-        this.userConfig?.customEntries?.['plugin.json'] || 'plugin',
+        pluginEntry,
         this.configWithConditionalExts,
-        this.srcPaths
+        searchPaths,
+        null,
+        searchPaths
       )
 
       if (pluginJsonPath) {
@@ -1915,10 +1933,14 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       }
       // 否则尝试读取分包配置文件或从 app.json 中推断
       else {
+        const subpackageEntry = customEntries['subpackage.json'] || 'subpackage'
+        const searchPaths = generateSearchPaths(subpackageEntry)
         const subpackageJsonPath = await this.tryReachFileByExts(
-          this.userConfig?.customEntries?.['subpackage.json'] || 'subpackage',
+          subpackageEntry,
           this.configWithConditionalExts,
-          this.srcPaths
+          searchPaths,
+          null,
+          searchPaths
         )
         if (subpackageJsonPath) {
           subpackageJson = await this.readAndPreprocessJsonLikeFile(
@@ -2053,7 +2075,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * 分包优先使用 mor.subpackage.app
    */
   private async tryAddGlobalFiles() {
-    const { compileType, mockAppEntry } = this.userConfig
+    const { compileType, mockAppEntry, globalNameSurfix } = this.userConfig
 
     const globalAppName = mockAppEntry || 'app'
     let globalAppPrefix = ''
@@ -2117,7 +2139,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     const customEntryName =
       compileType === CompileTypes.plugin ||
       compileType === CompileTypes.subpackage
-        ? MOR_APP_FILE()
+        ? MOR_APP_FILE(globalNameSurfix)
         : 'app'
 
     if (this.globalScriptFilePath) {
