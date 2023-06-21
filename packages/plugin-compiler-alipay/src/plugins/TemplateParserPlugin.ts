@@ -24,7 +24,7 @@ export default class AlipayCompilerTemplateParserPlugin implements Plugin {
     })
 
     runner.hooks.beforeRun.tap(this.name, () => {
-      const { sourceType, target, globalNameSurfix } = runner.userConfig
+      const { sourceType, target, globalNameSuffix } = runner.userConfig
 
       // 仅当 模版文件 是 支付宝 源码 且 编译目标不是 支付宝小程序 时执行该插件
       if (sourceType !== SourceTypes.alipay) return
@@ -46,7 +46,7 @@ export default class AlipayCompilerTemplateParserPlugin implements Plugin {
       if (!sjsModuleAttrName) return
       if (!sjsSrcAttrName) return
 
-      const sjsFileName = `${MOR_HELPER_FILE(globalNameSurfix)}${sjsFileType}`
+      const sjsFileName = `${MOR_HELPER_FILE(globalNameSuffix)}${sjsFileType}`
       const sjsHelperName = 'morSjs'
       // 判断是否存在 morSjs.xxx( 方法调用
       const sjsHelperFnRegExp = new RegExp(`${sjsHelperName}\\.[a-zA-Z]+\\(`)

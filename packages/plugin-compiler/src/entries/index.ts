@@ -2075,7 +2075,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * 分包优先使用 mor.subpackage.app
    */
   private async tryAddGlobalFiles() {
-    const { compileType, mockAppEntry, globalNameSurfix } = this.userConfig
+    const { compileType, mockAppEntry, globalNameSuffix } = this.userConfig
 
     const globalAppName = mockAppEntry || 'app'
     let globalAppPrefix = ''
@@ -2139,7 +2139,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     const customEntryName =
       compileType === CompileTypes.plugin ||
       compileType === CompileTypes.subpackage
-        ? MOR_APP_FILE(globalNameSurfix)
+        ? MOR_APP_FILE(globalNameSuffix)
         : 'app'
 
     if (this.globalScriptFilePath) {

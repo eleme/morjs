@@ -16,7 +16,7 @@ export class BundleOptimizationPlugin implements Plugin {
   apply(runner: Runner<any>) {
     this.removeMiniFileGenerator()
     this.setupDefaultOptimization(
-      runner?.userConfig?.globalNameSurfix as string
+      runner?.userConfig?.globalNameSuffix as string
     )
     this.supportSjsExtensionAlias(runner?.userConfig?.sourceType as string)
   }
@@ -56,7 +56,7 @@ export class BundleOptimizationPlugin implements Plugin {
   /**
    * 设置默认的打包优化
    */
-  setupDefaultOptimization(globalNameSurfix?: string) {
+  setupDefaultOptimization(globalNameSuffix?: string) {
     // 默认优化
     this.wrapper.chain.optimization.splitChunks({
       chunks: 'all',
@@ -72,14 +72,14 @@ export class BundleOptimizationPlugin implements Plugin {
         },
         // runtime-web 运行时
         web: {
-          name: MOR_RUNTIME_WEB_FILE(globalNameSurfix),
+          name: MOR_RUNTIME_WEB_FILE(globalNameSuffix),
           test: /(@morjs[\\/]|@ali[\\/]openmor-)runtime-web/,
           priority: 3
         },
 
         // 其他 node_modules
         vendors: {
-          name: MOR_VENDOR_FILE(globalNameSurfix),
+          name: MOR_VENDOR_FILE(globalNameSuffix),
           test: /\/(node_modules|npm_components|mock)\//,
           priority: 2
         }

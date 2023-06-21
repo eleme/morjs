@@ -121,7 +121,7 @@ export class InjectGetAppPlugin implements Plugin {
       target,
       compileMode,
       compileType,
-      globalNameSurfix,
+      globalNameSuffix,
       compilerOptions: { module: defaultModuleKind }
     } = userConfig
 
@@ -139,11 +139,11 @@ export class InjectGetAppPlugin implements Plugin {
     const moduleKind = userConfig['originalCompilerModule'] || defaultModuleKind
 
     // 插件或分包的模拟 app 名称
-    const MOR_APP_ENTRY_NAME = MOR_APP_FILE(globalNameSurfix)
+    const MOR_APP_ENTRY_NAME = MOR_APP_FILE(globalNameSuffix)
 
     // 添加模拟的 global 文件
     entryBuilder.setEntrySource(
-      MOR_GLOBAL_FILE(globalNameSurfix) + '.js',
+      MOR_GLOBAL_FILE(globalNameSuffix) + '.js',
       generateGlobalScript(moduleKind, globalObject),
       'additional'
     )
@@ -163,7 +163,7 @@ export class InjectGetAppPlugin implements Plugin {
             return new webpack.sources.ConcatSource(
               makeImportClause(
                 moduleKind,
-                `./${MOR_GLOBAL_FILE(globalNameSurfix)}.js`,
+                `./${MOR_GLOBAL_FILE(globalNameSuffix)}.js`,
                 'morGlobal'
               ),
               source
@@ -171,11 +171,11 @@ export class InjectGetAppPlugin implements Plugin {
           }
         }
 
-        if (chunk.name === MOR_RUNTIME_FILE(globalNameSurfix)) {
+        if (chunk.name === MOR_RUNTIME_FILE(globalNameSuffix)) {
           return new webpack.sources.ConcatSource(
             makeImportClause(
               moduleKind,
-              `./${MOR_GLOBAL_FILE(globalNameSurfix)}.js`,
+              `./${MOR_GLOBAL_FILE(globalNameSuffix)}.js`,
               'morGlobal'
             ),
             source

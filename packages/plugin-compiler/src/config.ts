@@ -517,7 +517,7 @@ export function generateChunkLoadingGlobal(
   userConfig: CompilerUserConfig
 ): string {
   const segments: string[] = [DEFAULT_CHUNK_LOADING_GLOBAL]
-  const globalNameSurfix = userConfig.globalNameSurfix
+  const globalNameSuffix = userConfig.globalNameSuffix
 
   if (userConfig.compileType !== CompileTypes.miniprogram) {
     // s 代表分包
@@ -526,8 +526,8 @@ export function generateChunkLoadingGlobal(
       userConfig.compileType === CompileTypes.subpackage ? 's' : 'p'
     segments.push(appType)
 
-    // 未定义 globalNameSurfix 时尝试以 package.json 的 name 作为区分，避免冲突
-    if (!globalNameSurfix) {
+    // 未定义 globalNameSuffix 时尝试以 package.json 的 name 作为区分，避免冲突
+    if (!globalNameSuffix) {
       // 使用项目的包名作为
       const pkgName = ((runner.config.pkg?.name || '') as string)
         .toLowerCase()
@@ -538,7 +538,7 @@ export function generateChunkLoadingGlobal(
   }
 
   // 追加全局文件名称后缀，用于避免 chunk loading global 重复
-  if (globalNameSurfix) segments.push(globalNameSurfix)
+  if (globalNameSuffix) segments.push(globalNameSuffix)
 
   return segments.join('_')
 }
@@ -569,7 +569,7 @@ export async function buildWebpackConfig(
     compileType,
     compilerOptions,
     processNodeModules,
-    globalNameSurfix
+    globalNameSuffix
   } = userConfig
   const targetDescription = composedPlugins.targetDescription[target]
 
@@ -1080,7 +1080,7 @@ export async function buildWebpackConfig(
   if (compileMode === CompileModes.bundle) {
     // 运行时代码文件 name.r
     chain.optimization.runtimeChunk({
-      name: MOR_RUNTIME_FILE(globalNameSurfix)
+      name: MOR_RUNTIME_FILE(globalNameSuffix)
     })
   } else {
     chain.target(false)

@@ -139,11 +139,11 @@ export class OptimizeSplitChunksPlugin {
 
     const cacheGroups: Record<string, any> = {}
     const entryBuilder = this.entryBuilder
-    const { globalNameSurfix } = this.userConfig || {}
+    const { globalNameSuffix } = this.userConfig || {}
 
-    const vendorFileEntry = MOR_VENDOR_FILE(globalNameSurfix)
-    const commonFileEntry = MOR_COMMON_FILE(globalNameSurfix)
-    const initFileEntry = MOR_INIT_FILE(globalNameSurfix)
+    const vendorFileEntry = MOR_VENDOR_FILE(globalNameSuffix)
+    const commonFileEntry = MOR_COMMON_FILE(globalNameSuffix)
+    const initFileEntry = MOR_INIT_FILE(globalNameSuffix)
 
     entryBuilder.moduleGraph.groups.forEach((group) => {
       function testBuilder(
@@ -249,15 +249,15 @@ export class OptimizeSplitChunksPlugin {
     const {
       compileType,
       compilerOptions: { module: defaultModuleKind },
-      globalNameSurfix
+      globalNameSuffix
     } = this.userConfig
     const moduleGraph = this.entryBuilder.moduleGraph
 
-    const vendorFileEntry = MOR_VENDOR_FILE(globalNameSurfix)
-    const commonFileEntry = MOR_COMMON_FILE(globalNameSurfix)
-    const initFileEntry = MOR_INIT_FILE(globalNameSurfix)
-    const appFileEntry = MOR_APP_FILE(globalNameSurfix)
-    const runtimeFileEntry = MOR_RUNTIME_FILE(globalNameSurfix)
+    const vendorFileEntry = MOR_VENDOR_FILE(globalNameSuffix)
+    const commonFileEntry = MOR_COMMON_FILE(globalNameSuffix)
+    const initFileEntry = MOR_INIT_FILE(globalNameSuffix)
+    const appFileEntry = MOR_APP_FILE(globalNameSuffix)
+    const runtimeFileEntry = MOR_RUNTIME_FILE(globalNameSuffix)
 
     const moduleKind =
       this.userConfig['originalCompilerModule'] || defaultModuleKind
@@ -315,14 +315,14 @@ export class OptimizeSplitChunksPlugin {
     const {
       compileType,
       compilerOptions: { module: defaultModuleKind },
-      globalNameSurfix
+      globalNameSuffix
     } = this.userConfig
     const jsHooks = JavascriptModulesPlugin.getCompilationHooks(compilation)
 
     // 插件或分包的模拟 app 名称
-    const vendorFileEntry = MOR_VENDOR_FILE(globalNameSurfix)
-    const initFileEntry = MOR_INIT_FILE(globalNameSurfix)
-    const appFileEntry = MOR_APP_FILE(globalNameSurfix)
+    const vendorFileEntry = MOR_VENDOR_FILE(globalNameSuffix)
+    const initFileEntry = MOR_INIT_FILE(globalNameSuffix)
+    const appFileEntry = MOR_APP_FILE(globalNameSuffix)
 
     jsHooks.render.tap(this.name, (source, context) => {
       const moduleGraph = this.entryBuilder.moduleGraph

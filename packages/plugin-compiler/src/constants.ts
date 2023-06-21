@@ -901,7 +901,7 @@ export const CompilerUserConfigSchema = z.object({
   /**
    * 用于配置全局文件的后缀，避免冲突，以及 globalChunkLoading 的后缀添加
    */
-  globalNameSurfix: z.string().optional(),
+  globalNameSuffix: z.string().optional(),
   /**
    * 自定义 entries
    * 1. 用于自定义 app.json / subpackage.json / plugin.json 等入口文件

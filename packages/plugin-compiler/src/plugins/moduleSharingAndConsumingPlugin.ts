@@ -73,8 +73,8 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
       `${this.name}:processConsumes`,
       (userConfig: CompilerUserConfig) => {
         if (!this.isPluginEnabled()) return
-        const { globalNameSurfix } = userConfig || {}
-        const sharedFileEntry = MOR_SHARED_FILE(globalNameSurfix)
+        const { globalNameSuffix } = userConfig || {}
+        const sharedFileEntry = MOR_SHARED_FILE(globalNameSuffix)
 
         if (userConfig.consumes?.length) {
           const sharingFileName = sharedFileEntry + '.js'
@@ -124,10 +124,10 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
 
         const {
           compilerOptions: { module: defaultModuleKind },
-          globalNameSurfix
+          globalNameSuffix
         } = userConfig as CompilerUserConfig
 
-        const sharedFileEntry = MOR_SHARED_FILE(globalNameSurfix)
+        const sharedFileEntry = MOR_SHARED_FILE(globalNameSuffix)
 
         const moduleKind = (userConfig['originalCompilerModule'] ||
           defaultModuleKind) as CompileModuleKindType
@@ -204,8 +204,8 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
 
   getSharedFilePath() {
     const userConfig = this.runner.userConfig as CompilerUserConfig
-    const { srcPath, globalNameSurfix } = userConfig
-    return path.join(srcPath, `./${MOR_SHARED_FILE(globalNameSurfix)}.js`)
+    const { srcPath, globalNameSuffix } = userConfig
+    return path.join(srcPath, `./${MOR_SHARED_FILE(globalNameSuffix)}.js`)
   }
 
   // 返回生成共享 node_modules 文件地址
