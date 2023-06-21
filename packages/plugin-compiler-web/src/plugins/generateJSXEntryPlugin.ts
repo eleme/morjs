@@ -257,8 +257,9 @@ export class GenerateJSXEntryPlugin implements Plugin {
     const userConfig = runner.userConfig as WebCompilerUserConfig & {
       compileType: string
       srcPath: string
+      globalNameSurfix?: string
     }
-    const { web, compileType, srcPath } = userConfig
+    const { web, compileType, srcPath, globalNameSurfix } = userConfig
 
     const webRuntimeConfig: WebRuntimeConfig = { pages: [] }
 
@@ -392,6 +393,6 @@ export class GenerateJSXEntryPlugin implements Plugin {
       wrapper.fs.mem.writeFileSync(pagePath, pageContent)
     })
 
-    return { [MOR_GLOBAL_FILE()]: mainEntryPath }
+    return { [MOR_GLOBAL_FILE(globalNameSurfix)]: mainEntryPath }
   }
 }

@@ -516,19 +516,31 @@ export function generateChunkLoadingGlobal(
   runner: Runner,
   userConfig: CompilerUserConfig
 ): string {
-  if (userConfig.compileType === CompileTypes.miniprogram) {
-    return DEFAULT_CHUNK_LOADING_GLOBAL
+  const segments: string[] = [DEFAULT_CHUNK_LOADING_GLOBAL]
+  const globalNameSurfix = userConfig.globalNameSurfix
+
+  if (userConfig.compileType !== CompileTypes.miniprogram) {
+    // s 代表分包
+    // p 代表插件
+    const appType =
+      userConfig.compileType === CompileTypes.subpackage ? 's' : 'p'
+    segments.push(appType)
+
+    // 未定义 globalNameSurfix 时尝试以 package.json 的 name 作为区分，避免冲突
+    if (!globalNameSurfix) {
+      // 使用项目的包名作为
+      const pkgName = ((runner.config.pkg?.name || '') as string)
+        .toLowerCase()
+        .replace(/[/@ -]/g, '_')
+
+      segments.push(pkgName)
+    }
   }
 
-  // 使用项目的包名作为
-  const pkgName = ((runner.config.pkg?.name || '') as string)
-    .toLowerCase()
-    .replace(/[/@ -]/g, '_')
-  // s 代表分包
-  // p 代表插件
-  const surfix = userConfig.compileType === CompileTypes.subpackage ? 's' : 'p'
+  // 追加全局文件名称后缀，用于避免 chunk loading global 重复
+  if (globalNameSurfix) segments.push(globalNameSurfix)
 
-  return [DEFAULT_CHUNK_LOADING_GLOBAL, surfix, pkgName].join('_')
+  return segments.join('_')
 }
 
 /**
@@ -556,7 +568,8 @@ export async function buildWebpackConfig(
     compileMode,
     compileType,
     compilerOptions,
-    processNodeModules
+    processNodeModules,
+    globalNameSurfix
   } = userConfig
   const targetDescription = composedPlugins.targetDescription[target]
 
@@ -1052,7 +1065,7 @@ export async function buildWebpackConfig(
       // node_modules 及 .mor 中的临时文件通常都不修改
       // 这里标记为 managedPaths 以便于 webpack 缓存
       managedPaths: srcPaths
-        .map((s) => path.join(s, NODE_MODULES))
+        .map((s: string) => path.join(s, NODE_MODULES))
         .concat([
           path.join(runner.getCwd(), NODE_MODULES),
           runner.config.getTempDir()
@@ -1066,7 +1079,9 @@ export async function buildWebpackConfig(
   // 以下内容仅在 bundle 下生效
   if (compileMode === CompileModes.bundle) {
     // 运行时代码文件 name.r
-    chain.optimization.runtimeChunk({ name: MOR_RUNTIME_FILE() })
+    chain.optimization.runtimeChunk({
+      name: MOR_RUNTIME_FILE(globalNameSurfix)
+    })
   } else {
     chain.target(false)
     chain.output.iife(false)

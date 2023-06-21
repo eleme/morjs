@@ -169,62 +169,71 @@ export enum EntryPriority {
 /**
  * 全局文件 name.g
  */
-export const MOR_GLOBAL_FILE = function () {
-  return mor.name + '.' + 'g'
+export const MOR_GLOBAL_FILE = function (surfix?: string) {
+  return mor.name + '.' + 'g' + (surfix ? '.' + surfix : '')
 }
 
 /**
  * 运行时文件 name.r
  */
-export const MOR_RUNTIME_FILE = function () {
-  return mor.name + '.' + 'r'
+export const MOR_RUNTIME_FILE = function (surfix?: string) {
+  return mor.name + '.' + 'r' + (surfix ? '.' + surfix : '')
 }
 
 /**
  * 初始化文件 name.i
  */
-export const MOR_INIT_FILE = function () {
-  return mor.name + '.' + 'i'
+export const MOR_INIT_FILE = function (surfix?: string) {
+  return mor.name + '.' + 'i' + (surfix ? '.' + surfix : '')
 }
 
 /**
  * vendors 文件 name.v, 用于存放 node_modules 代码
  */
-export const MOR_VENDOR_FILE = function () {
-  return mor.name + '.' + 'v'
+export const MOR_VENDOR_FILE = function (surfix?: string) {
+  return mor.name + '.' + 'v' + (surfix ? '.' + surfix : '')
 }
 
 /**
  * 通用脚本文件 name.c 用于存放 公共 js 代码
  */
-export const MOR_COMMON_FILE = function () {
-  return mor.name + '.' + 'c'
+export const MOR_COMMON_FILE = function (surfix?: string) {
+  return mor.name + '.' + 'c' + (surfix ? '.' + surfix : '')
 }
 
 /**
  * 模拟入口文件 name.a 用于存放 插件或分包的模拟 app 入口代码
  */
-export const MOR_APP_FILE = function () {
-  return mor.name + '.' + 'a'
+export const MOR_APP_FILE = function (surfix?: string) {
+  return mor.name + '.' + 'a' + (surfix ? '.' + surfix : '')
 }
 
 /**
  * 辅助文件 name.h 用于存放一些辅助方法, 如 mor.h.sjs
  */
-export const MOR_HELPER_FILE = function () {
-  return mor.name + '.' + 'h'
+export const MOR_HELPER_FILE = function (surfix?: string) {
+  return mor.name + '.' + 'h' + (surfix ? '.' + surfix : '')
 }
 
 /**
  * 共享文件 name.s 用于存放一些共享 node_modules 引用, 如 mor.s.js
  */
-export const MOR_SHARED_FILE = function () {
-  return mor.name + '.' + 's'
+export const MOR_SHARED_FILE = function (surfix?: string) {
+  return mor.name + '.' + 's' + (surfix ? '.' + surfix : '')
 }
 
 /**
  * app.json 的 js 文件, 主要用于集成研发场景下对 app.json 的引用做替换
+ * 不需要支持 surfix，原因：全局只有一个 app.json 配置文件，也只需要一个 mor.p.js 文件，
+ * 用于确保集成时各个分包更新的 mor.p.js 始终是同一个文件
  */
 export const MOR_COMPOSED_APP_FILE = function () {
   return mor.name + '.' + 'p'
+}
+
+/**
+ * Web 转端运行时 js 文件，主要用于默认的转 web 内置运行时 bundle 文件名称
+ */
+export const MOR_RUNTIME_WEB_FILE = function (surfix?: string) {
+  return mor.name + '.' + 'w' + (surfix ? '.' + surfix : '')
 }

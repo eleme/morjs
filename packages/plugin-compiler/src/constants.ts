@@ -899,6 +899,10 @@ export const CompilerUserConfigSchema = z.object({
   cache: z.boolean().optional(),
   globalObject: z.string().optional(),
   /**
+   * 用于配置全局文件的后缀，避免冲突，以及 globalChunkLoading 的后缀添加
+   */
+  globalNameSurfix: z.string().optional(),
+  /**
    * 自定义 entries
    * 1. 用于自定义 app.json / subpackage.json / plugin.json 等入口文件
    * 2. 用于配置 额外需要生成的入口文件，如某个期望在 bundle 后依然能保持正确的路径的文件

@@ -73,9 +73,11 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
       `${this.name}:processConsumes`,
       (userConfig: CompilerUserConfig) => {
         if (!this.isPluginEnabled()) return
+        const { globalNameSurfix } = userConfig || {}
+        const sharedFileEntry = MOR_SHARED_FILE(globalNameSurfix)
 
         if (userConfig.consumes?.length) {
-          const sharingFileName = MOR_SHARED_FILE() + '.js'
+          const sharingFileName = sharedFileEntry + '.js'
           const sharingContainer = this.getSharingContainer()
           const chain = this.wrapper.chain
           const externals = asArray(
@@ -121,8 +123,11 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
         this.ignoreSharedFile()
 
         const {
-          compilerOptions: { module: defaultModuleKind }
+          compilerOptions: { module: defaultModuleKind },
+          globalNameSurfix
         } = userConfig as CompilerUserConfig
+
+        const sharedFileEntry = MOR_SHARED_FILE(globalNameSurfix)
 
         const moduleKind = (userConfig['originalCompilerModule'] ||
           defaultModuleKind) as CompileModuleKindType
@@ -135,7 +140,7 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
 
           const filePath = this.generateSharedFileContent()
           if (filePath) {
-            entries[MOR_SHARED_FILE()] = filePath
+            entries[sharedFileEntry] = filePath
             currentEntries = entries
           }
 
@@ -148,11 +153,11 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
           (fileContent, group) => {
             if (
               this.entryBuilder.moduleGraph.isMainGroup(group) &&
-              currentEntries[MOR_SHARED_FILE()]
+              currentEntries[sharedFileEntry]
             ) {
               return `${fileContent}${makeImportClause(
                 moduleKind,
-                './' + MOR_SHARED_FILE() + '.js'
+                './' + sharedFileEntry + '.js'
               )}`
             }
             return fileContent
@@ -199,7 +204,8 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
 
   getSharedFilePath() {
     const userConfig = this.runner.userConfig as CompilerUserConfig
-    return path.join(userConfig.srcPath, `./${MOR_SHARED_FILE()}.js`)
+    const { srcPath, globalNameSurfix } = userConfig
+    return path.join(srcPath, `./${MOR_SHARED_FILE(globalNameSurfix)}.js`)
   }
 
   // 返回生成共享 node_modules 文件地址
