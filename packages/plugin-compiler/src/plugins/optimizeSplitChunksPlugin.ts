@@ -139,6 +139,11 @@ export class OptimizeSplitChunksPlugin {
 
     const cacheGroups: Record<string, any> = {}
     const entryBuilder = this.entryBuilder
+    const { globalNameSurfix } = this.userConfig || {}
+
+    const vendorFileEntry = MOR_VENDOR_FILE(globalNameSurfix)
+    const commonFileEntry = MOR_COMMON_FILE(globalNameSurfix)
+    const initFileEntry = MOR_INIT_FILE(globalNameSurfix)
 
     entryBuilder.moduleGraph.groups.forEach((group) => {
       function testBuilder(
@@ -191,13 +196,13 @@ export class OptimizeSplitChunksPlugin {
       }
 
       if (group.modules.size) {
-        const vendorsName = slash(path.join(group.name, MOR_VENDOR_FILE()))
-        const commonsName = slash(path.join(group.name, MOR_COMMON_FILE()))
+        const vendorsName = slash(path.join(group.name, vendorFileEntry))
+        const commonsName = slash(path.join(group.name, commonFileEntry))
 
         this.splitFiles.set(group, {
-          [MOR_VENDOR_FILE()]: vendorsName,
-          [MOR_COMMON_FILE()]: commonsName,
-          [MOR_INIT_FILE()]: slash(path.join(group.name, MOR_INIT_FILE()))
+          [vendorFileEntry]: vendorsName,
+          [commonFileEntry]: commonsName,
+          [initFileEntry]: slash(path.join(group.name, initFileEntry))
         })
 
         const commonOptions = {
@@ -243,16 +248,23 @@ export class OptimizeSplitChunksPlugin {
   generateInitFiles(assets: Record<string, any>) {
     const {
       compileType,
-      compilerOptions: { module: defaultModuleKind }
+      compilerOptions: { module: defaultModuleKind },
+      globalNameSurfix
     } = this.userConfig
     const moduleGraph = this.entryBuilder.moduleGraph
+
+    const vendorFileEntry = MOR_VENDOR_FILE(globalNameSurfix)
+    const commonFileEntry = MOR_COMMON_FILE(globalNameSurfix)
+    const initFileEntry = MOR_INIT_FILE(globalNameSurfix)
+    const appFileEntry = MOR_APP_FILE(globalNameSurfix)
+    const runtimeFileEntry = MOR_RUNTIME_FILE(globalNameSurfix)
 
     const moduleKind =
       this.userConfig['originalCompilerModule'] || defaultModuleKind
 
     // 是否存在 app.js
     const hasAppFile = !!this.entryBuilder.globalScriptFilePath
-    const appName = hasAppFile ? MOR_APP_FILE() : null
+    const appName = hasAppFile ? appFileEntry : null
 
     // 小程序可能会有多个分包, 需要为每个分包生成一个 init 文件
     // 插件和分包中不能再分包, 所以只生成一个 init 文件即可
@@ -260,18 +272,18 @@ export class OptimizeSplitChunksPlugin {
       const existsFiles: string[] = []
 
       // 检查文件是否生成
-      const vendorsFile = files[MOR_VENDOR_FILE()] + SCRIPT_EXT
+      const vendorsFile = files[vendorFileEntry] + SCRIPT_EXT
       if (vendorsFile in assets) {
-        existsFiles.push(`./${MOR_VENDOR_FILE()}${SCRIPT_EXT}`)
+        existsFiles.push(`./${vendorFileEntry}${SCRIPT_EXT}`)
       }
-      const commonsFile = files[MOR_COMMON_FILE()] + SCRIPT_EXT
+      const commonsFile = files[commonFileEntry] + SCRIPT_EXT
       if (commonsFile in assets) {
-        existsFiles.push(`./${MOR_COMMON_FILE()}${SCRIPT_EXT}`)
+        existsFiles.push(`./${commonFileEntry}${SCRIPT_EXT}`)
       }
 
       // 只在主包中引入 runtime
       if (moduleGraph.isMainGroup(group)) {
-        existsFiles.unshift(`./${MOR_RUNTIME_FILE()}${SCRIPT_EXT}`)
+        existsFiles.unshift(`./${runtimeFileEntry}${SCRIPT_EXT}`)
       }
 
       if (compileType !== CompileTypes.miniprogram && hasAppFile) {
@@ -289,7 +301,7 @@ export class OptimizeSplitChunksPlugin {
         )
       }
       this.entryBuilder.setEntrySource(
-        files[MOR_INIT_FILE()] + SCRIPT_EXT,
+        files[initFileEntry] + SCRIPT_EXT,
         initFileContent,
         'additional'
       )
@@ -302,12 +314,15 @@ export class OptimizeSplitChunksPlugin {
   appendRequireInitFilesForRelatedEntries(compilation: webpack.Compilation) {
     const {
       compileType,
-      compilerOptions: { module: defaultModuleKind }
+      compilerOptions: { module: defaultModuleKind },
+      globalNameSurfix
     } = this.userConfig
     const jsHooks = JavascriptModulesPlugin.getCompilationHooks(compilation)
 
     // 插件或分包的模拟 app 名称
-    const MOR_APP_ENTRY_NAME = MOR_APP_FILE()
+    const vendorFileEntry = MOR_VENDOR_FILE(globalNameSurfix)
+    const initFileEntry = MOR_INIT_FILE(globalNameSurfix)
+    const appFileEntry = MOR_APP_FILE(globalNameSurfix)
 
     jsHooks.render.tap(this.name, (source, context) => {
       const moduleGraph = this.entryBuilder.moduleGraph
@@ -317,7 +332,7 @@ export class OptimizeSplitChunksPlugin {
       // 兜底 regeneratorRuntime 不存在的问题
       // 小程序中不存在 globalThis 故 regenerator-runtime 初始化可能会出问题
       // 这里进行兜底
-      if (chunkName.endsWith(MOR_VENDOR_FILE())) {
+      if (chunkName.endsWith(vendorFileEntry)) {
         return new webpack.sources.ConcatSource(
           'var regeneratorRuntime;',
           source
@@ -347,14 +362,18 @@ export class OptimizeSplitChunksPlugin {
           return new webpack.sources.ConcatSource(
             makeImportClause(
               moduleKind,
-              this.resolveInitFilePath(group, entry.fullEntryName)
+              this.resolveInitFilePath(
+                group,
+                entry.fullEntryName,
+                initFileEntry
+              )
             ),
             source
           )
         } else {
           if (chunkName === 'app') {
             return new webpack.sources.ConcatSource(
-              makeImportClause(moduleKind, `./${MOR_INIT_FILE()}${SCRIPT_EXT}`),
+              makeImportClause(moduleKind, `./${initFileEntry}${SCRIPT_EXT}`),
               source
             )
           }
@@ -369,7 +388,11 @@ export class OptimizeSplitChunksPlugin {
             return new webpack.sources.ConcatSource(
               makeImportClause(
                 moduleKind,
-                this.resolveInitFilePath(group, entry.fullEntryName)
+                this.resolveInitFilePath(
+                  group,
+                  entry.fullEntryName,
+                  initFileEntry
+                )
               ),
               source
             )
@@ -380,13 +403,17 @@ export class OptimizeSplitChunksPlugin {
       // 分包和插件只有一个包, 即主包
       else {
         // 分包和插件中的 app 为模拟, 此处不做处理
-        if (context.chunk.name === MOR_APP_ENTRY_NAME) return source
+        if (context.chunk.name === appFileEntry) return source
 
         // 分包文件追加引用
         return new webpack.sources.ConcatSource(
           makeImportClause(
             moduleKind,
-            this.resolveInitFilePath(moduleGraph.mainGroup, entry.fullEntryName)
+            this.resolveInitFilePath(
+              moduleGraph.mainGroup,
+              entry.fullEntryName,
+              initFileEntry
+            )
           ),
           source
         )
@@ -394,8 +421,12 @@ export class OptimizeSplitChunksPlugin {
     })
   }
 
-  resolveInitFilePath(group: ModuleGroup, relativeTo: string) {
-    let initFile = this.splitFiles.get(group)[MOR_INIT_FILE()]
+  resolveInitFilePath(
+    group: ModuleGroup,
+    relativeTo: string,
+    initFileEntry: string
+  ) {
+    let initFile = this.splitFiles.get(group)[initFileEntry]
     initFile = path.relative(path.dirname(relativeTo), initFile)
     return initFile.startsWith('.')
       ? `${initFile}${SCRIPT_EXT}`
