@@ -1,6 +1,7 @@
 import { html, property, query } from 'lit-element'
 import get from 'lodash.get'
 import { BaseElement } from '../../../baseElement'
+import { requestAnimationFrame, uuid } from '../../../utils'
 import addScript from '../../../utils/add-script'
 import arrConverter from '../../../utils/array-converter'
 import boolConverter from '../../../utils/bool-converter'
@@ -48,6 +49,8 @@ const transformTigaTag = (str) => {
 }
 
 export default class Map extends BaseElement {
+  mapId = 'map-' + uuid()
+
   constructor() {
     super()
 
@@ -69,9 +72,15 @@ export default class Map extends BaseElement {
     super.connectedCallback()
 
     this.loadAMapSdk(() => {
-      this.drawMap()
-      this.drawed = true
+      requestAnimationFrame(() => {
+        this.drawMap()
+        this.drawed = true
+      })
     })
+  }
+
+  createRenderRoot() {
+    return this
   }
 
   disconnectedCallback() {
@@ -81,7 +90,7 @@ export default class Map extends BaseElement {
     if (controls && controls.map) {
       controls.forEach((_, index) => {
         if (this[`controlListener${index}`]) {
-          window.AMap.event.removeListener(this[`controlListener${index}`])
+          this.getEvent().removeListener(this[`controlListener${index}`])
         }
       })
     }
@@ -163,7 +172,7 @@ export default class Map extends BaseElement {
   }
 
   drawMap() {
-    const map = new window.AMap.Map(this.rootMapElement, {
+    const map = new window.AMap.Map(this.mapId, {
       zoom: this[properties.SCALE],
       center: [this[properties.LONGITUDE], this[properties.LATITUDE]],
       rotation: this[properties.ROTATE]
@@ -188,6 +197,13 @@ export default class Map extends BaseElement {
     this.__drawControls()
     // include-points 缩放视野以包含所有给定的坐标点 (wx 和 makers 分开的)
     this.__drawIncludePoints()
+  }
+
+  getEvent() {
+    // 低版本高德地图 key 为 event，2.0 版本为 Event
+    return typeof window.AMap.Event !== 'undefined'
+      ? window.AMap.Event
+      : window.AMap.event
   }
 
   __handleRegionChange() {
@@ -332,7 +348,7 @@ export default class Map extends BaseElement {
         content.style.height = `${control.position.height}px`
         content.style.zIndex = 170
         if (control.clickable) {
-          this[`controlListener${index}`] = window.AMap.event.addDomListener(
+          this[`controlListener${index}`] = this.getEvent().addDomListener(
             content,
             'click',
             () => {
@@ -577,10 +593,15 @@ export default class Map extends BaseElement {
         const markerCallout = this.getMarkerCallout(infoWind)
         content.innerHTML = markerCallout.content
 
-        window.AMap.Event.addDomListener(content, 'click', () => {
+        this.getEvent().addDomListener(content, 'click', () => {
+          const { longitude, latitude, id } = infoWind
           this.dispatchEvent(
             new CustomEvent('callouttap', {
-              detail: {},
+              detail: {
+                markerId: id,
+                longitude,
+                latitude
+              },
               bubbles: true,
               composed: true
             })
@@ -1044,6 +1065,11 @@ export default class Map extends BaseElement {
   rootMapElement: HTMLDivElement
 
   render() {
-    return html` <div class="tiga-map-container"></div> `
+    return html`
+      <style>
+        ${style}
+      </style>
+      <div id="${this.mapId}" class="tiga-map-container"></div>
+    `
   }
 }
