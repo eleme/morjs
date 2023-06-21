@@ -1,6 +1,7 @@
 import { html, property, query } from 'lit-element'
 import get from 'lodash.get'
 import { BaseElement } from '../../../baseElement'
+import { requestAnimationFrame, uuid } from '../../../utils'
 import addScript from '../../../utils/add-script'
 import arrConverter from '../../../utils/array-converter'
 import boolConverter from '../../../utils/bool-converter'
@@ -48,6 +49,8 @@ const transformTigaTag = (str) => {
 }
 
 export default class Map extends BaseElement {
+  mapId = 'map-' + uuid()
+
   constructor() {
     super()
 
@@ -67,6 +70,7 @@ export default class Map extends BaseElement {
 
   connectedCallback() {
     super.connectedCallback()
+
     this.loadAMapSdk(() => {
       requestAnimationFrame(() => {
         this.drawMap()
@@ -168,8 +172,7 @@ export default class Map extends BaseElement {
   }
 
   drawMap() {
-    console.log('++this.root', this.rootMapElement)
-    const map = new window.AMap.Map(this.rootMapElement, {
+    const map = new window.AMap.Map(this.mapId, {
       zoom: this[properties.SCALE],
       center: [this[properties.LONGITUDE], this[properties.LATITUDE]],
       rotation: this[properties.ROTATE]
@@ -1066,7 +1069,7 @@ export default class Map extends BaseElement {
       <style>
         ${style}
       </style>
-      <div id="map-container" class="tiga-map-container"></div>
+      <div id="${this.mapId}" class="tiga-map-container"></div>
     `
   }
 }
