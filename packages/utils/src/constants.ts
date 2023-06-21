@@ -224,9 +224,11 @@ export const MOR_SHARED_FILE = function (surfix?: string) {
 
 /**
  * app.json 的 js 文件, 主要用于集成研发场景下对 app.json 的引用做替换
+ * 不需要支持 surfix，原因：全局只有一个 app.json 配置文件，也只需要一个 mor.p.js 文件，
+ * 用于确保集成时各个分包更新的 mor.p.js 始终是同一个文件
  */
-export const MOR_COMPOSED_APP_FILE = function (surfix?: string) {
-  return mor.name + '.' + 'p' + (surfix ? '.' + surfix : '')
+export const MOR_COMPOSED_APP_FILE = function () {
+  return mor.name + '.' + 'p'
 }
 
 /**
