@@ -1,5 +1,5 @@
 import {
-  mor,
+  MOR_RUNTIME_WEB_FILE,
   MOR_VENDOR_FILE,
   Plugin,
   Runner,
@@ -15,7 +15,9 @@ export class BundleOptimizationPlugin implements Plugin {
   constructor(public wrapper: WebpackWrapper) {}
   apply(runner: Runner<any>) {
     this.removeMiniFileGenerator()
-    this.setupDefaultOptimization()
+    this.setupDefaultOptimization(
+      runner?.userConfig?.globalNameSurfix as string
+    )
     this.supportSjsExtensionAlias(runner?.userConfig?.sourceType as string)
   }
 
@@ -54,7 +56,7 @@ export class BundleOptimizationPlugin implements Plugin {
   /**
    * 设置默认的打包优化
    */
-  setupDefaultOptimization() {
+  setupDefaultOptimization(globalNameSurfix?: string) {
     // 默认优化
     this.wrapper.chain.optimization.splitChunks({
       chunks: 'all',
@@ -70,14 +72,14 @@ export class BundleOptimizationPlugin implements Plugin {
         },
         // runtime-web 运行时
         web: {
-          name: `${mor.name}.w`,
+          name: MOR_RUNTIME_WEB_FILE(globalNameSurfix),
           test: /(@morjs[\\/]|@ali[\\/]openmor-)runtime-web/,
           priority: 3
         },
 
         // 其他 node_modules
         vendors: {
-          name: MOR_VENDOR_FILE(),
+          name: MOR_VENDOR_FILE(globalNameSurfix),
           test: /\/(node_modules|npm_components|mock)\//,
           priority: 2
         }
