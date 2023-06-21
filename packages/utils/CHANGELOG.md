@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.57](https://github.com/eleme/morjs/compare/v1.0.56...v1.0.57) (2023-06-21)
+
+
+### Features
+
+* **utils:** 优化全局集成应用信息的名称生成规则 ([fcbc491](https://github.com/eleme/morjs/commit/fcbc491dd7b44178b8c5f9a5f30e00a1d7cf1257))
+* **utils:** 全局文件名称常量方法支持配置后缀用于规避文件冲突 ([7d99e50](https://github.com/eleme/morjs/commit/7d99e5097d3a49537e2335c58656c4a1f81d055f))
+
+
+
+
+
 ## [1.0.54](https://github.com/eleme/morjs/compare/v1.0.53...v1.0.54) (2023-06-09)
 
 **Note:** Version bump only for package @morjs/utils

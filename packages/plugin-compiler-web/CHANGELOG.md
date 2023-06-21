@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.57](https://github.com/eleme/morjs/compare/v1.0.56...v1.0.57) (2023-06-21)
+
+
+### Features
+
+* **plugin-compiler-web:** 优化 Web 编译的 bundle 文件生成名称 ([f07acec](https://github.com/eleme/morjs/commit/f07acecde018d271fb3cd33bb6af60b1953568ad))
+
+
+
+
+
 ## [1.0.56](https://github.com/eleme/morjs/compare/v1.0.55...v1.0.56) (2023-06-20)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-web

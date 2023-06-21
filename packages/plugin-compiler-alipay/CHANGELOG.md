@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.57](https://github.com/eleme/morjs/compare/v1.0.56...v1.0.57) (2023-06-21)
+
+
+### Features
+
+* **plugin-compiler-alipay:** 优化 sjs 帮助文件的名称生成逻辑 ([30395bb](https://github.com/eleme/morjs/commit/30395bb32d919abf09eeffb0a0fbfd89f317e48d))
+
+
+
+
+
 ## [1.0.55](https://github.com/eleme/morjs/compare/v1.0.54...v1.0.55) (2023-06-13)
 
 

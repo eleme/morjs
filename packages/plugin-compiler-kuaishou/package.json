@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-kuaishou",
-  "version": "1.0.54",
+  "version": "1.0.57",
   "description": "mor complier plugin for kuaishou miniprogram",
   "keywords": [
     "mor",
@@ -34,8 +34,8 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@morjs/plugin-compiler-wechat": "1.0.54",
+    "@morjs/plugin-compiler-wechat": "1.0.57",
     "@morjs/runtime-mini": "1.0.54",
-    "@morjs/utils": "1.0.54"
+    "@morjs/utils": "1.0.57"
   }
 }

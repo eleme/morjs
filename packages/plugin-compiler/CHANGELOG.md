@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.57](https://github.com/eleme/morjs/compare/v1.0.56...v1.0.57) (2023-06-21)
+
+
+### Features
+
+* **plugin-compiler:** 优化编译相关全局文件名称生成逻辑，允许配置后缀名以避免冲突 ([aae1dad](https://github.com/eleme/morjs/commit/aae1dad13864ee3e4a58786870435a36e4f581d5))
+* **plugin-compiler:** 完善自定义入口配置文件的解析逻辑，允许指定为非源码目录的文件 ([fb7610c](https://github.com/eleme/morjs/commit/fb7610c7324c9833296497cddc71246c3c458d08))
+
+
+
+
+
 ## [1.0.56](https://github.com/eleme/morjs/compare/v1.0.55...v1.0.56) (2023-06-20)
 
 

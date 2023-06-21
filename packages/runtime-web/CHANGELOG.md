@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.57](https://github.com/eleme/morjs/compare/v1.0.56...v1.0.57) (2023-06-21)
+
+
+### Bug Fixes
+
+* **runtime-web:** ios 设备无法正常渲染 2.0 版本地图 ([#61](https://github.com/eleme/morjs/issues/61)) ([89be519](https://github.com/eleme/morjs/commit/89be519f2f05fba6523c3d22082675567fff776d))
+
+
+
+
+
 ## [1.0.56](https://github.com/eleme/morjs/compare/v1.0.55...v1.0.56) (2023-06-20)
 
 

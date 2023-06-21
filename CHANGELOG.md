@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.57](https://github.com/eleme/morjs/compare/v1.0.56...v1.0.57) (2023-06-21)
+
+### Bug Fixes
+
+- **runtime-web:** ios 设备无法正常渲染 2.0 版本地图 ([#61](https://github.com/eleme/morjs/issues/61)) ([89be519](https://github.com/eleme/morjs/commit/89be519f2f05fba6523c3d22082675567fff776d))
+
+### Features
+
+- **plugin-compiler-alipay:** 优化 sjs 帮助文件的名称生成逻辑 ([30395bb](https://github.com/eleme/morjs/commit/30395bb32d919abf09eeffb0a0fbfd89f317e48d))
+- **plugin-compiler-web:** 优化 Web 编译的 bundle 文件生成名称 ([f07acec](https://github.com/eleme/morjs/commit/f07acecde018d271fb3cd33bb6af60b1953568ad))
+- **plugin-compiler:** 优化编译相关全局文件名称生成逻辑，允许配置后缀名以避免冲突 ([aae1dad](https://github.com/eleme/morjs/commit/aae1dad13864ee3e4a58786870435a36e4f581d5))
+- **plugin-compiler:** 完善自定义入口配置文件的解析逻辑，允许指定为非源码目录的文件 ([fb7610c](https://github.com/eleme/morjs/commit/fb7610c7324c9833296497cddc71246c3c458d08))
+- **utils:** 优化全局集成应用信息的名称生成规则 ([fcbc491](https://github.com/eleme/morjs/commit/fcbc491dd7b44178b8c5f9a5f30e00a1d7cf1257))
+- **utils:** 全局文件名称常量方法支持配置后缀用于规避文件冲突 ([7d99e50](https://github.com/eleme/morjs/commit/7d99e5097d3a49537e2335c58656c4a1f81d055f))
+
 ## [1.0.56](https://github.com/eleme/morjs/compare/v1.0.55...v1.0.56) (2023-06-20)
 
 ### Features
