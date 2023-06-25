@@ -50,11 +50,14 @@ export default class AlipayCompilerTemplateParserPlugin implements Plugin {
       const sjsHelperName = 'morSjs'
       // 判断是否存在 morSjs.xxx( 方法调用
       const sjsHelperFnRegExp = new RegExp(`${sjsHelperName}\\.[a-zA-Z]+\\(`)
+      const sjsHelperVariableStr = `${sjsModuleAttrName}='${sjsHelperName}'`
       runner.hooks.postprocessorParser.tap(this.name, (content, options) => {
         if (
           options.fileInfo.entryFileType === EntryFileType.template &&
           content &&
-          sjsHelperFnRegExp.test(content)
+          sjsHelperFnRegExp.test(content) &&
+          // 确保不重复引入辅助 sjs 文件，否则会导致 morSjs 多次声明
+          !content.includes(sjsHelperVariableStr)
         ) {
           // 追加 sjs 文件
           this.addSjsHelperSupport(entryHelper, sjsFileName)
@@ -66,8 +69,8 @@ export default class AlipayCompilerTemplateParserPlugin implements Plugin {
             true
           )
 
-          // 注入 sjs 引用
-          return `<${sjsTagName} ${sjsModuleAttrName}='${sjsHelperName}' ${sjsSrcAttrName}='${importPath}'></${sjsTagName}>\n${content}`
+          // 在文件头部注入 sjs 引用
+          return `<${sjsTagName} ${sjsHelperVariableStr} ${sjsSrcAttrName}='${importPath}'></${sjsTagName}>\n${content}`
         }
 
         return content
