@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.59](https://github.com/eleme/morjs/compare/v1.0.58...v1.0.59) (2023-06-25)
+
+### Bug Fixes
+
+- **plugin-compiler-alipay:** 修复 sjs 辅助文件某些情况下可能被注入多次的问题 ([7781f72](https://github.com/eleme/morjs/commit/7781f725fa9f842785d1d738cd83ae68025fd75b))
+- **plugin-compiler-alipay:** 优化 sjs 辅助函数注入检查逻辑 ([cb9eb35](https://github.com/eleme/morjs/commit/cb9eb356ff603566bb1bb17f531b53d60bea91f8))
+
 ## [1.0.58](https://github.com/eleme/morjs/compare/v1.0.57...v1.0.58) (2023-06-21)
 
 **Note:** Version bump only for package morjs-monorepo
