@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.60](https://github.com/eleme/morjs/compare/v1.0.59...v1.0.60) (2023-06-25)
+
+
+### Bug Fixes
+
+* **plugin-composer:** 修复监听状态下集成编译可能会错误将当前宿主或分包模块产物进行二次编译的问题 ([0e846c4](https://github.com/eleme/morjs/commit/0e846c4dff0f6bd8a82755306d6344df673548c1))
+
+
+
+
+
 ## [1.0.57](https://github.com/eleme/morjs/compare/v1.0.56...v1.0.57) (2023-06-21)
 
 **Note:** Version bump only for package @morjs/plugin-composer
