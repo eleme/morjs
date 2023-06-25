@@ -282,6 +282,17 @@ export class AddComposeToCompilerPlugin implements Plugin {
               if (module.mode !== 'compile') return
               if (_.isEmpty(module?.config?.pages)) return
 
+              // 获取模块产物根目录
+              const moduleRoot = path.resolve(
+                cwd,
+                module?.output?.from || module.source
+              )
+
+              // config.outputPath 会在集成编译时被修改为当前宿主或模块的产物地址
+              // 如果模块产物目录和编译产物目录一致，则代表当前模块为 morjs 集成编译的模块
+              // 需要跳过将当前模块追加到编译流程的逻辑，会导致重复编译
+              if (moduleRoot === config.outputPath) return
+
               const isMainPackage = module.type === 'main'
 
               // 分包 root
@@ -296,12 +307,6 @@ export class AddComposeToCompilerPlugin implements Plugin {
               const hasCustomEntries = Array.isArray(module.config.pages)
                 ? false
                 : true
-
-              // 获取模块产物根目录
-              const moduleRoot = path.resolve(
-                cwd,
-                module?.output?.from || module.source
-              )
 
               _.forEach(
                 module.config.pages,
