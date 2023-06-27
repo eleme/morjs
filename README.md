@@ -48,6 +48,16 @@ Mor 是一套基于小程序 DSL (支付宝或微信) 的框架。他的易用�
   - 📚 **类型支持**：除小程序标准文件类型外，还支持 ts、less/scss、jsonc/json5 等多种文件类型；
   - 🧰 **按需适配**：可根据需求选择性接入适配能力，小项目仅需编译功能，中等项目可结合编译和页面注入能力，大型项目推荐使用复杂小程序集成能力；
 
+## 示例
+
+以下是饿了么-美食外卖频道在微信、支付宝、抖音小程序及 H5 中的表现。
+
+<img src="https://img.alicdn.com/imgextra/i2/O1CN01pbpEfK1JHQ6ejbjIb_!!6000000001003-0-tps-2478-1383.jpg" />
+
+## 使用案例
+
+<img src="https://img.alicdn.com/imgextra/i1/O1CN013asjEz1z7XQO84kP6_!!6000000006667-0-tps-1521-3744.jpg" />
+
 ## 贡献
 
 参见 [贡献指南](https://github.com/eleme/morjs/blob/master/CONTRIBUTING.md)

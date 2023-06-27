@@ -504,6 +504,21 @@ ts 编译配置, 大部分和 tsconfig 中的含义一致, 优先级高于 tscon
 
 css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压缩器来配置, 不同的压缩器对应的配置方式不同。
 
+> 注意：当 CSS 压缩器 `cssMinimizer` 为 `esbuild` 时，压缩器开启压缩时会默认将 `0.5rpx` 压缩为 `.5rpx` 的形式，而由于 `.5rpx` 的样式压缩写法在支付宝 IDE 中目前(2023.06.26)不支持，需要使用完整的 `0.5rpx` 写法，后续支付宝 IDE 产研同学兼容后将自动修复，如遇到类似问题引发的样式显示错误，可添加以下配置以关闭 minifySyntax 进行兼容
+
+```
+{
+  ...,
+  cssMinimizerOptions: {
+    minify: false,
+    minifyWhitespace: true,
+    minifyIdentifiers: true,
+    minifySyntax: false,
+    legalComments: 'inline',
+  },
+}
+```
+
 ### customEntries - 自定义入口文件配置
 
 - 类型: `object`
