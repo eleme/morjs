@@ -11,8 +11,9 @@ import path from 'path'
 export class DynamicRequireSupportPlugin implements Plugin {
   name = 'DynamicRequireSupportPlugin'
   apply(runner: Runner<any>) {
-    const warnDynamicRequire = function (
+    const warnDynamicRequireAndProcessRestExpression = function (
       parser: webpack.javascript.JavascriptParser,
+      expressions: any,
       requireType: string
     ) {
       const fileName = parser?.state?.module?.nameForCondition?.() || ''
@@ -24,6 +25,9 @@ export class DynamicRequireSupportPlugin implements Plugin {
           )} 中包含异步 ${requireType}，将跳过静态解析，请自行保证引用路径的正确`
         )
       }
+
+      // 让 webpack 继续处理函数的参数，确保后续参数中的代码可以被正确处理
+      if (expressions) parser.walkExpressions(expressions)
     }
     // require('filepath', callback) 支持
     const parseDynamicRequire = (
@@ -53,7 +57,11 @@ export class DynamicRequireSupportPlugin implements Plugin {
               continue
             }
 
-            warnDynamicRequire(parser, 'require')
+            warnDynamicRequireAndProcessRestExpression(
+              parser,
+              expression.arguments,
+              'require'
+            )
 
             return true
           }
@@ -68,11 +76,17 @@ export class DynamicRequireSupportPlugin implements Plugin {
             expression.type === 'CallExpression' &&
             calleeMembers?.includes?.('async')
           ) {
-            warnDynamicRequire(parser, 'require.async')
+            warnDynamicRequireAndProcessRestExpression(
+              parser,
+              expression.arguments,
+              'require.async'
+            )
+
             return true
           }
         })
     }
+
     runner.hooks.compiler.tap(this.name, (compiler) => {
       compiler.hooks.normalModuleFactory.tap(this.name, (factory) => {
         factory.hooks.parser
