@@ -52,26 +52,11 @@ Mor 是一套基于小程序 DSL (支付宝或微信) 的框架。他的易用�
 
 以下是饿了么-美食外卖频道在微信、支付宝、抖音小程序及 H5 中的表现。
 
-<img src="https://img.alicdn.com/imgextra/i1/O1CN01bXcRUx1iZ9pW05lbE_!!6000000004426-2-tps-2478-1383.png" />
+<img src="https://img.alicdn.com/imgextra/i2/O1CN01pbpEfK1JHQ6ejbjIb_!!6000000001003-0-tps-2478-1383.jpg" />
 
 ## 使用案例
 
-- 微信端
-
-<img src="https://img.alicdn.com/imgextra/i1/O1CN01beNyXn1sA6KZEP5q3_!!6000000005725-0-tps-1520-336.jpg" />
-
-- 支付宝端
-
-<img src="https://img.alicdn.com/imgextra/i4/O1CN01cxMIA61rO0k6zV42U_!!6000000005620-0-tps-1520-1250.jpg" />
-<img src="https://img.alicdn.com/imgextra/i4/O1CN01iJznvQ1Zx81spdU7A_!!6000000003260-0-tps-1520-1250.jpg" />
-
-- 抖音端
-
-<img src="https://img.alicdn.com/imgextra/i2/O1CN018YsWtY1gmJzgiZ0vV_!!6000000004184-0-tps-1520-330.jpg" />
-
-- Web 端
-
-<img src="https://img.alicdn.com/imgextra/i3/O1CN01I7sXfM1MOhFRVjkRH_!!6000000001425-0-tps-1520-330.jpg" />
+<img src="https://img.alicdn.com/imgextra/i1/O1CN013asjEz1z7XQO84kP6_!!6000000006667-0-tps-1521-3744.jpg" />
 
 ## 贡献
 
