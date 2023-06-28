@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.61](https://github.com/eleme/morjs/compare/v1.0.60...v1.0.61) (2023-06-28)
+
+
+### Bug Fixes
+
+* **plugin-compiler:** 修复异步 require 或 require.async 的参数被跳过解析可能引起运行时报错的问题 ([#66](https://github.com/eleme/morjs/issues/66)) ([50f29b7](https://github.com/eleme/morjs/commit/50f29b7065864e35847134e16f9ef254c6f6c7d4))
+
+
+
+
+
 ## [1.0.59](https://github.com/eleme/morjs/compare/v1.0.58...v1.0.59) (2023-06-25)
 
 **Note:** Version bump only for package @morjs/plugin-compiler
