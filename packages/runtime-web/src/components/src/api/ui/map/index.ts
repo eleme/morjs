@@ -20,7 +20,11 @@ class CreateMapContext {
   private map: any
 
   constructor(mapId) {
-    this.map = (my.createSelectorQuery().select(`#${mapId}`) as any).target
+    if (typeof my === 'object') {
+      this.map = (my.createSelectorQuery().select(`#${mapId}`) as any).target
+    } else {
+      this.map = document.getElementById(mapId)
+    }
   }
 
   calculateDistance() {
