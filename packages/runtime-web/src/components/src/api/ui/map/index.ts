@@ -1,3 +1,5 @@
+import { my } from '../../../../../api/my'
+
 const MAP_INFO = {
   is3d: false,
   isSupportAnim: false,
@@ -20,7 +22,10 @@ class CreateMapContext {
   private map: any
 
   constructor(mapId) {
-    if (typeof my === 'object') {
+    if (
+      typeof my === 'object' &&
+      typeof my.createSelectorQuery === 'function'
+    ) {
       this.map = (my.createSelectorQuery().select(`#${mapId}`) as any).target
     } else {
       this.map = document.getElementById(mapId)
