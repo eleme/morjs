@@ -63,15 +63,14 @@ export default class Map extends BaseElement {
     this[properties.SCALE] = 16
     this[properties.ROTATE] = 0
     this[properties.SHOW_LOCATION] = false
-    this[properties.AMAP_SDK] = AMAP_SDK
-    this[properties.AMAP_VERSION] = AMAP_VERSION
-    this[properties.AMAP_KEY] = ''
   }
 
   connectedCallback() {
     super.connectedCallback()
 
-    this.loadAMapSdk(() => {
+    this.loadAMapSdk((res) => {
+      if (res && res.error) return console.error(res.error)
+
       requestAnimationFrame(() => {
         this.drawMap()
         this.drawed = true
@@ -150,19 +149,37 @@ export default class Map extends BaseElement {
     }
   }
 
+  getMapConfig() {
+    const defaultConfig = { version: AMAP_VERSION, sdk: AMAP_SDK }
+    // 尝试从 window 中读取 map 配置，用户可在 mor.config 给 map 传递 信息
+    const morConfig = get(window.$MOR_APP_CONFIG, 'components.map', {})
+    const propertyConfig = {
+      key: this[properties.AMAP_KEY],
+      version: this[properties.AMAP_VERSION],
+      sdk: this[properties.AMAP_SDK]
+    }
+
+    const config: Record<string, any> = {}
+    // 优先级： 属性传入 > window 设置 > 默认配置
+    Object.keys(propertyConfig).forEach((key) => {
+      config[key] =
+        propertyConfig[key] || morConfig[key] || defaultConfig[key] || ''
+    })
+
+    return config
+  }
+
   loadAMapSdk(callback) {
     if (typeof window.AMap === 'undefined') {
-      // 尝试从 window 中读取 map 配置，用户可在 mor.config 给 map 传递 信息
-      const mapConfig = get(window.$MOR_APP_CONFIG, 'components.map', {})
-      const { key = '', version = AMAP_VERSION, sdk = AMAP_SDK } = mapConfig
+      const { key, version, sdk } = this.getMapConfig()
       addScript({
         src: `${sdk}?v=${version}&key=${key}`,
         success: () => {
           callback.call(this)
         },
-        fail: () => {
+        fail: (e) => {
           callback.call(this, {
-            error: 'not init'
+            error: `load map sdk failed`
           })
         }
       })
@@ -281,7 +298,6 @@ export default class Map extends BaseElement {
     this.clearPolygon()
 
     const polygon = this[properties.POLYGON]
-
     this.polygon = []
     if (polygon && polygon.map) {
       polygon.forEach((item) => {
