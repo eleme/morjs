@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.62](https://github.com/eleme/morjs/compare/v1.0.61...v1.0.62) (2023-07-03)
+
+### Features
+
+- **runtime-web:** 元素获取适配 & 配置读取优先级调整 ([#68](https://github.com/eleme/morjs/issues/68)) ([0f4381d](https://github.com/eleme/morjs/commit/0f4381d5de409a77f93adefe4a9a668bb8473230))
+
 ## [1.0.61](https://github.com/eleme/morjs/compare/v1.0.60...v1.0.61) (2023-06-28)
 
 ### Bug Fixes
