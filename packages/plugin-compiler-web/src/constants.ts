@@ -7,7 +7,7 @@ import path from 'path'
 export const target = 'web'
 export const targetDescription = 'Web 应用'
 export const globalObject = 'my'
-export const resolveMainFields = ['webformini', 'module', 'main']
+export const resolveMainFields = ['miniforweb', 'module', 'main']
 export const defaultConditionalFileExt = '.web'
 export const defaultOutputDir = 'dist/web'
 export const projectConfigFiles = []
