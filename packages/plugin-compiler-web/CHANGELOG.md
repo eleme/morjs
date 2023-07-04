@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.63](https://github.com/eleme/morjs/compare/v1.0.62...v1.0.63) (2023-07-04)
+
+
+### Bug Fixes
+
+* **plugin-compiler-web:** 修复转 Web 小程序组件库的产物加载入口和文档不一致的问题 ([584809f](https://github.com/eleme/morjs/commit/584809fea95163b2a504d308d31cf037846f17ae))
+
+
+
+
+
 ## [1.0.62](https://github.com/eleme/morjs/compare/v1.0.61...v1.0.62) (2023-07-03)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-web
