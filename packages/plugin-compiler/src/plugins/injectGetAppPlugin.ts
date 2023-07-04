@@ -19,9 +19,12 @@ type ConcatSource = webpack.sources.ConcatSource
 
 // 模块包装的所在函数的参数替换映射
 const MODULE_FACTORY_ARGS_REPLACEMENTS = new Map([
-  [0, '__unused_webpack_module, __webpack_exports__, __webpack_require__'],
-  [1, '__webpack_exports__, __webpack_require__'],
-  [2, '__webpack_require__'],
+  [
+    0,
+    '__unused_webpack_module, __unused_webpack_exports__, __unused_webpack_require__'
+  ],
+  [1, '__unused_webpack_exports__, __unused_webpack_require__'],
+  [2, '__unused_webpack_require__'],
   [3, '']
 ])
 
