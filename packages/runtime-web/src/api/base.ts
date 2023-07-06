@@ -1,5 +1,12 @@
 type IAnyFunc = (...args: unknown[]) => any
 
+const CAN_I_USE_FALSY = [
+  'component.observers',
+  'component.relations',
+  'component.externalClass',
+  'component.lifetimes'
+]
+
 export default function generateBaseAPI(api: Record<string, any>) {
   return {
     call(
@@ -20,8 +27,12 @@ export default function generateBaseAPI(api: Record<string, any>) {
       })
     },
 
-    canIUse() {
+    canIUse(param) {
       console.warn('canIUse API 目前还未完全实现，仅供参考')
+
+      if (typeof param === 'string' && CAN_I_USE_FALSY.indexOf(param) > -1)
+        return false
+
       return true
     },
 
