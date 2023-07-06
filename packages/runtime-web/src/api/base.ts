@@ -27,11 +27,10 @@ export default function generateBaseAPI(api: Record<string, any>) {
       })
     },
 
-    canIUse(param) {
+    canIUse(param = '') {
       console.warn('canIUse API 目前还未完全实现，仅供参考')
 
-      if (typeof param === 'string' && CAN_I_USE_FALSY.indexOf(param) > -1)
-        return false
+      if (CAN_I_USE_FALSY.indexOf(param) > -1) return false
 
       return true
     },
