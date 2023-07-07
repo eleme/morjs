@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.65](https://github.com/eleme/morjs/compare/v1.0.64...v1.0.65) (2023-07-07)
+
+### Features
+
+- **runtime-web:** caniuse 函数增加部分能力判断 ([#71](https://github.com/eleme/morjs/issues/71)) ([a45cd02](https://github.com/eleme/morjs/commit/a45cd02bb0ee7f0a3ce393504d5a94b1f3f93341))
+
 ## [1.0.64](https://github.com/eleme/morjs/compare/v1.0.63...v1.0.64) (2023-07-04)
 
 ### Features
