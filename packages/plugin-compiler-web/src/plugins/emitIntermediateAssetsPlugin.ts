@@ -35,7 +35,8 @@ export class EmitIntermediateAssetsPlugin implements Plugin {
         command
       ) {
         if (command.options?.emitWebIntermediateAssets) {
-          if (userConfig.target === target) {
+          const currentTarget = command.options?.target || userConfig.target
+          if (currentTarget === target) {
             userConfig.web = userConfig.web || {}
             userConfig.web.emitIntermediateAssets =
               command.options.emitWebIntermediateAssets

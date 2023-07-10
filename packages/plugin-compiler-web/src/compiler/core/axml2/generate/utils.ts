@@ -62,6 +62,8 @@ export function getOptionalChainCode(code) {
     })
 
   const source = babel.transformSync(result, {
+    configFile: false,
+    babelrc: false,
     plugins: [
       {
         visitor: {
