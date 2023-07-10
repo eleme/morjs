@@ -392,7 +392,12 @@ export class TemplateParserPlugin implements Plugin {
         ).code
 
         // 输出额外文件
-        entryBuilder.setEntrySource(newEntryFileName, sjsContent, 'additional')
+        entryBuilder.setEntrySource(
+          newEntryFileName,
+          sjsContent,
+          'additional',
+          sjsFileOptions.fileInfo.path
+        )
 
         // 清空内嵌的脚本内容
         node.content = []
@@ -426,6 +431,11 @@ export class TemplateParserPlugin implements Plugin {
           }
         }
       }
+    }
+
+    // 转 web 时不替换文件名称，确保原文件可以被正常加载
+    if (options.userConfig.target === 'web') {
+      shouldReplaceSjsFileImportPath = false
     }
 
     const importPath = node.attrs[sjsConfig.target.sjsSrcAttrName] as string
