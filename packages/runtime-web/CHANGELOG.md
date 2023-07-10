@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.66](https://github.com/eleme/morjs/compare/v1.0.65...v1.0.66) (2023-07-10)
+
+
+### Bug Fixes
+
+* **runtime-web:** 修复地图组件 relative 布局错位问题 ([#72](https://github.com/eleme/morjs/issues/72)) ([598863b](https://github.com/eleme/morjs/commit/598863b5112b644eb701bf7ac1d7aa20d84aa497))
+
+
+
+
+
 ## [1.0.65](https://github.com/eleme/morjs/compare/v1.0.64...v1.0.65) (2023-07-07)
 
 
