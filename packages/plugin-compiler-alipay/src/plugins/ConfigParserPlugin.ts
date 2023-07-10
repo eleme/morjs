@@ -249,8 +249,31 @@ const TAB_BAR_RULES_TO_ALIPAY = {
   }
 } as TransformRules
 
+// 支付宝分包配置兼容转换
+const transformAlipaySubpackages = function (
+  subpackages: { root: string; pages: string[] }[]
+) {
+  if (!subpackages?.length) return subpackages
+  return subpackages.map(function (sub) {
+    if (!sub.root) return sub
+    return {
+      ...sub,
+      // 移除 root 最后的 /
+      // 原因 支付宝不支持
+      root: sub.root.replace(/\/$/, '')
+    }
+  })
+}
+
 const APP_RULES_TO_ALIPAY = {
-  subPackages: 'subPackages',
+  subPackages: {
+    to: 'subPackages',
+    fn: transformAlipaySubpackages
+  },
+  subpackages: {
+    to: 'subPackages',
+    fn: transformAlipaySubpackages
+  },
   window: {
     to: 'window',
     fn(window, config, options): Record<string, any> {
