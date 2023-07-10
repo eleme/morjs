@@ -27,7 +27,8 @@ import {
   typescript as ts,
   UniversalifiedInputFileSystem,
   webpack,
-  WebpackWrapper
+  WebpackWrapper,
+  EntrySources
 } from '@morjs/utils'
 import type _fs from 'fs'
 import path from 'path'
@@ -187,12 +188,12 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
   /**
    * 用于记录 transform 编译模式中 script 的文件内容
    */
-  replaceEntrySources: Map<EntryFullPath, webpack.sources.RawSource>
+  replaceEntrySources: EntrySources
 
   /**
    * 用于生成 json 文件
    */
-  additionalEntrySources: Map<EntryFullPath, webpack.sources.RawSource>
+  additionalEntrySources: EntrySources
 
   /**
    * 条件编译后缀
@@ -359,9 +360,9 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     this.runner.logger.time('EntryBuilder.trySaveToCache')
     function serializeMap<T, U>(
       map: Map<T, U>,
-      parser?: (v: U) => string
-    ): [T, U | string][] {
-      const array: [T, U | string][] = []
+      parser?: (v: U) => string | Record<string, string>
+    ): [T, U | string | Record<string, string>][] {
+      const array: [T, U | string | Record<string, string>][] = []
       map.forEach(function (value, key) {
         array.push([key, parser ? parser(value) : value])
       })
@@ -381,11 +382,21 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       usingComponentsMap: serializeMap(this.usingComponentsMap),
       replaceEntrySources: serializeMap(
         this.replaceEntrySources,
-        (v) => v.source() as string
+        (v) => {
+          return {
+            source: v.source.source() as string,
+            saveToMemFile: v.saveToMemFile
+          }
+        }
       ),
       additionalEntrySources: serializeMap(
         this.additionalEntrySources,
-        (v) => v.source() as string
+        (v) => {
+          return {
+            source: v.source.source() as string,
+            saveToMemFile: v.saveToMemFile
+          }
+        }
       ),
       moduleGraph: this.moduleGraph.toJSON()
     }
@@ -513,12 +524,22 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         this[item] = new Map(cache[item])
       })
 
-      cache['replaceEntrySources'].forEach(([name, source]) => {
-        this.setEntrySource(name as string, source as string, 'replace')
+      cache['replaceEntrySources'].forEach(([name, e]) => {
+        this.setEntrySource(
+          name as string,
+          typeof e === 'string' ? e : e.source as string,
+          'replace',
+          e.saveToMemFile
+        )
       })
 
-      cache['additionalEntrySources'].forEach(([name, source]) => {
-        this.setEntrySource(name as string, source as string, 'additional')
+      cache['additionalEntrySources'].forEach(([name, e]) => {
+        this.setEntrySource(
+          name as string,
+          typeof e === 'string' ? e : e.source as string,
+          'additional',
+          e.saveToMemFile
+        )
       })
 
       this.moduleGraph = ModuleGraph.restore(cache['moduleGraph'])
@@ -616,13 +637,15 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * @param entryName - entry 名称
    * @param content - entry 内容
    * @param aim - 目标, 可选值为 replace 或 additional
+   * @param saveToMemFile - 需要输出为内存文件路径，aim 为 additional 时，如未提供 saveToMemFile, 则会基于 entryName 自动生成
    */
   setEntrySource(
     entryName: string,
     content: string,
-    aim: 'replace' | 'additional'
+    aim: 'replace' | 'additional',
+    saveToMemFile?: string
   ) {
-    let targetSources: Map<EntryFullPath, webpack.sources.RawSource>
+    let targetSources: EntrySources
     if (aim === 'replace') targetSources = this.replaceEntrySources
     if (aim === 'additional') targetSources = this.additionalEntrySources
     if (!targetSources) {
@@ -634,14 +657,40 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       return
     }
 
-    let source = targetSources.get(entryName)
+    let entrySource = targetSources.get(entryName)
     // 如果代码未变化, 则什么都不做
     // 原因为: webpack 会针对 source 对象进行缓存和内容校验
     //        source 对象如果变了那么不论是否内容有变化都会输出文件
-    if (source && source.source() === content) return
+    if (
+      entrySource?.source?.source?.() === content &&
+      entrySource?.saveToMemFile === saveToMemFile
+    ) {
+      return
+    }
+
     // 否则 替换为新的 source
-    source = new webpack.sources.RawSource(content)
-    targetSources.set(entryName, source)
+    entrySource = {
+      source: new webpack.sources.RawSource(content),
+      saveToMemFile: saveToMemFile
+    }
+    targetSources.set(entryName, entrySource)
+
+    // 将 entry 的内容保存为 saveToMemFile 所指向的地址
+    // 用途：MorJS 编译过程中，可能会产生一些额外的文件，这些文件在后续的编译中可能会被消费
+    // 而写入到 mem 文件系统中，可以被正常获取到，且不会影响用户真实的文件
+    let fileName = saveToMemFile ? saveToMemFile : ''
+    if (!fileName && aim === 'additional') {
+      fileName = path.join(
+        this.srcPaths[0],
+
+        // entry 可能为组件库中的文件，需要还原为替换之前的路径
+        entryName.replace(new RegExp(NPM_MODULE_DIR, 'gi'), NODE_MODULES)
+      )
+    }
+    if (fileName) {
+      this.fs.mem.mkdirpSync(path.dirname(fileName))
+      this.fs.mem.writeFileSync(fileName, content)
+    }
   }
 
   /**
