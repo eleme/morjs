@@ -292,28 +292,28 @@ ts 编译配置, 大部分和 tsconfig 中的含义一致, 优先级高于 tscon
 
     // 模块输出类型
     // 不同的小程序 target 会有不同的默认值
-    //   wechat: CommonJS
     //   alipay: ESNext
     //   baidu: CommonJS
     //   bytedance: CommonJS
     //   dingding: ESNext
+    //   kuaishou: CommonJS
     //   qq: CommonJS
-    //   eleme: ESNext
     //   taobao: ESNext
     //   web: ESNext
+    //   wechat: CommonJS
     module: '',
 
     // 输出的 ES 版本
     // 不同的小程序 target 会有不同的默认值
-    //   wechat: ES5
     //   alipay: ES2015
     //   baidu: ES5
     //   bytedance: ES5
     //   dingding: ES2015
+    //   kuaishou: ES5
     //   qq: ES5
-    //   eleme: ES2015
     //   taobao: ES2015
     //   web: ES2015
+    //   wechat: ES5
     target: ''
   }
 }
@@ -502,13 +502,19 @@ ts 编译配置, 大部分和 tsconfig 中的含义一致, 优先级高于 tscon
 - 类型: `object`
 - 默认值: `{}`
 
-css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压缩器来配置, 不同的压缩器对应的配置方式不同。
+css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压缩器来配置, 不同的压缩器对应的配置方式不同，参见：
+
+- cssnano: <https://cssnano.co/>
+- csso: <https://github.com/css/csso>
+- cleanCss: <https://github.com/clean-css/clean-css>
+- esbuild: <https://esbuild.github.io/api/#minify>
+- parcelcss: <https://parceljs.org/languages/css/#minification>
 
 > 注意：当 CSS 压缩器 `cssMinimizer` 为 `esbuild` 时，压缩器开启压缩时会默认将 `0.5rpx` 压缩为 `.5rpx` 的形式，而由于 `.5rpx` 的样式压缩写法在支付宝 IDE 中目前(2023.06.26)不支持，需要使用完整的 `0.5rpx` 写法，后续支付宝 IDE 产研同学兼容后将自动修复，如遇到类似问题引发的样式显示错误，可添加以下配置以关闭 minifySyntax 进行兼容
 
-```
+```javascript
 {
-  ...,
+  ...otherConfigs,
   cssMinimizerOptions: {
     minify: false,
     minifyWhitespace: true,
@@ -680,6 +686,13 @@ css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压�
 
 是否生成用于代替 `app.json` 的 `JavaScript` 脚本文件（`mor.p.js`），通常用于项目中直接引用 `app.json` 文件，并期望主包和分包集成后，能够被及时更新的场景。
 
+### globalNameSuffix - 全局文件名称后缀
+
+- 类型: `string`
+- 默认值: `''`
+
+用于配置产物中 MorJS 生成的全局文件的名称后缀以及产物中 [`chunkLoadingGlobal`](https://webpack.js.org/configuration/output/#outputchunkloadingglobal) 的名称后缀，用以规避分包、插件或组件产物因重名而导致的冲突。主要配合 `compileMode` 为 `bundle` 时使用。
+
 ### globalObject - 全局对象
 
 - 类型: `string`
@@ -827,7 +840,6 @@ js 压缩器自定义配置, 使用时请结合 `jsMinimizer` 所指定的压缩
 - `baidu`: `dist/baidu`
 - `bytedance`: `dist/bytedance`
 - `dingding`: `dist/dingding`
-- `eleme`: `dist/eleme`
 - `kuaishou`: `dist/kuaishou`
 - `qq`: `dist/qq`
 - `taobao`: `dist/taobao`
@@ -1029,7 +1041,6 @@ another
   - `baidu` 百度小程序
   - `bytedance` 字节小程序
   - `dingding` 钉钉小程序
-  - `eleme` 饿了么小程序
   - `kuaishou` 快手小程序
   - `qq` QQ 小程序
   - `taobao` 淘宝小程序
