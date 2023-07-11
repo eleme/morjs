@@ -327,14 +327,14 @@ ts 编译配置, 大部分和 tsconfig 中的含义一致, 优先级高于 tscon
   - `miniprogram`: 以小程序的方式编译，入口配置文件为 `app.json`
   - `plugin`: 以插件的方式编译，入口配置文件为 `plugin.json`
   - `subpackage`: 以分包的方式编译，入口配置文件为 `subpackage.json`
-  - `components`: 以组件的方式编译，入口配置文件为 `components.json`
+  - `component`: 以组件的方式编译，入口配置文件为 `component.json`
 
 编译类型，用于配置当前项目的产物形态，支持类型如下：
 
 - `miniprogram`: 小程序形态，以 `app.json` 作为入口配置文件
 - `plugin`: 小程序插件形态，以 `plugin.json` 作为入口配置文件
 - `subpackage`: 小程序分包形态，以 `subpackage.json` 作为入口配置文件
-- `components`: 小程序组件形态，以 `components.json` 作为入口配置文件
+- `component`: 小程序组件形态，以 `component.json` 作为入口配置文件
 
 同一个项目可通过不同的 `compileType` 配合不同的入口配置文件输出不同的产物形态，有关多形态相互转换的进一步解释，可参见文档：[小程序形态一体化](/guides/advance/unity-of-forms.md)。
 
@@ -393,13 +393,14 @@ ts 编译配置, 大部分和 tsconfig 中的含义一致, 优先级高于 tscon
   ]
 }
 
-// 小程序组件 components.json 配置示例
+// 小程序组件 component.json 配置示例
 {
-  "usingComponents": {
-    "morjs-banner": "components/banner/index",
-    "morjs-image": "components/image/index",
-    "morjs-popup": "components/popup/index"
-  }
+  "publicComponents": {
+    "banner": "components/banner/index",
+    "image": "components/image/index",
+    "popup": "components/popup/index"
+  },
+  "main": "index.js"
 }
 ```
 
@@ -537,7 +538,7 @@ css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压�
 
 用于配置自定义入口文件，包含三种用途：
 
-- 可用于指定入口配置文件的自定义文件路径，如 `app.json` / `plugin.json` / `subpackage.json`，参见 [compileType 配置](/guides/basic/config#compiletype---编译类型)
+- 可用于指定入口配置文件的自定义文件路径，如 `app.json` / `plugin.json` / `subpackage.json` / `component.json`，参见 [compileType 配置](/guides/basic/config#compiletype---编译类型)
 - 可用于指定一些在 `bundle` 模式下额外需要参与编译且需要定制输出名称的文件，如对外输出某个 `js` 文件
 - `bundle` 模式下，无引用关系，但需要额外需要编译的 页面（`pages`） 或 组件（`components`）
 
@@ -555,6 +556,8 @@ css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压�
     'plugin.json': './src/my-custom-plugin.json',
     // 手动指定 subpackage.json 文件路径
     'subpackage.json': './src/my-custom-subpackage.json',
+    // 手动指定 component.json 文件路径
+    'component.json': './src/my-custom-component.json',
   }
 }
 
@@ -690,13 +693,6 @@ css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压�
 - 默认值: `true`
 
 是否生成用于代替 `app.json` 的 `JavaScript` 脚本文件（`mor.p.js`），通常用于项目中直接引用 `app.json` 文件，并期望主包和分包集成后，能够被及时更新的场景。
-
-### globalNameSurfix - 全局文件的后缀
-
-- 类型: `string`
-- 默认值: `undefined`
-
-用于配置全局文件的后缀，避免冲突，通常情况下无需设置，默认使用项目的包名作为全局文件名称后缀，避免 chunk loading global 重复
 
 ### globalObject - 全局对象
 
@@ -980,7 +976,7 @@ class YourCustomMorJSPlugin {
 默认情况下：
 
 - 当 `compileType` 为 `miniprogram` 或 `plugin` 时默认为 `true`，即处理占位组件
-- 当 `compileType` 为 `subpackage` 或 `components` 时默认为 `false`，即不处理占位组件
+- 当 `compileType` 为 `subpackage` 或 `component` 时默认为 `false`，即不处理占位组件
 
 有关占位组件的用途可参考以下文档：
 
