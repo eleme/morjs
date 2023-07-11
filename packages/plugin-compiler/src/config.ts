@@ -471,8 +471,11 @@ export function applyDefaults(
       userConfig.compileType === 'plugin'
     ) {
       userConfig.processPlaceholderComponents = true
-    } else if (userConfig.compileType === 'subpackage') {
-      userConfig.processPlaceholderComponents = true
+    } else if (
+      userConfig.compileType === 'subpackage' ||
+      userConfig.compileType === 'components'
+    ) {
+      userConfig.processPlaceholderComponents = false
     }
   }
 

@@ -1798,6 +1798,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * - miniprogram: app.json
    * - subpackage: subpackage.json
    * - plugin: plugin.json
+   * - components: components.json
    *
    * 注意: compileType 为 subpackage 时, 会优先从 context 中获取 subpackageJson
    *
@@ -1969,6 +1970,37 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
               )} 目录中`
             )
           }
+        }
+      }
+    }
+
+    // 组件构建
+    else if (compileType === CompileTypes.components) {
+      const componentsEntry = customEntries['components.json'] || 'components'
+      const searchPaths = generateSearchPaths(componentsEntry)
+      const componentsJsonPath = await this.tryReachFileByExts(
+        componentsEntry,
+        this.configWithConditionalExts,
+        searchPaths,
+        null,
+        searchPaths
+      )
+
+      if (componentsJsonPath) {
+        const componentsJson = await this.readAndPreprocessJsonLikeFile(
+          componentsJsonPath
+        )
+        globalEntry = await this.buildByComponents(
+          componentsJson,
+          componentsJsonPath
+        )
+      } else {
+        if (isEntryFileRequired) {
+          logger.error(
+            `未找到 components.json 文件, 请检查是否在 ${this.srcPaths.join(
+              ', '
+            )} 目录中`
+          )
         }
       }
     } else {
@@ -2438,6 +2470,41 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         true
       )
     ])
+
+    return entry
+  }
+
+  /**
+   * 解析 components.json 并构建 entry
+   * @param componentsJson - 组件配置内容
+   * @param componentsJsonPath - 组件配置路径
+   */
+  async buildByComponents(
+    componentsJson: IUsingComponentConfig,
+    componentsJsonPath: string
+  ) {
+    const shouldAnalyze = await this.shouldAnalyzeFileDepenencies(
+      componentsJsonPath
+    )
+
+    const entry = this.addToEntry(
+      componentsJsonPath,
+      EntryType.component,
+      'direct',
+      undefined,
+      null,
+      'components'
+    )
+
+    // 判断是否需要继续分析依赖
+    if (shouldAnalyze === false) return entry
+
+    await this.addComponentEntries(
+      componentsJson.usingComponents || {},
+      entry,
+      undefined,
+      true
+    )
 
     return entry
   }
