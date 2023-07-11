@@ -57,13 +57,13 @@ export type CompileScriptTargetType = ObjectValues<typeof CompileScriptTarget>
  * - miniprogram: 以小程序的方式编译或集成
  * - plugin: 以插件的方式编译或集成
  * - subpackage: 以插件的方式编译或集成
- * - components: 以组件的方式编译或集成
+ * - component: 以组件的方式编译
  */
 export const CompileTypes = objectEnum([
   'miniprogram',
   'plugin',
   'subpackage',
-  'components'
+  'component'
 ])
 
 /**
