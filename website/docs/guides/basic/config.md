@@ -504,13 +504,17 @@ ts 编译配置, 大部分和 tsconfig 中的含义一致, 优先级高于 tscon
 
 css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压缩器来配置, 不同的压缩器对应的配置方式不同，参见：
 
-- cssnano: <https://cssnano.co/>
-- csso: <https://github.com/css/csso>
-- cleanCss: <https://github.com/clean-css/clean-css>
-- esbuild: <https://esbuild.github.io/api/#minify>
-- parcelcss: <https://parceljs.org/languages/css/#minification>
+- `cssnano`: <https://cssnano.co/>
+- `csso`: <https://github.com/css/csso>
+- `cleanCss`: <https://github.com/clean-css/clean-css>
+- `esbuild`: <https://esbuild.github.io/api/#minify>
+- `parcelcss`: <https://parceljs.org/languages/css/#minification>
 
-> 注意：当 CSS 压缩器 `cssMinimizer` 为 `esbuild` 时，压缩器开启压缩时会默认将 `0.5rpx` 压缩为 `.5rpx` 的形式，而由于 `.5rpx` 的样式压缩写法在支付宝 IDE 中目前(2023.06.26)不支持，需要使用完整的 `0.5rpx` 写法，后续支付宝 IDE 产研同学兼容后将自动修复，如遇到类似问题引发的样式显示错误，可添加以下配置以关闭 minifySyntax 进行兼容
+`cssMinimizerOptions` 的配置会和 MorJS 内部的配置进行合并，且 `cssMinimizerOptions` 的优先级更高。
+
+**_使用 `esbuild` 压缩 `css` 注意事项： 👇🏻_**
+
+- `esbuild` 压缩器开启压缩时会默认将 `0.5rpx` 压缩为 `.5rpx` 的形式，而由于 `.5rpx` 的样式压缩写法在支付宝 IDE 中目前(2023.06.26) 不支持，需要使用完整的 `0.5rpx` 写法，后续支付宝 IDE 产研同学兼容后将自动修复，如遇到类似问题引发的样式显示错误，可添加以下配置以关闭 `minifySyntax` 进行兼容
 
 ```javascript
 {
@@ -521,6 +525,17 @@ css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压�
     minifyIdentifiers: true,
     minifySyntax: false,
     legalComments: 'inline',
+  },
+}
+```
+
+- 默认情况下 MorJS 配置的 `esbuild` 压缩 css 选项为 `target: ['safari10']`，该 target 下 `rgba(0,0,0,0)` 会被压缩为 16 进制的 `HexRGBA`，[参见 `ebuild` 源代码](https://github.com/evanw/esbuild/blob/main/internal/compat/css_table.go#L46)，部分较老的浏览器下可能会不兼容，解决办法为指定 `target: ['safari9']` 来解决
+
+```javascript
+{
+  ...otherConfigs,
+  cssMinimizerOptions: {
+    target: ['safari9']
   },
 }
 ```
@@ -761,7 +776,7 @@ css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压�
 默认值为 `null` 时会基于 `compilerOptions.target` 的值来自动选择压缩器：
 
 - 当 `compilerOptions.target` 的值是 `ES5` 时，`jsMinimizer` 为 `terser`
-- 当 `compilerOptions.target` 的值不是 `ES5` 时，`jsMinimizer` 为 `esbuild`
+- 当 `compilerOptions.target` 的值**不是** `ES5` 时，`jsMinimizer` 为 `esbuild`
 
 如果用户配置了 `jsMinimizer` 则以用户配置的为准。
 
@@ -772,9 +787,9 @@ css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压�
 
 js 压缩器自定义配置, 使用时请结合 `jsMinimizer` 所指定的压缩器来配置, 不同的压缩器对应的配置方式不同，参见：
 
-- esbuild: <https://esbuild.github.io/api/#minify>
-- terser: <https://github.com/terser/terser>
-- swc: <https://swc.rs/docs/configuration/minification>
+- `esbuild`: <https://esbuild.github.io/api/#minify>
+- `terser`: <https://github.com/terser/terser>
+- `swc`: <https://swc.rs/docs/configuration/minification>
 
 `jsMinimizerOptions` 的配置会和 MorJS 内部的配置进行合并，且 `jsMinimizerOptions` 的优先级更高。
 
