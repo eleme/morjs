@@ -51,6 +51,7 @@ import { scriptTransformer } from '../transformers/scriptTransformer'
 import { templateTransformer } from '../transformers/templateTransformer'
 import {
   IAppConfig,
+  IComponentConfig,
   IPluginConfig,
   ISubPackageConfig,
   IUsingComponentConfig
@@ -1798,7 +1799,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * - miniprogram: app.json
    * - subpackage: subpackage.json
    * - plugin: plugin.json
-   * - components: components.json
+   * - component: component.json
    *
    * 注意: compileType 为 subpackage 时, 会优先从 context 中获取 subpackageJson
    *
@@ -1975,29 +1976,29 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     }
 
     // 组件构建
-    else if (compileType === CompileTypes.components) {
-      const componentsEntry = customEntries['components.json'] || 'components'
-      const searchPaths = generateSearchPaths(componentsEntry)
-      const componentsJsonPath = await this.tryReachFileByExts(
-        componentsEntry,
+    else if (compileType === CompileTypes.component) {
+      const componentEntry = customEntries['component.json'] || 'component'
+      const searchPaths = generateSearchPaths(componentEntry)
+      const componentJsonPath = await this.tryReachFileByExts(
+        componentEntry,
         this.configWithConditionalExts,
         searchPaths,
         null,
         searchPaths
       )
 
-      if (componentsJsonPath) {
-        const componentsJson = await this.readAndPreprocessJsonLikeFile(
-          componentsJsonPath
+      if (componentJsonPath) {
+        const componentJson = await this.readAndPreprocessJsonLikeFile(
+          componentJsonPath
         )
-        globalEntry = await this.buildByComponents(
-          componentsJson,
-          componentsJsonPath
+        globalEntry = await this.buildByComponent(
+          componentJson,
+          componentJsonPath
         )
       } else {
         if (isEntryFileRequired) {
           logger.error(
-            `未找到 components.json 文件, 请检查是否在 ${this.srcPaths.join(
+            `未找到 component.json 文件, 请检查是否在 ${this.srcPaths.join(
               ', '
             )} 目录中`
           )
@@ -2475,32 +2476,52 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
   }
 
   /**
-   * 解析 components.json 并构建 entry
-   * @param componentsJson - 组件配置内容
-   * @param componentsJsonPath - 组件配置路径
+   * 解析 component.json 并构建 entry
+   * @param componentJson - 组件配置内容
+   * @param componentJsonPath - 组件配置路径
+   * @param parentEntry - 父级 entry
    */
-  async buildByComponents(
-    componentsJson: IUsingComponentConfig,
-    componentsJsonPath: string
+  async buildByComponent(
+    componentJson: IComponentConfig,
+    componentJsonPath?: string,
+    parentEntry?: EntryItem
   ) {
-    const shouldAnalyze = await this.shouldAnalyzeFileDepenencies(
-      componentsJsonPath
-    )
+    let entry = parentEntry
 
-    const entry = this.addToEntry(
-      componentsJsonPath,
-      EntryType.component,
-      'direct',
-      undefined,
-      null,
-      'components'
-    )
+    // 添加组件 component.json 配置文件
+    if (componentJsonPath) {
+      const shouldAnalyze = await this.shouldAnalyzeFileDepenencies(
+        componentJsonPath
+      )
 
-    // 判断是否需要继续分析依赖
-    if (shouldAnalyze === false) return entry
+      entry = this.addToEntry(
+        componentJsonPath,
+        EntryType.component,
+        'direct',
+        undefined,
+        null,
+        'component'
+      )
+
+      // 判断是否需要继续分析依赖
+      if (shouldAnalyze === false) return entry
+    }
+
+    // 添加组件的 main 文件
+    if (componentJson.main) {
+      const componentMainFile = await this.tryReachFileByExts(
+        componentJson.main,
+        this.scriptWithConditionalExts,
+        this.srcPaths
+      )
+
+      if (componentMainFile) {
+        this.addToEntry(componentMainFile, EntryType.component, 'direct', entry)
+      }
+    }
 
     await this.addComponentEntries(
-      componentsJson.usingComponents || {},
+      componentJson.publicComponents || {},
       entry,
       undefined,
       true

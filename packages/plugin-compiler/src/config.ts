@@ -473,7 +473,7 @@ export function applyDefaults(
       userConfig.processPlaceholderComponents = true
     } else if (
       userConfig.compileType === 'subpackage' ||
-      userConfig.compileType === 'components'
+      userConfig.compileType === 'component'
     ) {
       userConfig.processPlaceholderComponents = false
     }
