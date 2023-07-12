@@ -394,12 +394,22 @@ ts 编译配置, 大部分和 tsconfig 中的含义一致, 优先级高于 tscon
 }
 
 // 小程序组件 component.json 配置示例
+// publicComponents 和 main 字段为 MorJS 自定义字段
 {
+  // publicComponents 记录组件列表，标识 bundle 模式下哪些组件需要被编译
+  // publicComponents 有两种配置写法，写成数组时标识组件列表
+  "publicComponents": [
+    "components/banner/index",
+    "components/image/index",
+    "components/popup/index"
+  ],
+  // publicComponents 写成 { key: value } 对象时，将 value 的组件编译到 key 对应的产物目录下
   "publicComponents": {
-    "banner": "components/banner/index",
-    "image": "components/image/index",
-    "popup": "components/popup/index"
+    "morjs-banner/index": "components/banner/index",
+    "morjs-image/index": "components/image/index",
+    "morjs-popup/index": "components/popup/index"
   },
+  // main 用于配置组件初始化文件
   "main": "index.js"
 }
 ```

@@ -51,7 +51,7 @@ import { scriptTransformer } from '../transformers/scriptTransformer'
 import { templateTransformer } from '../transformers/templateTransformer'
 import {
   IAppConfig,
-  IComponentConfig,
+  IComponentsConfig,
   IPluginConfig,
   ISubPackageConfig,
   IUsingComponentConfig
@@ -2482,7 +2482,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * @param parentEntry - 父级 entry
    */
   async buildByComponent(
-    componentJson: IComponentConfig,
+    componentJson: IComponentsConfig,
     componentJsonPath?: string,
     parentEntry?: EntryItem
   ) {
@@ -2520,12 +2520,37 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       }
     }
 
-    await this.addComponentEntries(
-      componentJson.publicComponents || {},
-      entry,
-      undefined,
-      true
-    )
+    if (
+      Object.prototype.toString.call(componentJson.publicComponents) ===
+      '[object Array]'
+    ) {
+      // publicComponents 写成数组时
+      const publicComponentsMap = new Map()
+      ;(componentJson.publicComponents as string[]).map((item) => {
+        publicComponentsMap.set(item, item)
+      })
+      await this.addComponentEntries(
+        Object.fromEntries(publicComponentsMap) || {},
+        entry,
+        undefined,
+        true,
+        {},
+        false
+      )
+    } else if (
+      Object.prototype.toString.call(componentJson.publicComponents) ===
+      '[object Object]'
+    ) {
+      // publicComponents 写成对象时
+      await this.addComponentEntries(
+        (componentJson.publicComponents as Record<string, string>) || {},
+        entry,
+        undefined,
+        true,
+        {},
+        true
+      )
+    }
 
     return entry
   }
@@ -2585,13 +2610,15 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * @param rootDirs - 文件检索根目录, 可选, 默认为 srcPaths
    * @param preferRelative - 是否倾向于按照相对目录解析组件
    * @param componentPlaceholder - 占位组件配置
+   * @param setCustomEntryName - 是否将 name 作为 customEntryName 传入
    */
   async addComponentEntries(
     components: Record<string, string> = {},
     parentEntry: EntryItem,
     rootDirs?: string[],
     preferRelative?: boolean,
-    componentPlaceholder: Record<string, string> = {}
+    componentPlaceholder: Record<string, string> = {},
+    setCustomEntryName: boolean = false
   ) {
     // 保存 entry 使用 自定义组件的映射
     const usingComponentNames = Object.keys(components)
@@ -2644,7 +2671,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
           undefined,
           undefined,
           undefined,
-          undefined,
+          setCustomEntryName ? name : undefined,
           rootDirs,
           preferRelative
         )
