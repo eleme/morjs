@@ -404,7 +404,35 @@ export class ScriptParserPlugin implements Plugin {
           exp.getText() === MOR_IDENTIFIERS.App)
       ) {
         if (node.arguments.length >= 3) {
-          // TODO: 解决拓展参数冲突
+          if (ts.isObjectLiteralExpression(node.arguments[2])) {
+            const globalApp = factory.createPropertyAssignment(
+              factory.createIdentifier('globalApp'),
+              factory.createPropertyAccessExpression(
+                factory.createIdentifier('morGlobal'),
+                factory.createIdentifier('initApp')
+              )
+            )
+
+            const extendProperties = factory.updateObjectLiteralExpression(
+              node.arguments[2],
+              [...node.arguments[2].properties, globalApp]
+            )
+
+            return factory.updateCallExpression(
+              node,
+              node.expression,
+              node.typeArguments,
+              [
+                ...node.arguments.slice(0, 2),
+                extendProperties,
+                ...node.arguments.slice(3)
+              ]
+            )
+          } else {
+            logger.warn(
+              `${exp.getText()} 的第三个参数非 Object 类型，无法注入 globalApp: morGlobal.initApp 请开发者自行检查`
+            )
+          }
         } else {
           const globalApp = factory.createObjectLiteralExpression(
             [
