@@ -50,6 +50,8 @@ const transformTigaTag = (str) => {
 
 export default class Map extends BaseElement {
   mapId = 'map-' + uuid()
+  // 对应高德地图中 setFitView 方法中的 avoid 参数
+  fitViewAvoid = [60, 60, 60, 60]
 
   constructor() {
     super()
@@ -150,14 +152,18 @@ export default class Map extends BaseElement {
   }
 
   getMapConfig() {
-    const defaultConfig = { version: AMAP_VERSION, sdk: AMAP_SDK }
+    const defaultConfig = {
+      version: AMAP_VERSION,
+      sdk: AMAP_SDK
+    }
     // 尝试从 window 中读取 map 配置，用户可在 mor.config 给 map 传递 信息
     const morConfig = get(window.$MOR_APP_CONFIG, 'components.map', {})
     const propertyConfig = {
       key: this[properties.AMAP_KEY],
       version: this[properties.AMAP_VERSION],
       sdk: this[properties.AMAP_SDK],
-      mapStyle: this[properties.AMAP_STYLE]
+      mapStyle: this[properties.AMAP_STYLE],
+      fitViewAvoid: this[properties.AMAP_FITVIEW_AVOID]
     }
     const config: Record<string, any> = {}
     // 优先级： 属性传入 > window 设置 > 默认配置
@@ -171,11 +177,11 @@ export default class Map extends BaseElement {
 
   loadAMapSdk(callback) {
     if (typeof window.AMap === 'undefined') {
-      const { key, version, sdk, mapStyle } = this.getMapConfig()
+      const { key, version, sdk, mapStyle, fitViewAvoid } = this.getMapConfig()
       addScript({
         src: `${sdk}?v=${version}&key=${key}`,
         success: () => {
-          callback.call(this, { mapStyle })
+          callback.call(this, { mapStyle, fitViewAvoid })
         },
         fail: (e) => {
           callback.call(this, {
@@ -195,6 +201,7 @@ export default class Map extends BaseElement {
       rotation: this[properties.ROTATE]
     }
     if (res && res.mapStyle) mapParams.mapStyle = res.mapStyle
+    if (res && res.fitViewAvoid) this.fitViewAvoid = res.fitViewAvoid
     const map = new window.AMap.Map(this.mapId, mapParams)
 
     if (!map) return
@@ -225,33 +232,35 @@ export default class Map extends BaseElement {
       : window.AMap.event
   }
 
+  emitRegionChange(detail) {
+    const { map } = this
+
+    const { lng, lat } = map.getCenter()
+    this.dispatchEvent(
+      new CustomEvent('regionchange', {
+        detail: {
+          scale: map.getZoom(),
+          latitude: lat,
+          longitude: lng,
+          rotate: map.getRotation(),
+          ...detail
+        },
+        bubbles: true,
+        composed: true
+      })
+    )
+  }
+
   __handleRegionChange() {
     const { map } = this
 
-    const onRegionChange = (detail) => {
-      const { lng, lat } = map.getCenter()
-      this.dispatchEvent(
-        new CustomEvent('regionchange', {
-          detail: {
-            scale: map.getZoom(),
-            latitude: lat,
-            longitude: lng,
-            rotate: map.getRotation(),
-            ...detail
-          },
-          bubbles: true,
-          composed: true
-        })
-      )
-    }
-
     map.on('dragstart', () =>
-      onRegionChange({
+      this.emitRegionChange({
         type: 'begin'
       })
     )
     map.on('dragend', () =>
-      onRegionChange({
+      this.emitRegionChange({
         type: 'end'
       })
     )
@@ -660,7 +669,7 @@ export default class Map extends BaseElement {
         const point = includePoints[0]
         map && map.setCenter([point.longitude, point.latitude])
       } else {
-        map && map.setFitView(includePointsArr, false, [85, 85, 85, 85])
+        map && map.setFitView(includePointsArr, true, this.fitViewAvoid)
       }
       this.includePoints = includePointsArr
     }
@@ -698,6 +707,10 @@ export default class Map extends BaseElement {
   }
 
   moveToLocation(options) {
+    this.emitRegionChange({
+      type: 'begin'
+    })
+
     const { longitude, latitude } = options || {}
     if (longitude && latitude) {
       this.map.setCenter([longitude, latitude])
@@ -713,6 +726,12 @@ export default class Map extends BaseElement {
         this[properties.LATITUDE]
       ])
     }
+
+    requestAnimationFrame(() => {
+      this.emitRegionChange({
+        type: 'end'
+      })
+    })
   }
 
   getRotate(options) {
@@ -1043,6 +1062,10 @@ export default class Map extends BaseElement {
       [properties.AMAP_STYLE]: {
         type: String,
         attribute: attributes.AMAP_STYLE
+      },
+      [properties.AMAP_FITVIEW_AVOID]: {
+        type: String,
+        attribute: attributes.AMAP_FITVIEW_AVOID
       }
     }
   }
