@@ -3,6 +3,17 @@ import { asArray } from './utils/asArray'
 
 type AnyFunc = (...args: any[]) => any
 
+enum HookInvokeState {
+  pausing = 'pausing',
+  resuming = 'resuming'
+}
+
+interface HookSharedState {
+  state: HookInvokeState
+  stack: any[]
+  hooksNameList: string[]
+}
+
 interface Tap {
   name: string
   type: 'sync' | 'async'
@@ -16,14 +27,16 @@ interface Tap {
 export class SyncHook {
   name: string
   taps: Tap[]
+  sharedState: HookSharedState
 
   /**
    * @constructor
    * @param name Hook 名称
    */
-  constructor(name) {
+  constructor(name, sharedState?) {
     this.name = name || ''
     this.taps = []
+    this.sharedState = sharedState
   }
 
   /**
@@ -37,8 +50,8 @@ export class SyncHook {
    * 创建 hook alias
    * @param name Hook 名称
    */
-  alias(name: string): SyncHook {
-    const aliasHook = new SyncHook(name)
+  alias(name: string, sharedState?: HookSharedState): SyncHook {
+    const aliasHook = new SyncHook(name, sharedState)
 
     // 这里直接使用 taps 数组, 方便 alias Hook 共用
     aliasHook.taps = this.taps
@@ -93,10 +106,20 @@ export class SyncHook {
     })
 
     for (const tap of taps) {
-      try {
-        tap.fn.call(context, ...args)
-      } catch (err) {
-        logger.error(this.name, tap.name, err)
+      // 当触发了 $hooks.pause 暂停，若未传入需要指定暂停的 hooks 则暂停所有生命周期触发
+      // 若传入了某些指定的 hooks 数组，则只暂停这些传入 hooks
+      if (
+        this.sharedState.state === 'pausing' &&
+        (this.sharedState.hooksNameList.length === 0 ||
+          this.sharedState.hooksNameList.includes(this.name))
+      ) {
+        this.sharedState.stack.push([tap.fn, context, args])
+      } else {
+        try {
+          tap.fn.call(context, ...args)
+        } catch (err) {
+          logger.error(this.name, tap.name, err)
+        }
       }
     }
   }
@@ -209,6 +232,8 @@ export interface MorHooks {
    * 在 Component 的 onError 生命周期触发
    */
   componentOnError: SyncHook
+  pause: (list?: string[]) => void
+  resume: () => void
 }
 
 export type MorHookNames = keyof MorHooks
@@ -233,44 +258,86 @@ const HOOKS_INSTANCES: Record<
  * @returns hooks 对象
  */
 export function createHooks(reason: Reason): MorHooks {
-  const appOnConstruct = new SyncHook('appOnConstruct')
-  const pageOnConstructHook = new SyncHook('pageOnConstruct')
-  const componentOnInitHook = new SyncHook('componentOnInit')
-  const componentDidMountHook = new SyncHook('componentDidMount')
-  const componentDidUnmountHook = new SyncHook('componentDidUnmount')
-  const componentOnError = new SyncHook('componentOnError')
+  const sharedState = {
+    state: 'resuming',
+    stack: [],
+    hooksNameList: []
+  } as HookSharedState
+
+  const appOnConstruct = new SyncHook('appOnConstruct', sharedState)
+  const pageOnConstructHook = new SyncHook('pageOnConstruct', sharedState)
+  const componentOnInitHook = new SyncHook('componentOnInit', sharedState)
+  const componentDidMountHook = new SyncHook('componentDidMount', sharedState)
+  const componentDidUnmountHook = new SyncHook(
+    'componentDidUnmount',
+    sharedState
+  )
+  const componentOnError = new SyncHook('componentOnError', sharedState)
 
   const hooks: MorHooks = {
     /* App 相关 hooks */
     appOnConstruct: appOnConstruct,
     // appOnInit 已废弃, 这里出于兼容性暂不移除
-    appOnInit: appOnConstruct.alias('appOnInit'),
-    appOnLaunch: new SyncHook('appOnLaunch'),
-    appOnError: new SyncHook('appOnError'),
-    appOnShow: new SyncHook('appOnShow'),
-    appOnHide: new SyncHook('appOnHide'),
-    appOnPageNotFound: new SyncHook('appOnPageNotFound'),
-    appOnUnhandledRejection: new SyncHook('appOnUnhandledRejection'),
+    appOnInit: appOnConstruct.alias('appOnInit', sharedState),
+    appOnLaunch: new SyncHook('appOnLaunch', sharedState),
+    appOnError: new SyncHook('appOnError', sharedState),
+    appOnShow: new SyncHook('appOnShow', sharedState),
+    appOnHide: new SyncHook('appOnHide', sharedState),
+    appOnPageNotFound: new SyncHook('appOnPageNotFound', sharedState),
+    appOnUnhandledRejection: new SyncHook(
+      'appOnUnhandledRejection',
+      sharedState
+    ),
 
     /* Page 相关 hooks */
     pageOnConstruct: pageOnConstructHook,
     // pageOnInit 已废弃, 这里出于兼容性暂不移除
-    pageOnInit: pageOnConstructHook.alias('pageOnInit'),
-    pageOnLoad: new SyncHook('pageOnLoad'),
-    pageOnReady: new SyncHook('pageOnReady'),
-    pageOnShow: new SyncHook('pageOnShow'),
-    pageOnHide: new SyncHook('pageOnHide'),
-    pageOnUnload: new SyncHook('pageOnUnload'),
+    pageOnInit: pageOnConstructHook.alias('pageOnInit', sharedState),
+    pageOnLoad: new SyncHook('pageOnLoad', sharedState),
+    pageOnReady: new SyncHook('pageOnReady', sharedState),
+    pageOnShow: new SyncHook('pageOnShow', sharedState),
+    pageOnHide: new SyncHook('pageOnHide', sharedState),
+    pageOnUnload: new SyncHook('pageOnUnload', sharedState),
 
     /* Component 相关 hooks */
-    componentOnConstruct: new SyncHook('componentOnConstruct'),
+    componentOnConstruct: new SyncHook('componentOnConstruct', sharedState),
     componentOnInit: componentOnInitHook,
-    componentOnCreated: componentOnInitHook.alias('componentOnCreated'),
+    componentOnCreated: componentOnInitHook.alias(
+      'componentOnCreated',
+      sharedState
+    ),
     componentDidMount: componentDidMountHook,
-    componentOnAttached: componentDidMountHook.alias('componentOnAttached'),
+    componentOnAttached: componentDidMountHook.alias(
+      'componentOnAttached',
+      sharedState
+    ),
     componentDidUnmount: componentDidUnmountHook,
-    componentOnDetached: componentDidUnmountHook.alias('componentOnDetached'),
-    componentOnError: componentOnError
+    componentOnDetached: componentDidUnmountHook.alias(
+      'componentOnDetached',
+      sharedState
+    ),
+    componentOnError: componentOnError,
+
+    // 暂定某些生命周期暂时不执行，参数为空时暂停所有生命周期
+    pause(hooksNameList = []) {
+      sharedState.state = HookInvokeState.pausing
+      sharedState.hooksNameList = hooksNameList
+    },
+
+    // 恢复所有生命周期，按顺依次执行
+    resume() {
+      sharedState.state = HookInvokeState.resuming
+      let stackItem = sharedState.stack.shift()
+      while (stackItem) {
+        const [fn, context, args] = stackItem
+        try {
+          fn.call(context, ...args)
+        } catch (error) {
+          logger.error(error)
+        }
+        stackItem = sharedState.stack.shift()
+      }
+    }
   }
 
   // 记录创建的所有 hooks
