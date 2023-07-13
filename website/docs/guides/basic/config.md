@@ -327,12 +327,14 @@ ts 编译配置, 大部分和 tsconfig 中的含义一致, 优先级高于 tscon
   - `miniprogram`: 以小程序的方式编译，入口配置文件为 `app.json`
   - `plugin`: 以插件的方式编译，入口配置文件为 `plugin.json`
   - `subpackage`: 以分包的方式编译，入口配置文件为 `subpackage.json`
+  - `component`: 以组件的方式编译，入口配置文件为 `component.json`
 
 编译类型，用于配置当前项目的产物形态，支持类型如下：
 
 - `miniprogram`: 小程序形态，以 `app.json` 作为入口配置文件
 - `plugin`: 小程序插件形态，以 `plugin.json` 作为入口配置文件
 - `subpackage`: 小程序分包形态，以 `subpackage.json` 作为入口配置文件
+- `component`: 小程序组件形态，以 `component.json` 作为入口配置文件
 
 同一个项目可通过不同的 `compileType` 配合不同的入口配置文件输出不同的产物形态，有关多形态相互转换的进一步解释，可参见文档：[小程序形态一体化](/guides/advance/unity-of-forms.md)。
 
@@ -389,6 +391,26 @@ ts 编译配置, 大部分和 tsconfig 中的含义一致, 优先级高于 tscon
   "pages": [
     "pages/profile/profile"
   ]
+}
+
+// 小程序组件 component.json 配置示例
+// publicComponents 和 main 字段为 MorJS 自定义字段
+{
+  // publicComponents 记录组件列表，标识 bundle 模式下哪些组件需要被编译
+  // publicComponents 有两种配置写法，写成数组时标识组件列表
+  "publicComponents": [
+    "components/banner/index",
+    "components/image/index",
+    "components/popup/index"
+  ],
+  // publicComponents 写成 { key: value } 对象时，将 value 的组件编译到 key 对应的产物目录下
+  "publicComponents": {
+    "morjs-banner/index": "components/banner/index",
+    "morjs-image/index": "components/image/index",
+    "morjs-popup/index": "components/popup/index"
+  },
+  // main 用于配置组件初始化文件
+  "main": "index.js"
 }
 ```
 
@@ -526,7 +548,7 @@ css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压�
 
 用于配置自定义入口文件，包含三种用途：
 
-- 可用于指定入口配置文件的自定义文件路径，如 `app.json` / `plugin.json` / `subpackage.json`，参见 [compileType 配置](/guides/basic/config#compiletype---编译类型)
+- 可用于指定入口配置文件的自定义文件路径，如 `app.json` / `plugin.json` / `subpackage.json` / `component.json`，参见 [compileType 配置](/guides/basic/config#compiletype---编译类型)
 - 可用于指定一些在 `bundle` 模式下额外需要参与编译且需要定制输出名称的文件，如对外输出某个 `js` 文件
 - `bundle` 模式下，无引用关系，但需要额外需要编译的 页面（`pages`） 或 组件（`components`）
 
@@ -544,6 +566,8 @@ css 压缩器自定义配置, 使用时请结合 `cssMinimizer` 所指定的压�
     'plugin.json': './src/my-custom-plugin.json',
     // 手动指定 subpackage.json 文件路径
     'subpackage.json': './src/my-custom-subpackage.json',
+    // 手动指定 component.json 文件路径
+    'component.json': './src/my-custom-component.json',
   }
 }
 
@@ -962,7 +986,7 @@ class YourCustomMorJSPlugin {
 默认情况下：
 
 - 当 `compileType` 为 `miniprogram` 或 `plugin` 时默认为 `true`，即处理占位组件
-- 当 `compileType` 为 `subpackage` 时 默认为 `false`，即不处理占位组件
+- 当 `compileType` 为 `subpackage` 或 `component` 时默认为 `false`，即不处理占位组件
 
 有关占位组件的用途可参考以下文档：
 

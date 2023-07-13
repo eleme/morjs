@@ -56,7 +56,7 @@ Mor 是一套基于小程序 DSL (支付宝或微信) 的框架。他的易用�
 
 ## 部分使用案例
 
-<img src="https://img.alicdn.com/imgextra/i3/O1CN015mLk6V1d6EkhIyNL0_!!6000000003686-0-tps-1520-3499.jpg" />
+<img src="https://img.alicdn.com/imgextra/i2/O1CN01nT9RLK1wJ2WjD09Zc_!!6000000006286-0-tps-1520-3500.jpg" />
 
 ## 贡献
 

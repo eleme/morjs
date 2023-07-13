@@ -51,6 +51,7 @@ import { scriptTransformer } from '../transformers/scriptTransformer'
 import { templateTransformer } from '../transformers/templateTransformer'
 import {
   IAppConfig,
+  IComponentsConfig,
   IPluginConfig,
   ISubPackageConfig,
   IUsingComponentConfig
@@ -827,7 +828,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
   /**
    * 构建 entry, 同时处理文件维度的条件编译
    * bundle 和 transform 编译模式是通过
-   * app.json / subpackage.json / plugin.json 等入口来构建 entry
+   * app.json / subpackage.json / plugin.json / component.json 等入口来构建 entry
    * 区别是 bundle 会将 npm 组件文件拷贝至 outputPath/npm_components 中
    * 而 transform 不强制 入口文件存在，入口文件存在时会从入口文件分析依赖树
    * 入口文件不存在时，则通过 glob 的方式来获取所有文件
@@ -1798,6 +1799,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * - miniprogram: app.json
    * - subpackage: subpackage.json
    * - plugin: plugin.json
+   * - component: component.json
    *
    * 注意: compileType 为 subpackage 时, 会优先从 context 中获取 subpackageJson
    *
@@ -1847,7 +1849,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     // 尝试载入全局文件
     await this.tryAddGlobalFiles()
 
-    // 全局 entry 通常指向 app.json 或 subpackage.json 或 plugin.json
+    // 全局 entry 通常指向 app.json 或 subpackage.json 或 plugin.json 或 component.json
     let globalEntry: EntryItem
 
     // 先载入 app.json
@@ -1971,6 +1973,37 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
           }
         }
       }
+    }
+
+    // 组件构建
+    else if (compileType === CompileTypes.component) {
+      const componentEntry = customEntries['component.json'] || 'component'
+      const searchPaths = generateSearchPaths(componentEntry)
+      const componentJsonPath = await this.tryReachFileByExts(
+        componentEntry,
+        this.configWithConditionalExts,
+        searchPaths,
+        null,
+        searchPaths
+      )
+
+      if (componentJsonPath) {
+        const componentJson = await this.readAndPreprocessJsonLikeFile(
+          componentJsonPath
+        )
+        globalEntry = await this.buildByComponent(
+          componentJson,
+          componentJsonPath
+        )
+      } else {
+        if (isEntryFileRequired) {
+          logger.error(
+            `未找到 component.json 文件, 请检查是否在 ${this.srcPaths.join(
+              ', '
+            )} 目录中`
+          )
+        }
+      }
     } else {
       throw new Error(`不支持的编译类型: ${compileType}, 请检查配置`)
     }
@@ -1985,8 +2018,12 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
   private async tryAddProjectConfigFile() {
     const { target, compileType } = this.userConfig
 
-    // 分包无需添加项目配置
-    if (compileType === CompileTypes.subpackage) return
+    // 分包和组件无需添加项目配置
+    if (
+      compileType === CompileTypes.subpackage ||
+      compileType === CompileTypes.component
+    )
+      return
 
     const composedPlugins = getComposedCompilerPlugins()
 
@@ -2076,6 +2113,9 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    */
   private async tryAddGlobalFiles() {
     const { compileType, mockAppEntry, globalNameSuffix } = this.userConfig
+
+    // 组件已提供 mian 定义的 exports 给外部调用的方法，暂不提供 app.x 相关逻辑
+    if (compileType === CompileTypes.component) return
 
     const globalAppName = mockAppEntry || 'app'
     let globalAppPrefix = ''
@@ -2443,6 +2483,75 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
   }
 
   /**
+   * 解析 component.json 并构建 entry
+   * @param componentJson - 组件配置内容
+   * @param componentJsonPath - 组件配置路径
+   * @param parentEntry - 父级 entry
+   */
+  async buildByComponent(
+    componentJson: IComponentsConfig,
+    componentJsonPath?: string,
+    parentEntry?: EntryItem
+  ) {
+    let entry = parentEntry
+
+    // 添加组件 component.json 配置文件
+    if (componentJsonPath) {
+      const shouldAnalyze = await this.shouldAnalyzeFileDepenencies(
+        componentJsonPath
+      )
+
+      entry = this.addToEntry(
+        componentJsonPath,
+        EntryType.component,
+        'direct',
+        undefined,
+        null,
+        'component'
+      )
+
+      // 判断是否需要继续分析依赖
+      if (shouldAnalyze === false) return entry
+    }
+
+    // 添加组件的 main 文件
+    if (componentJson.main) {
+      const componentMainFile = await this.tryReachFileByExts(
+        componentJson.main,
+        this.scriptWithConditionalExts,
+        this.srcPaths
+      )
+
+      if (componentMainFile) {
+        this.addToEntry(componentMainFile, EntryType.component, 'direct', entry)
+      }
+    }
+
+    let publicComponentsMap: Record<string, string> = {}
+    let treatComponentNameAsCustomEntryName = false
+    if (Array.isArray(componentJson.publicComponents)) {
+      // publicComponents 写成数组时
+      componentJson.publicComponents.forEach((item) => {
+        publicComponentsMap[item] = item
+      })
+    } else if (_.isPlainObject(componentJson.publicComponents)) {
+      // publicComponents 写成对象时
+      publicComponentsMap = componentJson.publicComponents
+      treatComponentNameAsCustomEntryName = true
+    }
+    await this.addComponentEntries(
+      publicComponentsMap,
+      entry,
+      undefined,
+      true,
+      {},
+      treatComponentNameAsCustomEntryName
+    )
+
+    return entry
+  }
+
+  /**
    * 添加页面 entries
    * @param pages - 页面数组, 支持数组或对象, 对象可用于指定自定义 entry 名称
    * @param parentEntry - 父级 entry
@@ -2497,13 +2606,15 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * @param rootDirs - 文件检索根目录, 可选, 默认为 srcPaths
    * @param preferRelative - 是否倾向于按照相对目录解析组件
    * @param componentPlaceholder - 占位组件配置
+   * @param treatComponentNameAsCustomEntryName - 是否将组件名称作为作为自定义 entry 名称，默认为 false
    */
   async addComponentEntries(
     components: Record<string, string> = {},
     parentEntry: EntryItem,
     rootDirs?: string[],
     preferRelative?: boolean,
-    componentPlaceholder: Record<string, string> = {}
+    componentPlaceholder: Record<string, string> = {},
+    treatComponentNameAsCustomEntryName: boolean = false
   ) {
     // 保存 entry 使用 自定义组件的映射
     const usingComponentNames = Object.keys(components)
@@ -2556,7 +2667,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
           undefined,
           undefined,
           undefined,
-          undefined,
+          treatComponentNameAsCustomEntryName ? name : undefined,
           rootDirs,
           preferRelative
         )
