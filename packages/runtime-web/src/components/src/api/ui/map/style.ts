@@ -694,7 +694,8 @@ export const onCommonStyleChange = (self, name, value = 0) => {
       }
       break
     case 'border-color':
-      collectStyleObject(self, 'border', 'solid')
+      collectStyleObject(self, 'border-style', 'solid')
+      collectStyleObject(self, name, value)
       break
     case 'background-color':
       collectStyleObject(self, name, value || '#000000')

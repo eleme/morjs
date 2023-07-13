@@ -50,6 +50,8 @@ const transformTigaTag = (str) => {
 
 export default class Map extends BaseElement {
   mapId = 'map-' + uuid()
+  // 对应高德地图中 setFitView 方法中的 avoid 参数
+  fitViewAvoid = [60, 60, 60, 60]
 
   constructor() {
     super()
@@ -67,12 +69,18 @@ export default class Map extends BaseElement {
 
   connectedCallback() {
     super.connectedCallback()
+    const mapConfig: any = this.getMapConfig()
+    if (mapConfig.securityJsCode) {
+      window._AMapSecurityConfig = {
+        securityJsCode: mapConfig.securityJsCode
+      }
+    }
 
-    this.loadAMapSdk((res) => {
+    this.loadAMapSdk(mapConfig, (res) => {
       if (res && res.error) return console.error(res.error)
 
       requestAnimationFrame(() => {
-        this.drawMap()
+        this.drawMap(res)
         this.drawed = true
       })
     })
@@ -150,32 +158,35 @@ export default class Map extends BaseElement {
   }
 
   getMapConfig() {
-    const defaultConfig = { version: AMAP_VERSION, sdk: AMAP_SDK }
+    const defaultConfig = {
+      version: AMAP_VERSION,
+      sdk: AMAP_SDK
+    }
     // 尝试从 window 中读取 map 配置，用户可在 mor.config 给 map 传递 信息
     const morConfig = get(window.$MOR_APP_CONFIG, 'components.map', {})
     const propertyConfig = {
       key: this[properties.AMAP_KEY],
       version: this[properties.AMAP_VERSION],
-      sdk: this[properties.AMAP_SDK]
+      sdk: this[properties.AMAP_SDK],
+      mapStyle: this[properties.AMAP_STYLE],
+      fitViewAvoid: this[properties.AMAP_FITVIEW_AVOID],
+      securityJsCode: this[properties.AMAP_SECURITYCODE]
     }
-
     const config: Record<string, any> = {}
     // 优先级： 属性传入 > window 设置 > 默认配置
     Object.keys(propertyConfig).forEach((key) => {
       config[key] =
         propertyConfig[key] || morConfig[key] || defaultConfig[key] || ''
     })
-
     return config
   }
 
-  loadAMapSdk(callback) {
+  loadAMapSdk({ key, version, sdk, mapStyle, fitViewAvoid }, callback) {
     if (typeof window.AMap === 'undefined') {
-      const { key, version, sdk } = this.getMapConfig()
       addScript({
         src: `${sdk}?v=${version}&key=${key}`,
         success: () => {
-          callback.call(this)
+          callback.call(this, { mapStyle, fitViewAvoid })
         },
         fail: (e) => {
           callback.call(this, {
@@ -188,12 +199,15 @@ export default class Map extends BaseElement {
     }
   }
 
-  drawMap() {
-    const map = new window.AMap.Map(this.mapId, {
+  drawMap(res) {
+    const mapParams: Record<string, any> = {
       zoom: this[properties.SCALE],
       center: [this[properties.LONGITUDE], this[properties.LATITUDE]],
       rotation: this[properties.ROTATE]
-    })
+    }
+    if (res && res.mapStyle) mapParams.mapStyle = res.mapStyle
+    if (res && res.fitViewAvoid) this.fitViewAvoid = res.fitViewAvoid
+    const map = new window.AMap.Map(this.mapId, mapParams)
 
     if (!map) return
     this.map = map
@@ -223,33 +237,35 @@ export default class Map extends BaseElement {
       : window.AMap.event
   }
 
+  emitRegionChange(detail) {
+    const { map } = this
+
+    const { lng, lat } = map.getCenter()
+    this.dispatchEvent(
+      new CustomEvent('regionchange', {
+        detail: {
+          scale: map.getZoom(),
+          latitude: lat,
+          longitude: lng,
+          rotate: map.getRotation(),
+          ...detail
+        },
+        bubbles: true,
+        composed: true
+      })
+    )
+  }
+
   __handleRegionChange() {
     const { map } = this
 
-    const onRegionChange = (detail) => {
-      const { lng, lat } = map.getCenter()
-      this.dispatchEvent(
-        new CustomEvent('regionchange', {
-          detail: {
-            scale: map.getZoom(),
-            latitude: lat,
-            longitude: lng,
-            rotate: map.getRotation(),
-            ...detail
-          },
-          bubbles: true,
-          composed: true
-        })
-      )
-    }
-
     map.on('dragstart', () =>
-      onRegionChange({
+      this.emitRegionChange({
         type: 'begin'
       })
     )
     map.on('dragend', () =>
-      onRegionChange({
+      this.emitRegionChange({
         type: 'end'
       })
     )
@@ -658,7 +674,7 @@ export default class Map extends BaseElement {
         const point = includePoints[0]
         map && map.setCenter([point.longitude, point.latitude])
       } else {
-        map && map.setFitView(includePointsArr)
+        map && map.setFitView(includePointsArr, true, this.fitViewAvoid)
       }
       this.includePoints = includePointsArr
     }
@@ -696,21 +712,40 @@ export default class Map extends BaseElement {
   }
 
   moveToLocation(options) {
+    this.emitRegionChange({
+      type: 'begin'
+    })
+
     const { longitude, latitude } = options || {}
+    let location = null
+
+    const move = (loc) => {
+      const animationDuration = 300
+
+      this.map.setCenter(loc, false, animationDuration)
+
+      setTimeout(() => {
+        this.emitRegionChange({
+          type: 'end'
+        })
+      }, animationDuration)
+    }
+
     if (longitude && latitude) {
-      this.map.setCenter([longitude, latitude])
+      location = [longitude, latitude]
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { longitude, latitude } = position.coords || {}
-        const pos = new window.AMap.LngLat(longitude, latitude)
-        this.map.setCenter(pos)
+        location = new window.AMap.LngLat(longitude, latitude)
+        move(location)
       })
+      // 浏览器获取定位场景是异步的，所以走到这里之后直接返回，防止报错
+      return
     } else {
-      this.map.setCenter([
-        this[properties.LONGITUDE],
-        this[properties.LATITUDE]
-      ])
+      location = [this[properties.LONGITUDE], this[properties.LATITUDE]]
     }
+
+    move(location)
   }
 
   getRotate(options) {
@@ -1037,6 +1072,18 @@ export default class Map extends BaseElement {
       [properties.AMAP_VERSION]: {
         type: String,
         attribute: attributes.AMAP_VERSION
+      },
+      [properties.AMAP_STYLE]: {
+        type: String,
+        attribute: attributes.AMAP_STYLE
+      },
+      [properties.AMAP_FITVIEW_AVOID]: {
+        type: String,
+        attribute: attributes.AMAP_FITVIEW_AVOID
+      },
+      [properties.AMAP_SECURITYCODE]: {
+        type: String,
+        attribute: attributes.AMAP_SECURITYCODE
       }
     }
   }
