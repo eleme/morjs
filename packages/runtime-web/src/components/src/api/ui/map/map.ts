@@ -660,7 +660,7 @@ export default class Map extends BaseElement {
         const point = includePoints[0]
         map && map.setCenter([point.longitude, point.latitude])
       } else {
-        map && map.setFitView(includePointsArr)
+        map && map.setFitView(includePointsArr, false, [85, 85, 85, 85])
       }
       this.includePoints = includePointsArr
     }
