@@ -26,6 +26,9 @@ interface Window {
    * 用户运行时自定义配置
    */
   $MOR_APP_CONFIG?: any
+  /*
+   高德地图安全码挂载，可参考文档：https://lbs.amap.com/api/javascript-api-v2/guide/abc/load
+  */
   _AMapSecurityConfig?: any
 }
 
