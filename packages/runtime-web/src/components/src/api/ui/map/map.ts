@@ -72,7 +72,7 @@ export default class Map extends BaseElement {
       if (res && res.error) return console.error(res.error)
 
       requestAnimationFrame(() => {
-        this.drawMap()
+        this.drawMap(res)
         this.drawed = true
       })
     })
@@ -156,9 +156,9 @@ export default class Map extends BaseElement {
     const propertyConfig = {
       key: this[properties.AMAP_KEY],
       version: this[properties.AMAP_VERSION],
-      sdk: this[properties.AMAP_SDK]
+      sdk: this[properties.AMAP_SDK],
+      mapStyle: this[properties.AMAP_STYLE]
     }
-
     const config: Record<string, any> = {}
     // 优先级： 属性传入 > window 设置 > 默认配置
     Object.keys(propertyConfig).forEach((key) => {
@@ -171,11 +171,11 @@ export default class Map extends BaseElement {
 
   loadAMapSdk(callback) {
     if (typeof window.AMap === 'undefined') {
-      const { key, version, sdk } = this.getMapConfig()
+      const { key, version, sdk, mapStyle } = this.getMapConfig()
       addScript({
         src: `${sdk}?v=${version}&key=${key}`,
         success: () => {
-          callback.call(this)
+          callback.call(this, { mapStyle })
         },
         fail: (e) => {
           callback.call(this, {
@@ -188,12 +188,14 @@ export default class Map extends BaseElement {
     }
   }
 
-  drawMap() {
-    const map = new window.AMap.Map(this.mapId, {
+  drawMap(res) {
+    const mapParams: Record<string, any> = {
       zoom: this[properties.SCALE],
       center: [this[properties.LONGITUDE], this[properties.LATITUDE]],
       rotation: this[properties.ROTATE]
-    })
+    }
+    if (res && res.mapStyle) mapParams.mapStyle = res.mapStyle
+    const map = new window.AMap.Map(this.mapId, mapParams)
 
     if (!map) return
     this.map = map
@@ -1037,6 +1039,10 @@ export default class Map extends BaseElement {
       [properties.AMAP_VERSION]: {
         type: String,
         attribute: attributes.AMAP_VERSION
+      },
+      [properties.AMAP_STYLE]: {
+        type: String,
+        attribute: attributes.AMAP_STYLE
       }
     }
   }
