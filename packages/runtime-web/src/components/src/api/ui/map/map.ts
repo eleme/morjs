@@ -69,8 +69,14 @@ export default class Map extends BaseElement {
 
   connectedCallback() {
     super.connectedCallback()
+    const mapConfig: any = this.getMapConfig()
+    if (mapConfig.securityJsCode) {
+      window._AMapSecurityConfig = {
+        securityJsCode: mapConfig.securityJsCode
+      }
+    }
 
-    this.loadAMapSdk((res) => {
+    this.loadAMapSdk(mapConfig, (res) => {
       if (res && res.error) return console.error(res.error)
 
       requestAnimationFrame(() => {
@@ -163,7 +169,8 @@ export default class Map extends BaseElement {
       version: this[properties.AMAP_VERSION],
       sdk: this[properties.AMAP_SDK],
       mapStyle: this[properties.AMAP_STYLE],
-      fitViewAvoid: this[properties.AMAP_FITVIEW_AVOID]
+      fitViewAvoid: this[properties.AMAP_FITVIEW_AVOID],
+      securityJsCode: this[properties.AMAP_SECURITYCODE]
     }
     const config: Record<string, any> = {}
     // 优先级： 属性传入 > window 设置 > 默认配置
@@ -171,13 +178,11 @@ export default class Map extends BaseElement {
       config[key] =
         propertyConfig[key] || morConfig[key] || defaultConfig[key] || ''
     })
-
     return config
   }
 
-  loadAMapSdk(callback) {
+  loadAMapSdk({ key, version, sdk, mapStyle, fitViewAvoid }, callback) {
     if (typeof window.AMap === 'undefined') {
-      const { key, version, sdk, mapStyle, fitViewAvoid } = this.getMapConfig()
       addScript({
         src: `${sdk}?v=${version}&key=${key}`,
         success: () => {
@@ -712,26 +717,35 @@ export default class Map extends BaseElement {
     })
 
     const { longitude, latitude } = options || {}
+    let location = null
+
+    const move = (loc) => {
+      const animationDuration = 300
+
+      this.map.setCenter(loc, false, animationDuration)
+
+      setTimeout(() => {
+        this.emitRegionChange({
+          type: 'end'
+        })
+      }, animationDuration)
+    }
+
     if (longitude && latitude) {
-      this.map.setCenter([longitude, latitude])
+      location = [longitude, latitude]
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { longitude, latitude } = position.coords || {}
-        const pos = new window.AMap.LngLat(longitude, latitude)
-        this.map.setCenter(pos)
+        location = new window.AMap.LngLat(longitude, latitude)
+        move(location)
       })
+      // 浏览器获取定位场景是异步的，所以走到这里之后直接返回，防止报错
+      return
     } else {
-      this.map.setCenter([
-        this[properties.LONGITUDE],
-        this[properties.LATITUDE]
-      ])
+      location = [this[properties.LONGITUDE], this[properties.LATITUDE]]
     }
 
-    requestAnimationFrame(() => {
-      this.emitRegionChange({
-        type: 'end'
-      })
-    })
+    move(location)
   }
 
   getRotate(options) {
@@ -1066,6 +1080,10 @@ export default class Map extends BaseElement {
       [properties.AMAP_FITVIEW_AVOID]: {
         type: String,
         attribute: attributes.AMAP_FITVIEW_AVOID
+      },
+      [properties.AMAP_SECURITYCODE]: {
+        type: String,
+        attribute: attributes.AMAP_SECURITYCODE
       }
     }
   }

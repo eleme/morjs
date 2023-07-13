@@ -25,6 +25,7 @@ interface KEY {
   AMAP_VERSION
   AMAP_STYLE
   AMAP_FITVIEW_AVOID
+  AMAP_SECURITYCODE
 }
 
 type Attributes = {
@@ -59,7 +60,8 @@ export const attributes: Attributes = {
   AMAP_SDK: 'amap-sdk',
   AMAP_VERSION: 'amap-version',
   AMAP_STYLE: 'amap-style',
-  AMAP_FITVIEW_AVOID: 'amap-fitview-avoid'
+  AMAP_FITVIEW_AVOID: 'amap-fitview-avoid',
+  AMAP_SECURITYCODE: 'amap-security-js-code'
 }
 
 export const properties: Properties = getPropertiesByAttributes(

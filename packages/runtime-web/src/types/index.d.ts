@@ -26,6 +26,7 @@ interface Window {
    * 用户运行时自定义配置
    */
   $MOR_APP_CONFIG?: any
+  _AMapSecurityConfig?: any
 }
 
 interface ConvertApiOptions {
