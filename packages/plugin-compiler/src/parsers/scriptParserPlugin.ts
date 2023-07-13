@@ -430,7 +430,7 @@ export class ScriptParserPlugin implements Plugin {
             )
           } else {
             logger.warn(
-              `${exp.getText()} 的第三个参数非 Object 类型，无法注入 globalApp: morGlobal.initApp 请开发者自行检查`
+              `${exp.getText()} 的第三个参数非 Object 类型，无法注入 App 支持，分包或插件场景下可能会引发问题`
             )
           }
         } else {
