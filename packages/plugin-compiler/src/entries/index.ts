@@ -2528,7 +2528,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     let treatComponentNameAsCustomEntryName = false
     if (Array.isArray(componentJson.publicComponents)) {
       // publicComponents 写成数组时
-      ;(componentJson.publicComponents as string[]).forEach((item) => {
+      componentJson.publicComponents.forEach((item) => {
         publicComponentsMap[item] = item
       })
     } else if (_.isPlainObject(componentJson.publicComponents)) {
