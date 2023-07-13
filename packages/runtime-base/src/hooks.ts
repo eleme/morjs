@@ -10,8 +10,8 @@ enum HookInvokeState {
 
 interface HookSharedState {
   state: HookInvokeState
-  stack: any[]
-  hooksNameList: string[]
+  stack: [string, Tap, any, any[]][]
+  hooksNameList: MorHookNames[]
 }
 
 interface Tap {
@@ -27,13 +27,13 @@ interface Tap {
 export class SyncHook {
   name: string
   taps: Tap[]
-  sharedState: HookSharedState
+  sharedState?: HookSharedState
 
   /**
    * @constructor
    * @param name Hook 名称
    */
-  constructor(name, sharedState?) {
+  constructor(name: string, sharedState?: HookSharedState) {
     this.name = name || ''
     this.taps = []
     this.sharedState = sharedState
@@ -50,8 +50,8 @@ export class SyncHook {
    * 创建 hook alias
    * @param name Hook 名称
    */
-  alias(name: string, sharedState?: HookSharedState): SyncHook {
-    const aliasHook = new SyncHook(name, sharedState)
+  alias(name: string): SyncHook {
+    const aliasHook = new SyncHook(name, this.sharedState)
 
     // 这里直接使用 taps 数组, 方便 alias Hook 共用
     aliasHook.taps = this.taps
@@ -105,15 +105,18 @@ export class SyncHook {
       return a.stage - b.stage
     })
 
+    const state = this.sharedState
+
     for (const tap of taps) {
       // 当触发了 $hooks.pause 暂停，若未传入需要指定暂停的 hooks 则暂停所有生命周期触发
       // 若传入了某些指定的 hooks 数组，则只暂停这些传入 hooks
       if (
-        this.sharedState.state === 'pausing' &&
-        (this.sharedState.hooksNameList.length === 0 ||
-          this.sharedState.hooksNameList.includes(this.name))
+        state &&
+        state.state === HookInvokeState.pausing &&
+        (state.hooksNameList?.length === 0 ||
+          state.hooksNameList?.includes(this.name as MorHookNames))
       ) {
-        this.sharedState.stack.push([tap.fn, context, args])
+        this.sharedState.stack.push([this.name, tap, context, args])
       } else {
         try {
           tap.fn.call(context, ...args)
@@ -236,7 +239,7 @@ export interface MorHooks {
   resume: () => void
 }
 
-export type MorHookNames = keyof MorHooks
+export type MorHookNames = keyof Omit<MorHooks, 'pause' | 'resume'>
 
 type Reason = string
 
@@ -278,7 +281,7 @@ export function createHooks(reason: Reason): MorHooks {
     /* App 相关 hooks */
     appOnConstruct: appOnConstruct,
     // appOnInit 已废弃, 这里出于兼容性暂不移除
-    appOnInit: appOnConstruct.alias('appOnInit', sharedState),
+    appOnInit: appOnConstruct.alias('appOnInit'),
     appOnLaunch: new SyncHook('appOnLaunch', sharedState),
     appOnError: new SyncHook('appOnError', sharedState),
     appOnShow: new SyncHook('appOnShow', sharedState),
@@ -292,7 +295,7 @@ export function createHooks(reason: Reason): MorHooks {
     /* Page 相关 hooks */
     pageOnConstruct: pageOnConstructHook,
     // pageOnInit 已废弃, 这里出于兼容性暂不移除
-    pageOnInit: pageOnConstructHook.alias('pageOnInit', sharedState),
+    pageOnInit: pageOnConstructHook.alias('pageOnInit'),
     pageOnLoad: new SyncHook('pageOnLoad', sharedState),
     pageOnReady: new SyncHook('pageOnReady', sharedState),
     pageOnShow: new SyncHook('pageOnShow', sharedState),
@@ -302,26 +305,17 @@ export function createHooks(reason: Reason): MorHooks {
     /* Component 相关 hooks */
     componentOnConstruct: new SyncHook('componentOnConstruct', sharedState),
     componentOnInit: componentOnInitHook,
-    componentOnCreated: componentOnInitHook.alias(
-      'componentOnCreated',
-      sharedState
-    ),
+    componentOnCreated: componentOnInitHook.alias('componentOnCreated'),
     componentDidMount: componentDidMountHook,
-    componentOnAttached: componentDidMountHook.alias(
-      'componentOnAttached',
-      sharedState
-    ),
+    componentOnAttached: componentDidMountHook.alias('componentOnAttached'),
     componentDidUnmount: componentDidUnmountHook,
-    componentOnDetached: componentDidUnmountHook.alias(
-      'componentOnDetached',
-      sharedState
-    ),
+    componentOnDetached: componentDidUnmountHook.alias('componentOnDetached'),
     componentOnError: componentOnError,
 
     // 暂定某些生命周期暂时不执行，参数为空时暂停所有生命周期
-    pause(hooksNameList = []) {
+    pause(hooksNameList?: MorHookNames[]) {
       sharedState.state = HookInvokeState.pausing
-      sharedState.hooksNameList = hooksNameList
+      sharedState.hooksNameList = hooksNameList || []
     },
 
     // 恢复所有生命周期，按顺依次执行
@@ -329,11 +323,11 @@ export function createHooks(reason: Reason): MorHooks {
       sharedState.state = HookInvokeState.resuming
       let stackItem = sharedState.stack.shift()
       while (stackItem) {
-        const [fn, context, args] = stackItem
+        const [name, tap, context, args] = stackItem
         try {
-          fn.call(context, ...args)
+          tap?.fn.call(context, ...args)
         } catch (error) {
-          logger.error(error)
+          logger.error(name, tap.name, error)
         }
         stackItem = sharedState.stack.shift()
       }
