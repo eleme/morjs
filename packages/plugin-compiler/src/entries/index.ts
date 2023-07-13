@@ -2018,8 +2018,12 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
   private async tryAddProjectConfigFile() {
     const { target, compileType } = this.userConfig
 
-    // 分包无需添加项目配置
-    if (compileType === CompileTypes.subpackage) return
+    // 分包和组件无需添加项目配置
+    if (
+      compileType === CompileTypes.subpackage ||
+      compileType === CompileTypes.component
+    )
+      return
 
     const composedPlugins = getComposedCompilerPlugins()
 
@@ -2520,37 +2524,26 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       }
     }
 
-    if (
-      Object.prototype.toString.call(componentJson.publicComponents) ===
-      '[object Array]'
-    ) {
+    let publicComponentsMap: Record<string, string> = {}
+    let treatComponentNameAsCustomEntryName = false
+    if (Array.isArray(componentJson.publicComponents)) {
       // publicComponents 写成数组时
-      const publicComponentsMap = new Map()
-      ;(componentJson.publicComponents as string[]).map((item) => {
-        publicComponentsMap.set(item, item)
+      ;(componentJson.publicComponents as string[]).forEach((item) => {
+        publicComponentsMap[item] = item
       })
-      await this.addComponentEntries(
-        Object.fromEntries(publicComponentsMap) || {},
-        entry,
-        undefined,
-        true,
-        {},
-        false
-      )
-    } else if (
-      Object.prototype.toString.call(componentJson.publicComponents) ===
-      '[object Object]'
-    ) {
+    } else if (_.isPlainObject(componentJson.publicComponents)) {
       // publicComponents 写成对象时
-      await this.addComponentEntries(
-        (componentJson.publicComponents as Record<string, string>) || {},
-        entry,
-        undefined,
-        true,
-        {},
-        true
-      )
+      publicComponentsMap = componentJson.publicComponents
+      treatComponentNameAsCustomEntryName = true
     }
+    await this.addComponentEntries(
+      publicComponentsMap,
+      entry,
+      undefined,
+      true,
+      {},
+      treatComponentNameAsCustomEntryName
+    )
 
     return entry
   }
@@ -2610,7 +2603,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    * @param rootDirs - 文件检索根目录, 可选, 默认为 srcPaths
    * @param preferRelative - 是否倾向于按照相对目录解析组件
    * @param componentPlaceholder - 占位组件配置
-   * @param setCustomEntryName - 是否将 name 作为 customEntryName 传入
+   * @param treatComponentNameAsCustomEntryName - 是否将组件名称作为作为自定义 entry 名称，默认为 false
    */
   async addComponentEntries(
     components: Record<string, string> = {},
@@ -2618,7 +2611,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     rootDirs?: string[],
     preferRelative?: boolean,
     componentPlaceholder: Record<string, string> = {},
-    setCustomEntryName: boolean = false
+    treatComponentNameAsCustomEntryName: boolean = false
   ) {
     // 保存 entry 使用 自定义组件的映射
     const usingComponentNames = Object.keys(components)
@@ -2671,7 +2664,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
           undefined,
           undefined,
           undefined,
-          setCustomEntryName ? name : undefined,
+          treatComponentNameAsCustomEntryName ? name : undefined,
           rootDirs,
           preferRelative
         )

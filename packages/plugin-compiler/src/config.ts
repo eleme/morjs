@@ -523,10 +523,13 @@ export function generateChunkLoadingGlobal(
   const globalNameSuffix = userConfig.globalNameSuffix
 
   if (userConfig.compileType !== CompileTypes.miniprogram) {
-    // s 代表分包
-    // p 代表插件
+    // s: 代表分包; p: 代表插件; c: 代表组件
     const appType =
-      userConfig.compileType === CompileTypes.subpackage ? 's' : 'p'
+      userConfig.compileType === CompileTypes.subpackage
+        ? 's'
+        : userConfig.compileType === CompileTypes.plugin
+        ? 'p'
+        : 'c'
     segments.push(appType)
 
     // 未定义 globalNameSuffix 时尝试以 package.json 的 name 作为区分，避免冲突
@@ -542,6 +545,15 @@ export function generateChunkLoadingGlobal(
 
   // 追加全局文件名称后缀，用于避免 chunk loading global 重复
   if (globalNameSuffix) segments.push(globalNameSuffix)
+
+  // 针对组件添加其版本号，用于避免不同版本的组件冲突
+  if (userConfig.compileType === CompileTypes.component) {
+    const pkgVersion = ((runner.config.pkg?.version || '') as string).replace(
+      /[.-]/g,
+      '_'
+    )
+    segments.push(pkgVersion)
+  }
 
   return segments.join('_')
 }
