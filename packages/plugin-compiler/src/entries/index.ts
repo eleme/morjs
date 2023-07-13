@@ -828,7 +828,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
   /**
    * 构建 entry, 同时处理文件维度的条件编译
    * bundle 和 transform 编译模式是通过
-   * app.json / subpackage.json / plugin.json 等入口来构建 entry
+   * app.json / subpackage.json / plugin.json / component.json 等入口来构建 entry
    * 区别是 bundle 会将 npm 组件文件拷贝至 outputPath/npm_components 中
    * 而 transform 不强制 入口文件存在，入口文件存在时会从入口文件分析依赖树
    * 入口文件不存在时，则通过 glob 的方式来获取所有文件
@@ -1849,7 +1849,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     // 尝试载入全局文件
     await this.tryAddGlobalFiles()
 
-    // 全局 entry 通常指向 app.json 或 subpackage.json 或 plugin.json
+    // 全局 entry 通常指向 app.json 或 subpackage.json 或 plugin.json 或 component.json
     let globalEntry: EntryItem
 
     // 先载入 app.json
@@ -2113,6 +2113,9 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
    */
   private async tryAddGlobalFiles() {
     const { compileType, mockAppEntry, globalNameSuffix } = this.userConfig
+
+    // 组件已提供 mian 定义的 exports 给外部调用的方法，暂不提供 app.x 相关逻辑
+    if (compileType === CompileTypes.component) return
 
     const globalAppName = mockAppEntry || 'app'
     let globalAppPrefix = ''
