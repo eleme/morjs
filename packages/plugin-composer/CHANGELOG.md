@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.68](https://github.com/eleme/morjs/compare/v1.0.67...v1.0.68) (2023-07-14)
+
+**Note:** Version bump only for package @morjs/plugin-composer
+
+
+
+
+
 ## [1.0.60](https://github.com/eleme/morjs/compare/v1.0.59...v1.0.60) (2023-06-25)
 
 

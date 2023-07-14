@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.68](https://github.com/eleme/morjs/compare/v1.0.67...v1.0.68) (2023-07-14)
+
+
+### Features
+
+* **plugin-compiler:** 新增多端组件构建模式支持 ([#75](https://github.com/eleme/morjs/issues/75)) ([3307838](https://github.com/eleme/morjs/commit/3307838d278607d300c390877abe48e40f117acd))
+* **runtime-base:** 新增 hooks 的 pause、resume 方法，用于暂停/恢复部分 hooks 生命周期的执行 ([#77](https://github.com/eleme/morjs/issues/77)) ([aa712eb](https://github.com/eleme/morjs/commit/aa712ebf2603ecd5b1340f77c0d79e2e709476ad))
+
+
+
+
+
 ## [1.0.67](https://github.com/eleme/morjs/compare/v1.0.66...v1.0.67) (2023-07-13)
 
 **Note:** Version bump only for package @morjs/plugin-compiler

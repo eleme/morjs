@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-mocker",
-  "version": "1.0.57",
+  "version": "1.0.68",
   "description": "mor mock plugin",
   "keywords": [
     "mor",
@@ -32,8 +32,8 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@morjs/api": "1.0.53",
-    "@morjs/utils": "1.0.57",
+    "@morjs/api": "1.0.68",
+    "@morjs/utils": "1.0.68",
     "tslib": "^2.3.1"
   }
 }
