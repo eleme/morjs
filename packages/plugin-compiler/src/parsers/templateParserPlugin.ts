@@ -141,6 +141,9 @@ export class TemplateParserPlugin implements Plugin {
           options.fileInfo.path
         )
 
+        // 整个文档纬度的共享上下文
+        const sharedContext: Record<string, any> = {}
+
         return tree.walk((node) => {
           // 如果不包含要替换的 tag 名称则跳过 sjs 处理
           if (needToProcessSjs) {
@@ -160,7 +163,8 @@ export class TemplateParserPlugin implements Plugin {
               sourceProcessor,
               directivesMap,
               sourceDirectives,
-              usingComponentNames
+              usingComponentNames,
+              sharedContext
             )
           }
 
@@ -181,11 +185,13 @@ export class TemplateParserPlugin implements Plugin {
     sourceProcessor: CompilerTemplateProcessor,
     directivesMap: Record<string, string>,
     sourceDirectives: CompilerTemplateDirectives,
-    usingComponentNames: string[]
+    usingComponentNames: string[],
+    sharedContext: Record<string, any>
   ) {
     // node 上下文
     const nodeContext: Record<string, any> = {
-      usingComponentNames
+      usingComponentNames,
+      sharedContext
     }
 
     // 触发源码转换

@@ -172,6 +172,13 @@ export function createApp<T extends IData, G extends IData>(
      * 模拟全局 App 构造函数, 用于不存在 App 构造函数的环境, 如 小程序插件
      */
     globalApp?: (options: IData) => any
+    /**
+     * 暴露给 App 调用的方法，可调用传入的 $hooks 执行所需逻辑，如
+     * - 调用 $hooks.pause 暂定所有生命周期函数的执行，并将调用堆栈保存
+     * - 调用 $hooks.resume 恢复并之前之前被暂停的 hooks
+     * - 手动触发某些 hook
+     */
+    onHooksCreated?: ($hooks: MorHooks) => any
   }
 ): any {
   logger.time('createApp-init')
@@ -193,6 +200,14 @@ export function createApp<T extends IData, G extends IData>(
   logger.time('app-init-solution')
   const { $hooks, pluginsNames } = init(solution)
   logger.timeEnd('app-init-solution')
+
+  if (extend?.onHooksCreated) {
+    if (typeof extend.onHooksCreated !== 'function') {
+      logger.error('onHooksCreated 必须是函数, 请检查 App 的 extends 配置')
+      return
+    }
+    extend.onHooksCreated($hooks)
+  }
 
   // 添加到 App 实例中
   appOptions.$morHooks = $hooks

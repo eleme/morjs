@@ -80,6 +80,7 @@ export default class Box extends LitElement {
   onStyleChange(name, value) {
     onCommonStyleChange(this, name, value)
     collectStyleObject(this, 'display', 'flex')
+    collectStyleObject(this, 'position', 'relative')
 
     switch (name) {
       case 'width':

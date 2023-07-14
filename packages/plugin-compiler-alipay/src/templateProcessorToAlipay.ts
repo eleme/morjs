@@ -138,6 +138,7 @@ export const templateProcessorToAlipay = {
   ): void {
     // 支付宝不支持将 sjs 模块的名称命名为 this
     // 这里需要将其转换为 thisSjs
+    if (!context.sharedContext) context.sharedContext = {}
     if (
       node.tag === sjsTagName &&
       attrName === sjsModuleAttrName &&
@@ -145,13 +146,13 @@ export const templateProcessorToAlipay = {
     ) {
       node.attrs[attrName] = 'thisSjs'
       // 标记当前页面模版中存在 sjs 模块名称为 this
-      context.hasSjsModuleAttrNameAsThis = true
+      context.sharedContext.hasSjsModuleAttrNameAsThis = true
     }
 
     // 如果当前页面有 this 作为 sjs 模块名称
-    // 则
+    // 则替换为 thisSjs
     if (
-      context.hasSjsModuleAttrNameAsThis &&
+      context.sharedContext.hasSjsModuleAttrNameAsThis &&
       node.tag !== sjsTagName &&
       typeof node.attrs[attrName] === 'string' &&
       node.attrs[attrName].includes('this.')

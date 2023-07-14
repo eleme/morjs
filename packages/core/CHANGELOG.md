@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.68](https://github.com/eleme/morjs/compare/v1.0.67...v1.0.68) (2023-07-14)
+
+
+### Bug Fixes
+
+* **core:** 修复 invokeHook 参数 hookName 的类型报错 ([#78](https://github.com/eleme/morjs/issues/78)) ([3e1cfcb](https://github.com/eleme/morjs/commit/3e1cfcb8d886f509b567383d84c5b087fb512809))
+
+
+### Features
+
+* **runtime-base:** 新增 hooks 的 pause、resume 方法，用于暂停/恢复部分 hooks 生命周期的执行 ([#77](https://github.com/eleme/morjs/issues/77)) ([aa712eb](https://github.com/eleme/morjs/commit/aa712ebf2603ecd5b1340f77c0d79e2e709476ad))
+
+
+
+
+
 ## [1.0.53](https://github.com/eleme/morjs/compare/v1.0.52...v1.0.53) (2023-06-07)
 
 **Note:** Version bump only for package @morjs/core

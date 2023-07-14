@@ -49,6 +49,14 @@ export interface IPluginConfig {
   main?: string
 }
 
+// 小程序组件的 component.json 配置
+export interface IComponentsConfig {
+  // 所有自定义组件
+  publicComponents?: string[] | Record<string, string>
+  // 组件面向第三方小程序的 js 接口
+  main?: string
+}
+
 export interface IUsingComponentConfig {
   usingComponents?: Record<string, string>
   componentPlaceholder?: Record<string, string>
