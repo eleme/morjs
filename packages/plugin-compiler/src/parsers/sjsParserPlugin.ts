@@ -30,7 +30,6 @@ export class SjsParserPlugin implements Plugin {
       if (runner.commandName !== COMPILE_COMMAND_NAME) return
 
       const { target, sourceType } = runner.userConfig as CompilerUserConfig
-
       // 如果同源编译，不做处理
       if (target === sourceType) return
 

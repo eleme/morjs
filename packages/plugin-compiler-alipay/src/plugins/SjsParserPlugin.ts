@@ -6,7 +6,7 @@ import {
   tsTransformerFactory,
   typescript as ts
 } from '@morjs/utils'
-import { isSimilarTarget } from '../constants'
+import { getModuleExportsName, isSimilarTarget } from '../constants'
 
 /**
  * 支付宝 sjs 文件转译
@@ -20,6 +20,9 @@ export default class AlipayCompilerSjsParserPlugin implements Plugin {
     runner.hooks.beforeRun.tap(this.name, () => {
       const { sourceType, target } = runner.userConfig
 
+      // 仅当 sjs 是微信时执行该处理
+      if (sourceType === SourceTypes.wechat)
+        return this.transformCommonjsToESModule(runner)
       // 仅当 sjs 是 支付宝 源码 且 编译目标不是 支付宝小程序 时执行该插件
       if (sourceType !== SourceTypes.alipay) return
       if (sourceType === target) return
@@ -42,6 +45,58 @@ export default class AlipayCompilerSjsParserPlugin implements Plugin {
         return transformers
       })
     })
+  }
+
+  /**
+   * 微信转支付宝的场景下 ，wxs 内联文件中使用 module.exports.var 在支付宝中无法正常通过 name.var 调用，
+   * 需要将这种场景下的导出进行拓展，增加 module.exports = {}, 这样在 webpack 打包时就可以正确导出 export default 文件
+   */
+  transformCommonjsToESModule(runner: Runner) {
+    runner.hooks.sjsParser.tap(
+      this.name,
+      (transformers: ts.CustomTransformers, options) => {
+        if (
+          options.fileInfo.content.includes('module.exports.') &&
+          !(
+            options.fileInfo.content.includes('module.exports =') ||
+            options.fileInfo.content.includes('module.exports=')
+          )
+        ) {
+          // 提取 module.exports.var 中的变量名
+          const names = getModuleExportsName(options.fileInfo.content)
+          if (names.length <= 0 || names.indexOf('default') > -1)
+            return transformers
+
+          transformers.after.push(
+            tsTransformerFactory((node, ctx) => {
+              const factory = ctx.factory
+
+              if (ts.isSourceFile(node)) {
+                return factory.updateSourceFile(node, [
+                  ...node.statements,
+                  factory.createExportAssignment(
+                    void 0,
+                    void 0,
+                    void 0,
+                    factory.createObjectLiteralExpression(
+                      names.map((name) =>
+                        factory.createShorthandPropertyAssignment(
+                          factory.createIdentifier(name)
+                        )
+                      )
+                    )
+                  )
+                ])
+              }
+
+              return node
+            })
+          )
+        }
+
+        return transformers
+      }
+    )
   }
 
   transformESModuleToCommonjs(transformers: ts.CustomTransformers) {
