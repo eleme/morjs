@@ -117,3 +117,21 @@ export function removeSimilarTarget(t: string): void {
   if (t === target) return
   SIMILAR_TARGETS.delete(t)
 }
+
+/**
+ * 从 module.exports.xxx 中提取 xxx 变量名
+ */
+export function getModuleExportsName(content: string): string[] {
+  const result = []
+  const regex = /module\.exports\.(\w+)/gim
+  const matchResult = content.match(regex)
+
+  if (!matchResult) return result
+
+  matchResult.map((param) => {
+    const name = param.split('.')[2]
+    result.push(name)
+  })
+
+  return result
+}

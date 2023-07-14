@@ -157,6 +157,7 @@ export const templateProcessorToAlipay = {
       typeof node.attrs[attrName] === 'string' &&
       node.attrs[attrName].includes('this.')
     ) {
+      console.log('++this', node.attrs[attrName])
       node.attrs[attrName] = node.attrs[attrName].replace(/this\./g, 'thisSjs.')
     }
   }
