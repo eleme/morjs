@@ -1,6 +1,5 @@
 import {
   EntryBuilderHelpers,
-  logger,
   Plugin,
   Runner,
   SourceTypes,
@@ -73,7 +72,6 @@ export default class AlipayCompilerSjsParserPlugin implements Plugin {
               const factory = ctx.factory
 
               if (ts.isSourceFile(node)) {
-                logger.info('++names: ' + names)
                 return factory.updateSourceFile(node, [
                   ...node.statements,
                   factory.createExportAssignment(
