@@ -172,8 +172,13 @@ export function createApp<T extends IData, G extends IData>(
      * 模拟全局 App 构造函数, 用于不存在 App 构造函数的环境, 如 小程序插件
      */
     globalApp?: (options: IData) => any
-    /** 暴露给 App 调用的方法，可调用传入的 $hooks 执行所需逻辑，如 调用 $hooks.pause 暂定所有生命周期函数的执行 */
-    onHooksCreated?: ($hooks: Record<string, any>) => any
+    /**
+     * 暴露给 App 调用的方法，可调用传入的 $hooks 执行所需逻辑，如
+     * - 调用 $hooks.pause 暂定所有生命周期函数的执行，并将调用堆栈保存
+     * - 调用 $hooks.resume 恢复并之前之前被暂停的 hooks
+     * - 手动触发某些 hook
+     */
+    onHooksCreated?: ($hooks: MorHooks) => any
   }
 ): any {
   logger.time('createApp-init')
