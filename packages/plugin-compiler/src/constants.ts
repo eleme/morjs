@@ -223,7 +223,8 @@ export const RootEntryConfigFiles = objectEnum([
 export const CompileTypeDescriptions = {
   miniprogram: '小程序',
   plugin: '插件',
-  subpackage: '分包'
+  subpackage: '分包',
+  component: '组件'
 } as const
 
 /**
@@ -913,6 +914,7 @@ export const CompilerUserConfigSchema = z.object({
       'app.json': z.string().optional(),
       'subpackage.json': z.string().optional(),
       'plugin.json': z.string().optional(),
+      'component.json': z.string().optional(),
       pages: z.array(z.string()).optional(),
       components: z.array(z.string()).optional()
     })
@@ -1009,7 +1011,7 @@ export const CompilerUserConfigSchema = z.object({
   /**
    * 是否处理 componentPlaceholder 中的组件
    * compileType 为 miniprogram 或 plugin 时默认为 true
-   * compileType 为 subpackage 时 默认为 false
+   * compileType 为 subpackage 或 component 时默认为 false
    */
   processPlaceholderComponents: z.boolean().optional(),
 

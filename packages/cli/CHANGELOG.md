@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.68](https://github.com/eleme/morjs/compare/v1.0.67...v1.0.68) (2023-07-14)
+
+**Note:** Version bump only for package @morjs/cli
+
+
+
+
+
+## [1.0.67](https://github.com/eleme/morjs/compare/v1.0.66...v1.0.67) (2023-07-13)
+
+**Note:** Version bump only for package @morjs/cli
+
+
+
+
+
+## [1.0.66](https://github.com/eleme/morjs/compare/v1.0.65...v1.0.66) (2023-07-10)
+
+**Note:** Version bump only for package @morjs/cli
+
+
+
+
+
 ## [1.0.65](https://github.com/eleme/morjs/compare/v1.0.64...v1.0.65) (2023-07-07)
 
 **Note:** Version bump only for package @morjs/cli

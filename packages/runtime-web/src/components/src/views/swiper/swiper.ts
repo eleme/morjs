@@ -116,6 +116,8 @@ export default class TigaSwiper extends LitElement {
 
   @internalProperty() updating = false
 
+  @internalProperty() slideWrapperObserver: MutationObserver
+
   constructor() {
     super()
 
@@ -185,7 +187,31 @@ export default class TigaSwiper extends LitElement {
           })
           this.dispatchEvent(event)
         },
+        slideChangeTransitionStart: () => {
+          if (!this.swiper || !this.swiper.initialized) return
 
+          const $wrapperEl = this.swiper.$wrapperEl
+          const params = this.swiper.params
+          // 替换duplicate slide，避免duplicate slide不更新
+          $wrapperEl
+            .children(
+              '.' + params.slideClass + '.' + params.slideDuplicateClass
+            )
+            .each(function () {
+              const idx = this.getAttribute('data-swiper-slide-index')
+              this.innerHTML = $wrapperEl
+                .children(
+                  '.' +
+                    params.slideClass +
+                    '[data-swiper-slide-index="' +
+                    idx +
+                    '"]:not(.' +
+                    params.slideDuplicateClass +
+                    ')'
+                )
+                .html()
+            })
+        },
         slideChangeTransitionEnd: () => {
           if (!this.swiper || !this.swiper.initialized) return
 
@@ -228,6 +254,33 @@ export default class TigaSwiper extends LitElement {
     }
 
     this.swiper = new window.Swiper(container, options)
+    this.observeSlideWrapper()
+  }
+
+  observeSlideWrapper = () => {
+    const wrapperEl = this.swiper.$wrapperEl?.[0]
+    if (!wrapperEl) return
+
+    this.slideWrapperObserver = new MutationObserver(this.handleAutoPlayListen)
+    this.slideWrapperObserver.observe(wrapperEl, { childList: true })
+  }
+
+  handleAutoPlayListen = () => {
+    const slides = this.swiperWrapper?.querySelectorAll('.swiper-slide') || []
+    // loop状态下，有3个silde时表示仅一个有效slide，无需autoplay
+    if (
+      this[properties.CIRCULAR] &&
+      slides.length === 3 &&
+      this[properties.AUTOPLAY]
+    ) {
+      this.swiper.autoplay && this.swiper.autoplay.stop()
+    } else if (this[properties.AUTOPLAY]) {
+      if (this.swiper.params.autoplay.disableOnInteraction === true) {
+        this.swiper.params.autoplay.disableOnInteraction = false
+      }
+      this.swiper.params.autoplay.delay = this[properties.INTERVAL]
+      this.swiper.autoplay && this.swiper.autoplay.start()
+    }
   }
 
   loadScript = () =>
@@ -256,7 +309,7 @@ export default class TigaSwiper extends LitElement {
   }
 
   overwriteDomOperation() {
-    const swiperWrapper = this.querySelector(
+    this.swiperWrapper = this.querySelector(
       `.tiga-swiper-${this.swiperId} > .swiper-container > .swiper-wrapper`
     ) as any
 
@@ -264,7 +317,7 @@ export default class TigaSwiper extends LitElement {
       if (!this.isElementNode(newChild)) return
 
       newChild.classList.add('swiper-slide')
-      return swiperWrapper.appendChild(newChild)
+      return this.swiperWrapper.appendChild(newChild)
     }
     ;(this as any).insertBefore = (
       newChild: HTMLElement,
@@ -273,7 +326,7 @@ export default class TigaSwiper extends LitElement {
       if (!this.isElementNode(newChild) || !this.isElementNode(refChild)) return
 
       newChild.classList.add('swiper-slide')
-      return swiperWrapper.insertBefore(newChild, refChild)
+      return this.swiperWrapper.insertBefore(newChild, refChild)
     }
     ;(this as any).replaceChild = (
       newChild: HTMLElement,
@@ -282,12 +335,12 @@ export default class TigaSwiper extends LitElement {
       if (!this.isElementNode(newChild) || !this.isElementNode(oldChild)) return
 
       newChild.classList.add('swiper-slide')
-      return swiperWrapper.replaceChild(newChild, oldChild)
+      return this.swiperWrapper.replaceChild(newChild, oldChild)
     }
     ;(this as any).removeChild = (oldChild: HTMLElement) => {
       if (!this.isElementNode(oldChild)) return
 
-      return swiperWrapper.removeChild(oldChild)
+      return this.swiperWrapper.removeChild(oldChild)
     }
   }
 
@@ -347,6 +400,7 @@ export default class TigaSwiper extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback()
 
+    this.slideWrapperObserver?.disconnect()
     this.swiper.destroy()
     this.swiper = null
   }

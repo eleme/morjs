@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.68](https://github.com/eleme/morjs/compare/v1.0.67...v1.0.68) (2023-07-14)
+
+### Bug Fixes
+
+- **core:** 修复 invokeHook 参数 hookName 的类型报错 ([#78](https://github.com/eleme/morjs/issues/78)) ([3e1cfcb](https://github.com/eleme/morjs/commit/3e1cfcb8d886f509b567383d84c5b087fb512809))
+
+### Features
+
+- **plugin-compiler:** 新增多端组件构建模式支持 ([#75](https://github.com/eleme/morjs/issues/75)) ([3307838](https://github.com/eleme/morjs/commit/3307838d278607d300c390877abe48e40f117acd))
+- **runtime-base:** 新增 hooks 的 pause、resume 方法，用于暂停/恢复部分 hooks 生命周期的执行 ([#77](https://github.com/eleme/morjs/issues/77)) ([aa712eb](https://github.com/eleme/morjs/commit/aa712ebf2603ecd5b1340f77c0d79e2e709476ad))
+
+## [1.0.67](https://github.com/eleme/morjs/compare/v1.0.66...v1.0.67) (2023-07-13)
+
+### Bug Fixes
+
+- **runtime-web:** 解决 swiper item 数据更新异常以及单个 swiper-item 场景无需 autoplay 的问题 ([#74](https://github.com/eleme/morjs/issues/74)) ([5c40253](https://github.com/eleme/morjs/commit/5c402532c70aee994f821d02951c7c6c67ab28d2))
+
+### Features
+
+- **runtime-web:** 地图组件支持自定义样式 ([#76](https://github.com/eleme/morjs/issues/76)) ([78e92a3](https://github.com/eleme/morjs/commit/78e92a30b9bb17c82aa9547b804a934b5cadc9ac))
+
+## [1.0.66](https://github.com/eleme/morjs/compare/v1.0.65...v1.0.66) (2023-07-10)
+
+### Bug Fixes
+
+- **runtime-web:** 修复地图组件 relative 布局错位问题 ([#72](https://github.com/eleme/morjs/issues/72)) ([598863b](https://github.com/eleme/morjs/commit/598863b5112b644eb701bf7ac1d7aa20d84aa497))
+
 ## [1.0.65](https://github.com/eleme/morjs/compare/v1.0.64...v1.0.65) (2023-07-07)
 
 ### Features
