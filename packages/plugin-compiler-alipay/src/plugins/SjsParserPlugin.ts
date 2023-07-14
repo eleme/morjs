@@ -22,7 +22,8 @@ export default class AlipayCompilerSjsParserPlugin implements Plugin {
       const { sourceType, target } = runner.userConfig
 
       // 仅当 sjs 是微信时执行该处理
-      // if (sourceType === SourceTypes.wechat) return this.transformCommonjsToESModule(runner)
+      if (sourceType === SourceTypes.wechat)
+        return this.transformCommonjsToESModule(runner)
       // 仅当 sjs 是 支付宝 源码 且 编译目标不是 支付宝小程序 时执行该插件
       if (sourceType !== SourceTypes.alipay) return
       if (sourceType === target) return
