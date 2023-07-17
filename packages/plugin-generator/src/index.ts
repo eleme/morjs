@@ -1,8 +1,8 @@
-import type { Plugin, Runner, Takin } from '@morjs/utils'
+import { asArray, Plugin, Runner, Takin } from '@morjs/utils'
 import create from './create'
 import generate from './generate'
 
-const SUPPORT_COMMANDS = ['init', 'create']
+const SUPPORT_COMMANDS = ['init', 'create', 'generator', 'g']
 
 export default class MorGeneratorPlugin implements Plugin {
   name = 'MorGeneratorPlugin'
@@ -11,10 +11,15 @@ export default class MorGeneratorPlugin implements Plugin {
 
   onUse(takin: Takin) {
     takin.hooks.configFiltered.tap(this.name, function (userConfigs, command) {
+      const selectedConfigName = command?.options?.name
       const commandName =
         command.name == null ? command?.args?.[0] : command.name
-      // generator 仅运行 runner 一次
-      if (SUPPORT_COMMANDS.includes(commandName)) return []
+      if (SUPPORT_COMMANDS.includes(commandName)) {
+        // 如果用户选择了某个配置，则返回第一个
+        if (selectedConfigName) return asArray(userConfigs?.[0])
+        // 否则返回空
+        return []
+      }
       return userConfigs
     })
   }
@@ -30,6 +35,14 @@ export default class MorGeneratorPlugin implements Plugin {
     this.runner.hooks.cli.tap(this.name, (cli) => {
       cli
         .command('generate <type> [...args]', '生成器, 命令别名 [g]')
+        .option('-s, --src-path <dir>', '源代码根目录, 默认为 src')
+        .option(
+          '--source-type <sourceType>',
+          '源码类型, 用于判断小程序页面或组件使用了哪种 DSL, 可选值为 wechat, alipay'
+        )
+        .option('--ts, --typescript', '是否使用 typescript')
+        .option('--less', '是否使用 less')
+        .option('--sass, --scss', '是否使用 sass 或 scss')
         .alias('g')
         .action((command) => generate(command, this.runner))
 
