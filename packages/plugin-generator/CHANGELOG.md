@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
+
+
+### Features
+
+* **plugin-generator:** 优化生成的项目模板代码，移除无用的换行和空格 ([2e4e6af](https://github.com/eleme/morjs/commit/2e4e6afc84dcfffea69596f2352cc3b9316a2181))
+* **plugin-generator:** 完善生成器使用体验，替换报错为 prompts 选择 ([f3b955a](https://github.com/eleme/morjs/commit/f3b955a688dc2e43228cf9c1bc898a9688bc21b6))
+
+
+
+
+
 ## [1.0.68](https://github.com/eleme/morjs/compare/v1.0.67...v1.0.68) (2023-07-14)
 
 **Note:** Version bump only for package @morjs/plugin-generator

@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-web",
-  "version": "1.0.68",
+  "version": "1.0.69",
   "description": "mor complier plugin for web",
   "keywords": [
     "mor",
@@ -31,9 +31,9 @@
   },
   "dependencies": {
     "@babel/runtime": "7.21.0",
-    "@morjs/plugin-compiler-alipay": "1.0.68",
-    "@morjs/runtime-web": "1.0.67",
-    "@morjs/utils": "1.0.68",
+    "@morjs/plugin-compiler-alipay": "1.0.69",
+    "@morjs/runtime-web": "1.0.69",
+    "@morjs/utils": "1.0.69",
     "postcss": "7.0.39"
   }
 }

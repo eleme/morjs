@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
+
+
+### Features
+
+* **runtime-web:** map 组件限制缩放级别范围 ([#83](https://github.com/eleme/morjs/issues/83)) ([aedf820](https://github.com/eleme/morjs/commit/aedf8205540eeeb1cf3a1e90151d39a30d75f81e))
+
+
+
+
+
 ## [1.0.67](https://github.com/eleme/morjs/compare/v1.0.66...v1.0.67) (2023-07-13)
 
 

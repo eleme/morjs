@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
+
+
+### Features
+
+* **plugin-compiler-web:** 完善小程序转 Web 的功能逻辑以及禁止载入用户自定义的 babel 配置 ([824e032](https://github.com/eleme/morjs/commit/824e032978299d9d5a9e5ea6afd4a4b8f6f621fc))
+* **plugin-compiler-web:** 移除 slot 组件对 class, style 属性的解析以及完善节点返回值校验 ([#79](https://github.com/eleme/morjs/issues/79)) ([fcca600](https://github.com/eleme/morjs/commit/fcca60068edc7e50787e5f36eac328b6e48ee4bd))
+* **plugin-compiler:** 完善 setEntrySource 对写入内存文件的逻辑支持 ([3bb4a92](https://github.com/eleme/morjs/commit/3bb4a922cbf7a42a3547d85d07c0304b1c6b4368))
+
+
+
+
+
 ## [1.0.68](https://github.com/eleme/morjs/compare/v1.0.67...v1.0.68) (2023-07-14)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-web

@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
+
+### Bug Fixes
+
+- **plugin-compiler-alipay:** 修复 sjs 文件模块变量 this 名称替换可能会漏掉的问题 ([ed6046f](https://github.com/eleme/morjs/commit/ed6046fd73fa9eaceaf1e0bf00ca8ccd1934c7b6))
+- **plugin-compiler-alipay:** 修复微信转支付宝分包配置可能会引发报错的问题 ([63522f9](https://github.com/eleme/morjs/commit/63522f9c0f93419313162023823d4e1a2d2bfcc0))
+- **plugin-compiler:** 修复 autoInjectRuntime.api 设为 true，未自动转换为 enhanced 引发的 ts 类型报错 ([#82](https://github.com/eleme/morjs/issues/82)) ([4d5a660](https://github.com/eleme/morjs/commit/4d5a6602b88ce45b4502e289cf67a70bb7ad3a8e))
+- **plugin-compiler:** 修复部分情况下自动写入内存文件可能会引发报错的问题 ([a2bac5f](https://github.com/eleme/morjs/commit/a2bac5fd232f8cf92baa66ffc96412a5e7b7753b))
+
+### Features
+
+- **plugin-compiler-web:** 完善小程序转 Web 的功能逻辑以及禁止载入用户自定义的 babel 配置 ([824e032](https://github.com/eleme/morjs/commit/824e032978299d9d5a9e5ea6afd4a4b8f6f621fc))
+- **plugin-compiler-web:** 移除 slot 组件对 class, style 属性的解析以及完善节点返回值校验 ([#79](https://github.com/eleme/morjs/issues/79)) ([fcca600](https://github.com/eleme/morjs/commit/fcca60068edc7e50787e5f36eac328b6e48ee4bd))
+- **plugin-compiler:** template 文件解析增加页面纬度的共享上下文透传支持 ([184a132](https://github.com/eleme/morjs/commit/184a1323bc0840ddbc0a759179467e54f3c82453))
+- **plugin-compiler:** 优化微信 DSL 转 Web 对 wxs 文件解析逻辑的支持 ([dac0fc5](https://github.com/eleme/morjs/commit/dac0fc5a8991fa2aa7947ba0deecd4c157555d52))
+- **plugin-compiler:** 完善 setEntrySource 对写入内存文件的逻辑支持 ([3bb4a92](https://github.com/eleme/morjs/commit/3bb4a922cbf7a42a3547d85d07c0304b1c6b4368))
+- **plugin-generator:** 优化生成的项目模板代码，移除无用的换行和空格 ([2e4e6af](https://github.com/eleme/morjs/commit/2e4e6afc84dcfffea69596f2352cc3b9316a2181))
+- **plugin-generator:** 完善生成器使用体验，替换报错为 prompts 选择 ([f3b955a](https://github.com/eleme/morjs/commit/f3b955a688dc2e43228cf9c1bc898a9688bc21b6))
+- **runtime-web:** map 组件限制缩放级别范围 ([#83](https://github.com/eleme/morjs/issues/83)) ([aedf820](https://github.com/eleme/morjs/commit/aedf8205540eeeb1cf3a1e90151d39a30d75f81e))
+
 ## [1.0.68](https://github.com/eleme/morjs/compare/v1.0.67...v1.0.68) (2023-07-14)
 
 ### Bug Fixes

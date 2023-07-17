@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
+
+
+### Bug Fixes
+
+* **plugin-compiler-alipay:** 修复 sjs 文件模块变量 this 名称替换可能会漏掉的问题 ([ed6046f](https://github.com/eleme/morjs/commit/ed6046fd73fa9eaceaf1e0bf00ca8ccd1934c7b6))
+* **plugin-compiler-alipay:** 修复微信转支付宝分包配置可能会引发报错的问题 ([63522f9](https://github.com/eleme/morjs/commit/63522f9c0f93419313162023823d4e1a2d2bfcc0))
+
+
+### Features
+
+* **plugin-compiler-web:** 移除 slot 组件对 class, style 属性的解析以及完善节点返回值校验 ([#79](https://github.com/eleme/morjs/issues/79)) ([fcca600](https://github.com/eleme/morjs/commit/fcca60068edc7e50787e5f36eac328b6e48ee4bd))
+
+
+
+
+
 ## [1.0.68](https://github.com/eleme/morjs/compare/v1.0.67...v1.0.68) (2023-07-14)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-alipay
