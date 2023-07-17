@@ -122,6 +122,7 @@ export class TemplateParserPlugin implements Plugin {
           fileContent.includes(sjsMapping.source.sjsTagName) ||
           fileContent.includes(sjsMapping.target.sjsTagName)
 
+        // 判断是否要处理引用路径，转端情况下，文件后缀会被替换为目标平台的文件后缀
         const needToProcessImportOrInclude =
           target !== 'web' &&
           (fileContent.includes('import') || fileContent.includes('include'))
