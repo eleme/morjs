@@ -447,7 +447,10 @@ export function applyDefaults(
       userConfig.autoInjectRuntime.component =
         userConfig.autoInjectRuntime.component ?? true
       userConfig.autoInjectRuntime.api =
-        userConfig.autoInjectRuntime.api ?? GlobalObjectTransformTypes.enhanced
+        userConfig.autoInjectRuntime.api === true
+          ? GlobalObjectTransformTypes.enhanced
+          : userConfig.autoInjectRuntime.api ??
+            GlobalObjectTransformTypes.enhanced
       if (sourceType !== SourceTypes.alipay) {
         userConfig.autoInjectRuntime.behavior =
           userConfig.autoInjectRuntime.behavior ?? true
