@@ -7,6 +7,7 @@ import {
   EntryItem,
   EntryPriority,
   EntryReferType,
+  EntrySources,
   EntryType,
   expandExtsWithConditionalExt,
   fsExtra,
@@ -27,8 +28,7 @@ import {
   typescript as ts,
   UniversalifiedInputFileSystem,
   webpack,
-  WebpackWrapper,
-  EntrySources
+  WebpackWrapper
 } from '@morjs/utils'
 import type _fs from 'fs'
 import path from 'path'
@@ -381,24 +381,18 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       independentSubpackages: serializeMap(this.independentSubpackages),
       referencesMap: serializeMap(this.referencesMap),
       usingComponentsMap: serializeMap(this.usingComponentsMap),
-      replaceEntrySources: serializeMap(
-        this.replaceEntrySources,
-        (v) => {
-          return {
-            source: v.source.source() as string,
-            saveToMemFile: v.saveToMemFile
-          }
+      replaceEntrySources: serializeMap(this.replaceEntrySources, (v) => {
+        return {
+          source: v.source.source() as string,
+          saveToMemFile: v.saveToMemFile
         }
-      ),
-      additionalEntrySources: serializeMap(
-        this.additionalEntrySources,
-        (v) => {
-          return {
-            source: v.source.source() as string,
-            saveToMemFile: v.saveToMemFile
-          }
+      }),
+      additionalEntrySources: serializeMap(this.additionalEntrySources, (v) => {
+        return {
+          source: v.source.source() as string,
+          saveToMemFile: v.saveToMemFile
         }
-      ),
+      }),
       moduleGraph: this.moduleGraph.toJSON()
     }
 
@@ -528,7 +522,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       cache['replaceEntrySources'].forEach(([name, e]) => {
         this.setEntrySource(
           name as string,
-          typeof e === 'string' ? e : e.source as string,
+          typeof e === 'string' ? e : (e.source as string),
           'replace',
           e.saveToMemFile
         )
@@ -537,7 +531,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       cache['additionalEntrySources'].forEach(([name, e]) => {
         this.setEntrySource(
           name as string,
-          typeof e === 'string' ? e : e.source as string,
+          typeof e === 'string' ? e : (e.source as string),
           'additional',
           e.saveToMemFile
         )
@@ -682,7 +676,11 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     let fileName = saveToMemFile ? saveToMemFile : ''
     if (!fileName && aim === 'additional') {
       fileName = path.join(
-        this.srcPaths[0],
+        // 由于 EntryBuilder 的 lazyInitialize 动作，部分情况下 外部的 MorJS 插件调用
+        // setEntrySource 可能会早于初始化时间，所以兜底使用 userConfig 中的值
+        this.srcPaths?.[0] ||
+          this.userConfig?.srcPath ||
+          this.userConfig?.srcPaths?.[0],
 
         // entry 可能为组件库中的文件，需要还原为替换之前的路径
         entryName.replace(new RegExp(NPM_MODULE_DIR, 'gi'), NODE_MODULES)
