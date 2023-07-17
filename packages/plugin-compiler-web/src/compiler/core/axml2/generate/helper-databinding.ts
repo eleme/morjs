@@ -3,7 +3,9 @@ import { DataBindingNode } from '../ast/types'
 
 export function databindingForAttribute(databinding: DataBindingNode) {
   if (databinding.hasBinding) {
-    return t.jsxExpressionContainer(databinding.getExpressionAst())
+    const ast = databinding.getExpressionAst()
+    if (ast) return t.jsxExpressionContainer(databinding.getExpressionAst())
+    return null
   } else {
     if (databinding.express === undefined) {
       return null

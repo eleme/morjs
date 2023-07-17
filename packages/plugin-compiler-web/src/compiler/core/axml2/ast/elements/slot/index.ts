@@ -1,4 +1,4 @@
-import parseAttribute from '../../attribute/index'
+import { parseSlotAttribute } from '../../attribute/index'
 import { attributeValueAndRemove, IXMLElement } from '../../IXmlNode'
 import { dataBindingNode, slotNode, SlotNode } from '../../types'
 import { parseSubElements } from '../index'
@@ -10,7 +10,7 @@ export default function (xmlElement: IXMLElement): SlotNode {
       node.name = dataBindingNode(
         attributeValueAndRemove(xmlElement.attributes, 'name')
       )
-      node.attributes = parseAttribute(xmlElement)
+      node.attributes = parseSlotAttribute(xmlElement)
     }
     node.children = parseSubElements(xmlElement)
     return node

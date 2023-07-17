@@ -122,6 +122,7 @@ export class TemplateParserPlugin implements Plugin {
           fileContent.includes(sjsMapping.source.sjsTagName) ||
           fileContent.includes(sjsMapping.target.sjsTagName)
 
+        // 判断是否要处理引用路径，转端情况下，文件后缀会被替换为目标平台的文件后缀
         const needToProcessImportOrInclude =
           target !== 'web' &&
           (fileContent.includes('import') || fileContent.includes('include'))
@@ -140,6 +141,9 @@ export class TemplateParserPlugin implements Plugin {
         const usingComponentNames = entryBuilder.getUsingComponentNames(
           options.fileInfo.path
         )
+
+        // 整个文档纬度的共享上下文
+        const sharedContext: Record<string, any> = {}
 
         return tree.walk((node) => {
           // 如果不包含要替换的 tag 名称则跳过 sjs 处理
@@ -160,7 +164,8 @@ export class TemplateParserPlugin implements Plugin {
               sourceProcessor,
               directivesMap,
               sourceDirectives,
-              usingComponentNames
+              usingComponentNames,
+              sharedContext
             )
           }
 
@@ -181,11 +186,13 @@ export class TemplateParserPlugin implements Plugin {
     sourceProcessor: CompilerTemplateProcessor,
     directivesMap: Record<string, string>,
     sourceDirectives: CompilerTemplateDirectives,
-    usingComponentNames: string[]
+    usingComponentNames: string[],
+    sharedContext: Record<string, any>
   ) {
     // node 上下文
     const nodeContext: Record<string, any> = {
-      usingComponentNames
+      usingComponentNames,
+      sharedContext
     }
 
     // 触发源码转换
@@ -392,7 +399,12 @@ export class TemplateParserPlugin implements Plugin {
         ).code
 
         // 输出额外文件
-        entryBuilder.setEntrySource(newEntryFileName, sjsContent, 'additional')
+        entryBuilder.setEntrySource(
+          newEntryFileName,
+          sjsContent,
+          'additional',
+          sjsFileOptions.fileInfo.path
+        )
 
         // 清空内嵌的脚本内容
         node.content = []
@@ -426,6 +438,11 @@ export class TemplateParserPlugin implements Plugin {
           }
         }
       }
+    }
+
+    // 转 web 时不替换文件名称，确保原文件可以被正常加载
+    if (options.userConfig.target === 'web') {
+      shouldReplaceSjsFileImportPath = false
     }
 
     const importPath = node.attrs[sjsConfig.target.sjsSrcAttrName] as string

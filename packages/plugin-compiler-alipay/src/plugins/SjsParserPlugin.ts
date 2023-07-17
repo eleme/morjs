@@ -9,6 +9,24 @@ import {
 import { isSimilarTarget } from '../constants'
 
 /**
+ * 从 module.exports.xxx 中提取 xxx 变量名
+ */
+export function getModuleExportsName(content: string): string[] {
+  const result = []
+  const regex = /module\.exports\.(\w+)/gim
+  const matchResult = content.match(regex)
+
+  if (!matchResult) return result
+
+  matchResult.map((param) => {
+    const name = param.split('.')[2]
+    result.push(name)
+  })
+
+  return result
+}
+
+/**
  * 支付宝 sjs 文件转译
  */
 export default class AlipayCompilerSjsParserPlugin implements Plugin {
@@ -20,10 +38,17 @@ export default class AlipayCompilerSjsParserPlugin implements Plugin {
     runner.hooks.beforeRun.tap(this.name, () => {
       const { sourceType, target } = runner.userConfig
 
-      // 仅当 sjs 是 支付宝 源码 且 编译目标不是 支付宝小程序 时执行该插件
+      const isAlipaySimilarTarget = isSimilarTarget(target)
+
+      // 微信 DSL 转 支付宝或者类似小程序平台时的兼容逻辑
+      if (sourceType === SourceTypes.wechat && isAlipaySimilarTarget) {
+        return this.transformCommonjsToESModule(runner)
+      }
+
+      // 仅当 sjs 是 支付宝 源码 且 编译目标不是 支付宝小程序 时执行后续逻辑
       if (sourceType !== SourceTypes.alipay) return
       if (sourceType === target) return
-      if (isSimilarTarget(target)) return
+      if (isAlipaySimilarTarget) return
 
       runner.hooks.beforeBuildEntries.tap(this.name, (entryBuilder) => {
         this.entryBuilder = entryBuilder
@@ -42,6 +67,57 @@ export default class AlipayCompilerSjsParserPlugin implements Plugin {
         return transformers
       })
     })
+  }
+
+  /**
+   * 微信转支付宝的场景下 ，wxs 内联文件中使用 module.exports.property 在支付宝中无法正常通过 name.var 调用，
+   * 需要将这种场景下的导出进行拓展，增加 export default { property }
+   * 这样在 webpack 打包时就可以正确导出 export default 文件
+   * NOTE: 该功能需要配合 cjsToEsmTransformer 使用，并放在 after 阶段
+   */
+  transformCommonjsToESModule(runner: Runner) {
+    runner.hooks.sjsParser.tap(
+      this.name,
+      (transformers: ts.CustomTransformers, options) => {
+        if (
+          options.fileInfo.content.includes('module.exports.') &&
+          !/module.exports( |\t|\n)*=/.test(options.fileInfo.content)
+        ) {
+          // 提取 module.exports.var 中的变量名
+          const names = getModuleExportsName(options.fileInfo.content)
+          if (names.length <= 0 || names.indexOf('default') > -1)
+            return transformers
+
+          transformers.after.push(
+            tsTransformerFactory((node, ctx) => {
+              const factory = ctx.factory
+
+              if (ts.isSourceFile(node)) {
+                return factory.updateSourceFile(node, [
+                  ...node.statements,
+                  factory.createExportAssignment(
+                    void 0,
+                    void 0,
+                    void 0,
+                    factory.createObjectLiteralExpression(
+                      names.map((name) =>
+                        factory.createShorthandPropertyAssignment(
+                          factory.createIdentifier(name)
+                        )
+                      )
+                    )
+                  )
+                ])
+              }
+
+              return node
+            })
+          )
+        }
+
+        return transformers
+      }
+    )
   }
 
   transformESModuleToCommonjs(transformers: ts.CustomTransformers) {

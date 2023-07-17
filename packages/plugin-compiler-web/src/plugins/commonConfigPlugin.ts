@@ -108,12 +108,18 @@ export class CommonConfigPlugin implements Plugin {
     const BABEL_LOADER = {
       loader: resolveDependency('babel-loader'),
       options: {
+        configFile: false,
+        babelrc: false,
         compact: false,
         sourceType: 'unambiguous',
         // 配置 targets 以保证低版本浏览器的兼容性
         presets: [
           [require(resolveDependency('@babel/preset-env')), babelEnvOptions],
-          require(resolveDependency('@babel/preset-react'))
+          [
+            require(resolveDependency('@babel/preset-react')),
+            // 允许一些错误的 namespace 存在
+            { throwIfNamespace: false }
+          ]
         ],
         plugins: [
           [

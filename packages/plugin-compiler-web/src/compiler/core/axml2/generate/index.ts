@@ -211,6 +211,8 @@ export default function (document: Document, options: AXMLOptions) {
   const result = generate.default(ast)
   if (options.isAtomicMode && !options.unitTest) {
     return babel.transformSync(result.code, {
+      configFile: false,
+      babelrc: false,
       presets: [require(resolveDependency('@babel/preset-react'))]
     }).code
   }

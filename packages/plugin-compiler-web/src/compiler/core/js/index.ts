@@ -50,19 +50,26 @@ export default function (content, options: BuildOptions) {
 
 function transformFromCode(code: string, plugins, options: BuildOptions) {
   let ast = babel.parse(code, {
+    configFile: false,
+    babelrc: false
     // plugins: [require(resolveDependency('@babel/plugin-transform-react-jsx')), require(resolveDependency('@babel/plugin-proposal-class-properties'))]
   })
   const newCode = skipConditionalCompilation(code, ast, options)
   if (newCode.length !== code.length) {
     code = newCode
     //  重新生成ast
-    ast = babel.parse(code)
+    ast = babel.parse(code, {
+      configFile: false,
+      babelrc: false
+    })
   }
 
   const babelConfig = {
     compact: false,
     generatorOpts: { comments: false },
     ast: true,
+    configFile: false,
+    babelrc: false,
     plugins
   }
 

@@ -69,6 +69,11 @@ export interface EntryItem {
   priority: EntryPriority
 }
 
+export type EntrySources = Map<EntryFullPath, {
+  source: webpack.sources.RawSource,
+  saveToMemFile?: string
+}>
+
 /**
  * EntryBuilder 辅助函数
  */
@@ -103,12 +108,12 @@ export interface EntryBuilderHelpers {
   /**
    * 用于记录 transfer 和 default 编译模式中 script 的文件内容
    */
-  replaceEntrySources: Map<EntryFullPath, webpack.sources.RawSource>
+  replaceEntrySources: EntrySources
 
   /**
    * 用于生成 json 文件
    */
-  additionalEntrySources: Map<EntryFullPath, webpack.sources.RawSource>
+  additionalEntrySources: EntrySources
 
   /**
    * 用到的 npm 包
@@ -192,11 +197,13 @@ export interface EntryBuilderHelpers {
    * @param entryName - entry 名称
    * @param content - entry 内容
    * @param aim - 目标, 可选值为 replace 或 additional
+   * @param saveToMemFile - 需要输出为内存文件路径，aim 为 additional 时，如未提供 saveToMemFile, 则会基于 entryName 自动生成
    */
   setEntrySource(
     entryName: string,
     content: string,
-    aim: 'replace' | 'additional'
+    aim: 'replace' | 'additional',
+    saveToMemFile?: string
   ): void
 
   /**

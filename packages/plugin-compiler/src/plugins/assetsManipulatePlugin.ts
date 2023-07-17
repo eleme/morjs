@@ -56,8 +56,11 @@ export class AssetsManipulatePlugin implements Plugin {
 
           // 替换文件内容
           if (needToReplaceContent) {
-            for (const [asset, source] of entryBuilder.replaceEntrySources) {
-              if (assets[asset]) assets[asset] = source
+            for (const [
+              asset,
+              entrySource
+            ] of entryBuilder.replaceEntrySources) {
+              if (assets[asset]) assets[asset] = entrySource.source
             }
           }
 
@@ -75,9 +78,10 @@ export class AssetsManipulatePlugin implements Plugin {
     entryBuilder: EntryBuilderHelpers
   ) {
     if (entryBuilder.additionalEntrySources.size === 0) return
-    for (const [asset, source] of entryBuilder.additionalEntrySources) {
+    for (const [asset, entrySource] of entryBuilder.additionalEntrySources) {
       // 如果文件不存在, 则添加新文件
-      if (!compilation.assets[asset]) compilation.emitAsset(asset, source)
+      if (!compilation.assets[asset])
+        compilation.emitAsset(asset, entrySource.source)
     }
   }
 }

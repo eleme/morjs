@@ -15,6 +15,7 @@ import { EmitIntermediateAssetsPlugin } from './plugins/emitIntermediateAssetsPl
 import { ExtractOrInjectCssPlugin } from './plugins/extractOrInjectCssPlugin'
 import { GenerateJSXEntryPlugin } from './plugins/generateJSXEntryPlugin'
 import { HtmlSupportPlugin } from './plugins/htmlSupportPlugin'
+import { ScriptCompatiblePlugin } from './plugins/scriptCompatiblePlugin'
 import { SjsCompatiblePlugin } from './plugins/sjsCompatiblePlugin'
 import { TemplateCompatiblePlugin } from './plugins/templateCompatiblePlugin'
 
@@ -92,6 +93,7 @@ class WebCompilerPlugin implements MorPlugin {
         new SjsCompatiblePlugin().apply(runner)
         new TemplateCompatiblePlugin(entryBuilder).apply(runner)
         new ConfigCompatiblePlugin(entryBuilder).apply(runner)
+        new ScriptCompatiblePlugin().apply(runner)
 
         // bundle 模式适配
         if (compileMode === 'bundle') {

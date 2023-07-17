@@ -82,7 +82,7 @@ export default class DataBinding implements DataBindingNode {
           res = this.parseExp(code)
           // 再次提取变量
           if (!res.isOK) {
-            logger.error(`绑定表达式:    ${code.trim()}     不符合JS表达式规范`)
+            logger.error(`绑定表达式: ${code.trim()} 不符合 JS 表达式规范`)
           }
         }
         if (res.code) {
