@@ -7,15 +7,15 @@
     "compile": "mor compile --production"
   },
   "keywords": [],
-  <% if (user || email) { %>
+  <%_ if (user || email) { -%>
   "author": "<%= user %> <<%= email %>>",
-  <% } %>
-  <% if (git) { %>
+  <%_ } -%>
+  <%_ if (git) { -%>
   "repository": {
     "type": "git",
     "url": "<%= git %>"
   },
-  <% } %>
+  <%_ } -%>
   "license": "",
   "dependencies": {
     "@morjs/core": "*"

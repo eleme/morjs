@@ -20,7 +20,7 @@
   <% if (!_.isEmpty(git)) { %>"repository": {
     "type": "git",
     "url": "<%= git %>"
-  },<% } %>
+  },<%_ } -%>
   "scripts": {
     "clean": "rm -rf ./lib",
     "build": "pnpm clean && pnpm format && tsc",

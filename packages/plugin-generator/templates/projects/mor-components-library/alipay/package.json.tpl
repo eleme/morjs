@@ -10,7 +10,7 @@
     "type": "git",
     "url": "<%= git %>"
   },
-  <% } %>
+  <%_ } -%>
   "main": "alipay",
   "alipay": "alipay",
   "miniprogram": "miniprogram_dist",
