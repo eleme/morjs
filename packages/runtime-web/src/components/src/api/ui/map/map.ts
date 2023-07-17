@@ -202,6 +202,7 @@ export default class Map extends BaseElement {
   drawMap(res) {
     const mapParams: Record<string, any> = {
       zoom: this[properties.SCALE],
+      zooms: [5, 18],
       center: [this[properties.LONGITUDE], this[properties.LATITUDE]],
       rotation: this[properties.ROTATE]
     }
