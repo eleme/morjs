@@ -1,0 +1,4 @@
+<view bindtap="updateCompProps">
+  更新子组件值
+  <comp count="{{count}}"/>
+</view>

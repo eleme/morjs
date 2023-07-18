@@ -348,10 +348,10 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     // 1. 当基础库版本支持 lifetimes 时，由于生命周期执行委托给了原生，需跳过首次执行，若不跳过则会导致，
     //    data 同步 nextProps 后，传入的值前后对比未发现变更，而使在第一次初始化不触发 observer 的监听
     // 2. 当基础库版本不支持 lifetimes 时，使用 mor 的自实现，正常执行以下流程
-    if (!this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] && isObserversSupported) {
-      this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] = true
-      return
-    }
+    // 基于上述逻辑，初始化时，需记录状态，跳过properties/data赋值
+    const firstDeriveDataFromProps = !this[MOR_FIRST_DERIVE_DATA_FROM_PROPS]
+    const firstDeriveWithObserversSupported =
+      firstDeriveDataFromProps && isObserversSupported
 
     // data变化触发双向绑定
     this.props.onMorChildTWBProxy?.(this.data, this.props)
@@ -375,15 +375,9 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
 
       const originalValue = this.properties[prop]
 
-      // 更新 properties 和 data
-      // 微信小程序中的 properties 和 data 是一致的
-      // 都包含 包括内部数据和属性值
-      this.properties[prop] = nextProps[prop]
-      this.data[prop] = nextProps[prop]
-
-      // 执行属性监听器，仅执行发生了变化的属性
+      // 执行属性监听器，初始化 或者 发生了变化的属性
       if (
-        isPropChanged &&
+        (isPropChanged || firstDeriveDataFromProps) &&
         propertiesWithObserver[prop] &&
         !(pureDataPattern && pureDataPattern.test(prop))
       ) {
@@ -400,7 +394,21 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
           )
         }
       }
+
+      // 初始化时，跳过以下逻辑
+      if (firstDeriveWithObserversSupported) continue
+
+      // 更新 properties 和 data
+      // 微信小程序中的 properties 和 data 是一致的
+      // 都包含 包括内部数据和属性值
+      this.properties[prop] = nextProps[prop]
+      this.data[prop] = nextProps[prop]
     }
+
+    // 初始化时，记录首次执行状态
+    this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] = true
+    if (firstDeriveWithObserversSupported) return
+
     // 触发一次更新
     if (hasProps) {
       this.setData(updateProps)
