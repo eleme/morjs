@@ -4,7 +4,12 @@ Component({
     count: {
       type: Number,
       observer: function (value) {
-        console.log('--properties observer count--', value)
+        console.error(
+          '--properties observer count--',
+          value,
+          this.data,
+          this.properties
+        )
       }
     }
   },

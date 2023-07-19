@@ -375,7 +375,16 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
 
       const originalValue = this.properties[prop]
 
-      // 执行属性监听器，初始化 或者 发生了变化的属性
+      // 基于上述1、2两点逻辑，首次不赋值
+      if (!firstDeriveWithObserversSupported) {
+        // 更新 properties 和 data
+        // 微信小程序中的 properties 和 data 是一致的
+        // 都包含 包括内部数据和属性值
+        this.properties[prop] = nextProps[prop]
+        this.data[prop] = nextProps[prop]
+      }
+
+      // 执行属性监听器，仅执行发生了变化的属性
       if (
         (isPropChanged || firstDeriveDataFromProps) &&
         propertiesWithObserver[prop] &&
