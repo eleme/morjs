@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "mor compile -w --no-cache",
     "build": "mor compile",
+    "dev:wechat": "mor compile -w --name wechat --no-cache",
     "dev:web": "mor compile -w --name web --no-cache",
     "dev:ali": "mor compile -w --name alipay --no-cache"
   },
