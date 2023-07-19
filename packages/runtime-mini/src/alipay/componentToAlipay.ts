@@ -384,7 +384,8 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
         this.data[prop] = nextProps[prop]
       }
 
-      // 执行属性监听器，仅执行发生了变化的属性
+      // 执行属性监听器，微信property.observer初始化、属性改变时触发
+      // 支付宝对齐该逻辑
       if (
         (isPropChanged || firstDeriveDataFromProps) &&
         propertiesWithObserver[prop] &&
