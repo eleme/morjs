@@ -348,7 +348,7 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     // 1. 当基础库版本支持 lifetimes 时，由于生命周期执行委托给了原生，需跳过首次执行，若不跳过则会导致，
     //    data 同步 nextProps 后，传入的值前后对比未发现变更，而使在第一次初始化不触发 observer 的监听
     // 2. 当基础库版本不支持 lifetimes 时，使用 mor 的自实现，正常执行以下流程
-    // 基于上述逻辑，初始化时，需记录状态，跳过properties/data赋值
+    // 基于上述逻辑，初始化时，需记录状态，跳过 properties/data 赋值
     const firstDeriveDataFromProps = !this[MOR_FIRST_DERIVE_DATA_FROM_PROPS]
     const firstDeriveWithObserversSupported =
       firstDeriveDataFromProps && isObserversSupported
@@ -375,7 +375,10 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
 
       const originalValue = this.properties[prop]
 
-      // 基于上述1、2两点逻辑，首次不赋值
+      // 基于上述 1、2 两点逻辑，支持 observers 的版本初始化时不赋值。
+      // 但是该做法会导致 property.observer 首次回调中，this.data
+      // 和 this.properties 值不同步，可建议用户首次避免通过 data
+      // 获取 properties 中的属性值
       if (!firstDeriveWithObserversSupported) {
         // 更新 properties 和 data
         // 微信小程序中的 properties 和 data 是一致的
@@ -384,8 +387,10 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
         this.data[prop] = nextProps[prop]
       }
 
-      // 执行属性监听器，微信property.observer初始化、属性改变时触发
-      // 支付宝对齐该逻辑
+      // 微信端组件初始化、属性改变时，会触发属性监听器 property.observer。
+      // 而支付宝 deriveDataFromProps 方法，初始化时 this.props 和 nextProps
+      // 中属性值相同，不满足 isPropChanged = true
+      // 需通过 firstDeriveDataFromProps 强制初始化触发，与微信逻辑同步
       if (
         (isPropChanged || firstDeriveDataFromProps) &&
         propertiesWithObserver[prop] &&
