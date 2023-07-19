@@ -403,15 +403,6 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
           )
         }
       }
-
-      // 初始化时，跳过以下逻辑
-      if (firstDeriveWithObserversSupported) continue
-
-      // 更新 properties 和 data
-      // 微信小程序中的 properties 和 data 是一致的
-      // 都包含 包括内部数据和属性值
-      this.properties[prop] = nextProps[prop]
-      this.data[prop] = nextProps[prop]
     }
 
     // 初始化时，记录首次执行状态
