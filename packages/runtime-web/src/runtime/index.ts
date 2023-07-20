@@ -1,80 +1,75 @@
-import React from 'react'
-// eslint-disable-next-line node/no-missing-import
 import { Block } from './components/block'
-// eslint-disable-next-line node/no-missing-import
 import { Slot } from './components/slot'
 import { toJsonString } from './dsl/attribute-value'
 import { axmlApi } from './dsl/axml-api'
+import { mergeConfig } from './dsl/config'
 import { bindThis, getEvent, registEvents } from './dsl/event'
 import getForValue from './dsl/for'
 import ref from './dsl/ref'
 import { autoSyncRootFontSize, setRootFontSizeForRem } from './dsl/rpx'
+import { slotScope } from './dsl/slot'
+import { getString } from './dsl/string'
 import { createStyle } from './dsl/style'
-import TemplateManager from './dsl/template'
-// import TwoWayBinding from './dsl/two-way-binding';
+import { createTemplateManager } from './dsl/template'
 import './public/app'
 import { Component, Page } from './public/index'
+
 export default {
   Component,
+  $cp: Component,
+
   Page,
-  createTemplateManager: function () {
-    return new TemplateManager()
-  },
+  $pg: Page,
+
+  createTemplateManager,
+  $ctm: createTemplateManager,
+
   Slot,
+  $st: Slot,
+
   Block,
-  slotScope(f, name) {
-    // 主要是为了防止因为打包的问题，将方法的名称重命名，导致slot匹配不到
-    if (name) {
-      f._name = name
-    }
-    return f
-  },
+  $bk: Block,
+
+  slotScope,
+  $stc: slotScope,
+
   createStyle,
+  $ct: createStyle,
+
   // 事件绑定
   getEvent,
+  $ge: getEvent,
+
   // 对方法绑定this
   bindThis,
+  $bt: bindThis,
+
   registEvents,
+  $re: registEvents,
   // ref 绑定
   ref,
+  $rf: ref,
+
   // 合并配置
-  mergeConfig(appConfig, config) {
-    // NOTE: appConfig 为全局配置，config为局部配置，但是config 的优先级大于 appConfig
-    // 这个版本主要是window。而且目前也不需要区分page 还是 component 。相关的配置基本上随着版本走的。
-    // 这里也算是预留了一个未来配置扩展扣子
-    const result = {
-      ...appConfig,
-      ...config,
-      window: { ...appConfig.window, ...config.window }
-    }
-    return result
-  },
+  mergeConfig,
+  $mg: mergeConfig,
+
   toJsonString,
+  $tjs: toJsonString,
   // 将内容转换成字符串
   // TODO： 要改名字，改成 renderContent
-  getString(content) {
-    try {
-      if (content === undefined || content == null) {
-        return ''
-      }
-      // 如果是函数，那么直接返回函数
-      if (typeof content === 'function') return content
-
-      if (React.isValidElement(content)) {
-        return content
-      }
-      return content.toString()
-    } catch (err) {
-      console.log(err)
-      return ''
-    }
-  },
+  getString,
+  $gt: getString,
   // 根据给定的value，获得for指令可用的数组
   getForValue,
+  $gfv: getForValue,
   // 创建一个专门提供给axml 的api
   axmlApi,
+  $ap: axmlApi,
   // 手动设置根节点fontsize
   setRootFontSizeForRem,
+  $sfr: setRootFontSizeForRem,
   // 自动同步根节点的 font-size, 并设置 ROOT_VALUE
-  autoSyncRootFontSize
+  autoSyncRootFontSize,
+  $afz: autoSyncRootFontSize
 }
