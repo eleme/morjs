@@ -190,7 +190,6 @@ export function applyDefaults(
   } = userConfig
 
   const composedPlugins = getComposedCompilerPlugins()
-
   // 设置默认的 globalObject
   userConfig.globalObject =
     userConfig.globalObject ?? composedPlugins.globalObject[target]
@@ -590,7 +589,6 @@ export async function buildWebpackConfig(
     globalNameSuffix
   } = userConfig
   const targetDescription = composedPlugins.targetDescription[target]
-
   // 显示源码目录和输出目录
   const srcDirs: string[] = []
   srcPaths.forEach(function (src) {
@@ -1227,6 +1225,8 @@ export async function buildWebpackConfig(
   const singleTags = composedPlugins['templateSingleTagNames'][target] || []
   const closingSingleTag =
     composedPlugins['templateSingleTagClosingType']?.[target]
+  // 查询是否有编译插件自定义模版渲染函数，如果有的话优先使用自定义的 render
+  const customTemplateRender = composedPlugins['customTemplateRender']?.[target]
   // wxml/axml 支持
   // prettier-ignore
   chain.module
@@ -1235,7 +1235,7 @@ export async function buildWebpackConfig(
       .type('asset/resource').generator(generatorOptions)
       .use('postprocess').loader(LOADERS.postprocess).options(commonOptions).end()
       .use('template').loader(LOADERS.template).options({
-        ...commonOptions, singleTags, closingSingleTag
+        ...commonOptions, singleTags, closingSingleTag, customTemplateRender
       }).end()
       .use('preprocess')
         .loader(LOADERS.preprocess)
