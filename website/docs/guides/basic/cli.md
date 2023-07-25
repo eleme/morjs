@@ -59,7 +59,6 @@
     baidu      百度小程序
     bytedance  字节小程序
     dingding   钉钉小程序
-    eleme      饿了么小程序
     kuaishou   快手小程序
     qq         QQ 小程序
     taobao     淘宝小程序

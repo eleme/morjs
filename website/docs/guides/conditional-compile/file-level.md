@@ -27,7 +27,6 @@
 - 字节小程序 (`.tt`): `index.tt.js`
 - 快手小程序 (`.ks`): `index.ks.js`
 - 钉钉小程序 (`.dd`): `index.dd.js`
-- 饿了么小程序 (`.ele`): `index.ele.js`
 - 淘宝小程序 (`.tb`): `index.tb.js`
 - Web 应用 (`.web`): `index.web.js`
 
