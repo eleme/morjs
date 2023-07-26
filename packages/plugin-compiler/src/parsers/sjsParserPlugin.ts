@@ -90,10 +90,10 @@ export class SjsParserPlugin implements Plugin {
             if (realImportPath) {
               return factory.updateImportDeclaration(
                 node,
-                node.decorators,
                 node.modifiers,
                 node.importClause,
-                factory.createStringLiteral(realImportPath)
+                factory.createStringLiteral(realImportPath),
+                node.assertClause
               )
             }
           }
