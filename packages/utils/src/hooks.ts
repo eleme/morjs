@@ -44,29 +44,35 @@ export function tsTransformerFactory(
 ): ts.TransformerFactory<ts.SourceFile> {
   if (!visitor) return
 
-  return (ctx) => (sourceFile) => {
-    /**
-     * 遍历当前 node 以及所有的 child
-     */
-    function visitAllNode(node: ts.Node): ts.VisitResult<ts.Node> {
-      if (node == null) return node
+  // FIXME: 这里类型体操需写具体
+  return (ctx) =>
+    (sourceFile): any => {
+      /**
+       * 遍历当前 node 以及所有的 child
+       */
+      function visitAllNode(node: ts.Node): ts.VisitResult<ts.Node> {
+        if (node == null) return node
 
-      const result = visitor(node, ctx)
+        const result = visitor(node, ctx)
 
-      if (result == null) return result
+        if (result == null) return result
 
-      if (Array.isArray(result)) {
-        return result.map(function (item) {
-          if (item == null) return item
-          return ts.visitEachChild(item, (child) => visitAllNode(child), ctx)
-        })
-      } else {
-        return ts.visitEachChild(result, (child) => visitAllNode(child), ctx)
+        if (Array.isArray(result)) {
+          return result.map(function (item) {
+            if (item == null) return item
+            return ts.visitEachChild(item, (child) => visitAllNode(child), ctx)
+          })
+        } else {
+          return ts.visitEachChild(
+            result as ts.Node,
+            (child) => visitAllNode(child),
+            ctx
+          )
+        }
       }
-    }
 
-    return ts.visitNode(sourceFile, (root) => visitAllNode(root))
-  }
+      return ts.visitNode(sourceFile, (root) => visitAllNode(root))
+    }
 }
 
 /**
