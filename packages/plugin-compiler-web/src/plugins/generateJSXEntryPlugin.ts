@@ -349,9 +349,7 @@ export class GenerateJSXEntryPlugin implements Plugin {
       // 处理分包里面的路径
       if (subPackageJson.root && subPackageJson.pages) {
         ;(subPackageJson.pages || []).map((page: string) => {
-          pages.push(
-            addLeadingSlash(slash(path.join(subPackageJson.root, page)))
-          )
+          pages.push(addLeadingSlash(slash(page)))
         })
       }
 
@@ -384,13 +382,18 @@ export class GenerateJSXEntryPlugin implements Plugin {
     // 生成各个页面对应的 jsx 文件
     pages.map((page) => {
       const pagePath = path.join(entriesRoot, `${page}.jsx`)
-      const pageContent = generatePageJSX(
-        entryHelpers.entries.get(page.slice(1)).entryName,
-        web.showBack,
-        web.showHeader
-      )
-      wrapper.fs.mem.mkdirpSync(path.dirname(pagePath))
-      wrapper.fs.mem.writeFileSync(pagePath, pageContent)
+      const entry = entryHelpers.entries.get(page.slice(1))
+      if (entry?.entryName) {
+        const pageContent = generatePageJSX(
+          entry.entryName,
+          web.showBack,
+          web.showHeader
+        )
+        wrapper.fs.mem.mkdirpSync(path.dirname(pagePath))
+        wrapper.fs.mem.writeFileSync(pagePath, pageContent)
+      } else {
+        logger.warnOnce(`页面 ${page} 的 jsx 文件生成失败，原因：未找到文件`)
+      }
     })
 
     return { [MOR_GLOBAL_FILE(globalNameSuffix)]: mainEntryPath }

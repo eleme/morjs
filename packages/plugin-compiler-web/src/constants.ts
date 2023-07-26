@@ -1,4 +1,4 @@
-import { mor, zod as z } from '@morjs/utils'
+import { logger, mor, zod as z } from '@morjs/utils'
 import path from 'path'
 
 /**
@@ -23,12 +23,26 @@ export const templateSingleTagClosingType = 'tag'
 export const ASSETS_REGEXP =
   /\.(jpg|jpeg|png|svg|bmp|ico|gif|webp|otf|ttf|woff|woff2|eot|cer|ogg|aac|mp4|wav|mp3)$/i
 
+export const RUNTIME_NPM_NAME = '@morjs/runtime-web'
+
+let RUNTIME_NPM_SEGMENTS: string[]
+try {
+  RUNTIME_NPM_SEGMENTS = require.resolve(RUNTIME_NPM_NAME).split('node_modules')
+  // 移除最后的文件，则前面的路径为 node_modules 的路径
+  RUNTIME_NPM_SEGMENTS.pop()
+  if (RUNTIME_NPM_SEGMENTS.length > 0) RUNTIME_NPM_SEGMENTS.push('')
+} catch (error) {
+  logger.debug(`未能定位到 ${RUNTIME_NPM_NAME} 的实际位置`)
+}
 /**
  * 当前 npm 所包含的 node_modules 目录
+ * 以及 RUNTIME_NPM_NAME 所在的 node_modules 目录
  */
-export const CURRENT_NODE_MODUELS = path.resolve(__dirname, '../node_modules')
-
-export const RUNTIME_NPM_NAME = '@morjs/runtime-web'
+export const CURRENT_NODE_MODULES = [
+  path.resolve(__dirname, '../node_modules')
+].concat(
+  RUNTIME_NPM_SEGMENTS.length ? RUNTIME_NPM_SEGMENTS.join('node_modules') : []
+)
 
 export const WEB_RUNTIMES = {
   runtime: `${RUNTIME_NPM_NAME}/lib/runtime`,
