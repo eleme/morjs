@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
+
+
+### Bug Fixes
+
+* **plugin-compiler:** 分包或插件转 web 场景下不注入 App 的初始化模拟支持 ([1bb21f6](https://github.com/eleme/morjs/commit/1bb21f61ceff805c0a85a144b01c37a3a6128baf))
+
+
+
+
+
 ## [1.0.70](https://github.com/eleme/morjs/compare/v1.0.69...v1.0.70) (2023-07-19)
 
 **Note:** Version bump only for package @morjs/plugin-compiler

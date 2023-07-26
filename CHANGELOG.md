@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
+
+### Bug Fixes
+
+- **plugin-compiler-web:** 修复 pnpm 场景下 runtime-web 可能会找不到的问题 ([b598de8](https://github.com/eleme/morjs/commit/b598de8abbb911c92ef222ba65e8f193d05b2b9b))
+- **plugin-compiler-web:** 修复分包工程编译为 web 时可能会报错的问题 ([b9d5203](https://github.com/eleme/morjs/commit/b9d5203b5d14ee1b0ba73bcf17bc47e1200489af))
+- **plugin-compiler:** 分包或插件转 web 场景下不注入 App 的初始化模拟支持 ([1bb21f6](https://github.com/eleme/morjs/commit/1bb21f61ceff805c0a85a144b01c37a3a6128baf))
+
+### Features
+
+- **plugin-generator:** 修改模版文件用于支持 isSupportWeb 选项 ([39896d1](https://github.com/eleme/morjs/commit/39896d1ec52f9c97758a2d25fb93ed2ae536668d))
+- **runtime-web:** createIntersectionObserver 增加 dataset 透传 ([3012c51](https://github.com/eleme/morjs/commit/3012c51ba43113b0f6f9669789707210c1e99a7b))
+- **runtime-web:** this.createSelectorQuery 用法支持 ([94abb99](https://github.com/eleme/morjs/commit/94abb9903a545e5f4f848ede0453e26da93637c7))
+
 ## [1.0.70](https://github.com/eleme/morjs/compare/v1.0.69...v1.0.70) (2023-07-19)
 
 ### Bug Fixes
