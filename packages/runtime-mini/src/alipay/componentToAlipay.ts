@@ -7,6 +7,7 @@ import {
   canIUse,
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,
+  injectCreateSelectorQuerySupport,
   injectTwoWayBindingMethodsSupport,
   markUnsupportMethods
 } from './utilsToAlipay'
@@ -498,6 +499,7 @@ function hookComponentLifeCycle(options: Record<string, any>) {
   options.onInit = compose([
     hackSetData,
     injectCreateIntersectionObserverSupport(),
+    injectCreateSelectorQuerySupport(),
     initPropertiesAndData,
     callOriginalFn('onInit')
   ])

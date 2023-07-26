@@ -1,5 +1,6 @@
 import IO from 'intersection-observer'
 import { getRootView } from '../../global'
+import { getDataSet } from './utils'
 
 // 兼容不支持 IntersectionObserver 的浏览器
 const IntersectionObserver = window.IntersectionObserver || IO
@@ -22,6 +23,11 @@ class LocalIntersectionObserver {
    */
   readonly selectAll: boolean
 
+  /** 目标节点的 dataset 信息。当 dataset 为 true 时，IntersectionObserver.observe 回调中的 res 对象，
+   * 会携带目标节点的 dataset 属性。
+   */
+  readonly dataset: boolean
+
   private intersectionObserver: IntersectionObserver
 
   private callBackInfos: WeakMap<HTMLElement, any> = new WeakMap()
@@ -30,10 +36,16 @@ class LocalIntersectionObserver {
 
   private sortedThresholds: number[]
 
-  constructor({ thresholds = 0.0, initialRatio = 0, selectAll = false } = {}) {
+  constructor({
+    thresholds = 0.0,
+    initialRatio = 0,
+    selectAll = false,
+    dataset = false
+  } = {}) {
     this.initialRatio = initialRatio
     this.thresholds = thresholds
     this.selectAll = selectAll
+    this.dataset = dataset
     this.sortedThresholds = (
       Array.isArray(thresholds) ? thresholds : [thresholds]
     )
@@ -66,13 +78,18 @@ class LocalIntersectionObserver {
       }
       const callback = this.callBackInfos.get(entity.target as HTMLElement)
       if (callback) {
-        const callbackInfo = {
+        const dataset = this.dataset
+          ? getDataSet(entity.target as HTMLElement)
+          : {}
+
+        const callbackInfo: Record<string, any> = {
           intersectionRatio: entity.intersectionRatio,
           intersectionRect: entity.intersectionRect,
           boundingClientRect: entity.boundingClientRect,
           relativeRect: entity.rootBounds,
           time: new Date().valueOf(),
-          id: entity.target.id
+          id: entity.target.id,
+          ...dataset
         }
         callback(callbackInfo)
       }
