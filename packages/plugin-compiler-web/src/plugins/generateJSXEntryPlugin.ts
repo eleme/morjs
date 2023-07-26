@@ -385,7 +385,7 @@ export class GenerateJSXEntryPlugin implements Plugin {
       const entry = entryHelpers.entries.get(page.slice(1))
       if (entry?.entryName) {
         const pageContent = generatePageJSX(
-          entryHelpers.entries.get(page.slice(1)).entryName,
+          entry.entryName,
           web.showBack,
           web.showHeader
         )

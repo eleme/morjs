@@ -147,7 +147,7 @@ export class CommonConfigPlugin implements Plugin {
     }
     chain.resolve.alias.set('@', srcPaths)
 
-    CURRENT_NODE_MODULES.map((dir) => {
+    CURRENT_NODE_MODULES.forEach((dir) => {
       // 扩展 node_modules
       chain.resolve.modules.add(dir).end()
       // loader 优先查找当前 npm 所在位置的 node_modules
