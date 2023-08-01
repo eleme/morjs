@@ -315,18 +315,18 @@ export class KBComponent extends React.PureComponent<any, IState> {
      * 合并props，如果传过来的props  value 是undifined 那么就使用defualtProp 替代
      */
     const newProps = this.mergeProps(props)
-      ; (this.state as IState).prevProps = (() => {
-        const keys = Object.keys(this.state.cachePrePropsAction)
-        const result = { ...newProps, ...this.state.prevProps }
+    ;(this.state as IState).prevProps = (() => {
+      const keys = Object.keys(this.state.cachePrePropsAction)
+      const result = { ...newProps, ...this.state.prevProps }
 
-        keys.forEach((key) => {
-          const value = newProps[key]
+      keys.forEach((key) => {
+        const value = newProps[key]
 
-          if (typeof value === 'object') result[key] = deepCopy(value)
-        })
+        if (typeof value === 'object') result[key] = deepCopy(value)
+      })
 
-        return result
-      })()
+      return result
+    })()
 
     // mixin deriveDataFromProps 相关
     if (this.componentConfig.deriveDataFromProps) {
@@ -445,7 +445,7 @@ export class KBComponent extends React.PureComponent<any, IState> {
 
   componentWillUnmount() {
     this._isMounted = false
-      ; (this.state as IState).cachePrePropsAction = {}
+    ;(this.state as IState).cachePrePropsAction = {}
     this.cachePreDataAction = {}
     this.updateDataQueue = []
     this.didUnmount()
