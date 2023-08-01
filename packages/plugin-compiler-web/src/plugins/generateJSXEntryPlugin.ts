@@ -67,18 +67,19 @@ function generatePageJSX(
   showBack: boolean | string[] | ((pagePath: string) => boolean) = false,
   showHeader: boolean | string[] | ((pagePath: string) => boolean) = true
 ): string {
+  const page = slash(pagePath)
   return `import '${WEB_RUNTIMES.components}';
 import '${WEB_RUNTIMES.api}';
 import React from 'react';
-import EntryPage from '@/${pagePath}';
+import EntryPage from '@/${page}';
 
 class Page extends React.Component {
   render() {
     return (
       <tiga-page-host show-back="${shouldEnableFor(
         showBack,
-        pagePath
-      )}" show-header="${shouldEnableFor(showHeader, pagePath)}">
+        page
+      )}" show-header="${shouldEnableFor(showHeader, page)}">
         <EntryPage />
       </tiga-page-host>
     );
@@ -382,7 +383,7 @@ export class GenerateJSXEntryPlugin implements Plugin {
     // 生成各个页面对应的 jsx 文件
     pages.map((page) => {
       const pagePath = path.join(entriesRoot, `${page}.jsx`)
-      const entry = entryHelpers.entries.get(page.slice(1))
+      const entry = entryHelpers.entries.get(path.normalize(page.slice(1)))
       if (entry?.entryName) {
         const pageContent = generatePageJSX(
           entry.entryName,
