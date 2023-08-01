@@ -438,7 +438,7 @@ export class KBComponent extends React.PureComponent<any, IState> {
           this.cachePreDataAction
         )
       )
-        ; (this.state as IState).cachePrePropsAction = {}
+      ;(this.state as IState).cachePrePropsAction = {}
       this.cachePreDataAction = {}
     }
   }
