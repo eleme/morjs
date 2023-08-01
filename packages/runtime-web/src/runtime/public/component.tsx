@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom'
 import eventConvert from './event-convert'
 import { combineValue, mergeExecution } from './utils/common'
 import { catchComponentMethodsError } from './utils/errorHandler'
+import { mountIntersectionObserver } from './utils/instanceApi'
 
 let componetLastId = 0
 
@@ -206,6 +207,10 @@ export class KBComponent extends React.PureComponent<any, IState> {
     this.componentConfig.route = window.$getRoute && window.$getRoute()
     this.componentConfig.pageId = window.$getPageId && window.$getPageId()
 
+    this.componentConfig.createIntersectionObserver = (options) => {
+      return mountIntersectionObserver(options, this)
+    }
+
     this.updatePageConfig()
   }
 
@@ -310,18 +315,18 @@ export class KBComponent extends React.PureComponent<any, IState> {
      * 合并props，如果传过来的props  value 是undifined 那么就使用defualtProp 替代
      */
     const newProps = this.mergeProps(props)
-    ;(this.state as IState).prevProps = (() => {
-      const keys = Object.keys(this.state.cachePrePropsAction)
-      const result = { ...newProps, ...this.state.prevProps }
+      ; (this.state as IState).prevProps = (() => {
+        const keys = Object.keys(this.state.cachePrePropsAction)
+        const result = { ...newProps, ...this.state.prevProps }
 
-      keys.forEach((key) => {
-        const value = newProps[key]
+        keys.forEach((key) => {
+          const value = newProps[key]
 
-        if (typeof value === 'object') result[key] = deepCopy(value)
-      })
+          if (typeof value === 'object') result[key] = deepCopy(value)
+        })
 
-      return result
-    })()
+        return result
+      })()
 
     // mixin deriveDataFromProps 相关
     if (this.componentConfig.deriveDataFromProps) {
@@ -433,14 +438,14 @@ export class KBComponent extends React.PureComponent<any, IState> {
           this.cachePreDataAction
         )
       )
-      ;(this.state as IState).cachePrePropsAction = {}
+        ; (this.state as IState).cachePrePropsAction = {}
       this.cachePreDataAction = {}
     }
   }
 
   componentWillUnmount() {
     this._isMounted = false
-    ;(this.state as IState).cachePrePropsAction = {}
+      ; (this.state as IState).cachePrePropsAction = {}
     this.cachePreDataAction = {}
     this.updateDataQueue = []
     this.didUnmount()
@@ -541,7 +546,7 @@ export class KBComponent extends React.PureComponent<any, IState> {
     // 避免卸载之后继续执行 findDOMNode 操作
     if (!this._isMounted) return
 
-    const root = ReactDOM.findDOMNode(this)
+    const root = this.getRoot()
     if (!root) return
 
     for (const nodeId in this.eventsInfo) {
@@ -596,5 +601,13 @@ export class KBComponent extends React.PureComponent<any, IState> {
 
   registEvents(events, nodeId) {
     this.eventsInfo[nodeId] = events
+  }
+
+  getRoot() {
+    try {
+      return ReactDOM.findDOMNode(this)
+    } catch (e) {
+      return null
+    }
   }
 }
