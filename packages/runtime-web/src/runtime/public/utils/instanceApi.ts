@@ -1,13 +1,16 @@
 import { my } from '../../../api/my'
+import { IntersectionObserverOptions } from '../../../api/ui/element-query/intersection-observer'
 
-export function mountIntersectionObserver(options, context) {
+export function mountIntersectionObserver(
+  options: IntersectionObserverOptions,
+  root: Element | Text | null
+) {
   const intersectionObserver = my.createIntersectionObserver(options)
   // 保存一份引用，且固定 this 绑定
   const observe = intersectionObserver.observe.bind(intersectionObserver)
 
   intersectionObserver.observe = (targetSelector, callback) => {
     try {
-      const root = context.getRoot()
       let element = null
       if (root && root.parentNode)
         element = root.parentNode.querySelector(targetSelector)

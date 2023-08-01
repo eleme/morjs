@@ -208,7 +208,7 @@ export class KBComponent extends React.PureComponent<any, IState> {
     this.componentConfig.pageId = window.$getPageId && window.$getPageId()
 
     this.componentConfig.createIntersectionObserver = (options) => {
-      return mountIntersectionObserver(options, this)
+      return mountIntersectionObserver(options, this.getRoot())
     }
 
     this.updatePageConfig()

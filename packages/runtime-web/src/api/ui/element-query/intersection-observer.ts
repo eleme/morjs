@@ -2,6 +2,13 @@ import IO from 'intersection-observer'
 import { getRootView } from '../../global'
 import { getDataSet } from './utils'
 
+export interface IntersectionObserverOptions {
+  thresholds?: any
+  initialRatio?: number
+  selectAll?: boolean
+  dataset?: boolean
+}
+
 // 兼容不支持 IntersectionObserver 的浏览器
 const IntersectionObserver = window.IntersectionObserver || IO
 
@@ -41,7 +48,7 @@ class LocalIntersectionObserver {
     initialRatio = 0,
     selectAll = false,
     dataset = false
-  } = {}) {
+  }: IntersectionObserverOptions = {}) {
     this.initialRatio = initialRatio
     this.thresholds = thresholds
     this.selectAll = selectAll
