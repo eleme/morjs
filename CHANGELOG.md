@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.73](https://github.com/eleme/morjs/compare/v1.0.72...v1.0.73) (2023-08-01)
+
+### Features
+
+- **runtime-web:** 增加 this.createIntersectionObserver 实现 ([#92](https://github.com/eleme/morjs/issues/92)) ([96f4c34](https://github.com/eleme/morjs/commit/96f4c34c8ca6147e4ea090bb7c0be1fcb02b471d))
+
 ## [1.0.72](https://github.com/eleme/morjs/compare/v1.0.71...v1.0.72) (2023-08-01)
 
 ### Features
