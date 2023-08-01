@@ -31,6 +31,7 @@ import {
   MODULE_MODE_NAMES,
   MODULE_TYPE_NAMES
 } from './constants'
+import { isCIENV } from './utils'
 
 const {
   pick,
@@ -1154,7 +1155,7 @@ function logHostAndModulesInfos(
       '类型',
       '模式'
     ]
-    colWidths = [46, 16, 6, 6]
+    colWidths = isCIENV() ? [56, 30, 6, 6] : [46, 16, 6, 6]
   } else {
     logger.info('模块集成结果:')
     head = [
@@ -1164,7 +1165,7 @@ function logHostAndModulesInfos(
       '模式',
       '结果'
     ]
-    colWidths = [46, 16, 6, 6, 6]
+    colWidths = isCIENV() ? [56, 30, 6, 6, 6] : [46, 16, 6, 6, 6]
   }
 
   const table = {
