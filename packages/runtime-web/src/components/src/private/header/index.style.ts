@@ -2,8 +2,12 @@ import { css, unsafeCSS } from 'lit-element'
 import { rpxToRem } from '../../rpx'
 
 export const Styles = css`
+  :host {
+    position: relative;
+  }
+
   .header {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
