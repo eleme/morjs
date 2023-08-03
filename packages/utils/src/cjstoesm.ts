@@ -2192,7 +2192,6 @@ function visitVariableDeclaration({
         context.addImport(
           factory.createImportDeclaration(
             undefined,
-            undefined,
             factory.createImportClause(
               false,
               undefined,
@@ -2233,7 +2232,6 @@ function visitVariableDeclaration({
 
       context.addImport(
         factory.createImportDeclaration(
-          undefined,
           undefined,
           moduleExports == null || moduleExports.hasDefaultExport
             ? factory.createImportClause(
@@ -2350,7 +2348,6 @@ function visitVariableDeclaration({
         context.addImport(
           factory.createImportDeclaration(
             undefined,
-            undefined,
             factory.createImportClause(false, undefined, namedImports),
             factory.createStringLiteral(transformedModuleSpecifier),
             maybeGenerateAssertClause(
@@ -2383,7 +2380,6 @@ function visitVariableDeclaration({
       if (otherImportSpecifiers.length > 0) {
         context.addImport(
           factory.createImportDeclaration(
-            undefined,
             undefined,
             factory.createImportClause(
               false,
@@ -3180,7 +3176,6 @@ function visitCallExpression({
           factory.createImportDeclaration(
             undefined,
             undefined,
-            undefined,
             factory.createStringLiteral(transformedModuleSpecifier),
             maybeGenerateAssertClause(
               context,
@@ -3213,7 +3208,6 @@ function visitCallExpression({
 
         context.addImport(
           factory.createImportDeclaration(
-            undefined,
             undefined,
             importClause,
             factory.createStringLiteral(transformedModuleSpecifier),
@@ -3289,8 +3283,6 @@ function visitCallExpression({
           context.addImport(
             factory.createImportDeclaration(
               undefined,
-              undefined,
-
               moduleExports.hasDefaultExport
                 ? factory.createImportClause(false, identifier, undefined)
                 : factory.createImportClause(
@@ -3370,7 +3362,6 @@ function visitCallExpression({
           context.addImport(
             factory.createImportDeclaration(
               undefined,
-              undefined,
               importClause,
               factory.createStringLiteral(transformedModuleSpecifier),
               maybeGenerateAssertClause(
@@ -3436,8 +3427,6 @@ function visitCallExpression({
         context.addImport(
           factory.createImportDeclaration(
             undefined,
-            undefined,
-
             moduleExports.hasDefaultExport
               ? factory.createImportClause(false, identifier, undefined)
               : factory.createImportClause(
@@ -3565,8 +3554,6 @@ function visitCallExpression({
           context.addImport(
             factory.createImportDeclaration(
               undefined,
-              undefined,
-
               moduleExports.hasDefaultExport
                 ? factory.createImportClause(false, identifier, undefined)
                 : factory.createImportClause(
@@ -3589,7 +3576,6 @@ function visitCallExpression({
         if (importSpecifiers.length > 0) {
           context.addImport(
             factory.createImportDeclaration(
-              undefined,
               undefined,
               factory.createImportClause(
                 false,
@@ -3664,8 +3650,6 @@ function visitCallExpression({
       context.addImport(
         factory.createImportDeclaration(
           undefined,
-          undefined,
-
           moduleExports.hasDefaultExport
             ? factory.createImportClause(false, identifier, undefined)
             : factory.createImportClause(
@@ -3715,8 +3699,6 @@ function visitCallExpression({
       context.addImport(
         factory.createImportDeclaration(
           undefined,
-          undefined,
-
           moduleExports.hasDefaultExport
             ? factory.createImportClause(false, identifier, undefined)
             : factory.createImportClause(
