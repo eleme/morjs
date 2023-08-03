@@ -88,8 +88,8 @@ export class DevServerPlugin implements Plugin {
       ignore: string[]
     } & WebCompilerUserConfig
     const { devServer = {} } = web || {}
-    const host = runner.config.env.get('HOST') || devServer.host || DEFAULT_HOST
-    let port = runner.config.env.get('PORT') || devServer.port || DEFAULT_PORT
+    const host = devServer.host || runner.config.env.get('HOST') || DEFAULT_HOST
+    let port = devServer.port || runner.config.env.get('PORT') || DEFAULT_PORT
     // 获取可用 port
     const availablePort = await checkPortInUseAndReturnAvaliable(port, host)
     if (String(availablePort) !== String(port)) {
