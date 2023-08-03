@@ -2168,7 +2168,6 @@ function visitVariableDeclaration({
         context.addTrailingStatements(
           factory.createExportDeclaration(
             undefined,
-            undefined,
             false,
             exportClause,
             moduleSpecifierExpression
@@ -2182,7 +2181,6 @@ function visitVariableDeclaration({
 
         context.addTrailingStatements(
           factory.createExportDeclaration(
-            undefined,
             undefined,
             false,
             exportClause,
@@ -2219,12 +2217,7 @@ function visitVariableDeclaration({
           )
         ])
         context.addTrailingStatements(
-          factory.createExportDeclaration(
-            undefined,
-            undefined,
-            false,
-            exportClause
-          )
+          factory.createExportDeclaration(undefined, false, exportClause)
         )
         return undefined
       }
@@ -2640,12 +2633,7 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
           if (!context.isDefaultExported) {
             context.markDefaultAsExported()
             context.addTrailingStatements(
-              factory.createExportAssignment(
-                undefined,
-                undefined,
-                false,
-                exportedSymbol
-              )
+              factory.createExportAssignment(undefined, false, exportedSymbol)
             )
           }
 
@@ -2694,7 +2682,6 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
             statements.push(
               factory.createExportDeclaration(
                 undefined,
-                undefined,
                 false,
                 namedExports,
                 undefined
@@ -2725,7 +2712,6 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
 
             statements.push(
               factory.createExportDeclaration(
-                undefined,
                 undefined,
                 false,
                 namedExports,
@@ -2836,7 +2822,6 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
             statements.push(
               factory.createExportAssignment(
                 undefined,
-                undefined,
                 false,
                 factory.createIdentifier(moduleExportsIdentifierName)
               )
@@ -2849,7 +2834,6 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
             factory.createObjectLiteralExpression(elements, true)
           statements.push(
             factory.createExportAssignment(
-              undefined,
               undefined,
               false,
               defaultExportInitializer
@@ -2883,12 +2867,7 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
                   : continuationResult
 
               context.addTrailingStatements(
-                factory.createExportAssignment(
-                  undefined,
-                  undefined,
-                  false,
-                  exportedSymbol
-                )
+                factory.createExportAssignment(undefined, false, exportedSymbol)
               )
               return replacementNode
             }
@@ -2927,7 +2906,6 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
             context.addTrailingStatements(
               factory.createExportDeclaration(
                 undefined,
-                undefined,
                 false,
                 namedExports,
                 moduleSpecifierExpression
@@ -2937,7 +2915,6 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
           } else {
             context.addTrailingStatements(
               factory.createExportDeclaration(
-                undefined,
                 undefined,
                 false,
                 undefined,
@@ -2976,12 +2953,7 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
       ])
 
       context.addTrailingStatements(
-        factory.createExportDeclaration(
-          undefined,
-          undefined,
-          false,
-          namedExports
-        )
+        factory.createExportDeclaration(undefined, false, namedExports)
       )
       return continuationResult
     } else if (typescript.isIdentifier(right)) {
@@ -3002,12 +2974,7 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
         ])
         context.markLocalAsExported(local)
         context.addTrailingStatements(
-          factory.createExportDeclaration(
-            undefined,
-            undefined,
-            false,
-            namedExports
-          )
+          factory.createExportDeclaration(undefined, false, namedExports)
         )
       }
       return undefined
@@ -3047,7 +3014,6 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
           ])
           context.addTrailingStatements(
             factory.createExportDeclaration(
-              undefined,
               undefined,
               false,
               namedExports,
@@ -3099,7 +3065,6 @@ function visitBinaryExpression({ node, sourceFile, context, continuation }) {
                 )
               ),
               factory.createExportDeclaration(
-                undefined,
                 undefined,
                 false,
                 namedExports,
