@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.76](https://github.com/eleme/morjs/compare/v1.0.75...v1.0.76) (2023-08-08)
+
+
+### Bug Fixes
+
+* **plugin-compiler-web:** 修复 web 服务启动的端口号冲突检测逻辑并调整最大检测次数为 5 次 ([4a36bc0](https://github.com/eleme/morjs/commit/4a36bc03efffa43f31f132d617cd8909d0b4517f))
+
+
+
+
+
 ## [1.0.75](https://github.com/eleme/morjs/compare/v1.0.74...v1.0.75) (2023-08-03)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-web
