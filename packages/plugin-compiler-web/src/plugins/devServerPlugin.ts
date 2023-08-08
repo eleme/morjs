@@ -16,7 +16,7 @@ const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '0.0.0.0'
 
 /**
- * 尝试获取可用的端口号，最多重复获取 3 次
+ * 尝试获取可用的端口号，最多重复获取 5 次
  * @param port - 端口号
  * @param host - ip 地址
  * @param retryTimes - 当前重试次数
@@ -52,7 +52,7 @@ async function checkPortInUseAndReturnAvaliable(
     server.listen(availablePort, host)
   })
 
-  // 重试 3 次
+  // 重试 5 次
   if (!res && retryTimes < 5) {
     return checkPortInUseAndReturnAvaliable(
       availablePort + 1,
