@@ -53,7 +53,7 @@ async function checkPortInUseAndReturnAvaliable(
   })
 
   // 重试 3 次
-  if (!res && retryTimes < 3) {
+  if (!res && retryTimes < 5) {
     return checkPortInUseAndReturnAvaliable(
       availablePort + 1,
       host,
@@ -82,7 +82,12 @@ export class DevServerPlugin implements Plugin {
     wrapper: WebpackWrapper,
     userConfig: WebCompilerUserConfig
   ) {
-    const { srcPaths = [], web } = userConfig as {
+    const {
+      srcPaths = [],
+      web,
+      watch
+    } = userConfig as {
+      watch: boolean
       outputPath: string[]
       srcPaths: string[]
       ignore: string[]
@@ -90,30 +95,34 @@ export class DevServerPlugin implements Plugin {
     const { devServer = {} } = web || {}
     const host = devServer.host || runner.config.env.get('HOST') || DEFAULT_HOST
     let port = devServer.port || runner.config.env.get('PORT') || DEFAULT_PORT
-    // 获取可用 port
-    const availablePort = await checkPortInUseAndReturnAvaliable(port, host)
-    if (String(availablePort) !== String(port)) {
-      const answers = await prompts(
-        [
-          {
-            type: 'select',
-            name: 'suggestedPortAccepted',
-            message: `端口 ${port} 已被占用，使用 ${availablePort} 端口启动？`,
-            choices: [
-              { title: '是', value: true },
-              { title: '否', value: false }
-            ]
-          }
-        ],
-        {
-          onCancel() {
-            process.exit(0)
-          }
-        }
-      )
 
-      if (answers.suggestedPortAccepted) {
-        port = availablePort
+    // 仅在监听模式下检测端口冲突
+    if (watch) {
+      // 获取可用 port
+      const availablePort = await checkPortInUseAndReturnAvaliable(port, host)
+      if (String(availablePort) !== String(port)) {
+        const answers = await prompts(
+          [
+            {
+              type: 'select',
+              name: 'suggestedPortAccepted',
+              message: `端口 ${port} 已被占用，使用 ${availablePort} 端口启动？`,
+              choices: [
+                { title: '是', value: true },
+                { title: '否', value: false }
+              ]
+            }
+          ],
+          {
+            onCancel() {
+              process.exit(0)
+            }
+          }
+        )
+
+        if (answers.suggestedPortAccepted) {
+          port = availablePort
+        }
       }
     }
 
