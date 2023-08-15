@@ -105,14 +105,18 @@ const EVENT_HANDLER_NAME = 'data-mor-event-handlers'
 const PROXY_DISABLE_EVENT_NAME = '$morDisableScrollProxy'
 
 /**
- * 将时间代理存储到 node 节点上
+ * 将事件代理存储到 node 节点上
  */
 function processEventProxy(
   node: posthtml.Node,
   options: FileParserOptions,
   context: Record<string, any>
 ) {
-  if (context.morHandlersMap && Object.keys(context.morHandlersMap).length) {
+  if (
+    context.morHandlersMap &&
+    Object.keys(context.morHandlersMap).length &&
+    !options.userConfig?.processComponentsPropsFunction
+  ) {
     node.attrs[EVENT_HANDLER_NAME] = Buffer.from(
       JSON.stringify(context.morHandlersMap)
     ).toString('base64')
@@ -148,7 +152,9 @@ function processEventsAttributes(
       node.attrs[newAttr] = node.attrs[attrName]
     } else {
       const newAttr = `bind:${eventName}`
-      node.attrs[newAttr] = PROXY_EVENT_NAME
+      node.attrs[newAttr] = options.userConfig?.processComponentsPropsFunction
+        ? node.attrs[attrName]
+        : PROXY_EVENT_NAME
       morHandlersMap[eventName] = node.attrs[attrName] as string
     }
 
