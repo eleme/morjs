@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.77](https://github.com/eleme/morjs/compare/v1.0.76...v1.0.77) (2023-08-17)
+
+### Bug Fixes
+
+- **runtime-web:** 修复 swiper 组件空指针异常 ([#98](https://github.com/eleme/morjs/issues/98)) ([d1046a6](https://github.com/eleme/morjs/commit/d1046a65923fd5b5d9fa8130f105618c0a39197a))
+
 ## [1.0.76](https://github.com/eleme/morjs/compare/v1.0.75...v1.0.76) (2023-08-08)
 
 ### Bug Fixes
