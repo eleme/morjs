@@ -8,6 +8,8 @@
   "repository": "git@github.com:eleme/morjs.git",
   "scripts": {
     "dev": "mor compile -w",
+    "dev:ali": "mor compile --name ali -w",
+    "dev:web": "mor compile --name web -w",
     "build": "mor compile"
   },
   "dependencies": {
