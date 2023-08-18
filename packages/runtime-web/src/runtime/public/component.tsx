@@ -463,7 +463,7 @@ export class KBComponent extends React.PureComponent<any, IState> {
     const $slots = {}
     if (this.props.children) {
       if (this.props.children instanceof Array) {
-        this.props.children.forEach((i) => {
+        this.props.children.forEach((i: ReactNodeSlot) => {
           if (i.props && i.props._slot) {
             $slots[i.props._slot] = i
           }
