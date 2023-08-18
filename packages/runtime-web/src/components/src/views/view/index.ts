@@ -125,13 +125,13 @@ export default class View extends BaseElement {
 
   preventScroll() {
     // 组织元素上的滚动事件
-    this.addEventListener('touchmove', preventHandle)
-    this.addEventListener('scroll', preventHandle)
+    this.shadowRoot.addEventListener('touchmove', preventHandle, false)
+    this.shadowRoot.addEventListener('scroll', preventHandle, false)
   }
 
   releaseScroll() {
-    this.removeEventListener('touchmove', preventHandle)
-    this.removeEventListener('scroll', preventHandle)
+    this.shadowRoot.removeEventListener('touchmove', preventHandle, false)
+    this.shadowRoot.removeEventListener('scroll', preventHandle, false)
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
