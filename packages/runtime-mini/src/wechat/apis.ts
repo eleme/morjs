@@ -53,6 +53,7 @@ export const needPromisfiedApis = [
   'getStorageInfo',
   'getSystemInfo',
   'getUserInfo',
+  'getUserProfile',
   'getWeRunData',
   'getWifiList',
   'hideHomeButton',
