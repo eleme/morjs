@@ -1,6 +1,6 @@
 {
   "name": "@morjs/runtime-mini",
-  "version": "1.0.71",
+  "version": "1.0.79",
   "description": "mor runtime for miniprogram",
   "keywords": [
     "mor",

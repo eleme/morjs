@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.79](https://github.com/eleme/morjs/compare/v1.0.78...v1.0.79) (2023-08-28)
+
+
+### Bug Fixes
+
+* 修复未经 promisify 处理，导致的 api 空指针报错问题 ([#102](https://github.com/eleme/morjs/issues/102)) ([f4f8cae](https://github.com/eleme/morjs/commit/f4f8cae236c72ffb7178b19056c204f6bf6508e0))
+
+
+
+
+
 ## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
 
 
