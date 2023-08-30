@@ -722,7 +722,7 @@ export default class Map extends BaseElement {
       // 如果 map 没有初始化完成，在这里监听地图完成事件
       // 最大等待时长 1s，超出则认为失败
       Promise.race([sleep(1000), waitForLoad]).then((value) => {
-        if (value && value === LOAD_EVENT) success(getCenterInfo())
+        if (value && value === LOAD_EVENT) success && success(getCenterInfo())
         else {
           fail && fail({ error: 'not init' })
         }
