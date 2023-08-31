@@ -3,7 +3,7 @@ import { IntersectionObserverOptions } from '../../../api/ui/element-query/inter
 
 export function mountIntersectionObserver(
   options: IntersectionObserverOptions,
-  root: Element | Text | null
+  root: HTMLElement | null
 ) {
   const intersectionObserver = my.createIntersectionObserver(options)
   // 保存一份引用，且固定 this 绑定
@@ -12,8 +12,14 @@ export function mountIntersectionObserver(
   intersectionObserver.observe = (targetSelector, callback) => {
     try {
       let element = null
-      if (root && root.parentNode)
-        element = root.parentNode.querySelector(targetSelector)
+      if (root) {
+        // 查看要遍历的组件是不是自定义节点最外层的节点
+        if (typeof root.matches === 'function' && root.matches(targetSelector))
+          element = root
+        else if (root.parentNode)
+          element = root.parentNode.querySelector(targetSelector)
+      }
+
       // 在这种场景下，查找元素要从当前自定义节点下查找，不能从全局角度查找
       if (element) {
         return observe(element, callback)
