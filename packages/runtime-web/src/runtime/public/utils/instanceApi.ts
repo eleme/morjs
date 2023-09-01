@@ -3,7 +3,7 @@ import { IntersectionObserverOptions } from '../../../api/ui/element-query/inter
 
 export function mountIntersectionObserver(
   options: IntersectionObserverOptions,
-  root: HTMLElement | null
+  root: Element | Text | null
 ) {
   const intersectionObserver = my.createIntersectionObserver(options)
   // 保存一份引用，且固定 this 绑定
@@ -14,7 +14,10 @@ export function mountIntersectionObserver(
       let element = null
       if (root) {
         // 查看要遍历的组件是不是自定义节点最外层的节点
-        if (typeof root.matches === 'function' && root.matches(targetSelector))
+        if (
+          typeof (root as HTMLElement).matches === 'function' &&
+          (root as HTMLElement).matches(targetSelector)
+        )
           element = root
         else if (root.parentNode)
           element = root.parentNode.querySelector(targetSelector)
