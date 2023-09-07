@@ -78,29 +78,28 @@ export function rpxtorem(csstext: string, options: AcssOptions) {
   }
 }
 
+interface ClassScopeOptions {
+  hash: string
+  isComponent: boolean
+}
+
 // 样式隔离插件
-const classScopePlugin = postcss.plugin('class-scope-plugin', function (opts) {
-  return function (root) {
-    root.nodes.forEach((rule) => {
-      if (rule.type === 'rule') {
-        rule.selector = rule.selector
-          .split(' ')
-          .map((s) => {
-            return s
-              .split(',')
-              .map((s) => {
-                return addScope(s, (<any>opts).hash, (<any>opts).isComponent)
-              })
-              .join(',')
-          })
-          .join(' ')
-      }
-    })
+const classScopePlugin = postcss.plugin(
+  'class-scope-plugin',
+  function (opts: ClassScopeOptions) {
+    return function (root) {
+      root.nodes.forEach((rule) => {
+        if (rule.type === 'rule') {
+          rule.selector = addScope(rule.selector, opts.hash, opts.isComponent)
+        }
+      })
+    }
   }
-})
+)
 
 function addScope(selector: string, hash: string, isComponent?: boolean) {
-  // 仅针对非组件做变动处理，因为 tiga-page 上有hash值
+  if (selector.indexOf(hash) >= 0) return selector
+  // 仅针对非组件做变动处理
   if (!isComponent) return `.${hash} ${selector}`
 
   const index = selector.indexOf(':')
