@@ -1,4 +1,8 @@
-import { getGlobalObject, transformApis } from '@morjs/runtime-base'
+import {
+  getGlobalObject,
+  IAPITransformConfig,
+  transformApis
+} from '@morjs/runtime-base'
 
 /**
  * 微信需要被 promisified 的接口
@@ -142,12 +146,26 @@ export const needPromisfiedApis = [
   'writeBLECharacteristicValue'
 ]
 
+const apiTransformConfig: IAPITransformConfig = {
+  nextTick: {
+    fn: function (global, callback) {
+      if (typeof callback !== 'function') return
+      if (typeof global?.nextTick === 'function') {
+        return global.nextTick(callback)
+      } else {
+        return setTimeout(callback, 0)
+      }
+    }
+  }
+}
+
 export function initApi(mor: Record<string, any>) {
   transformApis(
     mor,
     getGlobalObject(),
     {
-      needPromisfiedApis
+      needPromisfiedApis,
+      apiTransformConfig
     },
     false,
     false
