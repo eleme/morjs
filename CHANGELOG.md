@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.82](https://github.com/eleme/morjs/compare/v1.0.81...v1.0.82) (2023-09-08)
+
+### Bug Fixes
+
+- **plugin-compiler-web:** 修复嵌套场景下 styleScope 失效的问题 ([#109](https://github.com/eleme/morjs/issues/109)) ([df462ec](https://github.com/eleme/morjs/commit/df462ec587d57c89e9ebfe22fab9997690245d0c))
+- **runtime-mini:** 添加微信转其他端 jsapi nextTick 的兼容支持 ([3e4cb91](https://github.com/eleme/morjs/commit/3e4cb9120baf398838fc8c4165d0ce7e37661f67))
+
 ## [1.0.81](https://github.com/eleme/morjs/compare/v1.0.80...v1.0.81) (2023-09-01)
 
 ### Bug Fixes

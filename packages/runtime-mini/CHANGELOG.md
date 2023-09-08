@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.82](https://github.com/eleme/morjs/compare/v1.0.81...v1.0.82) (2023-09-08)
+
+
+### Bug Fixes
+
+* **runtime-mini:** 添加微信转其他端 jsapi nextTick 的兼容支持 ([3e4cb91](https://github.com/eleme/morjs/commit/3e4cb9120baf398838fc8c4165d0ce7e37661f67))
+
+
+
+
+
 ## [1.0.79](https://github.com/eleme/morjs/compare/v1.0.78...v1.0.79) (2023-08-28)
 
 
