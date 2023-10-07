@@ -32,7 +32,7 @@
   },
   "scripts": {
     "build": "tsc --module commonjs --outDir lib && tsc --module es2015 --outDir esm",
-    "test": "jest --colors",
+    "test": "jest ./",
     "clean": "rimraf esm lib"
   },
   "sideEffects": false,

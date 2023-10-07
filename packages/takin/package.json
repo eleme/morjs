@@ -4,7 +4,7 @@
   "description": "Front end engineering base toolchain and scaffold",
   "main": "lib/index.js",
   "scripts": {
-    "test": "jest --colors"
+    "test": "jest ./"
   },
   "typings": "lib/index.d.ts",
   "files": [

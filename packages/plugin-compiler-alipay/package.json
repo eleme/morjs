@@ -32,7 +32,7 @@
     "node": ">= 12.13.0"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "jest ./"
   },
   "dependencies": {
     "@morjs/runtime-mini": "1.0.69",

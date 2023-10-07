@@ -2,6 +2,6 @@
 
 const pluginGenerator = require('..')
 
-describe('@morjs/plugin-generator', () => {
+describe('@morjs/runtime-web', () => {
   it('needs tests')
 })

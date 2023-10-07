@@ -28,7 +28,7 @@
     "node": ">= 12.13.0"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "jest ./"
   },
   "dependencies": {
     "@babel/core": "7.21.0",

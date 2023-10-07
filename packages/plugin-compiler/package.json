@@ -17,6 +17,9 @@
     "lib": "lib",
     "test": "__tests__"
   },
+  "scripts": {
+    "test": "jest ./"
+  },
   "files": [
     "lib"
   ],

@@ -11,6 +11,7 @@
     "clean": "node ./scripts/clean.js",
     "lint": "eslint . --fix",
     "test": "lerna run test",
+    "test:api": "lerna run test --scope=@morjs/api",
     "format": "prettier --write .",
     "prepare": "husky install",
     "bootstrap": "lerna bootstrap",

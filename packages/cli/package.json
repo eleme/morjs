@@ -30,7 +30,7 @@
     "directory": "packages/cli"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "jest ./"
   },
   "dependencies": {
     "@morjs/plugin-analyzer": "1.0.69",
