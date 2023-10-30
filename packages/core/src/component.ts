@@ -506,7 +506,10 @@ function processMixinsOrBehaviors<
         // 合并 数据
         // 如 props/properties/data/methods
         if (typeof current[name] === 'object') {
-          result[name] = { ...result[name], ...current[name] }
+          // 对象类型还可能包含数组，对数组做单独处理
+          if (Array.isArray(curr[name])) {
+            result[name] = [...(result[name] || []), ...curr[name]]
+          } else result[name] = { ...result[name], ...current[name] }
         }
         // 合并 方法
         else if (typeof current[name] === 'function') {
