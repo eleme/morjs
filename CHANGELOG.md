@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.84](https://github.com/eleme/morjs/compare/v1.0.83...v1.0.84) (2023-10-31)
+
+### Bug Fixes
+
+- **core:** mixin 数组被转换成了对象 ([#117](https://github.com/eleme/morjs/issues/117)) ([c895e30](https://github.com/eleme/morjs/commit/c895e30b5b8bdddd2eb8ab6b537888b4291738b2))
+
 ## [1.0.83](https://github.com/eleme/morjs/compare/v1.0.82...v1.0.83) (2023-09-14)
 
 ### Bug Fixes
