@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.85](https://github.com/eleme/morjs/compare/v1.0.84...v1.0.85) (2023-11-06)
+
+
+### Features
+
+* **core:** 微信转支付宝页面behaviors无效 ([#122](https://github.com/eleme/morjs/issues/122)) ([0ea297b](https://github.com/eleme/morjs/commit/0ea297be5051b8e8e2b7be13899c0e026b13e123))
+
+
+
+
+
 ## [1.0.84](https://github.com/eleme/morjs/compare/v1.0.83...v1.0.84) (2023-10-31)
 
 

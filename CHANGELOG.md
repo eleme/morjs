@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.85](https://github.com/eleme/morjs/compare/v1.0.84...v1.0.85) (2023-11-06)
+
+### Bug Fixes
+
+- **runtime-mini:** 支持 catch 前缀回调 ([1d716af](https://github.com/eleme/morjs/commit/1d716af309e8ca958d0e6e589866d90d00903332))
+
+### Features
+
+- **core:** 微信转支付宝页面 behaviors 无效 ([#122](https://github.com/eleme/morjs/issues/122)) ([0ea297b](https://github.com/eleme/morjs/commit/0ea297be5051b8e8e2b7be13899c0e026b13e123))
+- **plugin-compiler-alipay:** 微信转支付宝时将 map 组件的 polygons 转换成 polygon ([#124](https://github.com/eleme/morjs/issues/124)) ([367a66e](https://github.com/eleme/morjs/commit/367a66e771ea0e9a56cfaa0c8d07dba80dd89607))
+- **runtime-web:** my.pageScrollTo 支持 selector 参数 ([#119](https://github.com/eleme/morjs/issues/119)) ([5ff2ea0](https://github.com/eleme/morjs/commit/5ff2ea082458a03d97093bb6203c01c049d22206))
+
 ## [1.0.84](https://github.com/eleme/morjs/compare/v1.0.83...v1.0.84) (2023-10-31)
 
 ### Bug Fixes
