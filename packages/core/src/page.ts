@@ -327,12 +327,13 @@ function processMixins(
   pageOptions: DefaultMorPageOptions,
   sourceType: SOURCE_TYPE
 ): void {
-  if (!pageOptions?.mixins?.length) return
+  const mixinType = sourceType === SOURCE_TYPE.WECHAT ? 'behaviors' : 'mixins'
+  if (!pageOptions?.[mixinType]?.length) return
 
   const pageMethodNames = getPageMethodNames(sourceType)
 
-  const mixins = pageOptions.mixins
-  delete pageOptions.mixins
+  const mixins = pageOptions[mixinType]
+  delete pageOptions[mixinType]
 
   const protoFns = {} as IData
   const merged = mixins.reduce((prev, curr) => {
