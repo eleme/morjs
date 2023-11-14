@@ -1,16 +1,28 @@
 import { getPage } from './pulldown-api'
 
+function getTotalOffsetTop(element, root) {
+  let totalOffsetTop = element.offsetTop
+  let parent = element.offsetParent
+
+  while (parent !== null && parent !== root) {
+    totalOffsetTop += parent.offsetTop
+    parent = parent.offsetParent
+  }
+
+  return totalOffsetTop
+}
+
 export default {
   pageScrollTo({ scrollTop, duration = 0, selector }) {
     return new Promise((resolve, reject) => {
       if (scrollTop < 0) {
-        reject('scrollTop 必须大于0')
-        return
+        return reject('scrollTop 必须大于0')
       }
 
-      if (selector) {
-        reject('暂不支持selector')
-        return
+      if (typeof scrollTop === 'undefined' && typeof selector === 'undefined') {
+        return reject(
+          '缺少 scrollTop 或者 selector 参数，scrollTop 与 selector 必须传入一个'
+        )
       }
 
       duration = Number.isNaN(Number(duration))
@@ -21,7 +33,15 @@ export default {
       const scrollSelector = page.shadowRoot.querySelector('.content')
 
       const currentScrollTop = scrollSelector.scrollTop // 滚动开始时的位置
-      const distance = scrollTop - currentScrollTop // 一共需要滚动的距离
+      let distance
+      if (selector) {
+        const element = document.querySelector(selector)
+        if (!element)
+          return reject(`未找到选择器为 ${selector} 的元素，请确认元素是否存在`)
+        distance = getTotalOffsetTop(element, scrollSelector) - currentScrollTop
+      } else {
+        distance = scrollTop - currentScrollTop // 一共需要滚动的距离
+      }
 
       if (duration === 0 && distance !== 0) {
         // 无duration，有滚动距离

@@ -167,7 +167,7 @@ function injectEventSupport(options: Record<string, any>) {
       : {}
 
     // 支付宝组件传递函数时 必须以 on 开头并且 on 后的第一个字母必须大写（微信必须全小写）
-    if (typeof this.props[`on${name}`] === 'function') {
+    const callEventHandler = (eventName: string)=> {
       const currentTarget = eventObj.currentTarget || {}
       const target = eventObj.target || {}
       const e = {
@@ -179,7 +179,8 @@ function injectEventSupport(options: Record<string, any>) {
           },
           target: {
             ...target,
-            dataset: { ...(target.dataset || {}), ...dataset }
+            dataset: { ...(target.dataset || {}), ...dataset },
+            id: this.props.id
           }
         },
         type: name
@@ -195,7 +196,12 @@ function injectEventSupport(options: Record<string, any>) {
         e.detail = params
       }
 
-      this.props[`on${name}`](e, opts)
+      this.props[eventName](e, opts)
+    }
+    if (typeof this.props[`on${name}`] === 'function') {
+      callEventHandler(`on${name}`)
+    } else if (typeof this.props[`catch${name}`] === 'function') {
+      callEventHandler(`catch${name}`)
     }
   }
 

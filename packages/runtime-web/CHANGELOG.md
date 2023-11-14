@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.85](https://github.com/eleme/morjs/compare/v1.0.84...v1.0.85) (2023-11-06)
+
+
+### Features
+
+* **runtime-web:** my.pageScrollTo 支持 selector 参数 ([#119](https://github.com/eleme/morjs/issues/119)) ([5ff2ea0](https://github.com/eleme/morjs/commit/5ff2ea082458a03d97093bb6203c01c049d22206))
+
+
+
+
+
+## [1.0.83](https://github.com/eleme/morjs/compare/v1.0.82...v1.0.83) (2023-09-14)
+
+
+### Bug Fixes
+
+* animation 动画因用户指定了单位导致异常 ([07e9756](https://github.com/eleme/morjs/commit/07e97565947c9b30fd3f5add38b058a7d25bad07))
+
+
+
+
+
 ## [1.0.81](https://github.com/eleme/morjs/compare/v1.0.80...v1.0.81) (2023-09-01)
 
 

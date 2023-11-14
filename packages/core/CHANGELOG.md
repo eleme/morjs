@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.86](https://github.com/eleme/morjs/compare/v1.0.85...v1.0.86) (2023-11-07)
+
+
+### Reverts
+
+* Revert "feat(core): 微信转支付宝页面behaviors无效 (#122)" ([e0e3c0e](https://github.com/eleme/morjs/commit/e0e3c0e925ab8079614b2fa4defda84cc6fb226f)), closes [#122](https://github.com/eleme/morjs/issues/122)
+
+
+
+
+
+## [1.0.85](https://github.com/eleme/morjs/compare/v1.0.84...v1.0.85) (2023-11-06)
+
+
+### Features
+
+* **core:** 微信转支付宝页面behaviors无效 ([#122](https://github.com/eleme/morjs/issues/122)) ([0ea297b](https://github.com/eleme/morjs/commit/0ea297be5051b8e8e2b7be13899c0e026b13e123))
+
+
+
+
+
+## [1.0.84](https://github.com/eleme/morjs/compare/v1.0.83...v1.0.84) (2023-10-31)
+
+
+### Bug Fixes
+
+* **core:** mixin 数组被转换成了对象 ([#117](https://github.com/eleme/morjs/issues/117)) ([c895e30](https://github.com/eleme/morjs/commit/c895e30b5b8bdddd2eb8ab6b537888b4291738b2))
+
+
+
+
+
 ## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
 
 **Note:** Version bump only for package @morjs/core
