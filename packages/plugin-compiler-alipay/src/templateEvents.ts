@@ -124,6 +124,9 @@ const tagReplacePropName = {
     handleSize: 'block-size',
     'handle-color': 'block-color',
     handleColor: 'block-color'
+  },
+  map: {
+    polygon: 'polygons'
   }
 }
 
