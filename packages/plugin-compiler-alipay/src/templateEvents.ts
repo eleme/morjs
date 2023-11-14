@@ -110,6 +110,9 @@ const tagReplaceNativeEvent = {
     markerTap: 'markertap',
     calloutTap: 'callouttap',
     controlTap: 'controltap'
+  },
+  camera: {
+    ready: 'initdone'
   }
 }
 
