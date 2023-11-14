@@ -204,6 +204,9 @@ const TAG_SPECIFIC_EVENT_MAPPINGS = {
   },
   swiper: {
     animationfinish: 'animationEnd'
+  },
+  camera: {
+    initdone: 'ready'
   }
 }
 
