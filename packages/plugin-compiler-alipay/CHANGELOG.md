@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.87](https://github.com/eleme/morjs/compare/v1.0.86...v1.0.87) (2023-11-15)
+
+
+### Features
+
+* **plugin-compiler:** 微信转支付宝时 camera ready 事件兼容 ([#125](https://github.com/eleme/morjs/issues/125)) ([a852093](https://github.com/eleme/morjs/commit/a852093777ccf09f8847dc5866eb33a6e0671276))
+
+
+
+
+
 ## [1.0.85](https://github.com/eleme/morjs/compare/v1.0.84...v1.0.85) (2023-11-06)
 
 
