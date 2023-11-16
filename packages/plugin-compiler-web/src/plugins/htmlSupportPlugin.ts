@@ -9,6 +9,7 @@ import {
 } from '@morjs/utils'
 import type { WebCompilerUserConfig } from '../constants'
 import { globalObject as DEFAULT_GLOBAL_OBJECT } from '../constants'
+import { isObject } from '../utils'
 
 // 默认 html webpack plugin 的模本生成函数
 // 可以通过填写  htmlTemplateParameters 来指定 title 和 description
@@ -107,6 +108,19 @@ export class HtmlSupportPlugin implements Plugin {
               obj.headTags = obj.headTags || []
               obj.headTags.unshift(scriptObj)
             }
+
+            ;(obj.headTags || []).forEach((tag) => {
+              // 识别到 script 标签，对 script 标签属性做处理
+              // 如果没有 attributes 说明 src 标签都没，属于内联脚本，不需要处理
+              if (
+                isObject(tag) &&
+                tag.tagName === 'script' &&
+                isObject(tag.attributes)
+              ) {
+                // 增加 crossorigin，方便业务统计业务代码的 JS 错误（一般bundle资源会被部署到 CDN，跨域导致业务只能捕获到 script error）
+                tag.attributes.crossorigin = 'anonymous'
+              }
+            })
 
             return obj
           }
