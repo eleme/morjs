@@ -80,8 +80,6 @@ export class ProgressPlugin implements Plugin {
             stage: Number.MAX_SAFE_INTEGER
           },
           () => {
-            console.log('完成')
-
             isCompiling = false
             loading.success(`编译完成, ${runner.logger.timeEnd(TAG)}\n`)
             logMemoryUsage()
@@ -103,7 +101,6 @@ export class ProgressPlugin implements Plugin {
             stage: Number.MAX_SAFE_INTEGER
           },
           () => {
-            console.log('完成2')
             if (!isChildCompilerRunner(runner)) {
               logger.success(`编译完成, ${runner.logger.timeEnd(TAG)}\n`)
             }
