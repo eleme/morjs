@@ -234,6 +234,17 @@ export default class Map extends BaseElement {
     this.__drawControls()
     // include-points 缩放视野以包含所有给定的坐标点 (wx 和 makers 分开的)
     this.__drawIncludePoints()
+
+    // 绘制完成触发 init complete 事件（业务上可以通过此回调，获取 Map Context 实例，因为这个时机可以确保地图一定已经绘制）
+    this.dispatchEvent(
+      new CustomEvent('initcomplete', {
+        detail: {
+          id: this.id
+        },
+        bubbles: true,
+        composed: true
+      })
+    )
   }
 
   getEvent() {
