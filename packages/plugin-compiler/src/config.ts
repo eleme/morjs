@@ -722,7 +722,7 @@ export async function buildWebpackConfig(
   if (target !== 'web') {
     chain.output.asyncChunks(false)
   }
-
+  // 开启 watch
   // 是否开启 watch
   chain.watch(userConfig.watch)
   // 设置 watch 忽略文件夹

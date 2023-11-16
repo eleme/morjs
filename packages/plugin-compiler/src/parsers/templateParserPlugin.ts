@@ -125,6 +125,7 @@ export class TemplateParserPlugin implements Plugin {
         // 判断是否要处理引用路径，转端情况下，文件后缀会被替换为目标平台的文件后缀
         const needToProcessImportOrInclude =
           target !== 'web' &&
+          target !== 'web-pro' &&
           (fileContent.includes('import') || fileContent.includes('include'))
 
         if (
@@ -441,7 +442,10 @@ export class TemplateParserPlugin implements Plugin {
     }
 
     // 转 web 时不替换文件名称，确保原文件可以被正常加载
-    if (options.userConfig.target === 'web') {
+    if (
+      options.userConfig.target === 'web' ||
+      options.userConfig.target === 'web-pro'
+    ) {
       shouldReplaceSjsFileImportPath = false
     }
 

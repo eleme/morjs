@@ -111,7 +111,8 @@ export class ScriptParserPlugin implements Plugin {
           sourceGlobalObject !== targetGlobalObject &&
           // 如果目标平台是 web 且 源码的全局对象和目标平台的全局对象相同，则不做接口转换
           !(
-            target === 'web' && sourceGlobalObject === targetDefaultGlobalObject
+            (target === 'web' || target === 'web-pro') &&
+            sourceGlobalObject === targetDefaultGlobalObject
           ) &&
           autoInjectRuntime?.['api'] &&
           !MOR_RUNTIME_PACKAGE_REGEXP.test(options.fileInfo.path) &&

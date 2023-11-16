@@ -3,6 +3,8 @@ import { Slot } from './components/slot'
 import { toJsonString } from './dsl/attribute-value'
 import { axmlApi } from './dsl/axml-api'
 import { mergeConfig } from './dsl/config'
+import createCondition from './dsl/createCondition'
+import createList from './dsl/createList'
 import { bindThis, getEvent, registEvents } from './dsl/event'
 import getForValue from './dsl/for'
 import ref from './dsl/ref'
@@ -71,5 +73,8 @@ export default {
   $sfr: setRootFontSizeForRem,
   // 自动同步根节点的 font-size, 并设置 ROOT_VALUE
   autoSyncRootFontSize,
-  $afz: autoSyncRootFontSize
+  $afz: autoSyncRootFontSize,
+
+  $cd: createCondition,
+  $cl: createList
 }
