@@ -220,7 +220,7 @@ function createPageConfig(pageConfig: IPage) {
 let popping = false
 export function tigaRouterChangeHandler(
   e: { detail: IRouterChangeDetail },
-  component: string
+  component?: string
 ) {
   const { action, delta } = e.detail || {}
 
@@ -266,7 +266,13 @@ function registerEventLister() {
   const pageCreateEvent = 'tigaPageCreate' as any
   window.addEventListener(
     routerChangeEvent,
-    tigaRouterChangeHandler as any,
+    (event) => {
+      // 在调用 navigateBack 时，首先触发了 __tigaRouterChange 事件，然后再触发 history.back
+      // 这可能会导致后续页面在消费 location 时拿到的还是上一个页面的对象
+      setTimeout(() => {
+        tigaRouterChangeHandler(event)
+      })
+    },
     false
   )
   window.addEventListener(pageCreateEvent, pageCreateHandler, false)
