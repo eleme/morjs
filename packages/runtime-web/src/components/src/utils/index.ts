@@ -101,8 +101,12 @@ export const converterForPx = {
 }
 
 export function shouldEnableFor(
-  feature: boolean | string[] | ((pagePath: string) => boolean),
-  pagePath: string
+  feature:
+    | boolean
+    | string[]
+    | ((pagePath: string, pageOptions: Record<string, any>) => boolean),
+  pagePath: string,
+  pageOptions: Record<string, any>
 ): boolean | undefined {
   // 未获取到 pagePath 或者未传递 feature 的场景 直接返回，不做任何处理
   if (!pagePath || typeof feature === 'undefined') return
@@ -113,7 +117,22 @@ export function shouldEnableFor(
     return feature.includes(pagePath)
   }
   if (typeof feature === 'function') {
-    return !!feature(pagePath)
+    return !!feature(pagePath, pageOptions)
+  }
+}
+
+export const getCurrentPageParams = (keys = []): Record<string, any> => {
+  try {
+    const pageStack = getCurrentPages() || []
+    const currentPage = pageStack[pageStack.length - 1]
+    const result = {}
+    keys.forEach((key) => {
+      result[key] = currentPage[key]
+    })
+
+    return result
+  } catch (e) {
+    return {}
   }
 }
 
@@ -121,7 +140,6 @@ export const getCurrentPagePath = () => {
   try {
     const pageStack = getCurrentPages() || []
     const currentPage = pageStack[pageStack.length - 1]
-
     return currentPage.path
   } catch (e) {}
 }
