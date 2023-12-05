@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.89](https://github.com/eleme/morjs/compare/v1.0.88...v1.0.89) (2023-12-05)
+
+
+### Bug Fixes
+
+* **runtime-web:** 页面返回时拿到上一个页面的 location ([#130](https://github.com/eleme/morjs/issues/130)) ([b2802cb](https://github.com/eleme/morjs/commit/b2802cb25c2215a459881bb7e0b96911f1939a4c))
+
+
+### Reverts
+
+* Revert "fix(runtime-web): 页面返回时拿到上一个页面的 location (#130)" (#131) ([273f855](https://github.com/eleme/morjs/commit/273f8553c9a75b4625abd97f539ca13334280516)), closes [#130](https://github.com/eleme/morjs/issues/130) [#131](https://github.com/eleme/morjs/issues/131)
+
+
+
+
+
 ## [1.0.88](https://github.com/eleme/morjs/compare/v1.0.87...v1.0.88) (2023-11-16)
 
 
