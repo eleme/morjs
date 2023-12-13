@@ -66,7 +66,7 @@ Page({
         id: 'function',
         name: '特性相关',
         open: false,
-        pages: ['two-way-binding']
+        pages: ['two-way-binding', 'observers']
       }
     ]
   },

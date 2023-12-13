@@ -3,6 +3,166 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.90](https://github.com/eleme/morjs/compare/v1.0.89...v1.0.90) (2023-12-12)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.89](https://github.com/eleme/morjs/compare/v1.0.88...v1.0.89) (2023-12-05)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.88](https://github.com/eleme/morjs/compare/v1.0.87...v1.0.88) (2023-11-16)
+
+
+### Features
+
+* **plugin-compiler-web:** 转 web 时js script 上增加 crossorigin 属性，方便业务监控捕获详细的 JS Error ([40b34cd](https://github.com/eleme/morjs/commit/40b34cde51d00d0d1454d6cc1a5a48c594f31788))
+
+
+
+
+
+## [1.0.87](https://github.com/eleme/morjs/compare/v1.0.86...v1.0.87) (2023-11-15)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.85](https://github.com/eleme/morjs/compare/v1.0.84...v1.0.85) (2023-11-06)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.83](https://github.com/eleme/morjs/compare/v1.0.82...v1.0.83) (2023-09-14)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.82](https://github.com/eleme/morjs/compare/v1.0.81...v1.0.82) (2023-09-08)
+
+
+### Bug Fixes
+
+* **plugin-compiler-web:** 修复嵌套场景下 styleScope 失效的问题 ([#109](https://github.com/eleme/morjs/issues/109)) ([df462ec](https://github.com/eleme/morjs/commit/df462ec587d57c89e9ebfe22fab9997690245d0c))
+
+
+
+
+
+## [1.0.81](https://github.com/eleme/morjs/compare/v1.0.80...v1.0.81) (2023-09-01)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.80](https://github.com/eleme/morjs/compare/v1.0.79...v1.0.80) (2023-08-30)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.79](https://github.com/eleme/morjs/compare/v1.0.78...v1.0.79) (2023-08-28)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.78](https://github.com/eleme/morjs/compare/v1.0.77...v1.0.78) (2023-08-18)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.77](https://github.com/eleme/morjs/compare/v1.0.76...v1.0.77) (2023-08-17)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.76](https://github.com/eleme/morjs/compare/v1.0.75...v1.0.76) (2023-08-08)
+
+
+### Bug Fixes
+
+* **plugin-compiler-web:** 修复 web 服务启动的端口号冲突检测逻辑并调整最大检测次数为 5 次 ([4a36bc0](https://github.com/eleme/morjs/commit/4a36bc03efffa43f31f132d617cd8909d0b4517f))
+
+
+
+
+
+## [1.0.75](https://github.com/eleme/morjs/compare/v1.0.74...v1.0.75) (2023-08-03)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.74](https://github.com/eleme/morjs/compare/v1.0.73...v1.0.74) (2023-08-01)
+
+
+### Bug Fixes
+
+* **plugin-compiler-web:** 修复转 web 在 windows 下的路径兼容性问题 ([#90](https://github.com/eleme/morjs/issues/90)) ([48f31b6](https://github.com/eleme/morjs/commit/48f31b636cc9b06d057e947b12b236745b395fa3))
+
+
+
+
+
+## [1.0.73](https://github.com/eleme/morjs/compare/v1.0.72...v1.0.73) (2023-08-01)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
+
+
+### Bug Fixes
+
+* **plugin-compiler-web:** 修复 pnpm 场景下 runtime-web 可能会找不到的问题 ([b598de8](https://github.com/eleme/morjs/commit/b598de8abbb911c92ef222ba65e8f193d05b2b9b))
+* **plugin-compiler-web:** 修复分包工程编译为 web 时可能会报错的问题 ([b9d5203](https://github.com/eleme/morjs/commit/b9d5203b5d14ee1b0ba73bcf17bc47e1200489af))
+
+
+
+
+
+## [1.0.70](https://github.com/eleme/morjs/compare/v1.0.69...v1.0.70) (2023-07-19)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
 ## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
 
 

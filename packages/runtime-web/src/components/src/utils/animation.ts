@@ -1,3 +1,4 @@
+import { addUnit } from './unit'
 export const KEY_ANIMATION = 'animation'
 
 const propertyRegex = (key) => new RegExp(key + '\\(([^)]+)\\)', 'i')
@@ -64,7 +65,7 @@ const formateTransformValue = (key, value) => {
     return value
   } else if (isTranslate || isSkew) {
     const unit = isSkew ? 'deg' : 'px'
-    value = value.map((item) => item + unit)
+    value = value.map((item) => addUnit(item, unit))
     return value
   }
 

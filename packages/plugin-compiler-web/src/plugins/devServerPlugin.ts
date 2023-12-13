@@ -16,7 +16,7 @@ const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '0.0.0.0'
 
 /**
- * 尝试获取可用的端口号，最多重复获取 3 次
+ * 尝试获取可用的端口号，最多重复获取 5 次
  * @param port - 端口号
  * @param host - ip 地址
  * @param retryTimes - 当前重试次数
@@ -52,8 +52,8 @@ async function checkPortInUseAndReturnAvaliable(
     server.listen(availablePort, host)
   })
 
-  // 重试 3 次
-  if (!res && retryTimes < 3) {
+  // 重试 5 次
+  if (!res && retryTimes < 5) {
     return checkPortInUseAndReturnAvaliable(
       availablePort + 1,
       host,
@@ -82,39 +82,47 @@ export class DevServerPlugin implements Plugin {
     wrapper: WebpackWrapper,
     userConfig: WebCompilerUserConfig
   ) {
-    const { srcPaths = [], web } = userConfig as {
+    const {
+      srcPaths = [],
+      web,
+      watch
+    } = userConfig as {
+      watch: boolean
       outputPath: string[]
       srcPaths: string[]
       ignore: string[]
     } & WebCompilerUserConfig
+    const { devServer = {} } = web || {}
+    const host = devServer.host || runner.config.env.get('HOST') || DEFAULT_HOST
+    let port = devServer.port || runner.config.env.get('PORT') || DEFAULT_PORT
 
-    const host = runner.config.env.get('HOST') || DEFAULT_HOST
-    let port = runner.config.env.get('PORT') || DEFAULT_PORT
-
-    // 获取可用 port
-    const availablePort = await checkPortInUseAndReturnAvaliable(port, host)
-    if (String(availablePort) !== String(port)) {
-      const answers = await prompts(
-        [
+    // 仅在监听模式下检测端口冲突
+    if (watch) {
+      // 获取可用 port
+      const availablePort = await checkPortInUseAndReturnAvaliable(port, host)
+      if (String(availablePort) !== String(port)) {
+        const answers = await prompts(
+          [
+            {
+              type: 'select',
+              name: 'suggestedPortAccepted',
+              message: `端口 ${port} 已被占用，使用 ${availablePort} 端口启动？`,
+              choices: [
+                { title: '是', value: true },
+                { title: '否', value: false }
+              ]
+            }
+          ],
           {
-            type: 'select',
-            name: 'suggestedPortAccepted',
-            message: `端口 ${port} 已被占用，使用 ${availablePort} 端口启动？`,
-            choices: [
-              { title: '是', value: true },
-              { title: '否', value: false }
-            ]
+            onCancel() {
+              process.exit(0)
+            }
           }
-        ],
-        {
-          onCancel() {
-            process.exit(0)
-          }
-        }
-      )
+        )
 
-      if (answers.suggestedPortAccepted) {
-        port = availablePort
+        if (answers.suggestedPortAccepted) {
+          port = availablePort
+        }
       }
     }
 

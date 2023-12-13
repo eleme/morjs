@@ -36,6 +36,7 @@ import { ModuleSharingAndConsumingPlugin } from './plugins/moduleSharingAndConsu
 import { OptimizeSplitChunksPlugin } from './plugins/optimizeSplitChunksPlugin'
 import { PhantomDependencyPlugin } from './plugins/phantomDependencyPlugin'
 import { PreRuntimeDetectionPlugin } from './plugins/preRuntimeDetectionPlugin'
+import { ProcessComponentsPropsFunctionPlugin } from './plugins/processComponentsPropsFunctionPlugin'
 import { ProgressPlugin } from './plugins/progressPlugin'
 import { RuntimeInjectPlugin } from './plugins/runtimeInjectPlugin'
 import { preprocess } from './preprocessors/codePreprocessor'
@@ -87,6 +88,7 @@ class MorCompile {
     new PhantomDependencyPlugin().apply(runner)
     new PreRuntimeDetectionPlugin().apply(runner)
     new AutomaticPropsType().apply(runner)
+    new ProcessComponentsPropsFunctionPlugin().apply(runner)
 
     // 应用 parser 插件
     new ConfigParserPlugin().apply(runner)

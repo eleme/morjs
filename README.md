@@ -66,6 +66,8 @@ Mor 是一套基于小程序 DSL (支付宝或微信) 的框架。他的易用�
 
 参见 [社区指南](https://mor.eleme.io/about/community-guide)
 
+<img src="https://img.alicdn.com/imgextra/i1/O1CN01PtDerN2ADSKGjP2Li_!!6000000008169-2-tps-2640-1676.png" />
+
 ### 核心成员
 
 核心成员是在 MorJS 相关问题、BUG 修复、功能增强、新特性添加等方便投入大量的时间和精力的社区贡献者。

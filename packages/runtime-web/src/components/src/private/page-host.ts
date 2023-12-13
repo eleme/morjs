@@ -11,7 +11,7 @@ import { rpxToRem } from '../rpx'
 import {
   converterForPx,
   defineElement,
-  getCurrentPagePath,
+  getCurrentPageParams,
   shouldEnableFor
 } from '../utils'
 import boolConverter from '../utils/bool-converter'
@@ -355,10 +355,15 @@ export default class PageHost extends LitElement implements IPageHost {
     } = this.config
 
     const pageHeaderConfig = get(window.$MOR_APP_CONFIG, 'pageHeaderConfig', {})
-    const pagePath = getCurrentPagePath()
+    const { path: pagePath, options: pageOptions } = getCurrentPageParams([
+      'path',
+      'options'
+    ])
+
     const enableShowHeader = shouldEnableFor(
       pageHeaderConfig.showHeader,
-      pagePath
+      pagePath,
+      pageOptions
     )
     // enableShowHeader 有可能为 undefined，代表用户未配置或者取数据异常
     let showHeader =
@@ -374,7 +379,8 @@ export default class PageHost extends LitElement implements IPageHost {
 
       const enableShowBack = shouldEnableFor(
         pageHeaderConfig.showBack,
-        pagePath
+        pagePath,
+        pageOptions
       )
       if (typeof enableShowBack === 'boolean') showBack = enableShowBack
     } catch (e) {}

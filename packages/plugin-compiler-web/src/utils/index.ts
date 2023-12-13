@@ -9,3 +9,7 @@ export function getRelativePath(path) {
 
   return path
 }
+
+export const isObject = (param) => {
+  return Object.prototype.toString.call(param) === '[object Object]'
+}

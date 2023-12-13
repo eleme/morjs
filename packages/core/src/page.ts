@@ -345,7 +345,10 @@ function processMixins(
     Object.keys(curr).forEach((name) => {
       // 合并 数据
       if (typeof curr[name] === 'object') {
-        result[name] = { ...result[name], ...curr[name] }
+        // 对象类型还可能包含数组，对数组做单独处理
+        if (Array.isArray(curr[name])) {
+          result[name] = [...(result[name] || []), ...curr[name]]
+        } else result[name] = { ...result[name], ...curr[name] }
       }
       // 合并 方法
       else if (typeof curr[name] === 'function') {

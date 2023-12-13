@@ -3,6 +3,142 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.90](https://github.com/eleme/morjs/compare/v1.0.89...v1.0.90) (2023-12-12)
+
+
+### Bug Fixes
+
+* **runtime-web:** slider 展示的值与预设值不匹配 ([#135](https://github.com/eleme/morjs/issues/135)) ([ec0cd19](https://github.com/eleme/morjs/commit/ec0cd19d515d75a806df96fdd7cc0fd0b2669acb))
+
+
+
+
+
+## [1.0.89](https://github.com/eleme/morjs/compare/v1.0.88...v1.0.89) (2023-12-05)
+
+
+### Bug Fixes
+
+* **runtime-web:** 页面返回时拿到上一个页面的 location ([#130](https://github.com/eleme/morjs/issues/130)) ([b2802cb](https://github.com/eleme/morjs/commit/b2802cb25c2215a459881bb7e0b96911f1939a4c))
+
+
+### Reverts
+
+* Revert "fix(runtime-web): 页面返回时拿到上一个页面的 location (#130)" (#131) ([273f855](https://github.com/eleme/morjs/commit/273f8553c9a75b4625abd97f539ca13334280516)), closes [#130](https://github.com/eleme/morjs/issues/130) [#131](https://github.com/eleme/morjs/issues/131)
+
+
+
+
+
+## [1.0.88](https://github.com/eleme/morjs/compare/v1.0.87...v1.0.88) (2023-11-16)
+
+
+### Features
+
+* **runtime-web:** map 组件增加 init complete 事件通知 ([#127](https://github.com/eleme/morjs/issues/127)) ([34f6d85](https://github.com/eleme/morjs/commit/34f6d855c97818956ca76312762812c99888c370))
+
+
+
+
+
+## [1.0.85](https://github.com/eleme/morjs/compare/v1.0.84...v1.0.85) (2023-11-06)
+
+
+### Features
+
+* **runtime-web:** my.pageScrollTo 支持 selector 参数 ([#119](https://github.com/eleme/morjs/issues/119)) ([5ff2ea0](https://github.com/eleme/morjs/commit/5ff2ea082458a03d97093bb6203c01c049d22206))
+
+
+
+
+
+## [1.0.83](https://github.com/eleme/morjs/compare/v1.0.82...v1.0.83) (2023-09-14)
+
+
+### Bug Fixes
+
+* animation 动画因用户指定了单位导致异常 ([07e9756](https://github.com/eleme/morjs/commit/07e97565947c9b30fd3f5add38b058a7d25bad07))
+
+
+
+
+
+## [1.0.81](https://github.com/eleme/morjs/compare/v1.0.80...v1.0.81) (2023-09-01)
+
+
+### Bug Fixes
+
+* **runtime-web:** this.createIntersectionObserver 类型错误 ([#105](https://github.com/eleme/morjs/issues/105)) ([ec4316a](https://github.com/eleme/morjs/commit/ec4316a3b3f6089faa52a05b5f234aa69d9de692))
+* **runtime-web:** this.createIntersectionObserver 指定 selector 为自定义组件的最外层节点时导致触发异常 ([#104](https://github.com/eleme/morjs/issues/104)) ([c22c2a2](https://github.com/eleme/morjs/commit/c22c2a221c9a506cad17080a9df04534799c5d2b))
+
+
+
+
+
+## [1.0.80](https://github.com/eleme/morjs/compare/v1.0.79...v1.0.80) (2023-08-30)
+
+
+### Bug Fixes
+
+* **runtime-web:** 修复 map 组件 getCenterLocation 经常失败问题 ([#103](https://github.com/eleme/morjs/issues/103)) ([13d5532](https://github.com/eleme/morjs/commit/13d5532b704149c1604e8c743aff61822c917773))
+
+
+
+
+
+## [1.0.78](https://github.com/eleme/morjs/compare/v1.0.77...v1.0.78) (2023-08-18)
+
+
+### Bug Fixes
+
+* disable-scroll 切换为 false 时容器仍然不可滚动 ([#99](https://github.com/eleme/morjs/issues/99)) ([a2dcf89](https://github.com/eleme/morjs/commit/a2dcf8918ff01e76b85d652b45759f374b82b7e3))
+* runtime-web components 类型错误 ([#100](https://github.com/eleme/morjs/issues/100)) ([d2bbda3](https://github.com/eleme/morjs/commit/d2bbda32ef02f85af0125fceb7dd2b19bc595860))
+
+
+
+
+
+## [1.0.77](https://github.com/eleme/morjs/compare/v1.0.76...v1.0.77) (2023-08-17)
+
+
+### Bug Fixes
+
+* **runtime-web:** 修复 swiper 组件空指针异常 ([#98](https://github.com/eleme/morjs/issues/98)) ([d1046a6](https://github.com/eleme/morjs/commit/d1046a65923fd5b5d9fa8130f105618c0a39197a))
+
+
+
+
+
+## [1.0.75](https://github.com/eleme/morjs/compare/v1.0.74...v1.0.75) (2023-08-03)
+
+**Note:** Version bump only for package @morjs/runtime-web
+
+
+
+
+
+## [1.0.73](https://github.com/eleme/morjs/compare/v1.0.72...v1.0.73) (2023-08-01)
+
+
+### Features
+
+* **runtime-web:** 增加 this.createIntersectionObserver 实现 ([#92](https://github.com/eleme/morjs/issues/92)) ([96f4c34](https://github.com/eleme/morjs/commit/96f4c34c8ca6147e4ea090bb7c0be1fcb02b471d))
+
+
+
+
+
+## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
+
+
+### Features
+
+* **runtime-web:** createIntersectionObserver 增加 dataset 透传 ([3012c51](https://github.com/eleme/morjs/commit/3012c51ba43113b0f6f9669789707210c1e99a7b))
+
+
+
+
+
 ## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
 
 

@@ -261,6 +261,15 @@ export default class Slider extends BaseElement implements IFormComponent {
     }, 0)
   }
 
+
+  attributeChangedCallback(name, oldVal, newVal) {
+    super.attributeChangedCallback(name, oldVal, newVal)
+
+    if (name === 'value' && oldVal!== newVal) {
+      this._init()
+    }
+  }
+
   _init() {
     const { left = 0, right = 350 } =
       this.getClientRect('.tiga-slider-rail') || {}

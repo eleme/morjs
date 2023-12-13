@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
+
+
+### Features
+
+* **plugin-generator:** 修改模版文件用于支持 isSupportWeb 选项 ([39896d1](https://github.com/eleme/morjs/commit/39896d1ec52f9c97758a2d25fb93ed2ae536668d))
+
+
+
+
+
 ## [1.0.54](https://github.com/eleme/morjs/compare/v1.0.53...v1.0.54) (2023-06-09)
 
 

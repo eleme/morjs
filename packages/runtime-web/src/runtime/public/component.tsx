@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom'
 import eventConvert from './event-convert'
 import { combineValue, mergeExecution } from './utils/common'
 import { catchComponentMethodsError } from './utils/errorHandler'
+import { mountIntersectionObserver } from './utils/instanceApi'
 
 let componetLastId = 0
 
@@ -205,6 +206,10 @@ export class KBComponent extends React.PureComponent<any, IState> {
 
     this.componentConfig.route = window.$getRoute && window.$getRoute()
     this.componentConfig.pageId = window.$getPageId && window.$getPageId()
+
+    this.componentConfig.createIntersectionObserver = (options) => {
+      return mountIntersectionObserver(options, this.getRoot())
+    }
 
     this.updatePageConfig()
   }
@@ -458,7 +463,7 @@ export class KBComponent extends React.PureComponent<any, IState> {
     const $slots = {}
     if (this.props.children) {
       if (this.props.children instanceof Array) {
-        this.props.children.forEach((i) => {
+        this.props.children.forEach((i: ReactNodeSlot) => {
           if (i.props && i.props._slot) {
             $slots[i.props._slot] = i
           }
@@ -541,7 +546,7 @@ export class KBComponent extends React.PureComponent<any, IState> {
     // 避免卸载之后继续执行 findDOMNode 操作
     if (!this._isMounted) return
 
-    const root = ReactDOM.findDOMNode(this)
+    const root = this.getRoot()
     if (!root) return
 
     for (const nodeId in this.eventsInfo) {
@@ -596,5 +601,13 @@ export class KBComponent extends React.PureComponent<any, IState> {
 
   registEvents(events, nodeId) {
     this.eventsInfo[nodeId] = events
+  }
+
+  getRoot() {
+    try {
+      return ReactDOM.findDOMNode(this)
+    } catch (e) {
+      return null
+    }
   }
 }

@@ -45,7 +45,6 @@ async function generatePageOrComponent(
     if (!sourceType) sourceType = runner?.userConfig?.sourceType
     if (!srcPath) srcPath = runner?.userConfig?.srcPath
   }
-
   const questions = [
     {
       type() {

@@ -6,12 +6,14 @@ import addScript from '../../../utils/add-script'
 import arrConverter from '../../../utils/array-converter'
 import boolConverter from '../../../utils/bool-converter'
 import objConverter from '../../../utils/object-converter'
+import { sleep } from '../../../utils/sleep'
 import { attributes, properties } from './property'
 import style from './style'
 import { arrow, invertedTriangle } from './svg-icon'
 
 const AMAP_SDK = 'https://webapi.amap.com/maps'
 const AMAP_VERSION = '2.0'
+const LOAD_EVENT = 'LOAD'
 
 function anchorToOffset(x, y, w, h) {
   if (x === undefined) {
@@ -52,6 +54,8 @@ export default class Map extends BaseElement {
   mapId = 'map-' + uuid()
   // 对应高德地图中 setFitView 方法中的 avoid 参数
   fitViewAvoid = [60, 60, 60, 60]
+  // 某些方法的执行依赖地图初始化完毕，在这里实例化一个事件对象，用于通知这些方法
+  private drawEvent = new EventTarget()
 
   constructor() {
     super()
@@ -82,6 +86,7 @@ export default class Map extends BaseElement {
       requestAnimationFrame(() => {
         this.drawMap(res)
         this.drawed = true
+        this.drawEvent.dispatchEvent(new CustomEvent(LOAD_EVENT))
       })
     })
   }
@@ -229,6 +234,17 @@ export default class Map extends BaseElement {
     this.__drawControls()
     // include-points 缩放视野以包含所有给定的坐标点 (wx 和 makers 分开的)
     this.__drawIncludePoints()
+
+    // 绘制完成触发 init complete 事件（业务上可以通过此回调，获取 Map Context 实例，因为这个时机可以确保地图一定已经绘制）
+    this.dispatchEvent(
+      new CustomEvent('initcomplete', {
+        detail: {
+          id: this.id
+        },
+        bubbles: true,
+        composed: true
+      })
+    )
   }
 
   getEvent() {
@@ -696,19 +712,33 @@ export default class Map extends BaseElement {
 
   getCenterLocation(options) {
     const { success, complete, fail } = options
-
-    if (this.map) {
+    const getCenterInfo = () => {
       const { lat, lng } = this.map.getCenter()
       const loc = {
         longitude: lng,
         latitude: lat,
         scale: this.map.getZoom()
       }
-      success && success(loc)
+
+      return loc
+    }
+
+    if (this.map) {
+      success && success(getCenterInfo())
       complete && complete()
     } else {
-      fail && fail({ error: 'not init' })
-      complete && complete()
+      const waitForLoad = new Promise((resolve) => {
+        this.drawEvent.addEventListener(LOAD_EVENT, () => resolve(LOAD_EVENT))
+      })
+      // 如果 map 没有初始化完成，在这里监听地图完成事件
+      // 最大等待时长 1s，超出则认为失败
+      Promise.race([sleep(1000), waitForLoad]).then((value) => {
+        if (value && value === LOAD_EVENT) success && success(getCenterInfo())
+        else {
+          fail && fail({ error: 'not init' })
+        }
+        complete && complete()
+      })
     }
   }
 

@@ -44,7 +44,6 @@ MorJS 是通过 `package.json` 中指定的入口字段来做多端逻辑区分�
   - 优先级比 `miniprogram` 高
 - `bytedance`: 字节跳动小程序加载入口
 - `baidu`: 百度小程序加载入口
-- `eleme`: 饿了么小程序加载入口
 - `dingding`: 钉钉小程序加载入口
 - `taobao`: 淘宝小程序加载入口
 - `kuaishou`: 快手小程序加载入口
@@ -152,8 +151,6 @@ MorJS 是通过 `package.json` 中指定的入口字段来做多端逻辑区分�
 - project.qq.json: QQ 小程序项目配置文件
   - 也可以直接使用 project.config.json 文件
 - project.swan.json: 百度小程序项目配置文件
-- project.eleme.json: 饿了么小程序项目配置文件
-  - 也可以直接使用 mini.project.json 文件
 - project.taobao.json: 淘宝小程序项目配置文件
 - project.kuaishou.json: 淘宝小程序项目配置文件
   - 也可以直接使用 mini.project.json 文件
