@@ -3,6 +3,156 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.90](https://github.com/eleme/morjs/compare/v1.0.89...v1.0.90) (2023-12-12)
+
+
+### Features
+
+* **plugin-compiler:** 新增组件级别多端产物互通能力支持 ([#97](https://github.com/eleme/morjs/issues/97)) ([cc97565](https://github.com/eleme/morjs/commit/cc97565561ecf4529b47466c55e63892e60d35f1))
+
+
+
+
+
+## [1.0.89](https://github.com/eleme/morjs/compare/v1.0.88...v1.0.89) (2023-12-05)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.88](https://github.com/eleme/morjs/compare/v1.0.87...v1.0.88) (2023-11-16)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.87](https://github.com/eleme/morjs/compare/v1.0.86...v1.0.87) (2023-11-15)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.85](https://github.com/eleme/morjs/compare/v1.0.84...v1.0.85) (2023-11-06)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.83](https://github.com/eleme/morjs/compare/v1.0.82...v1.0.83) (2023-09-14)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.82](https://github.com/eleme/morjs/compare/v1.0.81...v1.0.82) (2023-09-08)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.81](https://github.com/eleme/morjs/compare/v1.0.80...v1.0.81) (2023-09-01)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.80](https://github.com/eleme/morjs/compare/v1.0.79...v1.0.80) (2023-08-30)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.79](https://github.com/eleme/morjs/compare/v1.0.78...v1.0.79) (2023-08-28)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.78](https://github.com/eleme/morjs/compare/v1.0.77...v1.0.78) (2023-08-18)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.77](https://github.com/eleme/morjs/compare/v1.0.76...v1.0.77) (2023-08-17)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.76](https://github.com/eleme/morjs/compare/v1.0.75...v1.0.76) (2023-08-08)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.75](https://github.com/eleme/morjs/compare/v1.0.74...v1.0.75) (2023-08-03)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.74](https://github.com/eleme/morjs/compare/v1.0.73...v1.0.74) (2023-08-01)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.73](https://github.com/eleme/morjs/compare/v1.0.72...v1.0.73) (2023-08-01)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
+
+
+### Bug Fixes
+
+* **plugin-compiler:** 分包或插件转 web 场景下不注入 App 的初始化模拟支持 ([1bb21f6](https://github.com/eleme/morjs/commit/1bb21f61ceff805c0a85a144b01c37a3a6128baf))
+
+
+
+
+
+## [1.0.70](https://github.com/eleme/morjs/compare/v1.0.69...v1.0.70) (2023-07-19)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
 ## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
 
 

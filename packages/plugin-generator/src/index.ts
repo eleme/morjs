@@ -40,6 +40,10 @@ export default class MorGeneratorPlugin implements Plugin {
           '--source-type <sourceType>',
           '源码类型, 用于判断小程序页面或组件使用了哪种 DSL, 可选值为 wechat, alipay'
         )
+        .option(
+          '--is-support-web <isSupportWeb>',
+          '用于确定是否需要增加转 web 配置'
+        )
         .option('--ts, --typescript', '是否使用 typescript')
         .option('--less', '是否使用 less')
         .option('--sass, --scss', '是否使用 sass 或 scss')

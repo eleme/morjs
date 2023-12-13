@@ -3,6 +3,71 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.90](https://github.com/eleme/morjs/compare/v1.0.89...v1.0.90) (2023-12-12)
+
+
+### Features
+
+* **plugin-compiler:** 新增组件级别多端产物互通能力支持 ([#97](https://github.com/eleme/morjs/issues/97)) ([cc97565](https://github.com/eleme/morjs/commit/cc97565561ecf4529b47466c55e63892e60d35f1))
+
+
+
+
+
+## [1.0.87](https://github.com/eleme/morjs/compare/v1.0.86...v1.0.87) (2023-11-15)
+
+
+### Features
+
+* **plugin-compiler:** 微信转支付宝时 camera ready 事件兼容 ([#125](https://github.com/eleme/morjs/issues/125)) ([a852093](https://github.com/eleme/morjs/commit/a852093777ccf09f8847dc5866eb33a6e0671276))
+
+
+
+
+
+## [1.0.85](https://github.com/eleme/morjs/compare/v1.0.84...v1.0.85) (2023-11-06)
+
+
+### Features
+
+* **plugin-compiler-alipay:** 微信转支付宝时将 map 组件的 polygons 转换成 polygon ([#124](https://github.com/eleme/morjs/issues/124)) ([367a66e](https://github.com/eleme/morjs/commit/367a66e771ea0e9a56cfaa0c8d07dba80dd89607))
+
+
+
+
+
+## [1.0.82](https://github.com/eleme/morjs/compare/v1.0.81...v1.0.82) (2023-09-08)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-alipay
+
+
+
+
+
+## [1.0.79](https://github.com/eleme/morjs/compare/v1.0.78...v1.0.79) (2023-08-28)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-alipay
+
+
+
+
+
+## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-alipay
+
+
+
+
+
+## [1.0.70](https://github.com/eleme/morjs/compare/v1.0.69...v1.0.70) (2023-07-19)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-alipay
+
+
+
+
+
 ## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
 
 

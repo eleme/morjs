@@ -1016,6 +1016,11 @@ export const CompilerUserConfigSchema = z.object({
   processPlaceholderComponents: z.boolean().optional(),
 
   /**
+   * 是否处理组件入参函数
+   */
+  processComponentsPropsFunction: z.boolean().optional().default(false),
+
+  /**
    * 配置可以共享的 node_modules 模块, 通常用于主子分包分仓库管理集成的场景
    */
   shared: z.array(z.string().or(z.record(z.string()))).default([]),

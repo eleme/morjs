@@ -312,7 +312,6 @@ export default class TigaSwiper extends LitElement {
     this.swiperWrapper = this.querySelector(
       `.tiga-swiper-${this.swiperId} > .swiper-container > .swiper-wrapper`
     ) as any
-
     ;(this as any).appendChild = (newChild: HTMLElement) => {
       if (!this.isElementNode(newChild)) return
 
@@ -361,7 +360,7 @@ export default class TigaSwiper extends LitElement {
 
   watchAutoPlay() {
     if (
-      !this.swiper.autoplay ||
+      !this.swiper?.autoplay ||
       this.swiper.autoplay.running === this[properties.AUTOPLAY]
     )
       return
@@ -378,7 +377,7 @@ export default class TigaSwiper extends LitElement {
   }
 
   watchCurrent() {
-    if (isNaN(this[properties.CURRENT])) return
+    if (!this.swiper || isNaN(this[properties.CURRENT])) return
 
     if (this[properties.CIRCULAR]) {
       if (!this.swiper.isBeginning && !this.swiper.isEnd) {
@@ -390,10 +389,14 @@ export default class TigaSwiper extends LitElement {
   }
 
   watchDuration() {
+    if (!this.swiper) return
+
     this.swiper.params.speed = this[properties.DURATION]
   }
 
   watchInterval() {
+    if (!this.swiper) return
+
     this.swiper.params.autoplay.delay = this[properties.INTERVAL]
   }
 

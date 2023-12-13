@@ -45,3 +45,10 @@ export function overrideUserConfig<T = Record<string, any>>({
 
   return userConfig
 }
+
+/**
+ * 判断是否为 CI 环境
+ */
+export function isCIENV() {
+  return Boolean(process.env.CI || process.env.CLOUDBUILD)
+}

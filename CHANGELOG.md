@@ -3,6 +3,156 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.90](https://github.com/eleme/morjs/compare/v1.0.89...v1.0.90) (2023-12-12)
+
+### Bug Fixes
+
+- **runtime-web:** slider 展示的值与预设值不匹配 ([#135](https://github.com/eleme/morjs/issues/135)) ([ec0cd19](https://github.com/eleme/morjs/commit/ec0cd19d515d75a806df96fdd7cc0fd0b2669acb))
+
+### Features
+
+- **plugin-compiler:** 新增组件级别多端产物互通能力支持 ([#97](https://github.com/eleme/morjs/issues/97)) ([cc97565](https://github.com/eleme/morjs/commit/cc97565561ecf4529b47466c55e63892e60d35f1))
+
+## [1.0.89](https://github.com/eleme/morjs/compare/v1.0.88...v1.0.89) (2023-12-05)
+
+### Bug Fixes
+
+- **runtime-web:** 页面返回时拿到上一个页面的 location ([#130](https://github.com/eleme/morjs/issues/130)) ([b2802cb](https://github.com/eleme/morjs/commit/b2802cb25c2215a459881bb7e0b96911f1939a4c))
+
+### Reverts
+
+- Revert "fix(runtime-web): 页面返回时拿到上一个页面的 location (#130)" (#131) ([273f855](https://github.com/eleme/morjs/commit/273f8553c9a75b4625abd97f539ca13334280516)), closes [#130](https://github.com/eleme/morjs/issues/130) [#131](https://github.com/eleme/morjs/issues/131)
+
+## [1.0.88](https://github.com/eleme/morjs/compare/v1.0.87...v1.0.88) (2023-11-16)
+
+### Features
+
+- **plugin-compiler-web:** 转 web 时 js script 上增加 crossorigin 属性，方便业务监控捕获详细的 JS Error ([40b34cd](https://github.com/eleme/morjs/commit/40b34cde51d00d0d1454d6cc1a5a48c594f31788))
+- **runtime-web:** map 组件增加 init complete 事件通知 ([#127](https://github.com/eleme/morjs/issues/127)) ([34f6d85](https://github.com/eleme/morjs/commit/34f6d855c97818956ca76312762812c99888c370))
+
+## [1.0.87](https://github.com/eleme/morjs/compare/v1.0.86...v1.0.87) (2023-11-15)
+
+### Features
+
+- **plugin-compiler:** 微信转支付宝时 camera ready 事件兼容 ([#125](https://github.com/eleme/morjs/issues/125)) ([a852093](https://github.com/eleme/morjs/commit/a852093777ccf09f8847dc5866eb33a6e0671276))
+
+## [1.0.86](https://github.com/eleme/morjs/compare/v1.0.85...v1.0.86) (2023-11-07)
+
+### Reverts
+
+- Revert "feat(core): 微信转支付宝页面 behaviors 无效 (#122)" ([e0e3c0e](https://github.com/eleme/morjs/commit/e0e3c0e925ab8079614b2fa4defda84cc6fb226f)), closes [#122](https://github.com/eleme/morjs/issues/122)
+
+## [1.0.85](https://github.com/eleme/morjs/compare/v1.0.84...v1.0.85) (2023-11-06)
+
+### Bug Fixes
+
+- **runtime-mini:** 支持 catch 前缀回调 ([1d716af](https://github.com/eleme/morjs/commit/1d716af309e8ca958d0e6e589866d90d00903332))
+
+### Features
+
+- **core:** 微信转支付宝页面 behaviors 无效 ([#122](https://github.com/eleme/morjs/issues/122)) ([0ea297b](https://github.com/eleme/morjs/commit/0ea297be5051b8e8e2b7be13899c0e026b13e123))
+- **plugin-compiler-alipay:** 微信转支付宝时将 map 组件的 polygons 转换成 polygon ([#124](https://github.com/eleme/morjs/issues/124)) ([367a66e](https://github.com/eleme/morjs/commit/367a66e771ea0e9a56cfaa0c8d07dba80dd89607))
+- **runtime-web:** my.pageScrollTo 支持 selector 参数 ([#119](https://github.com/eleme/morjs/issues/119)) ([5ff2ea0](https://github.com/eleme/morjs/commit/5ff2ea082458a03d97093bb6203c01c049d22206))
+
+## [1.0.84](https://github.com/eleme/morjs/compare/v1.0.83...v1.0.84) (2023-10-31)
+
+### Bug Fixes
+
+- **core:** mixin 数组被转换成了对象 ([#117](https://github.com/eleme/morjs/issues/117)) ([c895e30](https://github.com/eleme/morjs/commit/c895e30b5b8bdddd2eb8ab6b537888b4291738b2))
+
+## [1.0.83](https://github.com/eleme/morjs/compare/v1.0.82...v1.0.83) (2023-09-14)
+
+### Bug Fixes
+
+- animation 动画因用户指定了单位导致异常 ([07e9756](https://github.com/eleme/morjs/commit/07e97565947c9b30fd3f5add38b058a7d25bad07))
+
+## [1.0.82](https://github.com/eleme/morjs/compare/v1.0.81...v1.0.82) (2023-09-08)
+
+### Bug Fixes
+
+- **plugin-compiler-web:** 修复嵌套场景下 styleScope 失效的问题 ([#109](https://github.com/eleme/morjs/issues/109)) ([df462ec](https://github.com/eleme/morjs/commit/df462ec587d57c89e9ebfe22fab9997690245d0c))
+- **runtime-mini:** 添加微信转其他端 jsapi nextTick 的兼容支持 ([3e4cb91](https://github.com/eleme/morjs/commit/3e4cb9120baf398838fc8c4165d0ce7e37661f67))
+
+## [1.0.81](https://github.com/eleme/morjs/compare/v1.0.80...v1.0.81) (2023-09-01)
+
+### Bug Fixes
+
+- **runtime-web:** this.createIntersectionObserver 类型错误 ([#105](https://github.com/eleme/morjs/issues/105)) ([ec4316a](https://github.com/eleme/morjs/commit/ec4316a3b3f6089faa52a05b5f234aa69d9de692))
+- **runtime-web:** this.createIntersectionObserver 指定 selector 为自定义组件的最外层节点时导致触发异常 ([#104](https://github.com/eleme/morjs/issues/104)) ([c22c2a2](https://github.com/eleme/morjs/commit/c22c2a221c9a506cad17080a9df04534799c5d2b))
+
+## [1.0.80](https://github.com/eleme/morjs/compare/v1.0.79...v1.0.80) (2023-08-30)
+
+### Bug Fixes
+
+- **runtime-web:** 修复 map 组件 getCenterLocation 经常失败问题 ([#103](https://github.com/eleme/morjs/issues/103)) ([13d5532](https://github.com/eleme/morjs/commit/13d5532b704149c1604e8c743aff61822c917773))
+
+## [1.0.79](https://github.com/eleme/morjs/compare/v1.0.78...v1.0.79) (2023-08-28)
+
+### Bug Fixes
+
+- 修复未经 promisify 处理，导致的 api 空指针报错问题 ([#102](https://github.com/eleme/morjs/issues/102)) ([f4f8cae](https://github.com/eleme/morjs/commit/f4f8cae236c72ffb7178b19056c204f6bf6508e0))
+
+## [1.0.78](https://github.com/eleme/morjs/compare/v1.0.77...v1.0.78) (2023-08-18)
+
+### Bug Fixes
+
+- disable-scroll 切换为 false 时容器仍然不可滚动 ([#99](https://github.com/eleme/morjs/issues/99)) ([a2dcf89](https://github.com/eleme/morjs/commit/a2dcf8918ff01e76b85d652b45759f374b82b7e3))
+- runtime-web components 类型错误 ([#100](https://github.com/eleme/morjs/issues/100)) ([d2bbda3](https://github.com/eleme/morjs/commit/d2bbda32ef02f85af0125fceb7dd2b19bc595860))
+
+## [1.0.77](https://github.com/eleme/morjs/compare/v1.0.76...v1.0.77) (2023-08-17)
+
+### Bug Fixes
+
+- **runtime-web:** 修复 swiper 组件空指针异常 ([#98](https://github.com/eleme/morjs/issues/98)) ([d1046a6](https://github.com/eleme/morjs/commit/d1046a65923fd5b5d9fa8130f105618c0a39197a))
+
+## [1.0.76](https://github.com/eleme/morjs/compare/v1.0.75...v1.0.76) (2023-08-08)
+
+### Bug Fixes
+
+- **plugin-compiler-web:** 修复 web 服务启动的端口号冲突检测逻辑并调整最大检测次数为 5 次 ([4a36bc0](https://github.com/eleme/morjs/commit/4a36bc03efffa43f31f132d617cd8909d0b4517f))
+
+## [1.0.75](https://github.com/eleme/morjs/compare/v1.0.74...v1.0.75) (2023-08-03)
+
+**Note:** Version bump only for package morjs-monorepo
+
+## [1.0.74](https://github.com/eleme/morjs/compare/v1.0.73...v1.0.74) (2023-08-01)
+
+### Bug Fixes
+
+- **plugin-compiler-web:** 修复转 web 在 windows 下的路径兼容性问题 ([#90](https://github.com/eleme/morjs/issues/90)) ([48f31b6](https://github.com/eleme/morjs/commit/48f31b636cc9b06d057e947b12b236745b395fa3))
+
+## [1.0.73](https://github.com/eleme/morjs/compare/v1.0.72...v1.0.73) (2023-08-01)
+
+### Features
+
+- **runtime-web:** 增加 this.createIntersectionObserver 实现 ([#92](https://github.com/eleme/morjs/issues/92)) ([96f4c34](https://github.com/eleme/morjs/commit/96f4c34c8ca6147e4ea090bb7c0be1fcb02b471d))
+
+## [1.0.72](https://github.com/eleme/morjs/compare/v1.0.71...v1.0.72) (2023-08-01)
+
+### Features
+
+- **plugin-composer:** 支持在 CI 环境下打印更多的集成信息 ([#91](https://github.com/eleme/morjs/issues/91)) ([9b70c32](https://github.com/eleme/morjs/commit/9b70c32c2621fbe8690d7a306a231d057dd0fb57))
+
+## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
+
+### Bug Fixes
+
+- **plugin-compiler-web:** 修复 pnpm 场景下 runtime-web 可能会找不到的问题 ([b598de8](https://github.com/eleme/morjs/commit/b598de8abbb911c92ef222ba65e8f193d05b2b9b))
+- **plugin-compiler-web:** 修复分包工程编译为 web 时可能会报错的问题 ([b9d5203](https://github.com/eleme/morjs/commit/b9d5203b5d14ee1b0ba73bcf17bc47e1200489af))
+- **plugin-compiler:** 分包或插件转 web 场景下不注入 App 的初始化模拟支持 ([1bb21f6](https://github.com/eleme/morjs/commit/1bb21f61ceff805c0a85a144b01c37a3a6128baf))
+
+### Features
+
+- **plugin-generator:** 修改模版文件用于支持 isSupportWeb 选项 ([39896d1](https://github.com/eleme/morjs/commit/39896d1ec52f9c97758a2d25fb93ed2ae536668d))
+- **runtime-web:** createIntersectionObserver 增加 dataset 透传 ([3012c51](https://github.com/eleme/morjs/commit/3012c51ba43113b0f6f9669789707210c1e99a7b))
+- **runtime-web:** this.createSelectorQuery 用法支持 ([94abb99](https://github.com/eleme/morjs/commit/94abb9903a545e5f4f848ede0453e26da93637c7))
+
+## [1.0.70](https://github.com/eleme/morjs/compare/v1.0.69...v1.0.70) (2023-07-19)
+
+### Bug Fixes
+
+- **runtime-mini:** 修复组件初始化时，property 中的 observer 可能会不触发的问题 ([#84](https://github.com/eleme/morjs/issues/84)) ([f107657](https://github.com/eleme/morjs/commit/f107657fa20df7c996e0791cce9dff5bf78fc7d1))
+
 ## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
 
 ### Bug Fixes

@@ -8,7 +8,6 @@ export default class Label extends BaseElement {
         display: flex;
         flex-direction: row;
         align-items: center;
-        width: fit-content;
       }
     `
   }

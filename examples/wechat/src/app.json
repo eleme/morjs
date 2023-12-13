@@ -60,7 +60,8 @@
 
     "example/bluetooth/bluetooth",
 
-    "example/two-way-binding/two-way-binding"
+    "example/two-way-binding/two-way-binding",
+    "example/observers/observers"
   ],
   "window": {
     "navigationBarTextStyle": "black",
