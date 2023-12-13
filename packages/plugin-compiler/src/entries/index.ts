@@ -179,6 +179,13 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
   usingComponentsMap: Map<EntryNameWithoutExt, string[]>
 
   /**
+   * 自定义组件引用关系
+   * 用于记录每个自定义组件被哪些 页面/组件 使用
+   * 在后续的编译解析处理中，自动提取 props 中未声明的属性类型
+   */
+  componentsUsedMap: Map<string, Record<string, any>[]>
+
+  /**
    * 记录文件修改时间和原始大小
    */
   fileStats: Map<
@@ -340,6 +347,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     this.independentSubpackages = new Map()
     this.referencesMap = new Map()
     this.usingComponentsMap = new Map()
+    this.componentsUsedMap = new Map()
   }
 
   /**
@@ -381,6 +389,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       independentSubpackages: serializeMap(this.independentSubpackages),
       referencesMap: serializeMap(this.referencesMap),
       usingComponentsMap: serializeMap(this.usingComponentsMap),
+      componentsUsedMap: serializeMap(this.componentsUsedMap),
       replaceEntrySources: serializeMap(this.replaceEntrySources, (v) => {
         return {
           source: v.source.source() as string,
@@ -497,6 +506,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         'independentSubpackages',
         'referencesMap',
         'usingComponentsMap',
+        'componentsUsedMap',
         'replaceEntrySources',
         'additionalEntrySources',
         'moduleGraph'
@@ -514,7 +524,8 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         'fileStats',
         'independentSubpackages',
         'referencesMap',
-        'usingComponentsMap'
+        'usingComponentsMap',
+        'componentsUsedMap'
       ].forEach((item) => {
         this[item] = new Map(cache[item])
       })
@@ -2699,6 +2710,13 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
           // 识别普通组件
           else if (component.startsWith('.') || component.startsWith('/')) {
             entryType = EntryType.component
+            // 建立组件与引用者之间的引用映射
+            this.linkComponentRelationShip(
+              parentEntry,
+              component,
+              name,
+              rootDirs
+            )
           }
           // 其余的作为 npm 插件
           else {
@@ -3062,6 +3080,52 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     const record = this.referencesMap.get(parentPath) || {}
     record[referencePath] = referenceRealPath
     this.referencesMap.set(parentPath, record)
+  }
+
+  /**
+   * 建立组件与引用者之间的引用映射并保存
+   * @param parentPath - 引用者的路径
+   * @param component - 引用者使用的相对路径
+   * @param name - 引用者使用的组件名
+   * @param rootDirs - 文件检索根目录, 可选, 默认为 srcPaths
+   */
+  private async linkComponentRelationShip(
+    parentEntry: EntryItem,
+    component: string,
+    name: string,
+    rootDirs?: string[]
+  ) {
+    const roots = rootDirs?.length ? rootDirs : this.srcPaths
+    const baseDir = parentEntry.fullPath
+      ? path.dirname(parentEntry.fullPath)
+      : ''
+
+    // 组件的 js/ts 文件完整路径
+    let componentFullPath = await this.tryReachFileByExts(
+      component,
+      this.scriptWithConditionalExts,
+      !path.isAbsolute(component) && baseDir ? [baseDir] : roots,
+      parentEntry ? parentEntry.relativePath : undefined,
+      roots
+    )
+
+    if (!componentFullPath) {
+      componentFullPath = await this.resolveRealFilePath(
+        baseDir || roots[0],
+        component,
+        false,
+        true,
+        { extensions: this.scriptWithConditionalExts, modules: [] }
+      )
+    }
+
+    this.componentsUsedMap.set(componentFullPath, [
+      ...(this.componentsUsedMap.get(componentFullPath) || []),
+      {
+        name,
+        fullPath: parentEntry.fullPath
+      }
+    ])
   }
 
   /**

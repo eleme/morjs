@@ -69,10 +69,13 @@ export interface EntryItem {
   priority: EntryPriority
 }
 
-export type EntrySources = Map<EntryFullPath, {
-  source: webpack.sources.RawSource,
-  saveToMemFile?: string
-}>
+export type EntrySources = Map<
+  EntryFullPath,
+  {
+    source: webpack.sources.RawSource
+    saveToMemFile?: string
+  }
+>
 
 /**
  * EntryBuilder 辅助函数
@@ -151,6 +154,12 @@ export interface EntryBuilderHelpers {
    * 后缀名映射
    */
   extMap: Record<string, string>
+
+  /**
+   * 自定义组件引用关系
+   * 用于记录每个自定义组件被哪些 页面/组件 使用
+   */
+  componentsUsedMap: Map<string, Record<string, any>[]>
 
   /**
    * 基于路径获取 entry

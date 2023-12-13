@@ -26,6 +26,7 @@ import { StyleParserPlugin } from './parsers/styleParserPlugin'
 import { TemplateParserPlugin } from './parsers/templateParserPlugin'
 import { AliasSupportPlugin } from './plugins/aliasSupportPlugin'
 import { AssetsManipulatePlugin } from './plugins/assetsManipulatePlugin'
+import { AutomaticPropsType } from './plugins/automaticPropsType'
 import { DefineSupportPlugin } from './plugins/defineSupportPlugin'
 import { DynamicRequireSupportPlugin } from './plugins/dynamicRequireSupportPlugin'
 import { EmitDeclarationsPlugin } from './plugins/emitDeclarationsPlugin'
@@ -86,6 +87,7 @@ class MorCompile {
     new DefineSupportPlugin().apply(runner)
     new PhantomDependencyPlugin().apply(runner)
     new PreRuntimeDetectionPlugin().apply(runner)
+    new AutomaticPropsType().apply(runner)
     new ProcessComponentsPropsFunctionPlugin().apply(runner)
 
     // 应用 parser 插件
