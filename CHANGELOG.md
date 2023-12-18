@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.91](https://github.com/eleme/morjs/compare/v1.0.90...v1.0.91) (2023-12-18)
+
+### Bug Fixes
+
+- **plugin-compiler:** sjs/wxs 文件中的 require/import 替换为真实路径 ([6b2031b](https://github.com/eleme/morjs/commit/6b2031ba089a40370872b5cccd2efe1b75abc0de))
+
 ## [1.0.90](https://github.com/eleme/morjs/compare/v1.0.89...v1.0.90) (2023-12-12)
 
 ### Bug Fixes
