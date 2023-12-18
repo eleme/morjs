@@ -30,22 +30,21 @@ export class SjsParserPlugin implements Plugin {
       if (runner.commandName !== COMPILE_COMMAND_NAME) return
 
       const { target, sourceType } = runner.userConfig as CompilerUserConfig
-      // 如果同源编译，不做处理
-      if (target === sourceType) return
-
       const composedPlugins = getComposedCompilerPlugins()
 
       runner.hooks.sjsParser.tap(this.name, (transformers, options) => {
-        // 添加 commonjs => esm 转换
-        // 不处理 目标为 CommonJS 的文件
-        // 如果源码平台和目标平台 模块类型一致 则不处理
-        if (
-          composedPlugins.compileModuleKind[target] !==
+        if (target !== sourceType) {
+          // 添加 commonjs => esm 转换
+          // 不处理 目标为 CommonJS 的文件
+          // 如果源码平台和目标平台 模块类型一致 则不处理
+          if (
+            composedPlugins.compileModuleKind[target] !==
             CompileModuleKind.CommonJS &&
-          composedPlugins.compileModuleKind[sourceType] !==
+            composedPlugins.compileModuleKind[sourceType] !==
             composedPlugins.compileModuleKind[target]
-        ) {
-          transformers.before.unshift(cjsToEsmTransformer())
+          ) {
+            transformers.before.unshift(cjsToEsmTransformer())
+          }
         }
 
         // 修改引用路径
