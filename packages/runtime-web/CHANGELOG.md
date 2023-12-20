@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.92](https://github.com/eleme/morjs/compare/v1.0.91...v1.0.92) (2023-12-20)
+
+
+### Features
+
+* **runtime-web:** 支持动态改变页面配置 ([e0d8e54](https://github.com/eleme/morjs/commit/e0d8e542b978bc81d1185d73acffdc3aab128057))
+
+
+
+
+
 ## [1.0.90](https://github.com/eleme/morjs/compare/v1.0.89...v1.0.90) (2023-12-12)
 
 
