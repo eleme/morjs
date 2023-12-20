@@ -12,6 +12,7 @@ import {
   converterForPx,
   defineElement,
   getCurrentPageParams,
+  getPageConfig,
   shouldEnableFor
 } from '../utils'
 import boolConverter from '../utils/bool-converter'
@@ -113,6 +114,22 @@ export default class PageHost extends LitElement implements IPageHost {
   private styleElement: HTMLStyleElement
   setConfig(config: IPageConfig) {
     this.config = { ...this.config, ...config }
+    // 业务在页面打开时有覆盖页面配置的场景
+    const updatePageConfig = get(window.$MOR_APP_CONFIG, 'updatePageConfig')
+    if (updatePageConfig) {
+      const { path: pagePath, options: pageOptions } = getCurrentPageParams([
+        'path',
+        'options'
+      ])
+      const resultConfig = getPageConfig(
+        updatePageConfig,
+        pagePath,
+        pageOptions
+      )
+
+      if (typeof resultConfig === 'object')
+        this.config = Object.assign(this.config, resultConfig)
+    }
     // 强制渲染
     this.requestUpdate()
     // NOTE: 页面背景色

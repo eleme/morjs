@@ -121,6 +121,25 @@ export function shouldEnableFor(
   }
 }
 
+export function getPageConfig(
+  config:
+    | Record<string, any>
+    | ((
+        pagePath: string,
+        pageOptions: Record<string, any>
+      ) => Record<string, any>),
+  pagePath: string,
+  pageOptions: Record<string, any>
+) {
+  if (!pagePath) return
+  if (typeof config === 'object') return config
+
+  if (typeof config === 'function') {
+    const result = config(pagePath, pageOptions)
+    if (typeof result === 'object') return result
+  }
+}
+
 export const getCurrentPageParams = (keys = []): Record<string, any> => {
   try {
     const pageStack = getCurrentPages() || []
