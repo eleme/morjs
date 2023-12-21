@@ -219,12 +219,12 @@ export class AliasSupportPlugin implements Plugin {
         ) {
           return factory.updateImportDeclaration(
             node,
-            node.decorators,
             node.modifiers,
             node.importClause,
             factory.createStringLiteral(
               names[filePath][node.moduleSpecifier.text]
-            )
+            ),
+            node.assertClause
           )
         }
         /**
