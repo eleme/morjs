@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.93](https://github.com/eleme/morjs/compare/v1.0.92...v1.0.93) (2023-12-27)
+
+### Features
+
+- **runtime-web:** movable-view 组件在设置成仅水平方向可滚动时，取消掉禁止默认行为以支持纵向滚动 ([52e9756](https://github.com/eleme/morjs/commit/52e9756b4aa5d22d5bae9d57e0191f3f04b51495))
+
 ## [1.0.92](https://github.com/eleme/morjs/compare/v1.0.91...v1.0.92) (2023-12-20)
 
 ### Features
