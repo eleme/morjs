@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.94](https://github.com/eleme/morjs/compare/v1.0.93...v1.0.94) (2024-01-12)
+
+### Features
+
+- **runtime-web:** 自定义 search 处理函数，适配动态参数场景 ([f142e73](https://github.com/eleme/morjs/commit/f142e73083a98d6ec26b404ac1c9b31d86b652f0))
+- **runtime-web:** 自定义 search 处理函数，适配动态参数场景(修改函数名) ([e757bfa](https://github.com/eleme/morjs/commit/e757bfa367b7622a6650d067b8760f634be0b716))
+
 ## [1.0.93](https://github.com/eleme/morjs/compare/v1.0.92...v1.0.93) (2023-12-27)
 
 ### Features
