@@ -1,3 +1,4 @@
+import get from 'lodash.get'
 import { mode } from './history'
 import { ILocation } from './types'
 
@@ -102,6 +103,10 @@ export const getPathNameAndSearch = (location: ILocation) => {
   } else {
     pathName = location.pathname
     search = location.search.split('?')[1]
+
+    // 往外暴露修改 search 的方法，有些业务中 url 上存在动态变化的参数，导致 url => page component 的映射关系混乱
+    const formateSearch = get(window.$MOR_APP_CONFIG, 'router.formatSearch')
+    if (typeof formateSearch === 'function') search = formateSearch(search)
   }
 
   return {
