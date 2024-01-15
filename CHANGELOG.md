@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.95-beta.0](https://github.com/eleme/morjs/compare/v1.0.94...v1.0.95-beta.0) (2024-01-15)
+
+### Features
+
+- **runtime-mini:** 修复微信转支付宝 observer 和 created 触发时序问题 & 修复组件调用 batchedUpdates 报错问题 ([8dad870](https://github.com/eleme/morjs/commit/8dad8706cf88cc62b129e4db3baadfeca33eb607))
+
 ## [1.0.94](https://github.com/eleme/morjs/compare/v1.0.93...v1.0.94) (2024-01-12)
 
 ### Features
