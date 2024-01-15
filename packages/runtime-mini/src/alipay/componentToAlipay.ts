@@ -378,7 +378,9 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
       // if (typeof nextProps[prop] === 'function') continue
 
       // 哪些 prop 发生了改变
-      const isPropChanged = nextProps[prop] !== this.props[prop]
+      const isPropChanged = firstDeriveDataFromProps
+        ? nextProps[prop] !== options.props[prop]
+        : nextProps[prop] !== this.props[prop]
 
       if (isPropChanged) {
         updateProps[prop] = nextProps[prop]
@@ -405,7 +407,7 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
       // 中属性值相同，不满足 isPropChanged = true
       // 需通过 firstDeriveDataFromProps 强制初始化触发，与微信逻辑同步
       if (
-        (isPropChanged || firstDeriveDataFromProps) &&
+        isPropChanged &&
         propertiesWithObserver[prop] &&
         !(pureDataPattern && pureDataPattern.test(prop))
       ) {
