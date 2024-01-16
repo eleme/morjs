@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.95](https://github.com/eleme/morjs/compare/v1.0.95-beta.1...v1.0.95) (2024-01-16)
+
+### Bug Fixes
+
+- **runtime-web:** 页面存在多个 checkbox 时无法独立使用 ([ac263c4](https://github.com/eleme/morjs/commit/ac263c4ec63fd2efb6d1570e5f966ff0750aa7a9))
+- **runtime-web:** url 中缺少 / 导致页面无法匹配 ([ed23931](https://github.com/eleme/morjs/commit/ed239313309cd2ab8ae3bae45b4017f92e0ebfa5))
+
 ## [1.0.95-beta.1](https://github.com/eleme/morjs/compare/v1.0.95-beta.0...v1.0.95-beta.1) (2024-01-15)
 
 ### Features
