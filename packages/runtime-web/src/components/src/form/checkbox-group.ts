@@ -61,11 +61,11 @@ export default class CheckboxGroup
   disconnectedCallback() {
     super.disconnectedCallback()
 
-    window.removeEventListener(
+    this.removeEventListener(
       'call-tiga-checkbox-group-event',
       this._callTigaCheckboxGroup
     )
-    window.removeEventListener(
+    this.removeEventListener(
       'init-tiga-checkbox-group-event',
       this._initTigaCheckboxGroup
     )
@@ -119,7 +119,7 @@ export default class CheckboxGroup
     this.changeValueList(value)
   }
 
-  _initTigaCheckboxGroup = () => {
+  _initTigaCheckboxGroup = (e) => {
     const nodeList = this.querySelectorAll('tiga-checkbox')
     nodeList.forEach((item) => {
       const checkbox: any = item
@@ -133,12 +133,12 @@ export default class CheckboxGroup
   }
 
   addListener() {
-    window.addEventListener(
+    this.addEventListener(
       'call-tiga-checkbox-group-event',
       this._callTigaCheckboxGroup
     )
 
-    window.addEventListener(
+    this.addEventListener(
       'init-tiga-checkbox-group-event',
       this._initTigaCheckboxGroup
     )

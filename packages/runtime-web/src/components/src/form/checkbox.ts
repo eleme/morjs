@@ -72,11 +72,12 @@ export default class Checkbox extends BaseElement {
   connectedCallback() {
     super.connectedCallback()
     if (this.checked) {
-      window.dispatchEvent(
+      this.dispatchEvent(
         new CustomEvent('init-tiga-checkbox-group-event', {
           detail: {
             value: this.value
-          }
+          },
+          bubbles: true
         })
       )
     }
@@ -91,7 +92,7 @@ export default class Checkbox extends BaseElement {
   }
 
   _emitEvent(e) {
-    window.dispatchEvent(new CustomEvent('call-tiga-checkbox-group-event', e))
+    this.dispatchEvent(new CustomEvent('call-tiga-checkbox-group-event', e))
   }
 
   _handleClick() {
@@ -99,7 +100,8 @@ export default class Checkbox extends BaseElement {
       this._emitEvent({
         detail: {
           value: this.value
-        }
+        },
+        bubbles: true
       })
     }
   }
