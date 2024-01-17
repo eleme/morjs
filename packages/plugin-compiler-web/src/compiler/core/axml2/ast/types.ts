@@ -451,10 +451,12 @@ export function slotNode(
 
 export interface NamedSlotAttributeNode extends BaseNode {
   type: 'NamedSlotAttributeNode'
-  name: string
+  name: DataBindingNode
 }
 
-export function namedSlotAttributeNode(name: string): NamedSlotAttributeNode {
+export function namedSlotAttributeNode(
+  name: DataBindingNode
+): NamedSlotAttributeNode {
   return {
     type: 'NamedSlotAttributeNode',
     name
