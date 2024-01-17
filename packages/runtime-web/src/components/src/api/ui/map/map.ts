@@ -276,14 +276,16 @@ export default class Map extends BaseElement {
   __handleRegionChange() {
     const { map } = this
 
-    map.on('dragstart', () =>
+    map.on('dragstart', (e) =>
       this.emitRegionChange({
-        type: 'begin'
+        type: 'begin',
+        causedBy: 'gesture'
       })
     )
     map.on('dragend', () =>
       this.emitRegionChange({
-        type: 'end'
+        type: 'end',
+        causedBy: 'drag'
       })
     )
   }
@@ -744,7 +746,8 @@ export default class Map extends BaseElement {
 
   moveToLocation(options) {
     this.emitRegionChange({
-      type: 'begin'
+      type: 'begin',
+      causedBy: 'update'
     })
 
     const { longitude, latitude } = options || {}
@@ -757,7 +760,8 @@ export default class Map extends BaseElement {
 
       setTimeout(() => {
         this.emitRegionChange({
-          type: 'end'
+          type: 'end',
+          causedBy: 'update'
         })
       }, animationDuration)
     }
