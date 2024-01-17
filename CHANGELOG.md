@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.96](https://github.com/eleme/morjs/compare/v1.0.95...v1.0.96) (2024-01-17)
+
+### Features
+
+- **plugin-compiler-web:** 支持 slot 属性动态化 ([0144fe7](https://github.com/eleme/morjs/commit/0144fe74d0beed139d92cf60fc5f9d9f78a7086c))
+- **runtime-web:** map regionchange 事件增加 causedBy 参数 ([148c406](https://github.com/eleme/morjs/commit/148c406b3123b6cd914e438c6e343cca3e7cdeb8))
+
 ## [1.0.95](https://github.com/eleme/morjs/compare/v1.0.95-beta.1...v1.0.95) (2024-01-16)
 
 ### Bug Fixes
