@@ -1039,9 +1039,10 @@ export const CompilerUserConfigSchema = z.object({
 export type CompilerUserConfig = z.infer<typeof CompilerUserConfigSchema> & {
   /**
    * webpack 的 externals 配置, 直接透传给 webpack
-   * externalType 会根据 target 设置不同的默认值
+   * externalType 会根据 target 设置不同的默认值，也可以业务手动指定（web 场景下经常需要指定为 window）
    */
   externals?: webpack.Configuration['externals']
+  externalsType?: webpack.Configuration['externalsType']
 } & WebCompilerUserConfig & {
     /**
      * @internal 仅供插件内部使用, 请勿直接配置
