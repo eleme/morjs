@@ -159,11 +159,12 @@ export default class Input extends BaseElement implements IFormComponent {
       clearTimeout(this.syncTimeId)
       this.syncTimeId = null
     }
+    // 同步间隔设置 500ms，在 ios 场景下高频率同步会导致自动失焦问题
     this.syncTimeId = setTimeout(() => {
       if (this.inputElement.value !== this.value)
         this.inputElement.value = this.value
       this.syncTimeId = null
-    }, 132)
+    }, 500)
   }
 
   // type number 限制 maxlength
