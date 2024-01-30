@@ -1301,11 +1301,13 @@ export async function buildWebpackConfig(
   /* 外部资源配置 */
   if (userConfig.externals) {
     chain.externals(userConfig.externals)
-    chain.externalsType(
+    // 默认根据 module 配置判断
+    const defaultExternalsType =
       userConfig.compilerOptions.module === 'CommonJS'
         ? 'commonjs'
         : 'commonjs2'
-    )
+
+    chain.externalsType(userConfig.externalsType || defaultExternalsType)
   }
 
   /* 资源文件拷贝 */
