@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.97](https://github.com/eleme/morjs/compare/v1.0.96...v1.0.97) (2024-01-30)
+
+### Bug Fixes
+
+- **runtime-web:** input 输入框同步频率过快导致 ios 自动失焦问题 ([a56f14f](https://github.com/eleme/morjs/commit/a56f14f766211e1d8340dc432f0db96f83601523))
+
+### Features
+
+- **plugin-compiler:** 支持 externalsType 自定义 ([277e3d9](https://github.com/eleme/morjs/commit/277e3d96145dc2f94c61ecd8ea11b8de504a15a9))
+
 ## [1.0.96](https://github.com/eleme/morjs/compare/v1.0.95...v1.0.96) (2024-01-17)
 
 ### Features

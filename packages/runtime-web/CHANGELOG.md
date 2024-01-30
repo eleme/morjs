@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.97](https://github.com/eleme/morjs/compare/v1.0.96...v1.0.97) (2024-01-30)
+
+
+### Bug Fixes
+
+* **runtime-web:** input 输入框同步频率过快导致ios自动失焦问题 ([a56f14f](https://github.com/eleme/morjs/commit/a56f14f766211e1d8340dc432f0db96f83601523))
+
+
+
+
+
 ## [1.0.96](https://github.com/eleme/morjs/compare/v1.0.95...v1.0.96) (2024-01-17)
 
 
