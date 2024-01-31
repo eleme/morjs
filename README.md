@@ -29,7 +29,7 @@
 
 <p align="center">MorJS 以多端编译为基础，配以面向全生命周期的插件体系，覆盖从源码到构建产物的每个阶段，支持各类功能扩展和业务需求，无论是基础的页面和组件还是复杂的分包和插件，MorJS 都可以胜任，帮助你高效地开发多端小程序。</p>
 
-### [📚 快速上手 MorJS →](https://mor.eleme.cn/guides/introduction/getting-started)
+### [📚 快速上手 MorJS →](https://mor.ele.me/guides/introduction/getting-started)
 
 ## 优势与核心能力
 
@@ -64,7 +64,7 @@ Mor 是一套基于小程序 DSL (支付宝或微信) 的框架。他的易用�
 
 ## 社区
 
-参见 [社区指南](https://mor.eleme.cn/about/community-guide)
+参见 [社区指南](https://mor.ele.me/about/community-guide)
 
 <img src="https://img.alicdn.com/imgextra/i1/O1CN01PtDerN2ADSKGjP2Li_!!6000000008169-2-tps-2640-1676.png" />
 
