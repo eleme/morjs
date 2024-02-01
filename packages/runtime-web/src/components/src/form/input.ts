@@ -1,12 +1,14 @@
 import { css, html, property, query, unsafeCSS } from 'lit-element'
 import { BaseElement } from '../baseElement'
 import { rpxToRem } from '../rpx'
+import { isIos } from '../utils'
 import boolConverter from '../utils/bool-converter'
 import { IFormComponent } from './IFormComponent'
 
 export default class Input extends BaseElement implements IFormComponent {
   blurOnClick = false
   syncTimeId = null
+  composition = false
 
   static get styles() {
     return css`
@@ -66,7 +68,6 @@ export default class Input extends BaseElement implements IFormComponent {
   set value(v) {
     const oldValue = this._value
     this._value = v
-
     requestAnimationFrame(() => {
       this.requestUpdate('value', oldValue)
     })
@@ -134,7 +135,7 @@ export default class Input extends BaseElement implements IFormComponent {
     }
   }
 
-  _handleInput(e) {
+  _inputHandler(e) {
     e.stopPropagation()
 
     if (this._checkNumberInputMaxLength()) return
@@ -152,6 +153,25 @@ export default class Input extends BaseElement implements IFormComponent {
       bubbles: true
     })
     this.dispatchEvent(event)
+  }
+
+  _handleInput(e) {
+    // ios 系统下由于会有拼写过程自动失焦问题，所以使用 onCompositionEnd 做处理
+    if (this.composition) return
+
+    this._inputHandler(e)
+  }
+
+  _handleCompositionEnd(e) {
+    if (isIos()) {
+      this.composition = false
+      this._inputHandler(e)
+    }
+  }
+
+  _handleCompositionStart(e) {
+    // 仅在 ios 系统下做拼写处理
+    if (isIos()) this.composition = true
   }
 
   syncValueToInput() {
@@ -257,8 +277,10 @@ export default class Input extends BaseElement implements IFormComponent {
         placeholder="${this.placeholder || ''}"
         ?disabled="${this.disabled}"
         type="${this.password ? 'password' : this.type}"
-        @input="${this._handleInput}"
         .value="${this.value || ''}"
+        @input="${this._handleInput}"
+        @compositionend="${this._handleCompositionEnd}"
+        @compositionstart="${this._handleCompositionStart}"
         @keydown="${this._handleKeyDown}"
         maxlength="${this.maxlength}"
       />
