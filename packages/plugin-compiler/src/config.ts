@@ -1355,14 +1355,16 @@ export async function buildWebpackConfig(
         from: resolvePath(runner.getCwd(), item)
       })
     } else if (typeof item === 'object') {
-      if (!item.from || typeof item.from !== 'string') return
+      const { from, to, ...restConfig } = item
+      if (!from || typeof from !== 'string') return
       const pattern = {
         ...basePattern,
+        ...restConfig,
         context: runner.getCwd(),
-        from: resolvePath(runner.getCwd(), item.from)
+        from: resolvePath(runner.getCwd(), from)
       }
-      if (item.to && typeof item.to === 'string') {
-        pattern.to = resolvePath(outputPath, item.to)
+      if (to && typeof to === 'string') {
+        pattern.to = resolvePath(outputPath, to)
       }
 
       patterns.push(pattern)
