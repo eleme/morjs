@@ -981,7 +981,20 @@ export const CompilerUserConfigSchema = z.object({
    *     to 是相对于 outputPath 的路径
    */
   copy: z
-    .array(z.string().or(z.object({ from: z.string(), to: z.string() })))
+    .array(
+      z.string().or(
+        z.object({
+          from: z.string(),
+          to: z.string(),
+          context: z.string().optional(),
+          force: z.boolean().optional(),
+          globOptions: z.record(z.any()).optional(),
+          priority: z.number().optional(),
+          toType: z.string().optional(),
+          filter: z.function().args(z.string()).returns(z.boolean()).optional()
+        })
+      )
+    )
     .optional(),
   // 是否处理 node_modules 中的组件, 缺省状态下, 会基于不同的 target 自动选择是否处理
   processNodeModules: z
