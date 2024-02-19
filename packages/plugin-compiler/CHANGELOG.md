@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.99](https://github.com/eleme/morjs/compare/v1.0.98...v1.0.99) (2024-02-19)
+
+
+### Features
+
+* **pulgin-compiler:** copy 属性拓展 filter, force, context 等功能配置 ([5574354](https://github.com/eleme/morjs/commit/55743541608ec7968a59f1d9de8a6195b5f16b4a))
+
+
+
+
+
 ## [1.0.98](https://github.com/eleme/morjs/compare/v1.0.97...v1.0.98) (2024-02-01)
 
 **Note:** Version bump only for package @morjs/plugin-compiler
