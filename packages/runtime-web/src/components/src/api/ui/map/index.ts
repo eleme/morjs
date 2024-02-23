@@ -9,9 +9,22 @@ const MAP_INFO = {
   needStyleV7: false
 }
 
+const MAP_CONTAINER_SELECTOR = '.tiga-map-container' // 需要和 ./map.ts 中地图的外层组件 class 保持一致
+
 export default {
   createMapContext(id) {
-    return new CreateMapContext(id)
+    const context = new CreateMapContext(id)
+    const { map } = context
+
+    if (!map) return null
+    if (typeof map.querySelector === 'function') {
+      const container = map.querySelector(MAP_CONTAINER_SELECTOR)
+      // 如果父容器底层没有节点，说明高德地图渲染失败了，这个时候需要返回 null，让业务方做兜底处理
+      if (container && container.children && container.children.length <= 0)
+        return null
+    }
+
+    return context
   },
   getMapInfo() {
     return Promise.resolve(MAP_INFO)
@@ -19,7 +32,7 @@ export default {
 }
 
 class CreateMapContext {
-  private map: any
+  map: any
 
   constructor(mapId) {
     if (
