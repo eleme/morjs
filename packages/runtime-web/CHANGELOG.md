@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.101](https://github.com/eleme/morjs/compare/v1.0.100...v1.0.101) (2024-02-23)
+
+
+### Bug Fixes
+
+* **runtime-web:** input type 为 number 时设置 maxlength 无效 ([a512ebd](https://github.com/eleme/morjs/commit/a512ebde988ecb644fcdceaa2636d808e71c9a77))
+
+
+### Features
+
+* **runtime-web:** map 事件通知机制兼容低版本 Safari 浏览器 ([aa39c60](https://github.com/eleme/morjs/commit/aa39c60178f45848d0edd6dc9aac58c921fd3627))
+
+
+
+
+
 ## [1.0.100](https://github.com/eleme/morjs/compare/v1.0.99...v1.0.100) (2024-02-23)
 
 
