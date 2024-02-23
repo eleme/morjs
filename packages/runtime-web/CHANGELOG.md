@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.100](https://github.com/eleme/morjs/compare/v1.0.99...v1.0.100) (2024-02-23)
+
+
+### Features
+
+* **runtime-web:** createMapContext 新增根据高德地图是否初始化成功返回不同值 ([221540b](https://github.com/eleme/morjs/commit/221540bc922e08cd5594ea65e079255a2c05264d))
+
+
+
+
+
 ## [1.0.98](https://github.com/eleme/morjs/compare/v1.0.97...v1.0.98) (2024-02-01)
 
 
