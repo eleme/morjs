@@ -174,15 +174,23 @@ export default class Input extends BaseElement implements IFormComponent {
     if (isIos()) this.composition = true
   }
 
-  syncValueToInput() {
+  syncValueToInput(immediate = false) {
+    const sync = () => {
+      if (this.inputElement.value !== this.value)
+        this.inputElement.value = this.value
+    }
+    // 立刻同步值
+    if (immediate) {
+      return void sync()
+    }
+
     if (this.syncTimeId) {
       clearTimeout(this.syncTimeId)
       this.syncTimeId = null
     }
     // 同步间隔设置 500ms，在 ios 场景下高频率同步会导致自动失焦问题
     this.syncTimeId = setTimeout(() => {
-      if (this.inputElement.value !== this.value)
-        this.inputElement.value = this.value
+      sync()
       this.syncTimeId = null
     }, 500)
   }
@@ -191,9 +199,10 @@ export default class Input extends BaseElement implements IFormComponent {
   _checkNumberInputMaxLength() {
     const NUMBER = 'number'
     const { value } = this.inputElement
-
     if (this.type === NUMBER && value.length > this.maxlength) {
       this.value = value.slice(0, this.maxlength)
+      // 超出长度之后，阻止输入
+      this.syncValueToInput(true)
       return true
     }
 
