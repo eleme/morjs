@@ -53,16 +53,21 @@ export default class MovableView extends BaseElement {
     this.updatePosition()
   }
 
+  preventDefault(event) {
+    if (this.direction !== 'horizontal') {
+      event.preventDefault()
+    }
+  }
+
   onTouchStart = (e: TouchEvent) => {
-    // e.stopPropagation();
-    e.preventDefault()
+    this.preventDefault(e)
     this.canMove = true
   }
 
   private canMove = false
   private lastPoint: { clientX; clientY }
   onMouseMove = (e: MouseEvent) => {
-    e.preventDefault()
+    this.preventDefault(e)
     if (e.buttons === 1) {
       // 只有鼠标左键处于按下状态才算
       this.onMove({ clientX: e.clientX, clientY: e.clientY })
@@ -74,8 +79,7 @@ export default class MovableView extends BaseElement {
   }
 
   onTouchMove = (e: TouchEvent) => {
-    // e.stopPropagation();
-    e.preventDefault()
+    this.preventDefault(e)
     const currentTouch = e.touches[0]
     this.onMove({
       clientX: currentTouch.clientX,

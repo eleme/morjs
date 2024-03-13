@@ -15,6 +15,9 @@ const TAG_SPECIFIC_PROP_NAME_MAPPINGS = {
     activeColor: 'active-color',
     'block-size': 'handle-size',
     'block-color': 'handle-color'
+  },
+  map: {
+    polygons: 'polygon'
   }
 }
 
@@ -201,6 +204,9 @@ const TAG_SPECIFIC_EVENT_MAPPINGS = {
   },
   swiper: {
     animationfinish: 'animationEnd'
+  },
+  camera: {
+    initdone: 'ready'
   }
 }
 

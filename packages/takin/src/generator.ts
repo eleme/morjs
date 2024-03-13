@@ -339,6 +339,7 @@ export class Generator implements Required<GeneratorOptions> {
       ...this.defaults,
       ...this.answers
     }
+
     if ((await fs.stat(this.from)).isDirectory()) {
       await this.copyDirectory({
         context,

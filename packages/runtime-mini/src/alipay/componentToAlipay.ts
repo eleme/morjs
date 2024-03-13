@@ -7,6 +7,7 @@ import {
   canIUse,
   injectComponentSelectorMethodsSupport,
   injectCreateIntersectionObserverSupport,
+  injectCreateSelectorQuerySupport,
   injectTwoWayBindingMethodsSupport,
   markUnsupportMethods
 } from './utilsToAlipay'
@@ -166,7 +167,7 @@ function injectEventSupport(options: Record<string, any>) {
       : {}
 
     // 支付宝组件传递函数时 必须以 on 开头并且 on 后的第一个字母必须大写（微信必须全小写）
-    if (typeof this.props[`on${name}`] === 'function') {
+    const callEventHandler = (eventName: string) => {
       const currentTarget = eventObj.currentTarget || {}
       const target = eventObj.target || {}
       const e = {
@@ -178,7 +179,8 @@ function injectEventSupport(options: Record<string, any>) {
           },
           target: {
             ...target,
-            dataset: { ...(target.dataset || {}), ...dataset }
+            dataset: { ...(target.dataset || {}), ...dataset },
+            id: this.props.id
           }
         },
         type: name
@@ -194,7 +196,12 @@ function injectEventSupport(options: Record<string, any>) {
         e.detail = params
       }
 
-      this.props[`on${name}`](e, opts)
+      this.props[eventName](e, opts)
+    }
+    if (typeof this.props[`on${name}`] === 'function') {
+      callEventHandler(`on${name}`)
+    } else if (typeof this.props[`catch${name}`] === 'function') {
+      callEventHandler(`catch${name}`)
     }
   }
 
@@ -348,14 +355,19 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     // 1. 当基础库版本支持 lifetimes 时，由于生命周期执行委托给了原生，需跳过首次执行，若不跳过则会导致，
     //    data 同步 nextProps 后，传入的值前后对比未发现变更，而使在第一次初始化不触发 observer 的监听
     // 2. 当基础库版本不支持 lifetimes 时，使用 mor 的自实现，正常执行以下流程
-    if (!this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] && isObserversSupported) {
-      this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] = true
-      return
-    }
+    // 基于上述逻辑，初始化时，需记录状态，跳过 properties/data 赋值
+    const firstDeriveDataFromProps = !this[MOR_FIRST_DERIVE_DATA_FROM_PROPS]
+    const firstDeriveWithObserversSupported =
+      firstDeriveDataFromProps && isObserversSupported
 
     // data变化触发双向绑定
     this.props.onMorChildTWBProxy?.(this.data, this.props)
-
+    // created 生命周期触发之后， 会将 __createdEmitCallbacks__ 标记为null，只有首次进入时给当前组件实例初始化一个待执行队列
+    if (
+      isLifetimesSupported &&
+      typeof this.__createdEmitCallbacks__ === 'undefined'
+    )
+      this.__createdEmitCallbacks__ = {}
     // 用于判断 nextProps 不为空对象
     let hasProps = false
     const updateProps: Record<string, any> = {}
@@ -363,10 +375,13 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     // 遍历所有更新的 prop 并触发更新
     for (const prop in nextProps) {
       // 支付宝中 prop 为函数时, 通常代表事件, 此处直接跳过赋值
-      if (typeof nextProps[prop] === 'function') continue
+      // if (typeof nextProps[prop] === 'function') continue
 
       // 哪些 prop 发生了改变
-      const isPropChanged = nextProps[prop] !== this.props[prop]
+      const isPropChanged = firstDeriveDataFromProps
+        ? nextProps[prop] !== options.props[prop]
+        : nextProps[prop] !== this.props[prop]
+
       if (isPropChanged) {
         updateProps[prop] = nextProps[prop]
       }
@@ -375,24 +390,39 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
 
       const originalValue = this.properties[prop]
 
-      // 更新 properties 和 data
-      // 微信小程序中的 properties 和 data 是一致的
-      // 都包含 包括内部数据和属性值
-      this.properties[prop] = nextProps[prop]
-      this.data[prop] = nextProps[prop]
+      // 基于上述 1、2 两点逻辑，支持 observers 的版本初始化时不赋值。
+      // 但是该做法会导致 property.observer 首次回调中，this.data
+      // 和 this.properties 值不同步，可建议用户首次避免通过 data
+      // 获取 properties 中的属性值
+      if (!firstDeriveWithObserversSupported) {
+        // 更新 properties 和 data
+        // 微信小程序中的 properties 和 data 是一致的
+        // 都包含 包括内部数据和属性值
+        this.properties[prop] = nextProps[prop]
+        this.data[prop] = nextProps[prop]
+      }
 
-      // 执行属性监听器，仅执行发生了变化的属性
+      // 微信端组件初始化、属性改变时，会触发属性监听器 property.observer。
+      // 而支付宝 deriveDataFromProps 方法，初始化时 this.props 和 nextProps
+      // 中属性值相同，不满足 isPropChanged = true
+      // 需通过 firstDeriveDataFromProps 强制初始化触发，与微信逻辑同步
       if (
         isPropChanged &&
         propertiesWithObserver[prop] &&
         !(pureDataPattern && pureDataPattern.test(prop))
       ) {
         try {
-          propertiesWithObserver[prop].call(
+          const updateFn = propertiesWithObserver[prop].bind(
             this,
             nextProps[prop],
             originalValue
           )
+          // created 执行之后 或者 lifetimes 不支持的场景，__createdEmitCallbacks__ 会为 null或者 undefined
+          if (this.__createdEmitCallbacks__) {
+            this.__createdEmitCallbacks__[prop] = updateFn // 推入待执行队列，等 created 生命周期触发后在执行，确保首次执行顺序
+          } else {
+            updateFn()
+          }
         } catch (e) {
           logger.error(
             `组件 ${this.is} 属性监听器 properties.${prop}.observer 报错: `,
@@ -401,7 +431,12 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
         }
       }
     }
-    // 触发一次更新
+
+    // 初始化时，记录首次执行状态
+    this[MOR_FIRST_DERIVE_DATA_FROM_PROPS] = true
+    if (firstDeriveWithObserversSupported) return
+
+    // // 触发一次更新
     if (hasProps) {
       this.setData(updateProps)
     }
@@ -463,6 +498,29 @@ function hookComponentLifeCycle(options: Record<string, any>) {
     delete options.export
   }
 
+  const executeCreatedCallbacks = function () {
+    // created 生命周期触发时执行的回调（主要是为了解决首次 observer 和 created 生命周期的执行顺序问题）
+    // 在微信中，created 触发时机早于 observer，在支付宝中由于该生命周期使用 deriveDataFromProps 模拟，而 deriveDataFromProps
+    // 是先于 created 执行的，所以导致微信转支付宝场景下，observer 执行时机先于 created，这让某些依赖生命周期执行顺序的功能异常，所以在此做兼容适配
+    if (
+      !(
+        this.__createdEmitCallbacks__ &&
+        typeof this.__createdEmitCallbacks__ === 'object'
+      )
+    )
+      return
+    const keys = Object.keys(this.__createdEmitCallbacks__)
+    if (keys.length > 0) {
+      keys.forEach((key) => {
+        const value = this.__createdEmitCallbacks__[key]
+        value()
+      })
+
+      // 在这里将缓存队里置为 null，用于标记 created 已经执行过了，方便后续在 deriveDataFromProps 周期中进行判断（推入队列 or 直接执行）
+      this.__createdEmitCallbacks__ = null
+    }
+  }
+
   /**
    * 生命周期执行顺序:
    * 1. 执行 hackSetData 劫持 setData，把需要变更的数据存入 MOR_PREV_DATA
@@ -481,9 +539,11 @@ function hookComponentLifeCycle(options: Record<string, any>) {
    * 8. 执行 attached 生命周期
    * …
    */
+
   options.onInit = compose([
     hackSetData,
     injectCreateIntersectionObserverSupport(),
+    injectCreateSelectorQuerySupport(),
     initPropertiesAndData,
     callOriginalFn('onInit')
   ])
@@ -491,7 +551,8 @@ function hookComponentLifeCycle(options: Record<string, any>) {
   if (isLifetimesSupported) {
     options.lifetimes.created = compose([
       initPropertiesAndData,
-      callOriginalFn('created')
+      callOriginalFn('created'),
+      executeCreatedCallbacks
     ])
   }
 
@@ -520,7 +581,11 @@ function hookComponentLifeCycle(options: Record<string, any>) {
 function injectComponentInstanceMethodSupport(options: Record<string, any>) {
   // 批量更新数据 支持
   options.groupSetData = function (cb: () => void) {
-    this.$batchedUpdates(cb)
+    if (typeof this.$batchedUpdates === 'function') {
+      this.$batchedUpdates(cb)
+    } else {
+      cb()
+    }
   }
 
   // 获取页面标识符

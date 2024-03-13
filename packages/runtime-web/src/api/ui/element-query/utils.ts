@@ -1,3 +1,5 @@
+import { parseDatasetValue } from '../../../runtime/dsl/attribute-value'
+
 export const RECT_PROPERTIES = [
   'top',
   'right',
@@ -41,14 +43,14 @@ export const mapTarget = (target, callback) => {
   }
 }
 
-const getDataSet = (el: HTMLElement) => {
+export const getDataSet = (el: HTMLElement, transformer?) => {
   const result = { dataset: {} }
   try {
     const { dataset } = el
     if (!dataset) return result
 
     result.dataset = Object.keys(dataset).reduce((pre, key) => {
-      pre[key] = dataset[key]
+      pre[key] = parseDatasetValue(dataset[key])
       return pre
     }, {})
 

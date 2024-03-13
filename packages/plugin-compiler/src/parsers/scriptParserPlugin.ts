@@ -75,6 +75,8 @@ export class ScriptParserPlugin implements Plugin {
         target
       } = runner.userConfig as CompilerUserConfig
 
+      const isWeb = target === 'web' || target === 'web-pro'
+
       const morRuntimeDeps = this.checkApiOrCoreRuntimeDepExistance(runner)
 
       runner.hooks.beforeBuildEntries.tap(this.name, (entryBuilder) => {
@@ -83,8 +85,9 @@ export class ScriptParserPlugin implements Plugin {
 
       // 仅插件或分包需要注入 morGlobal.initApp
       const needToInjectInitApp =
-        compileType === CompileTypes.plugin ||
-        compileType === CompileTypes.subpackage
+        !isWeb &&
+        (compileType === CompileTypes.plugin ||
+          compileType === CompileTypes.subpackage)
 
       // 源码的 globalObject
       const sourceGlobalObject =
@@ -110,10 +113,7 @@ export class ScriptParserPlugin implements Plugin {
           morRuntimeDeps.api &&
           sourceGlobalObject !== targetGlobalObject &&
           // 如果目标平台是 web 且 源码的全局对象和目标平台的全局对象相同，则不做接口转换
-          !(
-            (target === 'web' || target === 'web-pro') &&
-            sourceGlobalObject === targetDefaultGlobalObject
-          ) &&
+          !(isWeb && sourceGlobalObject === targetDefaultGlobalObject) &&
           autoInjectRuntime?.['api'] &&
           !MOR_RUNTIME_PACKAGE_REGEXP.test(options.fileInfo.path) &&
           options.fileInfo.content.includes(sourceGlobalObject)

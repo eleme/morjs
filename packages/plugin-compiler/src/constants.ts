@@ -981,7 +981,20 @@ export const CompilerUserConfigSchema = z.object({
    *     to 是相对于 outputPath 的路径
    */
   copy: z
-    .array(z.string().or(z.object({ from: z.string(), to: z.string() })))
+    .array(
+      z.string().or(
+        z.object({
+          from: z.string(),
+          to: z.string(),
+          context: z.string().optional(),
+          force: z.boolean().optional(),
+          globOptions: z.record(z.any()).optional(),
+          priority: z.number().optional(),
+          toType: z.string().optional(),
+          filter: z.function().args(z.string()).returns(z.boolean()).optional()
+        })
+      )
+    )
     .optional(),
   // 是否处理 node_modules 中的组件, 缺省状态下, 会基于不同的 target 自动选择是否处理
   processNodeModules: z
@@ -1016,6 +1029,11 @@ export const CompilerUserConfigSchema = z.object({
   processPlaceholderComponents: z.boolean().optional(),
 
   /**
+   * 是否处理组件入参函数
+   */
+  processComponentsPropsFunction: z.boolean().optional().default(false),
+
+  /**
    * 配置可以共享的 node_modules 模块, 通常用于主子分包分仓库管理集成的场景
    */
   shared: z.array(z.string().or(z.record(z.string()))).default([]),
@@ -1034,9 +1052,10 @@ export const CompilerUserConfigSchema = z.object({
 export type CompilerUserConfig = z.infer<typeof CompilerUserConfigSchema> & {
   /**
    * webpack 的 externals 配置, 直接透传给 webpack
-   * externalType 会根据 target 设置不同的默认值
+   * externalType 会根据 target 设置不同的默认值，也可以业务手动指定（web 场景下经常需要指定为 window）
    */
   externals?: webpack.Configuration['externals']
+  externalsType?: webpack.Configuration['externalsType']
 } & WebCompilerUserConfig & {
     /**
      * @internal 仅供插件内部使用, 请勿直接配置

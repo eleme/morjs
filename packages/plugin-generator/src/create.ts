@@ -43,7 +43,8 @@ export default async function create(
 
   // 如果指定了 template 则跳过问询
   const template = command?.options?.template
-
+  // 决定是否增加转 web 的配置——如果用户选择了是，则在自动生成的 mor.config 中增加 name 为 web 的配置
+  const isSupportWeb = command?.options?.isSupportWeb
   const from = template
     ? template
     : path.resolve(
@@ -89,6 +90,16 @@ export default async function create(
             { title: '微信小程序 DSL', value: 'wechat' },
             { title: '支付宝小程序 DSL', value: 'alipay' }
           ]
+        },
+        {
+          type() {
+            return !isSupportWeb ? 'toggle' : null
+          },
+          name: 'isSupportWeb',
+          message: '请选择是否需要增加转 Web 配置',
+          initial: false,
+          active: '是',
+          inactive: '否'
         },
         {
           type: (_, values) => {
@@ -196,6 +207,7 @@ export default async function create(
         const css = answers.cssParser
         const parts = [answers.projectType, sourceType, tsOrJs]
         if (css) parts.push(css)
+
         generator.from = path.resolve(
           __dirname,
           '../templates/projects',

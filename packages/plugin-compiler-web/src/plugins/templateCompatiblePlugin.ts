@@ -3,6 +3,7 @@ import {
   EntryBuilderHelpers,
   logger,
   Plugin,
+  posthtml,
   Runner,
   slash
 } from '@morjs/utils'
@@ -45,17 +46,12 @@ export class TemplateCompatiblePlugin implements Plugin {
       },
       (tree, options) => {
         return tree.walk((node) => {
-          // 移除所有的注释
-          if (node.content?.length) {
-            node.content = node.content.filter((content) => {
-              if (
-                typeof content === 'string' &&
-                content.trim().startsWith('<!--')
-              ) {
-                return false
-              }
-              return true
-            })
+          // NOTE: 移除所有的注释，原因是 sax 对注释的解析支持有问题，可能会导致转 web 报错
+          if (
+            typeof node === 'string' &&
+            (node as string).trim().startsWith('<!--')
+          ) {
+            return '' as unknown as posthtml.Node<string>
           }
 
           if (node.tag === 'import' || node.tag === 'include') {

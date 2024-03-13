@@ -1,10 +1,19 @@
 /// <reference types="mini-types" />
+/// <reference types="@types/react" />
+
 type PromiseOptions<O> = Omit<O, 'success' | 'fail' | 'complete'>
 
 type IGetLocationFailErrorType = 11 | 12 | 13 | 14
 
 interface PhoneOptions {
   [number: string]: string
+}
+
+interface ReactNodeSlot extends ReactNode {
+  props?: {
+    _slot: string
+    [prop: string]: any
+  }
 }
 
 interface Window {

@@ -3,6 +3,91 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.95](https://github.com/eleme/morjs/compare/v1.0.95-beta.1...v1.0.95) (2024-01-16)
+
+**Note:** Version bump only for package @morjs/runtime-mini
+
+
+
+
+
+## [1.0.95-beta.1](https://github.com/eleme/morjs/compare/v1.0.95-beta.0...v1.0.95-beta.1) (2024-01-15)
+
+
+### Features
+
+* **runtime-mini:** observer 执行时机由首次每次必执行改成数据相比于默认值发生变化时才执行 ([50c9e07](https://github.com/eleme/morjs/commit/50c9e0766018c33244d2e5ba748cdba829b8b85e))
+
+
+
+
+
+## [1.0.95-beta.0](https://github.com/eleme/morjs/compare/v1.0.94...v1.0.95-beta.0) (2024-01-15)
+
+
+### Features
+
+* **runtime-mini:** 修复微信转支付宝 observer和created触发时序问题 & 修复组件调用batchedUpdates报错问题 ([8dad870](https://github.com/eleme/morjs/commit/8dad8706cf88cc62b129e4db3baadfeca33eb607))
+
+
+
+
+
+## [1.0.85](https://github.com/eleme/morjs/compare/v1.0.84...v1.0.85) (2023-11-06)
+
+
+### Bug Fixes
+
+* **runtime-mini:** 支持 catch 前缀回调 ([1d716af](https://github.com/eleme/morjs/commit/1d716af309e8ca958d0e6e589866d90d00903332))
+
+
+
+
+
+## [1.0.82](https://github.com/eleme/morjs/compare/v1.0.81...v1.0.82) (2023-09-08)
+
+
+### Bug Fixes
+
+* **runtime-mini:** 添加微信转其他端 jsapi nextTick 的兼容支持 ([3e4cb91](https://github.com/eleme/morjs/commit/3e4cb9120baf398838fc8c4165d0ce7e37661f67))
+
+
+
+
+
+## [1.0.79](https://github.com/eleme/morjs/compare/v1.0.78...v1.0.79) (2023-08-28)
+
+
+### Bug Fixes
+
+* 修复未经 promisify 处理，导致的 api 空指针报错问题 ([#102](https://github.com/eleme/morjs/issues/102)) ([f4f8cae](https://github.com/eleme/morjs/commit/f4f8cae236c72ffb7178b19056c204f6bf6508e0))
+
+
+
+
+
+## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
+
+
+### Features
+
+* **runtime-web:** this.createSelectorQuery 用法支持 ([94abb99](https://github.com/eleme/morjs/commit/94abb9903a545e5f4f848ede0453e26da93637c7))
+
+
+
+
+
+## [1.0.70](https://github.com/eleme/morjs/compare/v1.0.69...v1.0.70) (2023-07-19)
+
+
+### Bug Fixes
+
+* **runtime-mini:** 修复组件初始化时，property 中的 observer 可能会不触发的问题 ([#84](https://github.com/eleme/morjs/issues/84)) ([f107657](https://github.com/eleme/morjs/commit/f107657fa20df7c996e0791cce9dff5bf78fc7d1))
+
+
+
+
+
 ## [1.0.69](https://github.com/eleme/morjs/compare/v1.0.68...v1.0.69) (2023-07-17)
 
 **Note:** Version bump only for package @morjs/runtime-mini

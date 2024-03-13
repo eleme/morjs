@@ -25,7 +25,7 @@ MorJS 内置了一套完整的插件体系，覆盖从源码构建到生成产�
 
 ## 静态编译原理
 
-<img src="https://img.alicdn.com/imgextra/i1/O1CN01L57dw41G6w9fB4YGe_!!6000000000574-2-tps-2582-1336.png" width="1200" />
+<img src="https://gw.alicdn.com/imgextra/i1/O1CN01lDSF0c1dpZyMjDcIy_!!6000000003785-0-tps-2039-1044.jpg" width="1200" />
 
 静态编译转换主要用于处理 `JS`、`WXS/SJS`、`WXML/AXML`、`WXSS/ACSS`、`JSON` 等源码中约束强且不能动态修改的部分，如：
 

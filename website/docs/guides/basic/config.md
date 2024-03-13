@@ -962,6 +962,34 @@ class YourCustomMorJSPlugin {
 }
 ```
 
+### processComponentsPropsFunction - 是否处理组件入参函数
+
+- 类型: `boolean`
+- 默认值: `false`
+
+用于配置是否处理组件的入参函数，常与组件级别编译配合使用（即 `compileType: 'component'` 时）
+
+默认情况下：由于微信本身不支持诸如 `this.props.onXxxClick`，MorJS 为了抹平差异，在引用组件的 `Page` 的 xml 中注入一段类似如下代码：
+
+```xml
+<!-- 伪代码 -->
+<component-demo
+  data="{{data}}"
+  bind:comClick="$morEventHandlerProxy"
+  data-mor-event-handlers="hashxxxxxxx"
+></component-demo>
+```
+
+其中 `props` 的 `onXxxClick` 事件被代理为 `$morEventHandlerProxy` 方法，`data-mor-event-handlers` 则为组件事件触发页面方法的对应对象通过 `base64` 加密得到的一串 hash 值，如触发 `this.props.onXxxClick` 事件时，实际是把事件交给 ` $morEventHandlerProxy` 代理方法来触发 `this.triggerEvent`，从而抹平转端间的差异。
+
+但是以上方案无法完美兼容组件级别的转端，若以组件的方式编译（即 `compileType: 'component'` 时），编译出的组件提供给微信原生小程序，仅能显示正常组件视图，而无法触发组件的入参函数（原生小程序的 `Page` 缺少本该注入的事件代理）
+
+<img src="https://img.alicdn.com/imgextra/i1/O1CN01uceSYd1JVcOoEZQR0_!!6000000001034-0-tps-1522-1312.jpg" width="500" />
+
+设置为 `true` 开启后：将处理 `props` 中入参含有函数的组件，将事件代理从页面转为组件代理层，编译出的组件可按照普通组件提供给微信原生小程序混用
+
+<img src="https://img.alicdn.com/imgextra/i1/O1CN01GUjMNH1D7Rnuyg3Gi_!!6000000000169-0-tps-1804-1330.jpg" width="500" />
+
 ### processNodeModules - 是否处理 node_modules
 
 - 类型: `boolean | { include?: RegExp | RegExp[], exclude?: RegExp | RegExp[] }`

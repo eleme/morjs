@@ -248,3 +248,18 @@ export function injectCreateIntersectionObserverSupport() {
     }
   }
 }
+
+/**
+ * 为组件或页面注入 this.createSelectorQuery 支持
+ * 原因: 支付宝仅 2.7.4 及以上页面有该方法
+ * @param context 组件或页面上下文, 即 this 对象
+ */
+export function injectCreateSelectorQuerySupport() {
+  return function () {
+    // 如果方法存在则不处理
+    if (this?.createSelectorQuery) return
+    this.createSelectorQuery = function () {
+      return getGlobalObject().createSelectorQuery()
+    }
+  }
+}

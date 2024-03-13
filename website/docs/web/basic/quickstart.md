@@ -8,7 +8,7 @@
 
 ```shell
 npm i @morjs/cli -g # 全局安装 MorJS cli(如已安装可跳过)
-mor init # 选择 MorJS 标准小程序工程，然后填写信息，在填写 投放渠道 这一项时将 Web 选中
+mor init # 创建工程时会有 <请选择是否需要增加转 Web 配置> 选项，选择 “是”
 npm run dev:web # 运行项目，控制台会打印地址和二维码
 ```
 
@@ -18,11 +18,30 @@ npm run dev:web # 运行项目，控制台会打印地址和二维码
 
 针对已有的 `MorJS` 工程，按照以下方法配置，可以进行 `Web` 端的编译。
 
-### 使用命令行
+### 增加配置
+
+打开 `mor.config.[js|ts]`，写入 `web` 转换配置
+
+```
+import { defineConfig } from '@morjs/cli'
+
+export default defineConfig([
+  {
+    name: 'web',
+    sourceType: 'alipay', // 根据业务工程类型配置，微信就填 wechat
+    target: 'web',
+    compileType: 'miniprogram', // 根据业务形态类型配置，小程序/插件/分包 分别对应 miniprogram/plugin/subpackage
+    compileMode: 'bundle',
+  }
+])
+
+```
+
+### 运行项目
+
+如果已经全局安装了 `@morjs/cli`，可以直接运行如下指令 👇🏻
 
 ```shell
-# 安装 react 依赖
-npm i react react-dom --save
 # 开发命令
 mor compile --name web -w
 
@@ -30,15 +49,13 @@ mor compile --name web -w
 mor compile --name web --production
 ```
 
-> 直接使用 mor 指令需要你全局安装 mor cli。
-
-### 编辑 scripts 脚本
-
-打开项目的 `package.json`,在 `scripts` 字段中加如下两行：
+如果没有全局安装 `@morjs/cli`，打开项目的 `package.json`，在 `scripts` 字段中增加指令 👇🏻
 
 ```json
-"compile:prod:web": "mor compile --name web --production",
+"compile:web": "mor compile --name web --production",
 "dev:web": "mor compile --name web -w",
 ```
+
+配置完成后使用 `npm` 运行指令即可。
 
 至此，你的项目已经可以运行在 `Web` 端了 🎇，接下来我们继续看一下 `Web` 端都支持哪些配置吧 ~

@@ -9,9 +9,15 @@ const MAP_INFO = {
   needStyleV7: false
 }
 
+const MAP_CONTAINER_SELECTOR = '.tiga-map-container' // 需要和 ./map.ts 中地图的外层组件 class 保持一致
+
 export default {
   createMapContext(id) {
-    return new CreateMapContext(id)
+    const context = new CreateMapContext(id)
+    const { map } = context
+
+    if (!map) return null
+    return context
   },
   getMapInfo() {
     return Promise.resolve(MAP_INFO)
@@ -19,7 +25,7 @@ export default {
 }
 
 class CreateMapContext {
-  private map: any
+  map: any
 
   constructor(mapId) {
     if (

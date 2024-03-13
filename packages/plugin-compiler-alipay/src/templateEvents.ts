@@ -110,6 +110,9 @@ const tagReplaceNativeEvent = {
     markerTap: 'markertap',
     calloutTap: 'callouttap',
     controlTap: 'controltap'
+  },
+  camera: {
+    ready: 'initdone'
   }
 }
 
@@ -121,6 +124,9 @@ const tagReplacePropName = {
     handleSize: 'block-size',
     'handle-color': 'block-color',
     handleColor: 'block-color'
+  },
+  map: {
+    polygon: 'polygons'
   }
 }
 

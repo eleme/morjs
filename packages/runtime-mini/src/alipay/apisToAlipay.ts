@@ -4,7 +4,7 @@ import {
   logger,
   transformApis
 } from '@morjs/runtime-base'
-import { needPromisfiedApis } from './needPromisfiedApis'
+import { needPromisfiedApis } from '../wechat/apis'
 
 //  changeToBuffer
 const changeToBuffer = (str) => {

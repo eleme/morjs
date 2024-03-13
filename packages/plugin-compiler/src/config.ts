@@ -1301,11 +1301,13 @@ export async function buildWebpackConfig(
   /* 外部资源配置 */
   if (userConfig.externals) {
     chain.externals(userConfig.externals)
-    chain.externalsType(
+    // 默认根据 module 配置判断
+    const defaultExternalsType =
       userConfig.compilerOptions.module === 'CommonJS'
         ? 'commonjs'
         : 'commonjs2'
-    )
+
+    chain.externalsType(userConfig.externalsType || defaultExternalsType)
   }
 
   /* 资源文件拷贝 */
@@ -1353,14 +1355,16 @@ export async function buildWebpackConfig(
         from: resolvePath(runner.getCwd(), item)
       })
     } else if (typeof item === 'object') {
-      if (!item.from || typeof item.from !== 'string') return
+      const { from, to, ...restConfig } = item
+      if (!from || typeof from !== 'string') return
       const pattern = {
         ...basePattern,
+        ...restConfig,
         context: runner.getCwd(),
-        from: resolvePath(runner.getCwd(), item.from)
+        from: resolvePath(runner.getCwd(), from)
       }
-      if (item.to && typeof item.to === 'string') {
-        pattern.to = resolvePath(outputPath, item.to)
+      if (to && typeof to === 'string') {
+        pattern.to = resolvePath(outputPath, to)
       }
 
       patterns.push(pattern)

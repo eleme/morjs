@@ -17,7 +17,7 @@ import {
 import Module from 'module'
 import {
   ASSETS_REGEXP,
-  CURRENT_NODE_MODUELS,
+  CURRENT_NODE_MODULES,
   fileNameConfig,
   globalObject as DEFAULT_GLOBAL_OBJECT,
   RUNTIME_NPM_NAME,
@@ -147,10 +147,12 @@ export class CommonConfigPlugin implements Plugin {
     }
     chain.resolve.alias.set('@', srcPaths)
 
-    // 扩展 node_modules
-    chain.resolve.modules.add(CURRENT_NODE_MODUELS).end()
-    // loader 优先查找当前 npm 所在位置的 node_modules
-    chain.resolveLoader.modules.prepend(CURRENT_NODE_MODUELS).end()
+    CURRENT_NODE_MODULES.forEach((dir) => {
+      // 扩展 node_modules
+      chain.resolve.modules.add(dir).end()
+      // loader 优先查找当前 npm 所在位置的 node_modules
+      chain.resolveLoader.modules.prepend(dir).end()
+    })
 
     // 设置 publicPath
     chain.output.publicPath(web.publicPath || '/')
