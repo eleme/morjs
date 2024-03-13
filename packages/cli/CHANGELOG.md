@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.102-alpha.0 (2024-03-13)
+
+
+### Bug Fixes
+
+* **cli:** 修复配置变更自动重启可能会触发多次的问题 ([444d453](https://github.com/eleme/morjs/commit/444d45384cef3bcc9f85eb3251148d0cb9600de5))
+
+
+### Features
+
+* **cli:** 对外暴露 generateComposeModuleHash 方法方便定制集成能力 ([993d66f](https://github.com/eleme/morjs/commit/993d66fea7421a5503b810b1032fec0eb1ad7ddd))
+
+
+
+
+
 ## [1.0.101](https://github.com/eleme/morjs/compare/v1.0.100...v1.0.101) (2024-02-23)
 
 **Note:** Version bump only for package @morjs/cli
