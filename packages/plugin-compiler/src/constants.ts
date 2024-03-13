@@ -178,7 +178,7 @@ export const TS_REGEXP = /\.m?ts$/
 export const SCRIPT_REGEXP = /\.m?js$/
 export const TEMPLATE_REGEXP = /\.(wx|ax)ml$/
 export const SJS_REGEXP = /\.(sjs|wxs)$/
-export const STYLE_REGEXP = /\.(wx|ac)ss$/
+export const STYLE_REGEXP = /\.(wx|ac|c)ss$/
 export const JSON_REGEXP = /\.json(c|5)?$/
 export const NODE_MODULE_REGEXP = /[\\/]node_modules[\\/]/
 

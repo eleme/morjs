@@ -11,16 +11,22 @@ export default async function TemplateLoader(
     CustomLoaderOptions & {
       singleTags: string[]
       closingSingleTag?: '' | 'slash' | 'tag'
+      customTemplateRender?: (tree?, options?) => string
     }
   >,
   fileContent: string
 ): Promise<void> {
   const cb = this.async()
-  const { userConfig, entryBuilder, runner, singleTags, closingSingleTag } =
-    this.getOptions()
+  const {
+    userConfig,
+    entryBuilder,
+    runner,
+    singleTags,
+    closingSingleTag,
+    customTemplateRender
+  } = this.getOptions()
 
   const entry = entryBuilder.getEntryByFilePath(this.resourcePath)
-
   const pluginInfo = {
     userConfig,
     loaderContext: this,
@@ -46,7 +52,8 @@ export default async function TemplateLoader(
       pluginInfo,
       singleTags,
       closingSingleTag,
-      parser
+      parser,
+      customTemplateRender
     )
   } catch (error) {
     return cb(error)

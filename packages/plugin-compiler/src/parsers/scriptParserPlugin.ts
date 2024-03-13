@@ -75,7 +75,7 @@ export class ScriptParserPlugin implements Plugin {
         target
       } = runner.userConfig as CompilerUserConfig
 
-      const isWeb = target === 'web'
+      const isWeb = target === 'web' || target === 'web-pro'
 
       const morRuntimeDeps = this.checkApiOrCoreRuntimeDepExistance(runner)
 
