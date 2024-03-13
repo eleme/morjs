@@ -5,6 +5,7 @@ import { requestAnimationFrame, uuid } from '../../../utils'
 import addScript from '../../../utils/add-script'
 import arrConverter from '../../../utils/array-converter'
 import boolConverter from '../../../utils/bool-converter'
+import EventBus from '../../../utils/event'
 import objConverter from '../../../utils/object-converter'
 import { sleep } from '../../../utils/sleep'
 import { attributes, properties } from './property'
@@ -55,7 +56,7 @@ export default class Map extends BaseElement {
   // 对应高德地图中 setFitView 方法中的 avoid 参数
   fitViewAvoid = [60, 60, 60, 60]
   // 某些方法的执行依赖地图初始化完毕，在这里实例化一个事件对象，用于通知这些方法
-  private drawEvent = new EventTarget()
+  private drawEvent = new EventBus()
 
   constructor() {
     super()
@@ -86,7 +87,7 @@ export default class Map extends BaseElement {
       requestAnimationFrame(() => {
         this.drawMap(res)
         this.drawed = true
-        this.drawEvent.dispatchEvent(new CustomEvent(LOAD_EVENT))
+        this.drawEvent.emit(LOAD_EVENT)
       })
     })
   }
@@ -730,7 +731,9 @@ export default class Map extends BaseElement {
       complete && complete()
     } else {
       const waitForLoad = new Promise((resolve) => {
-        this.drawEvent.addEventListener(LOAD_EVENT, () => resolve(LOAD_EVENT))
+        this.drawEvent.on(LOAD_EVENT, () => {
+          resolve(LOAD_EVENT)
+        })
       })
       // 如果 map 没有初始化完成，在这里监听地图完成事件
       // 最大等待时长 1s，超出则认为失败
