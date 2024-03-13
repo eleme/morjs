@@ -19,7 +19,6 @@ import {
   posthtml,
   Runner
 } from '@morjs/utils'
-import * as webProCompiler from '/Users/gao.ghf/code-my/ali-mor/packages/plugin-compiler-web-pro'
 
 /**
  * 默认支持的 插件列表
@@ -33,8 +32,7 @@ const DEFAULT_ALL_PLUGINS = [
   taobaoCompiler,
   dingdingCompiler,
   kuaishouCompiler,
-  webCompiler,
-  webProCompiler
+  webCompiler
 ] as const
 
 /**
@@ -278,7 +276,7 @@ export const Targets = [
   taobaoCompiler.target,
   dingdingCompiler.target,
   webCompiler.target,
-  webProCompiler.target
+  'web-pro'
 ] as const
 
 // 插件中支持的所有文件类型
