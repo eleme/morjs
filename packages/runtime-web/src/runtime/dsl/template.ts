@@ -67,5 +67,3 @@ export default class TemplateManager {
     return null
   }
 }
-
-export const createTemplateManager = () => new TemplateManager()
