@@ -20,7 +20,8 @@
       "allowBranch": [
         "main",
         "beta",
-        "next"
+        "next",
+        "next-web-pro"
       ],
       "message": "chore(release): publish packages"
     }
