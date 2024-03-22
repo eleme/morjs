@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.102](https://github.com/eleme/morjs/compare/v1.0.101...v1.0.102) (2024-03-22)
+
+### Features
+
+- **plugin-compiler-web:** 开启 styleScope 时支持 class 使用三元表达式 ([aa0f938](https://github.com/eleme/morjs/commit/aa0f938ba5911e6f2f28943e77cb68c8b23096e4))
+- **plugin-compiler-web:** 条件判断支持三元表达式 ([3821094](https://github.com/eleme/morjs/commit/3821094a0a00d34751aaf9330d9e27e3a746c15e))
+- **runtime-web:** 支持动态更改 tabbar 的能力 ([2676963](https://github.com/eleme/morjs/commit/2676963a3af5fe2fa7c1ee5ca6d7459fe5f08271))
+
 ## [1.0.101](https://github.com/eleme/morjs/compare/v1.0.100...v1.0.101) (2024-02-23)
 
 ### Bug Fixes
