@@ -3,7 +3,7 @@ import { ElseIfElementNode, IfElementNode } from '../../ast/types'
 import { stripJsxExpresion } from '../../babel-helper'
 import Context from '../context'
 import { checkDataBinding } from '../error'
-import { getOptionalChainExpression } from '../utils'
+import { addBracketToIdentifier, getOptionalChainExpression } from '../utils'
 import transformElement from './index'
 
 export default function (node: IfElementNode, context: Context) {
@@ -12,7 +12,7 @@ export default function (node: IfElementNode, context: Context) {
 
   const ifExp = getOptionalChainExpression(node.expresion.getExpressionAst())
   const ifConditionalExpression = t.conditionalExpression(
-    ifExp,
+    addBracketToIdentifier(ifExp),
     stripJsxExpresion(transformElement(node.ifElement, context)),
     t.booleanLiteral(false)
   )
@@ -40,7 +40,7 @@ function elseIfElementNode(node: ElseIfElementNode, context: Context) {
 
   const ifExp = getOptionalChainExpression(node.expresion.getExpressionAst())
   return t.conditionalExpression(
-    ifExp,
+    addBracketToIdentifier(ifExp),
     stripJsxExpresion(transformElement(node.element, context)),
     t.booleanLiteral(false)
   )
