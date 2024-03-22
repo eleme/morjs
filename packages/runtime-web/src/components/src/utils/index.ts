@@ -170,3 +170,24 @@ export const requestAnimationFrame = (callback) => {
 
   return setTimeout(callback, REFRESH_INTERVAL)
 }
+
+// 获取当前页面的参数
+export function getQueryParams(url) {
+  const encodeEqual = encodeURIComponent('=')
+  // 说明url被encode过
+  if (url && url.indexOf(encodeEqual) >= 0 && url.indexOf('=') < 0) {
+    url = decodeURIComponent(url)
+  }
+
+  const params = {}
+  if (url.indexOf('?') !== -1) {
+    const str = url.substr(url.indexOf('?') + 1)
+    const strArr = str.split('&')
+    for (let i = 0; i < strArr.length; i++) {
+      params[strArr[i].split('=')[0]] = decodeURIComponent(
+        strArr[i].split('=')[1]
+      )
+    }
+  }
+  return params
+}
