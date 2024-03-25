@@ -232,7 +232,9 @@ export class CSSClassNameCompressPlugin implements Plugin {
           if (!node.attrs[attr]) continue
           if ((node.attrs[attr] as unknown as boolean) === true) continue
 
-          const names = ((node.attrs[attr] || '') as string).trim().split(' ')
+          const names = this.splitBySpaceAndBraces(
+            ((node.attrs[attr] || '') as string).trim()
+          )
           const newNames: string[] = []
 
           // 遍历并替换
@@ -301,6 +303,39 @@ export class CSSClassNameCompressPlugin implements Plugin {
     })
   }
 
+  /**
+   * 根据空格和大括号将输入字符串分割成数组。
+   * @param {string} input - 待分割的字符串。
+   * @returns {string[]} 分割后的字符串数组。
+   */
+  splitBySpaceAndBraces(input) {
+    // 正则表达式，匹配 {{}} 或者空格
+    const regex = /{{.*?}}|\s+/g
+    let match
+    let lastIndex = 0
+    const result = []
+
+    // 循环匹配正则表达式
+    while ((match = regex.exec(input)) !== null) {
+      // 如果匹配到的不是空格，且不是字符串的开始位置，则将之前的字符串加入结果数组
+      if (match.index > lastIndex) {
+        result.push(input.slice(lastIndex, match.index))
+      }
+      // 如果匹配到的是 {{}}，则将其加入结果数组
+      if (match[0].startsWith('{{')) {
+        result.push(match[0])
+      }
+      // 更新上次匹配的最后位置
+      lastIndex = match.index + match[0].length
+    }
+
+    // 如果最后一个匹配后还有剩余的字符串，将其加入结果数组
+    if (lastIndex < input.length) {
+      result.push(input.slice(lastIndex))
+    }
+
+    return result
+  }
   /**
    * 从已知的 axml 文件列表中查找可以处理的
    */
