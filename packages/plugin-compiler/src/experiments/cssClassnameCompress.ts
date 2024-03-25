@@ -397,7 +397,7 @@ export class CSSClassNameCompressPlugin implements Plugin {
     if (this.excludeRegexp && this.excludeRegexp.test(filePath)) return false
 
     // 检查是否符合路径要求
-    if (this.includeRegexp && this.includeRegexp.test(filePath)) return true
+    if (this.includeRegexp && !this.includeRegexp.test(filePath)) return false
 
     // 如果 axml 为内容，则 acss 应该也不应该由内容，此处不处理
     if (!fileContent) return false
