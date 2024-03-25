@@ -92,7 +92,8 @@ export class CSSClassNameCompressPlugin implements Plugin {
     include: [],
     exclude: [],
     except: [],
-    alphabet: ''
+    alphabet: '',
+    disableDynamicClassDetection: false
   }
 
   hasClassNameFilter: boolean
@@ -402,8 +403,21 @@ export class CSSClassNameCompressPlugin implements Plugin {
     // 如果 axml 为内容，则 acss 应该也不应该由内容，此处不处理
     if (!fileContent) return false
 
+    const dynamicClassDetection = () =>
+      !this.dynamicClassRegExp.test(fileContent)
+    const { disableDynamicClassDetection } = this.options
+    // 是否配置跳过动态类名检测，如果配置了，判断值类型进行正确处理
+    if (disableDynamicClassDetection) {
+      if (typeof disableDynamicClassDetection === 'function') {
+        const result = disableDynamicClassDetection(filePath)
+        // 返回 false，代表仍然需要检测内容中是否存在动态类名情况
+        if (!result) return dynamicClassDetection()
+      }
+
+      return true
+    }
     // 检查文件中是否包含动态的 class 拼接
-    return !this.dynamicClassRegExp.test(fileContent)
+    return dynamicClassDetection()
   }
 
   /**

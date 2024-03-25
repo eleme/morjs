@@ -783,6 +783,14 @@ export const CompilerCliConfig: ICliConfig = {
             desc: '支持配置自定义函数, 返回 true 代表可以重命名, false 代表不可以重命名'
           },
 
+          // 动态类名检测关闭逻辑，支持自定义函数 或 boolean，返回 true 表明即使模版中存在动态绑定 class，仍然对当前模板进行类名压缩
+          // 返回 false 表明走默认的存在动态绑定 class 不压缩的逻辑
+          // (filePath: string) => boolean
+          disableDynamicClassDetection: {
+            name: '关闭动态类名检测',
+            desc: '支持布尔值和支持配置自定义函数。如果设置为函数，返回 true 代表存在动态类名绑定时可以走类名压缩， 返回 false 表明走默认的存在动态绑定 class 不压缩的逻辑'
+          },
+
           // 处理完成回调, 可获取 类名映射
           // (classNameMappings: Map<string, string>) => void
           success: {
@@ -817,6 +825,12 @@ const compressCssClassNameSchema = z
       .function()
       .args(z.string(), z.string())
       .returns(z.boolean())
+      .optional(),
+    disableDynamicClassDetection: z
+      .function()
+      .args(z.string())
+      .returns(z.boolean())
+      .or(z.boolean())
       .optional(),
     success: z
       .function()
