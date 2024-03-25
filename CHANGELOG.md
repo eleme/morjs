@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.103](https://github.com/eleme/morjs/compare/v1.0.102...v1.0.103) (2024-03-25)
+
+### Features
+
+- **plugin-compiler-baidu:** 移除 type 检测的 warning 提示 ([148c9fe](https://github.com/eleme/morjs/commit/148c9fe16119434ba722827a2546bccc619f923e))
+- **plugin-compiler:** 优化类名拆分逻辑 ([f518e98](https://github.com/eleme/morjs/commit/f518e9848be7348c6a9e0be7495f9870c8c3a765))
+- **plugin-compiler:** 优化去除文件路径后缀逻辑 ([5d30d0e](https://github.com/eleme/morjs/commit/5d30d0e8769914d772edb26a0c788cdcdc0eb688))
+- **plugin-compiler:** 增加 disableDynamicClassDetection 参数，用于配置是否需要跳过动态 class 类名检测 ([6abc138](https://github.com/eleme/morjs/commit/6abc138c7e3dd10f405bd2bb35ac034e5e8a4520))
+
 ## [1.0.102](https://github.com/eleme/morjs/compare/v1.0.101...v1.0.102) (2024-03-22)
 
 ### Features

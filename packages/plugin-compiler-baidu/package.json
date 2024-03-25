@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-baidu",
-  "version": "1.0.95",
+  "version": "1.0.103",
   "description": "mor complier plugin for baidu miniprogram",
   "keywords": [
     "mor",

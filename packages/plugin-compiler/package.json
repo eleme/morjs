@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler",
-  "version": "1.0.102",
+  "version": "1.0.103",
   "description": "mor compiler plugin",
   "keywords": [
     "mor",
@@ -31,7 +31,7 @@
   "dependencies": {
     "@morjs/api": "1.0.69",
     "@morjs/plugin-compiler-alipay": "1.0.95",
-    "@morjs/plugin-compiler-baidu": "1.0.95",
+    "@morjs/plugin-compiler-baidu": "1.0.103",
     "@morjs/plugin-compiler-bytedance": "1.0.95",
     "@morjs/plugin-compiler-dingding": "1.0.95",
     "@morjs/plugin-compiler-kuaishou": "1.0.95",
