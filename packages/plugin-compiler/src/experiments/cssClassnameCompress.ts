@@ -8,6 +8,7 @@ import {
   WebpackWrapper
 } from '@morjs/utils'
 import { customAlphabet } from 'nanoid'
+import path from 'path'
 import parser from 'postcss-selector-parser'
 import { CompilerUserConfig, COMPILE_COMMAND_NAME } from '../constants'
 
@@ -352,12 +353,24 @@ export class CSSClassNameCompressPlugin implements Plugin {
   }
 
   /**
+   * 去除文件路径的后缀
+   * @param {string} filePath - 要处理的文件路径
+   * @returns {string} 去除后缀的文件路径
+   */
+  removeExtension(filePath) {
+    // 使用 path.parse() 解析文件路径
+    const parsedPath = path.parse(filePath)
+    // 返回去除后缀的路径，它由目录和文件名组成
+    return path.join(parsedPath.dir, parsedPath.name)
+  }
+
+  /**
    * 检查文件是否有效
    * @param {string} filePath 文件路径
    */
   checkFileValid(filePath: string = ''): boolean {
     if (!filePath) return false
-    return this.validFiles.has(filePath.split('.')[0])
+    return this.validFiles.has(this.removeExtension(filePath))
   }
 
   /**
@@ -368,7 +381,7 @@ export class CSSClassNameCompressPlugin implements Plugin {
   tryAddFile(filePath: string, fileContent: string): void {
     if (this.checkFileBeforeAdd(filePath, fileContent)) {
       // 不保存文件后缀名，用于同时支持判断 多种文件类型
-      this.validFiles.add(filePath.split('.')[0])
+      this.validFiles.add(this.removeExtension(filePath))
     }
   }
 
