@@ -9,6 +9,9 @@ import eventConvert from './event-convert'
 import { combineValue, mergeExecution } from './utils/common'
 import { catchComponentMethodsError } from './utils/errorHandler'
 import { mountIntersectionObserver } from './utils/instanceApi'
+import cacheMap from './utils/cacheMap'
+
+const OWNER_PROPS_NAME = '__oid__';
 
 let componetLastId = 0
 
@@ -82,6 +85,9 @@ export class KBComponent extends React.PureComponent<any, IState> {
       */
       this.componentWillReceiveProps = undefined
     }
+
+    // 如果有值，说明当前元素有子元素，将当前组件实例推入缓存，方面后续子组件通过 id 获取
+    if (options.ownerComponentId) cacheMap.set(options.ownerComponentId, this.componentConfig)
   }
 
   forceResetConfig(componentConfig) {
@@ -209,6 +215,18 @@ export class KBComponent extends React.PureComponent<any, IState> {
 
     this.componentConfig.createIntersectionObserver = (options) => {
       return mountIntersectionObserver(options, this.getRoot())
+    }
+
+    if (this.options.isComponent) {
+      this.componentConfig.selectOwnerComponent = () => {
+        const { props } = this.componentConfig
+        if (props && props[OWNER_PROPS_NAME]) {
+          const instance = cacheMap.get(props[OWNER_PROPS_NAME])
+          if (instance) return instance;
+        }
+  
+        console.warn(`selectOwnerComponent: 未获取到当前元素的父元素实例，请确认当前是否开启 web.appConfig.apis.enableSelectOwnerComponent`);
+      }
     }
 
     this.updatePageConfig()
@@ -448,6 +466,9 @@ export class KBComponent extends React.PureComponent<any, IState> {
     ;(this.state as IState).cachePrePropsAction = {}
     this.cachePreDataAction = {}
     this.updateDataQueue = []
+
+    // 如果之前将当前实例推到了缓存中，在组件销毁的时候，应该将组件移除
+    if (this.options.ownerComponentId) cacheMap.delete(this.options.ownerComponentId)
     this.didUnmount()
   }
 
