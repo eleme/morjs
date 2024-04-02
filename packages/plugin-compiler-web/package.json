@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-web",
-  "version": "1.0.104",
+  "version": "1.0.105",
   "description": "mor complier plugin for web",
   "keywords": [
     "mor",

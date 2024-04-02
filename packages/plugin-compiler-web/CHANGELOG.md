@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.105](https://github.com/eleme/morjs/compare/v1.0.104...v1.0.105) (2024-04-02)
+
+
+### Bug Fixes
+
+* **plugin-compiler-web:** 修复编译报错问题 ([3aac27b](https://github.com/eleme/morjs/commit/3aac27ba8d01e160d8b318a505bb3be5c9237bdf))
+
+
+
+
+
 ## [1.0.104](https://github.com/eleme/morjs/compare/v1.0.103...v1.0.104) (2024-04-02)
 
 
