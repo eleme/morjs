@@ -99,7 +99,7 @@ export class InnerAudio {
       EVENTS.TIMEUPDATE,
       EVENTS.ERROR
     ]
-    const stopHoldOnEvents = [EVENTS.PAUSE, EVENTS.SEEKED, EVENTS.SEEKING] // 用户 stop 时为了模拟 stop 事件，屏蔽这几个事件的触发，防止用户业务误处理
+    const stopHoldOnEvents = [EVENTS.PAUSE, EVENTS.SEEKED, EVENTS.SEEKING] // 为了模拟 stop 事件，屏蔽这几个事件的触发，防止用户业务误处理
 
     listenEvents.forEach((event) =>
       this.audio.addEventListener(event, (e) => {
@@ -130,7 +130,7 @@ export class InnerAudio {
 
     setTimeout(() => {
       this._executeCallbacks(this.callbacksMap[EVENTS.STOP]) // 手动触发 stop 事件
-      this.stopHoldOn = true // 在下一帧中重置，因为事件是异步触发的
+      this.stopHoldOn = false // 在下一帧中重置，因为事件是异步触发的
     }, 0)
   }
 
