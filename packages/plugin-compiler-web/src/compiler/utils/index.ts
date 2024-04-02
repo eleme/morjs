@@ -21,7 +21,7 @@ export function isEnableStyleScope(options: BuildOptions) {
   return options.appConfig.styleScope || options.styleScope
 }
 
-export function isEnableSelectOwnerComponent(options: BuildOptions) {
+export function isEnableSelectOwnerComponent(options) {
   if (
     options.userConfig &&
     options.userConfig.web &&

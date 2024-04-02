@@ -1,14 +1,6 @@
-import { defaults, EVENTS, removeValue } from './helper'
+import { AudioParams, defaults, EVENTS, removeValue } from './helper'
 
-// Audio 参数 https://opendocs.alipay.com/mini/08iqsg?pathHash=d97ea89d#%E6%A6%82%E8%A7%88
-export interface AudioParams {
-  src?: string
-  startTime?: number
-  playbackRate?: number
-  autoplay?: boolean
-  loop?: boolean
-  volume?: number
-}
+export { AudioParams } from './helper'
 
 export class InnerAudio {
   private params: AudioParams
@@ -83,7 +75,7 @@ export class InnerAudio {
     return this.audio.playbackRate
   }
 
-  private _executeCallbacks(callbacks, params) {
+  private _executeCallbacks(callbacks, params?) {
     if (Array.isArray(callbacks) && callbacks.length > 0) {
       callbacks.forEach((callback) => callback(params))
     }

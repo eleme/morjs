@@ -1,3 +1,13 @@
+// Audio 参数 https://opendocs.alipay.com/mini/08iqsg?pathHash=d97ea89d#%E6%A6%82%E8%A7%88
+export interface AudioParams {
+  src?: string
+  startTime?: number
+  playbackRate?: number
+  autoplay?: boolean
+  loop?: boolean
+  volume?: number
+}
+
 export const defaults = (params: AudioParams) => {
   const defaultParams: AudioParams = {
     startTime: 0,
