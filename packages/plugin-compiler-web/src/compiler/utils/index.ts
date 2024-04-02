@@ -28,8 +28,8 @@ export function isEnableSelectOwnerComponent(options: BuildOptions) {
     options.userConfig.web.appConfig &&
     typeof options.userConfig.web.appConfig.apis === 'object'
   ) {
+    return !!options.userConfig.web.appConfig.apis.enableSelectOwnerComponent
   }
-  return !!options.userConfig.web.appConfig.apis.enableSelectOwnerComponent
 
   return false
 }
