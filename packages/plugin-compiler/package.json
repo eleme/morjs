@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler",
-  "version": "1.0.103",
+  "version": "1.0.104",
   "description": "mor compiler plugin",
   "keywords": [
     "mor",
@@ -37,7 +37,7 @@
     "@morjs/plugin-compiler-kuaishou": "1.0.95",
     "@morjs/plugin-compiler-qq": "1.0.95",
     "@morjs/plugin-compiler-taobao": "1.0.95",
-    "@morjs/plugin-compiler-web": "1.0.102",
+    "@morjs/plugin-compiler-web": "1.0.104",
     "@morjs/plugin-compiler-wechat": "1.0.95",
     "@morjs/runtime-mini": "1.0.95",
     "@morjs/utils": "1.0.71",

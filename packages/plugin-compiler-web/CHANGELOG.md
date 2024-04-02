@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.104](https://github.com/eleme/morjs/compare/v1.0.103...v1.0.104) (2024-04-02)
+
+
+### Bug Fixes
+
+* **runtime-web & plugin-compiler-web:** ts errors fixed ([f917e0d](https://github.com/eleme/morjs/commit/f917e0d4960d7b72908412d77ab060c9b8112cee))
+
+
+### Features
+
+* **plugin-compiler-web & runtime-web:** 支持 selectOwnerComponent Api ([ebbf478](https://github.com/eleme/morjs/commit/ebbf478de285f0222ca52b17723fd218667140d1))
+
+
+
+
+
 ## [1.0.102](https://github.com/eleme/morjs/compare/v1.0.101...v1.0.102) (2024-03-22)
 
 

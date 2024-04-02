@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.104](https://github.com/eleme/morjs/compare/v1.0.103...v1.0.104) (2024-04-02)
+
+### Bug Fixes
+
+- **runtime-web & plugin-compiler-web:** ts errors fixed ([f917e0d](https://github.com/eleme/morjs/commit/f917e0d4960d7b72908412d77ab060c9b8112cee))
+
+### Features
+
+- **plugin-compiler-web & runtime-web:** 支持 selectOwnerComponent Api ([ebbf478](https://github.com/eleme/morjs/commit/ebbf478de285f0222ca52b17723fd218667140d1))
+- **plugin-compiler-web & runtime-web:** add createInnerAudioContext ([78897ca](https://github.com/eleme/morjs/commit/78897ca33f0f25807e0be4b3d3246d013fcaec3c))
+- **runtime-web:** stopHoldOn 变量重置 ([8f1dcb0](https://github.com/eleme/morjs/commit/8f1dcb0fd29dc65ec514eec2df3297d7875cb9c7))
+
 ## [1.0.103](https://github.com/eleme/morjs/compare/v1.0.102...v1.0.103) (2024-03-25)
 
 ### Features
