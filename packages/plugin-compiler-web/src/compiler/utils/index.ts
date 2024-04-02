@@ -21,6 +21,19 @@ export function isEnableStyleScope(options: BuildOptions) {
   return options.appConfig.styleScope || options.styleScope
 }
 
+export function isEnableSelectOwnerComponent(options: BuildOptions) {
+  if (
+    options.userConfig &&
+    options.userConfig.web &&
+    options.userConfig.web.appConfig &&
+    typeof options.userConfig.web.appConfig.apis === 'object'
+  ) {
+  }
+  return !!options.userConfig.web.appConfig.apis.enableSelectOwnerComponent
+
+  return false
+}
+
 /**
  * 获取扩展组件
  */

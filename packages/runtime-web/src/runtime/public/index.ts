@@ -12,18 +12,16 @@ window.Component = function (options) {
 type IAxmlInfoType = {
   defaultRender: (this: Record<string, any>, data: Record<string, any>) => any
   isComplexComponents?: boolean
+  $morId?: string
 }
+const OWNER_PROPS_NAME = '$ownerId'
 
 /**
  * 组件构造函数
  * @param axmlInfo 初始化函数
  */
 export function Component(axmlInfo: IAxmlInfoType): any {
-  // if (module.hot) {
-  //   return MixinComponentForHot(componentInit || {}, render, config);
-  // } else {
   return MixinComponent(axmlInfo)
-  // }
 }
 
 function cloneInitOptions(options: Record<string, any>) {
@@ -51,7 +49,11 @@ function MixinComponent(axmlInfo: IAxmlInfoType) {
       // data 的数据 对象可以共享。 这个是支付宝的逻辑，真是奇葩。
       const cloneObj = cloneInitOptions(componentInit)
       cloneObj.data = { ...componentData }
-      super(props, cloneObj, { isComplexComponents, isComponent: true })
+      super(props, cloneObj, {
+        isComplexComponents,
+        isComponent: true,
+        ownerComponentId: axmlInfo[OWNER_PROPS_NAME]
+      })
     }
 
     override render() {
@@ -67,11 +69,7 @@ export function Page(
   axmlInfo: IAxmlInfoType,
   config: Record<string, any>
 ): any {
-  // if (module.hot) {
-  //   return MixinPageForHot(componentInit || {}, render, config)
-  // } else {
   return MixinPage(axmlInfo, config)
-  // }
 }
 window.Page = function (options) {
   window.$$options$$ = options
@@ -84,7 +82,8 @@ function MixinPage(axmlInfo: IAxmlInfoType, config: Record<string, any>) {
   return class extends PageComponent {
     constructor(props: Record<string, any>) {
       super(props, cloneInitOptions(componentInit), config, {
-        isComplexComponents
+        isComplexComponents,
+        ownerComponentId: axmlInfo[OWNER_PROPS_NAME]
       })
       // 设置标题
       window.document.title =
