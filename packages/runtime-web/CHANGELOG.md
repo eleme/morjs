@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
+
+
+### Features
+
+* **runtime-web:** rich-text 拓展属性支持 ([9ddec27](https://github.com/eleme/morjs/commit/9ddec270f705130a371f24ca768d942bedfe1546))
+
+
+
+
+
 ## [1.0.104](https://github.com/eleme/morjs/compare/v1.0.103...v1.0.104) (2024-04-02)
 
 
