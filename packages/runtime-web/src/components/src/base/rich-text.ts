@@ -81,6 +81,10 @@ const Rules = {
   tr: 1,
   ul: 1
 }
+// 维护 props => attribute 的映射
+const PROPS_MAP = {
+  className: 'class'
+}
 
 function decode(text) {
   return text.replace(/&([a-zA-Z]*?);/g, function (match, p) {
@@ -216,8 +220,13 @@ export default class RichText extends BaseElement {
 
   parseHtmlTag(tagName, props, children) {
     const element = document.createElement(tagName)
-    element.setAttribute('class', props.className || '')
-    element.setAttribute('style', props.style || '')
+    // props 已经在 getNodeProps 中做了过滤处理，所以走到这里后应该全量设置
+    const keys = Object.keys(props || {})
+    if (keys.length > 0) {
+      keys.forEach((key) => {
+        element.setAttribute(PROPS_MAP[key] || key, props[key])
+      })
+    }
 
     if (!children) return element
 
