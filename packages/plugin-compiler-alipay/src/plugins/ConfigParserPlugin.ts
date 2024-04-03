@@ -167,7 +167,8 @@ const TAB_BAR_RULES_TO_OTHER = {
         transform(item, TAB_BAR_ITEM_RULES_TO_OTHER, options)
       )
     }
-  }
+  },
+  customize: 'custom'
 } as TransformRules
 
 const APP_RULES_TO_OTHER = {
@@ -246,7 +247,8 @@ const TAB_BAR_RULES_TO_ALIPAY = {
         transform(item, TAB_BAR_ITEM_RULES_TO_ALIPAY, options)
       )
     }
-  }
+  },
+  custom: 'customize'
 } as TransformRules
 
 // 支付宝分包配置兼容转换
