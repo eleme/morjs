@@ -1,6 +1,6 @@
 {
   "name": "@morjs/cli",
-  "version": "1.0.106",
+  "version": "1.0.107",
   "description": "mor cli",
   "keywords": [
     "mor",
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@morjs/plugin-analyzer": "1.0.71",
-    "@morjs/plugin-compiler": "1.0.106",
+    "@morjs/plugin-compiler": "1.0.107",
     "@morjs/plugin-composer": "1.0.72",
     "@morjs/plugin-generator": "1.0.71",
     "@morjs/plugin-mocker": "1.0.71",

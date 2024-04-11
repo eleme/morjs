@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.107](https://github.com/eleme/morjs/compare/v1.0.106...v1.0.107) (2024-04-11)
+
+
+### Features
+
+* **plugin-compiler:** css 压缩时支持更多动态绑定场景 ([b7ba407](https://github.com/eleme/morjs/commit/b7ba407f59989d48e9283bfeda77a2186cc80a2e))
+
+
+
+
+
 ## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
 
 **Note:** Version bump only for package @morjs/plugin-compiler
