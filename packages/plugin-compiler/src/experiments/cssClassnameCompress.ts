@@ -28,6 +28,9 @@ const DEFAULT_ALPHABET =
 const SAFE_DEFAULT_ALPHABET =
   'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
+// 微信场景支持使用 ~ 或者 ^ 使用父组件的样式（https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html）
+const SPECIAL_PREFIX = ['^', '~']
+
 /**
  * CSS 类名压缩功能
  *
@@ -116,7 +119,7 @@ export class CSSClassNameCompressPlugin implements Plugin {
   dynamicClassRegExp: RegExp
 
   // （用于 template，css 中动态绑定提取，颗粒度更细）template 模板动态 class 绑定检测正则
-  dynamicClassRegExpGrained = /\s*(\w+)?\{{.*?}}(\w+)?\s*/gi
+  dynamicClassRegExpGrained = /\s*(\w+)?{{.*?}}(\w+)?\s*/gi
 
   // 自定义属性名称
   customClassAttrs: string[]
@@ -221,6 +224,14 @@ export class CSSClassNameCompressPlugin implements Plugin {
    * 处理所有的 xml 文件
    */
   processAllXmlFiles() {
+    const getClassName = (name): string[] => {
+      const result = (name || '').trim()
+      // name 以 ^ 或者 ~ 开头，做特殊处理
+      if (~SPECIAL_PREFIX.indexOf(result[0]))
+        return [result.slice(1), result[0]]
+
+      return [result]
+    }
     // 替换 xml 中的 className
     this.runner.hooks.templateParser.tap(this.name, (tree, options) => {
       const { fileInfo } = options
@@ -243,14 +254,18 @@ export class CSSClassNameCompressPlugin implements Plugin {
           const newNames: string[] = []
 
           // 遍历并替换
-          names.map((name) => {
-            name = (name || '').trim()
+          names.map((n) => {
+            const [name, prefix] = getClassName(n)
             if (!name) return
-            newNames.push(
-              this.fetchOrGenerateShortClassName(name, fileInfo.path)
+            const shortClassName = this.fetchOrGenerateShortClassName(
+              name,
+              fileInfo.path
             )
+
+            newNames.push(prefix ? prefix + shortClassName : shortClassName)
           })
 
+          console.log('++names', names, newNames)
           // 替换属性值
           node.attrs[attr] = newNames.join(' ')
         }
@@ -319,12 +334,13 @@ export class CSSClassNameCompressPlugin implements Plugin {
     let match
     let lastIndex = 0
     const result = []
+    const splitBySpace = (param) => param.split(/(?<=\S)\s/gi)
 
     // 循环匹配正则表达式
     while ((match = regex.exec(input)) !== null) {
       // 如果匹配到的不是空格，且不是字符串的开始位置，则将之前的字符串加入结果数组
       if (match.index > lastIndex) {
-        result.push(input.slice(lastIndex, match.index))
+        result.push(...splitBySpace(input.slice(lastIndex, match.index)))
       }
       // 如果匹配到的是 {{}}，则将其加入结果数组
       if (match[0].includes('{{')) {
@@ -336,7 +352,7 @@ export class CSSClassNameCompressPlugin implements Plugin {
 
     // 如果最后一个匹配后还有剩余的字符串，将其加入结果数组
     if (lastIndex < input.length) {
-      result.push(input.slice(lastIndex))
+      result.push(...splitBySpace(input.slice(lastIndex)))
     }
 
     return result
