@@ -265,7 +265,6 @@ export class CSSClassNameCompressPlugin implements Plugin {
             newNames.push(prefix ? prefix + shortClassName : shortClassName)
           })
 
-          console.log('++names', names, newNames)
           // 替换属性值
           node.attrs[attr] = newNames.join(' ')
         }
