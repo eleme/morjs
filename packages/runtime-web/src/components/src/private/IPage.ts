@@ -51,3 +51,8 @@ export interface IPageHost {
 
   stopPullDownRefresh()
 }
+
+export interface NavConfig {
+  statusBarHeight?: number | string
+  titleBarHeight?: number | string
+}
