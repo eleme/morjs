@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.108](https://github.com/eleme/morjs/compare/v1.0.107...v1.0.108) (2024-04-15)
+
+
+### Features
+
+* **plugin-compiler:** 支持微信特殊类名用法 ([bd161bf](https://github.com/eleme/morjs/commit/bd161bfd6176851ba2a3d51b615e472dc172c09b))
+* **plugin-compiler:** 支持微信特殊类名用法 ([8a6173a](https://github.com/eleme/morjs/commit/8a6173a25de86a387faf06ba6335ba5bdb89c6de))
+
+
+
+
+
 ## [1.0.107](https://github.com/eleme/morjs/compare/v1.0.106...v1.0.107) (2024-04-11)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.108](https://github.com/eleme/morjs/compare/v1.0.107...v1.0.108) (2024-04-15)
+
+
+### Features
+
+* **plugin-compiler-web & runtime-web:** 动态支持更改导航栏&状态栏的高度 ([1356488](https://github.com/eleme/morjs/commit/135648845d63e50698309a110783f633499cf00b))
+
+
+
+
+
 ## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
 
 
