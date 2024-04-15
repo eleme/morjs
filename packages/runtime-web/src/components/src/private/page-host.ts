@@ -12,7 +12,9 @@ import {
   converterForPx,
   defineElement,
   getCurrentPageParams,
+  getNav,
   getPageConfig,
+  isUndefined,
   shouldEnableFor
 } from '../utils'
 import boolConverter from '../utils/bool-converter'
@@ -101,12 +103,12 @@ export default class PageHost extends LitElement implements IPageHost {
   @property({
     converter: converterForPx
   })
-  ['title-bar-height'] = defaultTitleBarHeight;
+  ['title-bar-height']: string | number = defaultTitleBarHeight;
 
   @property({
     converter: converterForPx
   })
-  ['status-bar-height'] = defaultStatusBarHeight
+  ['status-bar-height']: string | number = defaultStatusBarHeight
 
   /**
    * 注意释放
@@ -400,6 +402,25 @@ export default class PageHost extends LitElement implements IPageHost {
         pageOptions
       )
       if (typeof enableShowBack === 'boolean') showBack = enableShowBack
+    } catch (e) {}
+
+    try {
+      // 处理业务自定义导航栏高度
+      const navConfig = get(window.$MOR_APP_CONFIG, 'nav', {})
+      const navResult: Record<string, any> = getNav(
+        navConfig,
+        pagePath,
+        pageOptions
+      )
+
+      if (!isUndefined(navResult.statusBarHeight))
+        this['status-bar-height'] = converterForPx.fromAttribute(
+          navResult.statusBarHeight
+        )
+      if (!isUndefined(navResult.titleBarHeight))
+        this['title-bar-height'] = converterForPx.fromAttribute(
+          navResult.titleBarHeight
+        )
     } catch (e) {}
 
     if (!showHeader) return ''
