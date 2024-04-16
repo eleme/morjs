@@ -335,6 +335,7 @@ export class CSSClassNameCompressPlugin implements Plugin {
     const result = []
     const splitBySpace = (param) => param.split(/(?<=\S)\s/gi)
 
+    regex.lastIndex = 0 // 重置 lastIndex, 否则某些场景会导致匹配值异常
     // 循环匹配正则表达式
     while ((match = regex.exec(input)) !== null) {
       // 如果匹配到的不是空格，且不是字符串的开始位置，则将之前的字符串加入结果数组
