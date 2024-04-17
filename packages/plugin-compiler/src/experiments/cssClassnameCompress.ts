@@ -119,7 +119,7 @@ export class CSSClassNameCompressPlugin implements Plugin {
   dynamicClassRegExp: RegExp
 
   // （用于 template，css 中动态绑定提取，颗粒度更细）template 模板动态 class 绑定检测正则
-  dynamicClassRegExpGrained = /\s*(\w+)?{{.*?}}(\w+)?\s*/gi
+  dynamicClassRegExpGrained = /\s*(\S+)?({{.*?}})+(\S+)?\s*/gi
 
   // 自定义属性名称
   customClassAttrs: string[]
