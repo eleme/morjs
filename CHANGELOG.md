@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.109](https://github.com/eleme/morjs/compare/v1.0.108...v1.0.109) (2024-04-18)
+
+### Bug Fixes
+
+- **plugin-compiler:** css 压缩校验类名时重置正则 lastIndex，解决部分场景匹配异常问题 ([7718d53](https://github.com/eleme/morjs/commit/7718d538b65e8e16fba787d6359be6b4f38f915a))
+- **plugin-compiler:** css 压缩校验类名时重置正则 lastIndex，解决部分场景匹配异常问题 ([094ad4c](https://github.com/eleme/morjs/commit/094ad4cb677ba861ba4d67a9f0fd9e05acdd9fdb))
+- **plugin-compiler:** css 压缩支持以 - 链接，支持一个以上变量表达式并排 ([2f873ad](https://github.com/eleme/morjs/commit/2f873ad26042104353dffed712db6b06181f966f))
+
 ## [1.0.108](https://github.com/eleme/morjs/compare/v1.0.107...v1.0.108) (2024-04-15)
 
 ### Features
