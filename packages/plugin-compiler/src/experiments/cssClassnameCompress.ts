@@ -119,7 +119,7 @@ export class CSSClassNameCompressPlugin implements Plugin {
   dynamicClassRegExp: RegExp
 
   // （用于 template，css 中动态绑定提取，颗粒度更细）template 模板动态 class 绑定检测正则
-  dynamicClassRegExpGrained = /\s*(\w+)?{{.*?}}(\w+)?\s*/gi
+  dynamicClassRegExpGrained = /\s*(\S+)?({{.*?}})+(\S+)?\s*/gi
 
   // 自定义属性名称
   customClassAttrs: string[]
@@ -329,7 +329,7 @@ export class CSSClassNameCompressPlugin implements Plugin {
    */
   splitBySpaceAndBraces(input) {
     // 正则表达式，匹配 {{}} 或者空格
-    const regex = this.dynamicClassRegExpGrained
+    const regex = new RegExp(this.dynamicClassRegExpGrained)
     let match
     let lastIndex = 0
     const result = []
@@ -341,6 +341,7 @@ export class CSSClassNameCompressPlugin implements Plugin {
       if (match.index > lastIndex) {
         result.push(...splitBySpace(input.slice(lastIndex, match.index)))
       }
+
       // 如果匹配到的是 {{}}，则将其加入结果数组
       if (match[0].includes('{{')) {
         result.push(match[0])
@@ -459,7 +460,8 @@ export class CSSClassNameCompressPlugin implements Plugin {
 
     // 如果开启跳过动态 class 检测，在 template 模板中遇到遇到动态 class 直接跳过（内置，降低业务配置成本）
     if (this.options.disableDynamicClassDetection) {
-      if (this.dynamicClassRegExpGrained.test(className)) return className
+      if (new RegExp(this.dynamicClassRegExpGrained).test(className))
+        return className
     }
     // 如果存在类名过滤器，则如果返回结果为 false 则不压缩
     if (
