@@ -494,7 +494,8 @@ export class ScriptParserPlugin implements Plugin {
 
     function visitor(node: ts.Node, ctx: ts.TransformationContext) {
       const factory = ctx.factory
-      const isReturnStatement = ts.isReturnStatement(node)
+      // 判断  statement 的同时，要判断一下  node.expression 是否存在，如果业务上返回的不是一个 expression，调用 ts.isCallExpression 会报错
+      const isReturnStatement = ts.isReturnStatement(node) && node.expression
 
       // FIXME: 这里的条件无法匹配
       // 箭头函数（ArrowFunction）
@@ -538,7 +539,10 @@ export class ScriptParserPlugin implements Plugin {
 
           return isReturnStatement
             ? factory.updateReturnStatement(node, updateExpression)
-            : factory.updateExpressionStatement(node, updateExpression)
+            : factory.updateExpressionStatement(
+                node as ts.ExpressionStatement,
+                updateExpression
+              )
         }
       }
 
