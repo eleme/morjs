@@ -75,6 +75,8 @@ export class Tabbar extends BaseElement {
         const items = updateTabBarConfig(this.conf.items || [], query)
 
         if (Array.isArray(items)) this.conf.items = items
+      }else if(!Array.isArray(this.conf.items)&&Array.isArray(this.conf.list)){
+        this.conf.items=this.conf.list;
       }
     }
   }
