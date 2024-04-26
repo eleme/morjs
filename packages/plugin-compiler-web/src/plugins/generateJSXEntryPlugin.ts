@@ -15,6 +15,7 @@ import {
   WebCompilerUserConfig,
   WEB_RUNTIMES
 } from '../constants'
+import { getValueByOrder } from '../utils'
 
 // Web 的运行时配置，主要用于指定路由和 tabBar 等
 interface WebRuntimeConfig {
@@ -290,24 +291,51 @@ export class GenerateJSXEntryPlugin implements Plugin {
 
       // 设置底部导航栏
       if (appJson.tabBar) {
+        const initializeTabItem = (list) => {
+          return list.map((item) => {
+            const resItem = {}
+
+            const withLeadingSlashItem = {
+              activeIcon: getValueByOrder(item, [
+                'activeIcon',
+                'selectedIconPath'
+              ]),
+              icon: getValueByOrder(item, ['icon', 'iconPath']),
+              pagePath: getValueByOrder(item, ['pagePath'])
+            }
+            const commonItem = {
+              name: getValueByOrder(item, ['name', 'text'])
+            }
+
+            Object.keys(withLeadingSlashItem).map((key) => {
+              const value = withLeadingSlashItem[key]
+              if (value) resItem[key] = addLeadingSlash(value)
+            })
+
+            Object.keys(commonItem).map((key) => {
+              const value = commonItem[key]
+              if (value) resItem[key] = value
+            })
+
+            return resItem
+          })
+        }
+
+        // 默认文字颜色
+        const textColor = getValueByOrder(appJson.tabBar, [
+          'textColor',
+          'color'
+        ])
+        if (textColor) appJson.tabBar.textColor = textColor
+
         // 修复 items 中的路径问题
         if (appJson.tabBar.items) {
-          ;(appJson.tabBar as WebRuntimeConfig['tabBar']).items.map((item) => {
-            if (item.activeIcon || item.selectedIconPath) {
-              item.activeIcon = addLeadingSlash(
-                item.activeIcon || item.selectedIconPath
-              )
-            }
-            if (item.icon || item.iconPath) {
-              item.icon = addLeadingSlash(item.icon || item.iconPath)
-            }
-            if (item.pagePath) {
-              item.pagePath = addLeadingSlash(item.pagePath)
-            }
-            if (item.name || item.text) {
-              item.name = item.name || item.text
-            }
-          })
+          appJson.tabBar.items = initializeTabItem(appJson.tabBar.items)
+        } else if (appJson.tabBar.list) {
+          // 兼容微信转 web 使用场景
+          const items = appJson.tabBar.list
+          delete appJson.tabBar.list
+          appJson.tabBar.items = initializeTabItem(items)
         }
 
         webRuntimeConfig.tabBar = appJson.tabBar
