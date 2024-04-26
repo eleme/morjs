@@ -13,3 +13,19 @@ export function getRelativePath(path) {
 export const isObject = (param) => {
   return Object.prototype.toString.call(param) === '[object Object]'
 }
+
+export const getValueByOrder = (obj, props) => {
+  if (!isObject(obj)) return
+  const { length } = props
+  let result
+
+  for (let i = 0; i < length; i++) {
+    const prop = props[i]
+    if (obj[prop]) {
+      result = obj[prop]
+      break
+    }
+  }
+
+  return result
+}
