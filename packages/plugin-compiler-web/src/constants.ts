@@ -163,6 +163,10 @@ export const UserConfigSchema = z.object({
       appConfig: z
         .object({
           /**
+           * 用于将样式文件中 @import 样式的内容写入到样式文件中
+           */
+          enableCombineImportStyles: z.boolean().default(false),
+          /**
            * 用于传递业务对某个组件的特殊配置, 比如 map 组件传递 key
            */
           components: z.record(z.any()).optional(),

@@ -34,6 +34,7 @@
     "@morjs/plugin-compiler-alipay": "1.0.106",
     "@morjs/runtime-web": "1.0.108",
     "@morjs/utils": "1.0.71",
-    "postcss": "7.0.39"
+    "postcss": "7.0.39",
+    "postcss-import-sync": "7.1.4"
   }
 }
