@@ -3,6 +3,72 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.109](https://github.com/eleme/morjs/compare/v1.0.108...v1.0.109) (2024-04-18)
+
+### Bug Fixes
+
+- **plugin-compiler:** css 压缩校验类名时重置正则 lastIndex，解决部分场景匹配异常问题 ([7718d53](https://github.com/eleme/morjs/commit/7718d538b65e8e16fba787d6359be6b4f38f915a))
+- **plugin-compiler:** css 压缩校验类名时重置正则 lastIndex，解决部分场景匹配异常问题 ([094ad4c](https://github.com/eleme/morjs/commit/094ad4cb677ba861ba4d67a9f0fd9e05acdd9fdb))
+- **plugin-compiler:** css 压缩支持以 - 链接，支持一个以上变量表达式并排 ([2f873ad](https://github.com/eleme/morjs/commit/2f873ad26042104353dffed712db6b06181f966f))
+
+## [1.0.108](https://github.com/eleme/morjs/compare/v1.0.107...v1.0.108) (2024-04-15)
+
+### Features
+
+- **plugin-compiler-web & runtime-web:** 动态支持更改导航栏&状态栏的高度 ([1356488](https://github.com/eleme/morjs/commit/135648845d63e50698309a110783f633499cf00b))
+- **plugin-compiler:** 支持微信特殊类名用法 ([bd161bf](https://github.com/eleme/morjs/commit/bd161bfd6176851ba2a3d51b615e472dc172c09b))
+- **plugin-compiler:** 支持微信特殊类名用法 ([8a6173a](https://github.com/eleme/morjs/commit/8a6173a25de86a387faf06ba6335ba5bdb89c6de))
+
+## [1.0.107](https://github.com/eleme/morjs/compare/v1.0.106...v1.0.107) (2024-04-11)
+
+### Features
+
+- **plugin-compiler:** css 压缩时支持更多动态绑定场景 ([b7ba407](https://github.com/eleme/morjs/commit/b7ba407f59989d48e9283bfeda77a2186cc80a2e))
+
+## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
+
+### Features
+
+- **plugin-compiler-alipay:** 根据编译目标做自定义 tabbar 组件目录变更 ([057189b](https://github.com/eleme/morjs/commit/057189bbdd196178968cc717f18e01bfaecf1b9b))
+- **plugin-compiler-alipay:** 小程序自定义 tabBar 属性映射 ([df9af25](https://github.com/eleme/morjs/commit/df9af25312cb6c2a2985651712e5cded26dda860))
+- **runtime-mini:** 解除 getTabBar 方法的不支持标记 ([d8b9059](https://github.com/eleme/morjs/commit/d8b905983b35ae2480d89c15a6eb469e65a69555))
+- **runtime-web:** rich-text 拓展属性支持 ([9ddec27](https://github.com/eleme/morjs/commit/9ddec270f705130a371f24ca768d942bedfe1546))
+
+## [1.0.105](https://github.com/eleme/morjs/compare/v1.0.104...v1.0.105) (2024-04-02)
+
+### Bug Fixes
+
+- **plugin-compiler-web:** 修复编译报错问题 ([3aac27b](https://github.com/eleme/morjs/commit/3aac27ba8d01e160d8b318a505bb3be5c9237bdf))
+
+## [1.0.104](https://github.com/eleme/morjs/compare/v1.0.103...v1.0.104) (2024-04-02)
+
+### Bug Fixes
+
+- **runtime-web & plugin-compiler-web:** ts errors fixed ([f917e0d](https://github.com/eleme/morjs/commit/f917e0d4960d7b72908412d77ab060c9b8112cee))
+
+### Features
+
+- **plugin-compiler-web & runtime-web:** 支持 selectOwnerComponent Api ([ebbf478](https://github.com/eleme/morjs/commit/ebbf478de285f0222ca52b17723fd218667140d1))
+- **plugin-compiler-web & runtime-web:** add createInnerAudioContext ([78897ca](https://github.com/eleme/morjs/commit/78897ca33f0f25807e0be4b3d3246d013fcaec3c))
+- **runtime-web:** stopHoldOn 变量重置 ([8f1dcb0](https://github.com/eleme/morjs/commit/8f1dcb0fd29dc65ec514eec2df3297d7875cb9c7))
+
+## [1.0.103](https://github.com/eleme/morjs/compare/v1.0.102...v1.0.103) (2024-03-25)
+
+### Features
+
+- **plugin-compiler-baidu:** 移除 type 检测的 warning 提示 ([148c9fe](https://github.com/eleme/morjs/commit/148c9fe16119434ba722827a2546bccc619f923e))
+- **plugin-compiler:** 优化类名拆分逻辑 ([f518e98](https://github.com/eleme/morjs/commit/f518e9848be7348c6a9e0be7495f9870c8c3a765))
+- **plugin-compiler:** 优化去除文件路径后缀逻辑 ([5d30d0e](https://github.com/eleme/morjs/commit/5d30d0e8769914d772edb26a0c788cdcdc0eb688))
+- **plugin-compiler:** 增加 disableDynamicClassDetection 参数，用于配置是否需要跳过动态 class 类名检测 ([6abc138](https://github.com/eleme/morjs/commit/6abc138c7e3dd10f405bd2bb35ac034e5e8a4520))
+
+## [1.0.102](https://github.com/eleme/morjs/compare/v1.0.101...v1.0.102) (2024-03-22)
+
+### Features
+
+- **plugin-compiler-web:** 开启 styleScope 时支持 class 使用三元表达式 ([aa0f938](https://github.com/eleme/morjs/commit/aa0f938ba5911e6f2f28943e77cb68c8b23096e4))
+- **plugin-compiler-web:** 条件判断支持三元表达式 ([3821094](https://github.com/eleme/morjs/commit/3821094a0a00d34751aaf9330d9e27e3a746c15e))
+- **runtime-web:** 支持动态更改 tabbar 的能力 ([2676963](https://github.com/eleme/morjs/commit/2676963a3af5fe2fa7c1ee5ca6d7459fe5f08271))
+
 ## [1.0.101](https://github.com/eleme/morjs/compare/v1.0.100...v1.0.101) (2024-02-23)
 
 ### Bug Fixes

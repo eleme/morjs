@@ -10,6 +10,7 @@ import FileAPI from './file/index'
 import ImageAPI from './image'
 import KeyboardAPI from './keyboard'
 import LocationAPI from './location'
+import AudioAPI from './media/audio'
 import { my } from './my'
 import NetworkAPI from './network'
 import PrivateAPI from './private/index'
@@ -45,7 +46,8 @@ appendApis(
     ...convertApis(VideoAPI),
     ...convertApis(RouterExtensionAPI),
     ...convertApis(PrivateAPI),
-    ...convertApis(AppAPI)
+    ...convertApis(AppAPI),
+    ...convertApis(AudioAPI)
   },
   DEFAULT_API_NO_CONFLICT
 )

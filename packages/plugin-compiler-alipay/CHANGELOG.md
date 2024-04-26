@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
+
+
+### Features
+
+* **plugin-compiler-alipay:** 根据编译目标做自定义 tabbar 组件目录变更 ([057189b](https://github.com/eleme/morjs/commit/057189bbdd196178968cc717f18e01bfaecf1b9b))
+* **plugin-compiler-alipay:** 小程序自定义 tabBar 属性映射 ([df9af25](https://github.com/eleme/morjs/commit/df9af25312cb6c2a2985651712e5cded26dda860))
+
+
+
+
+
 ## [1.0.95](https://github.com/eleme/morjs/compare/v1.0.95-beta.1...v1.0.95) (2024-01-16)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-alipay

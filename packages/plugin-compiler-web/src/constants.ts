@@ -188,6 +188,13 @@ export const UserConfigSchema = z.object({
               showHeader: z.boolean().optional(),
               showBack: z.boolean().optional()
             })
+            .optional(),
+          // 导航栏信息设置(支持 字符串/数字/函数)
+          nav: z
+            .object({
+              statusBarHeight: z.number().or(z.string()).optional(),
+              titleBarHeight: z.number().or(z.string()).optional()
+            })
             .optional()
         })
         .default({})
