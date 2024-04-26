@@ -126,7 +126,9 @@ export default class TabbarItem extends BaseElement {
         <div
           style=${styleMap({ display: 'inline-block', position: 'relative' })}
         >
-          <img src="${this.icon}" alt="" class="tiga-tabbar__icon" />
+          ${this.icon
+            ? html`<img src="${this.icon}" alt="" class="tiga-tabbar__icon" />`
+            : ''}
           ${this.badgeText
             ? html` <span class="tiga-badge" style=${styleMap(this.badgeStyle)}>
                 ${this.badgeText}
