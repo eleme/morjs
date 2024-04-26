@@ -457,18 +457,18 @@ export class CSSClassNameCompressPlugin implements Plugin {
   fetchOrGenerateShortClassName(className: string, filePath: string): string {
     // 如果是不需要重命名的 class 直接返回原值
     if (this.exceptClassNames.has(className)) return className
-
-    // 如果开启跳过动态 class 检测，在 template 模板中遇到遇到动态 class 直接跳过（内置，降低业务配置成本）
-    if (this.options.disableDynamicClassDetection) {
-      if (new RegExp(this.dynamicClassRegExpGrained).test(className))
-        return className
-    }
     // 如果存在类名过滤器，则如果返回结果为 false 则不压缩
     if (
       this.hasClassNameFilter &&
       !this.options.classNameFilter(className, filePath)
     )
       return className
+
+    // 如果开启跳过动态 class 检测，在 template 模板中遇到遇到动态 class 直接跳过（内置，降低业务配置成本）
+    if (this.options.disableDynamicClassDetection) {
+      if (new RegExp(this.dynamicClassRegExpGrained).test(className))
+        return className
+    }
 
     // 如果已经存在，直接返回映射
     if (this.classNameMappings.has(className))
