@@ -1,5 +1,4 @@
 import {
-  Base64,
   compose,
   generateId,
   getSharedProperty,
@@ -13,7 +12,7 @@ const MOR_PREFIX = 'mor' as const
 /**
  * 保存在 dataset 的事件代理相关方法名称映射
  */
-const MOR_EVENT_HANDLERS_DATASET = `${MOR_PREFIX}EventHandlers` as const
+const MOR_EVENT_HANDLERS_DATASET = `meh` as const
 /**
  * 用于保存事件代理相关方法名称映射
  */
@@ -110,6 +109,24 @@ function cloneDeep<T = Record<string, any>>(
     )
     return { ...data }
   }
+}
+
+/**
+ * 根据键值对字符串创建对象
+ * @param {string} param - 以短横线分隔的键值对字符串，形如 "key1_value1-key2_value2"
+ * @returns {Object} - 创建的对象，键为原始字符串中的 key，值为对应的 value
+ */
+function getObjectFromPairs(param) {
+  const result = {}
+  if (typeof param !== 'string') return result
+
+  const paramsArr = param.split('-')
+  paramsArr.forEach((pair) => {
+    const [key, value] = pair.split('_')
+    result[key] = value
+  })
+
+  return result
 }
 
 /**
@@ -517,10 +534,9 @@ function hookComponentLifeCycle(
 
   const injectEventHandlers = function (): void {
     const morEventHandlers = this.dataset?.[MOR_EVENT_HANDLERS_DATASET]
-
     if (morEventHandlers) {
       try {
-        this[MOR_EVENT_HANDLERS] = JSON.parse(Base64.decode(morEventHandlers))
+        this[MOR_EVENT_HANDLERS] = getObjectFromPairs(morEventHandlers)
 
         // ref 支持
         if (this[MOR_EVENT_HANDLERS].ref) {
