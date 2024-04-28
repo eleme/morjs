@@ -2,7 +2,8 @@ import {
   compose,
   generateId,
   getSharedProperty,
-  logger
+  logger,
+  Pairs
 } from '@morjs/runtime-base'
 import clone from 'clone-deep'
 import { injectHasMixinSupport } from '../common/behaviorOrMixin'
@@ -109,24 +110,6 @@ function cloneDeep<T = Record<string, any>>(
     )
     return { ...data }
   }
-}
-
-/**
- * 根据键值对字符串创建对象
- * @param {string} param - 以短横线分隔的键值对字符串，形如 "key1_value1-key2_value2"
- * @returns {Object} - 创建的对象，键为原始字符串中的 key，值为对应的 value
- */
-function getObjectFromPairs(param) {
-  const result = {}
-  if (typeof param !== 'string') return result
-
-  const paramsArr = param.split('-')
-  paramsArr.forEach((pair) => {
-    const [key, value] = pair.split('_')
-    result[key] = value
-  })
-
-  return result
 }
 
 /**
@@ -516,7 +499,7 @@ function hookComponentLifeCycle(
             }
 
             // 触发小程序原生事件
-            // 事件会被 $morEventHandlerProxy 事件代理方法捕获
+            // 事件会被 $morEHP 事件代理方法捕获
             // 并触发 event 事件, 基于 eventId
             this.triggerEvent(triggerEventName, {
               name: this[MOR_EVENT_HANDLERS][triggerEventName],
@@ -536,7 +519,7 @@ function hookComponentLifeCycle(
     const morEventHandlers = this.dataset?.[MOR_EVENT_HANDLERS_DATASET]
     if (morEventHandlers) {
       try {
-        this[MOR_EVENT_HANDLERS] = getObjectFromPairs(morEventHandlers)
+        this[MOR_EVENT_HANDLERS] = Pairs.toObject(morEventHandlers)
 
         // ref 支持
         if (this[MOR_EVENT_HANDLERS].ref) {
