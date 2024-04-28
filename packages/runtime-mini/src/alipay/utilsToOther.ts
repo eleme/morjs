@@ -30,7 +30,7 @@ export function addEventProxy(options: Record<string, any>): void {
    * 支付宝小程序转其他小程序的事件代理函数
    * @param event 事件
    */
-  options.$morEventHandlerProxy = function (event: IEvent): void {
+  options.$morEHP = function (event: IEvent): void {
     const { name, args, id } = event.detail
     let value: any
 
