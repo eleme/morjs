@@ -18,6 +18,22 @@ import { isNativeTag } from './templateTags'
 type NodeAttributes = Record<string, string | number | boolean>
 
 /**
+ * 构建键值对字符串
+ * @param {Object} param - 包含键值对的对象
+ * @returns {string} - 键值对组合成的字符串，键和值之间以下划线连接，各对之间以破折号分隔
+ */
+function buildPairs(param) {
+  const keys = Object.keys(param)
+
+  return keys.reduce((pre, key, index) => {
+    const value = param[key]
+    const suffix = index === keys.length - 1 ? '' : '-'
+
+    return (pre += `${key}_${value}${suffix}`)
+  }, '')
+}
+
+/**
  * 自定义 template 处理
  * 处理 支付宝转 其他小程序的兼容性
  */
@@ -100,8 +116,8 @@ export const templateProcessorToOther = {
 }
 
 // 事件代理名称
-const PROXY_EVENT_NAME = '$morEventHandlerProxy'
-const EVENT_HANDLER_NAME = 'data-mor-event-handlers'
+const PROXY_EVENT_NAME = '$morEHP' // $morEventHandlerProxy
+const EVENT_HANDLER_NAME = 'data-meh' // data-mor-event-handlers
 const PROXY_DISABLE_EVENT_NAME = '$morDisableScrollProxy'
 
 /**
@@ -117,10 +133,7 @@ function processEventProxy(
     Object.keys(context.morHandlersMap).length &&
     !options.userConfig?.processComponentsPropsFunction
   ) {
-    node.attrs[EVENT_HANDLER_NAME] = Buffer.from(
-      JSON.stringify(context.morHandlersMap)
-    ).toString('base64')
-
+    node.attrs[EVENT_HANDLER_NAME] = buildPairs(context.morHandlersMap)
     delete context.morHandlersMap
   }
 }
