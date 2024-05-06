@@ -1,6 +1,6 @@
 {
   "name": "@morjs/runtime-web",
-  "version": "1.0.110",
+  "version": "1.0.111-alpha.0",
   "description": "mor runtime for web",
   "keywords": [
     "mor",

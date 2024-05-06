@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.111-alpha.0](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.111-alpha.0) (2024-05-06)
+
+### Bug Fixes
+
+- **plugin-compiler-web:** 取用户配置空值兜底 ([bf97608](https://github.com/eleme/morjs/commit/bf976083bade3cf78821cfb339e09ec6c841cdac))
+
+### Features
+
+- **plugin-compiler-alipay:** 事件保存方法机制变更 ([b07c967](https://github.com/eleme/morjs/commit/b07c96758e4ba901585d9e3282be1ca0cf73efa8))
+- **plugin-compiler-alipay:** 事件保存方法机制变更 ([0110417](https://github.com/eleme/morjs/commit/01104179b5f358aa2a7c7b110ac5cc49be0c4c46))
+- **plugin-compiler-alipay:** 事件保存方法机制变更（组件维护转换支持） ([0b606d7](https://github.com/eleme/morjs/commit/0b606d77aded9a035725f14e05e3a7ecd895c4b3))
+- **plugin-compiler-web:** 样式文件中[@import](https://github.com/import)内容可写入样式文件 ([935871a](https://github.com/eleme/morjs/commit/935871af633322410a734537d7af90b0e37caffa))
+- **plugin-compiler-web:** 转 web 时 tabbar 兼容微信使用场景 ([33acea7](https://github.com/eleme/morjs/commit/33acea789975d66c076fd5752ec067ac95d61b49))
+- **plugin-compiler:** css 压缩获取短类名时的执行顺序调整，让业务判断获取更高的优先级 ([e3d9c3f](https://github.com/eleme/morjs/commit/e3d9c3fa8e016475bd7b10a843d94bb854a37065))
+- **plugin-compiler:** runtime 方法替换兼容 return 语句 ([caa684e](https://github.com/eleme/morjs/commit/caa684e5ccb6cea6297f33b011344d1bca5521d5))
+- **plugin-compiler:** runtime 方法替换兼容 return 语句(增强判断) ([10b4090](https://github.com/eleme/morjs/commit/10b4090cc3361fd0d06f70b69b7b5c7a5bc9b198))
+- **runtime-mini:** 事件参数解析配合改造 ([8c75214](https://github.com/eleme/morjs/commit/8c752140eff83c2f566990646503229af50cf016))
+- **runtime-mini:** 事件参数解析配合改造 ([eea306f](https://github.com/eleme/morjs/commit/eea306f8a2a59e31857437edf05bd2f016c0873a))
+- **runtime-web:** loading 组件样式调整，对齐支付宝最新样式 ([859d075](https://github.com/eleme/morjs/commit/859d07586532350ca859169429f86600d93c7689))
+- **runtime-web:** tabbar 兼容不配置 icon 场景 ([fa15499](https://github.com/eleme/morjs/commit/fa15499f6e21b3bcf1574c60e879d93a96ee0e96))
+- **utils & runtime-base:** 为编译时&运行时提供统一的工具函数 ([3b48100](https://github.com/eleme/morjs/commit/3b48100d071cb0be795bff6fd131e39b04310944))
+- **utils & runtime-base:** 为编译时&运行时提供统一的工具函数 ([2f6ef29](https://github.com/eleme/morjs/commit/2f6ef2985037b83b2155e772ec58f74c1d8b50f2))
+
 ## [1.0.110](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.110) (2024-04-26)
 
 ### Bug Fixes

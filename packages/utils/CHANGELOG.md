@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.111-alpha.0](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.111-alpha.0) (2024-05-06)
+
+
+### Features
+
+* **utils & runtime-base:** 为编译时&运行时提供统一的工具函数 ([3b48100](https://github.com/eleme/morjs/commit/3b48100d071cb0be795bff6fd131e39b04310944))
+* **utils & runtime-base:** 为编译时&运行时提供统一的工具函数 ([2f6ef29](https://github.com/eleme/morjs/commit/2f6ef2985037b83b2155e772ec58f74c1d8b50f2))
+
+
+
+
+
 ## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
 
 **Note:** Version bump only for package @morjs/utils

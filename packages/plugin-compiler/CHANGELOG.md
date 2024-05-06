@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.111-alpha.0](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.111-alpha.0) (2024-05-06)
+
+
+### Features
+
+* **plugin-compiler-alipay:** 事件保存方法机制变更（组件维护转换支持） ([0b606d7](https://github.com/eleme/morjs/commit/0b606d77aded9a035725f14e05e3a7ecd895c4b3))
+* **plugin-compiler:** css 压缩获取短类名时的执行顺序调整，让业务判断获取更高的优先级 ([e3d9c3f](https://github.com/eleme/morjs/commit/e3d9c3fa8e016475bd7b10a843d94bb854a37065))
+* **plugin-compiler:** runtime 方法替换兼容 return 语句 ([caa684e](https://github.com/eleme/morjs/commit/caa684e5ccb6cea6297f33b011344d1bca5521d5))
+* **plugin-compiler:** runtime 方法替换兼容 return 语句(增强判断) ([10b4090](https://github.com/eleme/morjs/commit/10b4090cc3361fd0d06f70b69b7b5c7a5bc9b198))
+
+
+
+
+
 ## [1.0.110](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.110) (2024-04-26)
 
 
