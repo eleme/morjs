@@ -20,7 +20,8 @@
       "allowBranch": [
         "main",
         "beta",
-        "next"
+        "next",
+        "alpha"
       ],
       "message": "chore(release): publish packages"
     }
