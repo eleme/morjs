@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.111](https://github.com/eleme/morjs/compare/v1.0.110...v1.0.111) (2024-05-06)
+
+
+### Features
+
+* **runtime-web:** 通过 props 更改 value 属性值时自动更新 textarea 高度 ([963e2aa](https://github.com/eleme/morjs/commit/963e2aaeb8dc586f8b1bf581e761177b3e840c6d))
+* **runtime-web:** 通过 props 更改 value 属性值时自动更新 textarea 高度 ([5ccda2a](https://github.com/eleme/morjs/commit/5ccda2ab8a71b648b3b7f840e4b74b6693640ffc))
+
+
+
+
+
 ## [1.0.110](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.110) (2024-04-26)
 
 
