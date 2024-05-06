@@ -108,6 +108,15 @@ export default class Textarea extends BaseElement implements IFormComponent {
         }
         break
       }
+
+      case 'value': {
+        if (oldVal !== newVal) {
+          requestAnimationFrame(() => {
+            this._updateHeight()
+          })
+        }
+        break
+      }
     }
   }
 
