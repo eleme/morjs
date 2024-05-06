@@ -12,22 +12,24 @@ export async function templateTransformer(
   options: FileParserOptions,
   singleTags: string[],
   closingSingleTag?: '' | 'slash' | 'tag',
-  parser?: PostHtmlCustomPlugin
+  parser?: PostHtmlCustomPlugin,
+  customTemplateRender?: (tree?, options?) => string
 ): Promise<string> {
   const ph = posthtml()
 
   if (parser) ph.use(async (node) => await parser(node, options))
 
-  return (
-    await ph.process(fileContent, {
-      // 并开启无值属性的识别
-      recognizeNoValueAttribute: true,
-      recognizeSelfClosing: true,
-      closingSingleTag: closingSingleTag ?? 'slash',
-      // 0 代表  smart quote, 自动判断 " 或 '
-      quoteStyle: 0,
-      replaceQuote: false,
-      singleTags
-    })
-  ).html
+  const phOptions: Record<string, any> = {
+    // 并开启无值属性的识别
+    recognizeNoValueAttribute: true,
+    recognizeSelfClosing: true,
+    closingSingleTag: closingSingleTag ?? 'slash',
+    // 0 代表  smart quote, 自动判断 " 或 '
+    quoteStyle: 0,
+    replaceQuote: false,
+    singleTags
+  }
+  if (typeof customTemplateRender === 'function')
+    phOptions.render = customTemplateRender
+  return (await ph.process(fileContent, phOptions)).html
 }

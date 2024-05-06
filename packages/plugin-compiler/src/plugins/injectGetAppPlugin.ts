@@ -133,7 +133,7 @@ export class InjectGetAppPlugin implements Plugin {
     if (compileType === CompileTypes.miniprogram) return
 
     // web 模式下禁用该插件
-    if (target === 'web') return
+    if (target === 'web' || target === 'web-pro') return
 
     const composedPlugins = getComposedCompilerPlugins()
     const globalObject = composedPlugins.globalObject[target]

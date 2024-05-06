@@ -39,9 +39,9 @@ export class SjsParserPlugin implements Plugin {
           // 如果源码平台和目标平台 模块类型一致 则不处理
           if (
             composedPlugins.compileModuleKind[target] !==
-            CompileModuleKind.CommonJS &&
+              CompileModuleKind.CommonJS &&
             composedPlugins.compileModuleKind[sourceType] !==
-            composedPlugins.compileModuleKind[target]
+              composedPlugins.compileModuleKind[target]
           ) {
             transformers.before.unshift(cjsToEsmTransformer())
           }

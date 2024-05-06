@@ -37,7 +37,12 @@ function compileIndependentSubpackages(
 
   // 仅在 bundle 模式下 以及 编译目标不是 web 时提供独立分包的编译支持
   // 非 bundle 模式可以利用, 各个小程序 IDE 本身提供的独立分包编译
-  if (userConfig.compileMode !== 'bundle' || userConfig.target === 'web') return
+  if (
+    userConfig.compileMode !== 'bundle' ||
+    userConfig.target === 'web' ||
+    userConfig.target === 'web-pro'
+  )
+    return
 
   let independentSubpackages: Map<string, ISubPackageConfig> = new Map()
   let independentRunners: RunnerInstanceMap = new Map()
@@ -159,6 +164,7 @@ function compileWorkers(
   if (
     userConfig.compileMode !== 'bundle' ||
     userConfig.target === 'web' ||
+    userConfig.target === 'web-pro' ||
     userConfig.compileType !== 'miniprogram'
   ) {
     return
