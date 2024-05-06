@@ -115,6 +115,7 @@ export default class Textarea extends BaseElement implements IFormComponent {
             this._updateHeight()
           })
         }
+        break
       }
     }
   }
