@@ -32,7 +32,7 @@ export class StyleParserPlugin implements Plugin {
 
       // 转 web 模式下, css 中的引用会被 css-loader 自动处理
       // 无需手动处理
-      if (target === 'web') return
+      if (target === 'web' || target === 'web-pro') return
 
       const isSubpackageOrPlugin = compileType !== CompileTypes.miniprogram
 

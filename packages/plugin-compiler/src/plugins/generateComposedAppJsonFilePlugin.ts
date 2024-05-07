@@ -159,7 +159,8 @@ export class GenerateComposedAppJsonFilePlugin implements Plugin {
   // 是否忽略当前插件逻辑
   shouldIgnorePlugin() {
     const userConfig = this.runner.userConfig as CompilerUserConfig
-    if (userConfig.target === 'web') return true
+    if (userConfig.target === 'web' || userConfig.target === 'web-pro')
+      return true
     if (userConfig.generateAppJSONScript === false) return true
     return false
   }

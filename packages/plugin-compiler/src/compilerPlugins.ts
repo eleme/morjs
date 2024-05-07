@@ -245,6 +245,11 @@ export interface CompilerPlugin {
    */
   templateProcessor: CompilerTemplateProcessor
   /**
+   * 自定义模版的渲染生成函数(即自定义 posthtml render)
+   */
+  customTemplateRender?: (tree?, options?) => string
+
+  /**
    * 获取运行时相关的文件地址
    */
   getRuntimeFiles?: (
@@ -270,7 +275,8 @@ export const Targets = [
   qqCompiler.target,
   taobaoCompiler.target,
   dingdingCompiler.target,
-  webCompiler.target
+  webCompiler.target,
+  'web-pro'
 ] as const
 
 // 插件中支持的所有文件类型
@@ -318,6 +324,7 @@ const PLUGIN_PROPS = [
   'isSupportSjsContent',
   'templateDirectives',
   'templateProcessor',
+  'customTemplateRender',
   'getRuntimeFiles',
   'Plugin'
 ]
