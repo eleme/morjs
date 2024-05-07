@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.112-beta.0](https://github.com/eleme/morjs/compare/v1.0.111...v1.0.112-beta.0) (2024-05-07)
+
+
+### Features
+
+* **plugin-compiler:** 支持 web-pro 编译 ([da23459](https://github.com/eleme/morjs/commit/da23459120a328a20f84c7f2f82a058deedcfd5e))
+* **runtime-web:** 移除测试使用的 runtime-web 改动 ([17e667f](https://github.com/eleme/morjs/commit/17e667f2a0bfbcbb4af5eeb35b76ab753986165c))
+* **runtime-web:** 移除测试使用的 runtime-web 改动 ([58a7865](https://github.com/eleme/morjs/commit/58a786574c62fcade396eabe9037917f4e302495))
+* **runtime-web:** runtime 方法导出缩写 ([8922010](https://github.com/eleme/morjs/commit/89220109da21f3adc9da934b1cc1c99f0a72b8f0))
+
+
+
+
+
 ## [1.0.111](https://github.com/eleme/morjs/compare/v1.0.110...v1.0.111) (2024-05-06)
 
 
