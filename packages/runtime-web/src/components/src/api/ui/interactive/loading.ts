@@ -22,7 +22,7 @@ class Loading extends BaseElement {
 
       .host {
         border-radius: 5px;
-        padding: 15px 15px;
+        padding: 20px;
         min-width: 60px;
         color: #fff;
         background-color: rgba(58, 58, 58, 0.9);
@@ -35,7 +35,7 @@ class Loading extends BaseElement {
         position: relative;
         width: 0;
         height: 0;
-        padding: 40%;
+        padding: 18px;
         margin: auto;
       }
 
@@ -49,17 +49,27 @@ class Loading extends BaseElement {
         top: -2px;
         left: -2px;
         border: 2px solid;
-        border-color: transparent;
+        border-color: rgba(58, 58, 58, 0.9);
         border-left-color: #fff;
-        animation: circleRotateAnimation 1s infinite linear;
+        border-top-color: #fff;
+        animation: circleRotateAnimation 1.2s infinite linear;
       }
 
       @keyframes circleRotateAnimation {
-        from {
+        0% {
           transform: rotateZ(0);
         }
-        to {
-          transform: rotateZ(360deg);
+
+        25% {
+          transform: rotateZ(240deg);
+        }
+
+        50% {
+          transform: rotateZ(480deg);
+        }
+
+        100% {
+          transform: rotateZ(720deg);
         }
       }
 

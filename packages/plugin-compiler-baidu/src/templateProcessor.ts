@@ -1,4 +1,4 @@
-import { FileParserOptions, logger, posthtml } from '@morjs/utils'
+import { FileParserOptions, posthtml } from '@morjs/utils'
 import path from 'path'
 import {
   fileType,
@@ -46,14 +46,6 @@ export const templateProcessor = {
     options: FileParserOptions
   ): void {
     if (shouldProcess(options) === false) return
-
-    // 百度小程序 swan 中不支持组件包含 type 属性
-    if (attrName === 'type') {
-      logger.warnOnce(
-        `${node.tag} 元素包含 \`type\` 属性，会导致百度小程序报错，请替换属性名称\n` +
-          `文件路径: ${options.fileInfo.path}`
-      )
-    }
 
     // swan 不支持绝对路径，这里部分替换为相对路径
     // 只能转换静态路径，动态拼接路径不支持转换

@@ -16,7 +16,6 @@ export function markUnsupportMethods(
     'animate',
     'clearAnimation',
     'createMediaQueryObserver',
-    'getTabBar',
     'setUpdatePerformanceListener'
   ]
     .concat(extraMethods || [])

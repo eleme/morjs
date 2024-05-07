@@ -10,11 +10,15 @@ import {
   getAppCssResourceName,
   getCssResourcePath
 } from '../../../utils/file-utils'
-import { getExternalComponent } from '../../../utils/index'
+import {
+  getExternalComponent,
+  isEnableSelectOwnerComponent
+} from '../../../utils/index'
 import { isGlobalComponent } from '../../option'
 import {
   blockNode,
   CommentNode,
+  dataBindingNode,
   Document,
   elementNode,
   ElementNode,
@@ -49,6 +53,7 @@ function clearLoadableComponents() {
 }
 
 export let loadableComponents = []
+let _oid = 1 // owner id
 
 export default function (document: Document, options: AXMLOptions) {
   const protectIdentifyNames = [...Config.GlobalIdentifyNames]
@@ -68,12 +73,11 @@ export default function (document: Document, options: AXMLOptions) {
     protectIdentifyNames,
     isComplexComponents: false
   }
+  const ast = t.program([], [], 'module')
   /**
    * NOTE: 先处理组件名称的引用
    */
-  generateComponentImport(doc, options)
-
-  const ast = t.program([], [], 'module')
+  generateComponentImport(doc, options, ast)
 
   // 添加 react  引用
   ast.body.push(
@@ -435,10 +439,22 @@ function addLineFeed(body: any[]) {
   body.push(t.jsxText('\r'))
 }
 
+// 如果当前组件包含自定义组件，在模版文件中导出一个 id，在 runtime 中消费该 id， 创建一个映射
+// 为了实现 selectOwnerComponent （用于创建父子组件关联）
+function addIdExport(ast, id) {
+  ast.body.push(
+    t.exportNamedDeclaration(
+      t.variableDeclaration('var', [
+        t.variableDeclarator(t.identifier('$ownerId'), t.stringLiteral(id))
+      ])
+    )
+  )
+}
+
 /**
  * 生成组件引用的代码
  */
-function generateComponentImport(doc: Document, options: AXMLOptions) {
+function generateComponentImport(doc: Document, options: AXMLOptions, ast) {
   // NOTE: 第一步，先把 app.json 中的组件路径转换成当前编译文件的相对路径
   // 先读取app 中的 usingComponents
   const appUsingComponents = { ...options.appConfig.usingComponents }
@@ -457,7 +473,6 @@ function generateComponentImport(doc: Document, options: AXMLOptions) {
     }
   })
   // Step2:  合并 UsingComponents
-
   const UsingComponents = Object.assign(
     appUsingComponents,
     options.config && options.config.usingComponents
@@ -472,6 +487,8 @@ function generateComponentImport(doc: Document, options: AXMLOptions) {
   const usedComponents = {}
   // 引入到axml中的文件可以直接忽略key
   const importKeys = doc.imports.map((i) => i.name).filter((i) => i)
+  const enableSelectOwnerComponent = isEnableSelectOwnerComponent(options)
+  const oid = String(_oid++)
   // 先进行ast 遍历。
   traverse(doc, {
     ElementNode(_: ITraverNode) {
@@ -484,6 +501,13 @@ function generateComponentImport(doc: Document, options: AXMLOptions) {
         const name = convertComponentName(node.name)
         usedComponents[name] = UsingComponents[node.name]
         node.name = name
+        // 给自定义组件增加一个 owner id， 用于查找父级组件
+        if (enableSelectOwnerComponent)
+          node.attributes.push({
+            type: 'AttributeNode',
+            name: '__oid__',
+            value: dataBindingNode(oid)
+          })
       }
     },
     // NOTE:条件编译，剔除不需要编译的节点
@@ -508,7 +532,11 @@ function generateComponentImport(doc: Document, options: AXMLOptions) {
     }
   })
 
-  Object.keys(usedComponents).forEach((key) => {
+  const keys = Object.keys(usedComponents)
+  keys.forEach((key) => {
     doc.imports.push(importNode(null, key, usedComponents[key]))
   })
+
+  // 由于 selectOwnerComponent 需要在（模板层 && 自定义组件属性）多输出一个 id，会影响包体积大小，所以默认不使用，除非业务手动打开开关（使用场景不多）
+  if (keys.length > 0 && enableSelectOwnerComponent) addIdExport(ast, oid)
 }

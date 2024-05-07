@@ -245,7 +245,7 @@ export class CommonConfigPlugin implements Plugin {
         .test(/\.(wx|a?c)ss$/)
         .use('web-style')
           .loader(WEB_COMPILER_LOADERS.style)
-          .options(WEB_LOADER_OPTIONS)
+          .options({ enableCombineImportStyles: web?.appConfig?.enableCombineImportStyles, ...WEB_LOADER_OPTIONS })
           .before('style')
           .end()
 

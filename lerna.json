@@ -21,10 +21,10 @@
         "main",
         "beta",
         "next",
-        "next-web-pro"
+        "alpha"
       ],
       "message": "chore(release): publish packages"
     }
   },
-  "version": "1.0.102-alpha.0"
+  "version": "1.0.110"
 }

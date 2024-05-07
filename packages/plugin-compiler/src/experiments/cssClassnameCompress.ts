@@ -8,6 +8,7 @@ import {
   WebpackWrapper
 } from '@morjs/utils'
 import { customAlphabet } from 'nanoid'
+import path from 'path'
 import parser from 'postcss-selector-parser'
 import { CompilerUserConfig, COMPILE_COMMAND_NAME } from '../constants'
 
@@ -26,6 +27,9 @@ const DEFAULT_ALPHABET =
 // 安全字母表，无数字和_, 当无前缀的时候使用
 const SAFE_DEFAULT_ALPHABET =
   'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+// 微信场景支持使用 ~ 或者 ^ 使用父组件的样式（https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html）
+const SPECIAL_PREFIX = ['^', '~']
 
 /**
  * CSS 类名压缩功能
@@ -91,7 +95,8 @@ export class CSSClassNameCompressPlugin implements Plugin {
     include: [],
     exclude: [],
     except: [],
-    alphabet: ''
+    alphabet: '',
+    disableDynamicClassDetection: false
   }
 
   hasClassNameFilter: boolean
@@ -110,8 +115,11 @@ export class CSSClassNameCompressPlugin implements Plugin {
   // ID 生成器长度递增阈值
   idThreshold: number
 
-  // class 动态拼接正则，用于检测 class='{{ 动态条件 }}' 的情况
+  // （主要用于初始化的文件检测)class 动态拼接正则，用于检测 class='{{ 动态条件 }}' 的情况
   dynamicClassRegExp: RegExp
+
+  // （用于 template，css 中动态绑定提取，颗粒度更细）template 模板动态 class 绑定检测正则
+  dynamicClassRegExpGrained = /\s*(\S+)?({{.*?}})+(\S+)?\s*/gi
 
   // 自定义属性名称
   customClassAttrs: string[]
@@ -216,6 +224,14 @@ export class CSSClassNameCompressPlugin implements Plugin {
    * 处理所有的 xml 文件
    */
   processAllXmlFiles() {
+    const getClassName = (name): string[] => {
+      const result = (name || '').trim()
+      // name 以 ^ 或者 ~ 开头，做特殊处理
+      if (~SPECIAL_PREFIX.indexOf(result[0]))
+        return [result.slice(1), result[0]]
+
+      return [result]
+    }
     // 替换 xml 中的 className
     this.runner.hooks.templateParser.tap(this.name, (tree, options) => {
       const { fileInfo } = options
@@ -232,16 +248,21 @@ export class CSSClassNameCompressPlugin implements Plugin {
           if (!node.attrs[attr]) continue
           if ((node.attrs[attr] as unknown as boolean) === true) continue
 
-          const names = ((node.attrs[attr] || '') as string).trim().split(' ')
+          const names = this.splitBySpaceAndBraces(
+            ((node.attrs[attr] || '') as string).trim()
+          )
           const newNames: string[] = []
 
           // 遍历并替换
-          names.map((name) => {
-            name = (name || '').trim()
+          names.map((n) => {
+            const [name, prefix] = getClassName(n)
             if (!name) return
-            newNames.push(
-              this.fetchOrGenerateShortClassName(name, fileInfo.path)
+            const shortClassName = this.fetchOrGenerateShortClassName(
+              name,
+              fileInfo.path
             )
+
+            newNames.push(prefix ? prefix + shortClassName : shortClassName)
           })
 
           // 替换属性值
@@ -302,6 +323,41 @@ export class CSSClassNameCompressPlugin implements Plugin {
   }
 
   /**
+   * 根据空格和大括号将输入字符串分割成数组。
+   * @param {string} input - 待分割的字符串。
+   * @returns {string[]} 分割后的字符串数组。
+   */
+  splitBySpaceAndBraces(input) {
+    // 正则表达式，匹配 {{}} 或者空格
+    const regex = new RegExp(this.dynamicClassRegExpGrained)
+    let match
+    let lastIndex = 0
+    const result = []
+    const splitBySpace = (param) => param.split(/(?<=\S)\s/gi)
+
+    // 循环匹配正则表达式
+    while ((match = regex.exec(input)) !== null) {
+      // 如果匹配到的不是空格，且不是字符串的开始位置，则将之前的字符串加入结果数组
+      if (match.index > lastIndex) {
+        result.push(...splitBySpace(input.slice(lastIndex, match.index)))
+      }
+
+      // 如果匹配到的是 {{}}，则将其加入结果数组
+      if (match[0].includes('{{')) {
+        result.push(match[0])
+      }
+      // 更新上次匹配的最后位置
+      lastIndex = match.index + match[0].length
+    }
+
+    // 如果最后一个匹配后还有剩余的字符串，将其加入结果数组
+    if (lastIndex < input.length) {
+      result.push(...splitBySpace(input.slice(lastIndex)))
+    }
+
+    return result
+  }
+  /**
    * 从已知的 axml 文件列表中查找可以处理的
    */
   async collectCompressableFiles(): Promise<void> {
@@ -317,12 +373,24 @@ export class CSSClassNameCompressPlugin implements Plugin {
   }
 
   /**
+   * 去除文件路径的后缀
+   * @param {string} filePath - 要处理的文件路径
+   * @returns {string} 去除后缀的文件路径
+   */
+  removeExtension(filePath) {
+    // 使用 path.parse() 解析文件路径
+    const parsedPath = path.parse(filePath)
+    // 返回去除后缀的路径，它由目录和文件名组成
+    return path.join(parsedPath.dir, parsedPath.name)
+  }
+
+  /**
    * 检查文件是否有效
    * @param {string} filePath 文件路径
    */
   checkFileValid(filePath: string = ''): boolean {
     if (!filePath) return false
-    return this.validFiles.has(filePath.split('.')[0])
+    return this.validFiles.has(this.removeExtension(filePath))
   }
 
   /**
@@ -333,7 +401,7 @@ export class CSSClassNameCompressPlugin implements Plugin {
   tryAddFile(filePath: string, fileContent: string): void {
     if (this.checkFileBeforeAdd(filePath, fileContent)) {
       // 不保存文件后缀名，用于同时支持判断 多种文件类型
-      this.validFiles.add(filePath.split('.')[0])
+      this.validFiles.add(this.removeExtension(filePath))
     }
   }
 
@@ -354,8 +422,21 @@ export class CSSClassNameCompressPlugin implements Plugin {
     // 如果 axml 为内容，则 acss 应该也不应该由内容，此处不处理
     if (!fileContent) return false
 
+    const dynamicClassDetection = () =>
+      !this.dynamicClassRegExp.test(fileContent)
+    const { disableDynamicClassDetection } = this.options
+    // 是否配置跳过动态类名检测，如果配置了，判断值类型进行正确处理
+    if (disableDynamicClassDetection) {
+      if (typeof disableDynamicClassDetection === 'function') {
+        const result = disableDynamicClassDetection(filePath)
+        // 返回 false，代表仍然需要检测内容中是否存在动态类名情况
+        if (!result) return dynamicClassDetection()
+      }
+
+      return true
+    }
     // 检查文件中是否包含动态的 class 拼接
-    return !this.dynamicClassRegExp.test(fileContent)
+    return dynamicClassDetection()
   }
 
   /**
@@ -376,13 +457,18 @@ export class CSSClassNameCompressPlugin implements Plugin {
   fetchOrGenerateShortClassName(className: string, filePath: string): string {
     // 如果是不需要重命名的 class 直接返回原值
     if (this.exceptClassNames.has(className)) return className
-
     // 如果存在类名过滤器，则如果返回结果为 false 则不压缩
     if (
       this.hasClassNameFilter &&
       !this.options.classNameFilter(className, filePath)
     )
       return className
+
+    // 如果开启跳过动态 class 检测，在 template 模板中遇到遇到动态 class 直接跳过（内置，降低业务配置成本）
+    if (this.options.disableDynamicClassDetection) {
+      if (new RegExp(this.dynamicClassRegExpGrained).test(className))
+        return className
+    }
 
     // 如果已经存在，直接返回映射
     if (this.classNameMappings.has(className))

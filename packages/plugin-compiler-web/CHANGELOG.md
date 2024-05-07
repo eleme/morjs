@@ -3,34 +3,76 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 1.0.102-alpha.0 (2024-03-13)
+## [1.0.110](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.110) (2024-04-26)
 
 
 ### Bug Fixes
 
-* **plugin-compiler-web:** 修复 @babel/runtime 依赖缺失 ([93b478f](https://github.com/eleme/morjs/commit/93b478f9cf18848e286ca751dcd30377438a9582))
-* **plugin-compiler-web:** 修复 pnpm 场景下 runtime-web 可能会找不到的问题 ([b598de8](https://github.com/eleme/morjs/commit/b598de8abbb911c92ef222ba65e8f193d05b2b9b))
-* **plugin-compiler-web:** 修复 runtime-web chunk 未抽取为单独的文件的问题 ([330eb5c](https://github.com/eleme/morjs/commit/330eb5c61af9eb253e24e3ab06a4425d6ff13c0c))
-* **plugin-compiler-web:** 修复 web 服务启动的端口号冲突检测逻辑并调整最大检测次数为 5 次 ([4a36bc0](https://github.com/eleme/morjs/commit/4a36bc03efffa43f31f132d617cd8909d0b4517f))
-* **plugin-compiler-web:** 修复 web 组件转换在生产模式下 js 文件名称错误及内容为空的问题 ([7501253](https://github.com/eleme/morjs/commit/750125345e1d37db180d8d3a4de66b171e573339))
-* **plugin-compiler-web:** 修复分包工程编译为 web 时可能会报错的问题 ([b9d5203](https://github.com/eleme/morjs/commit/b9d5203b5d14ee1b0ba73bcf17bc47e1200489af))
-* **plugin-compiler-web:** 修复嵌套场景下 styleScope 失效的问题 ([#109](https://github.com/eleme/morjs/issues/109)) ([df462ec](https://github.com/eleme/morjs/commit/df462ec587d57c89e9ebfe22fab9997690245d0c))
-* **plugin-compiler-web:** 修复微信 DSL 转 Web 可能会找不到 sjs 文件的问题 ([fc77d21](https://github.com/eleme/morjs/commit/fc77d211d0d8957c1d4b1450a983e3a6328f9e48))
-* **plugin-compiler-web:** 修复转 Web 小程序组件库的产物加载入口和文档不一致的问题 ([584809f](https://github.com/eleme/morjs/commit/584809fea95163b2a504d308d31cf037846f17ae))
-* **plugin-compiler-web:** 修复转 web 在 windows 下的路径兼容性问题 ([#90](https://github.com/eleme/morjs/issues/90)) ([48f31b6](https://github.com/eleme/morjs/commit/48f31b636cc9b06d057e947b12b236745b395fa3))
-* **plugin-compiler:** 修复由于 peerDependencies 导致的 webpack 多实例问题 ([#4](https://github.com/eleme/morjs/issues/4)) ([323b70b](https://github.com/eleme/morjs/commit/323b70b7826650fb3f90d2efa88d0215fee62da6))
+* **plugin-compiler-web:** 取用户配置空值兜底 ([bf97608](https://github.com/eleme/morjs/commit/bf976083bade3cf78821cfb339e09ec6c841cdac))
 
 
 ### Features
 
-* **plugin-compiler-web:** .json 文件支持条件编译 ([#3](https://github.com/eleme/morjs/issues/3)) ([d717375](https://github.com/eleme/morjs/commit/d717375bbad95413c9a23e639a78ec086d07b6e8))
-* **plugin-compiler-web:** 完善小程序转 Web 的功能逻辑以及禁止载入用户自定义的 babel 配置 ([824e032](https://github.com/eleme/morjs/commit/824e032978299d9d5a9e5ea6afd4a4b8f6f621fc))
-* **plugin-compiler-web:** 移除 slot 组件对 class, style 属性的解析以及完善节点返回值校验 ([#79](https://github.com/eleme/morjs/issues/79)) ([fcca600](https://github.com/eleme/morjs/commit/fcca60068edc7e50787e5f36eac328b6e48ee4bd))
-* **plugin-compiler-web:** 优化 Web 编译的 bundle 文件生成名称 ([f07acec](https://github.com/eleme/morjs/commit/f07acecde018d271fb3cd33bb6af60b1953568ad))
-* **plugin-compiler-web:** 支持 slot 属性动态化 ([0144fe7](https://github.com/eleme/morjs/commit/0144fe74d0beed139d92cf60fc5f9d9f78a7086c))
-* **plugin-compiler-web:** 转 web 时js script 上增加 crossorigin 属性，方便业务监控捕获详细的 JS Error ([40b34cd](https://github.com/eleme/morjs/commit/40b34cde51d00d0d1454d6cc1a5a48c594f31788))
-* **plugin-compiler:** 完善 setEntrySource 对写入内存文件的逻辑支持 ([3bb4a92](https://github.com/eleme/morjs/commit/3bb4a922cbf7a42a3547d85d07c0304b1c6b4368))
-* **runtime-web:** setClipboard 增加 queryCommand 实现方式 & 可以通过配置强切实现方式 ([#32](https://github.com/eleme/morjs/issues/32)) ([3b02ed7](https://github.com/eleme/morjs/commit/3b02ed7ba37a9950916b590246552b2fb192c4fa))
+* **plugin-compiler-web:** 样式文件中[@import](https://github.com/import)内容可写入样式文件 ([935871a](https://github.com/eleme/morjs/commit/935871af633322410a734537d7af90b0e37caffa))
+* **plugin-compiler-web:** 转 web 时 tabbar 兼容微信使用场景 ([33acea7](https://github.com/eleme/morjs/commit/33acea789975d66c076fd5752ec067ac95d61b49))
+
+
+
+
+
+## [1.0.108](https://github.com/eleme/morjs/compare/v1.0.107...v1.0.108) (2024-04-15)
+
+
+### Features
+
+* **plugin-compiler-web & runtime-web:** 动态支持更改导航栏&状态栏的高度 ([1356488](https://github.com/eleme/morjs/commit/135648845d63e50698309a110783f633499cf00b))
+
+
+
+
+
+## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
+## [1.0.105](https://github.com/eleme/morjs/compare/v1.0.104...v1.0.105) (2024-04-02)
+
+
+### Bug Fixes
+
+* **plugin-compiler-web:** 修复编译报错问题 ([3aac27b](https://github.com/eleme/morjs/commit/3aac27ba8d01e160d8b318a505bb3be5c9237bdf))
+
+
+
+
+
+## [1.0.104](https://github.com/eleme/morjs/compare/v1.0.103...v1.0.104) (2024-04-02)
+
+
+### Bug Fixes
+
+* **runtime-web & plugin-compiler-web:** ts errors fixed ([f917e0d](https://github.com/eleme/morjs/commit/f917e0d4960d7b72908412d77ab060c9b8112cee))
+
+
+### Features
+
+* **plugin-compiler-web & runtime-web:** 支持 selectOwnerComponent Api ([ebbf478](https://github.com/eleme/morjs/commit/ebbf478de285f0222ca52b17723fd218667140d1))
+
+
+
+
+
+## [1.0.102](https://github.com/eleme/morjs/compare/v1.0.101...v1.0.102) (2024-03-22)
+
+
+### Features
+
+* **plugin-compiler-web:** 开启 styleScope 时支持 class 使用三元表达式 ([aa0f938](https://github.com/eleme/morjs/commit/aa0f938ba5911e6f2f28943e77cb68c8b23096e4))
+* **plugin-compiler-web:** 条件判断支持三元表达式 ([3821094](https://github.com/eleme/morjs/commit/3821094a0a00d34751aaf9330d9e27e3a746c15e))
 
 
 

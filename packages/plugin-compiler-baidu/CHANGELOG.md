@@ -3,13 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 1.0.102-alpha.0 (2024-03-13)
+## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-baidu
+
+
+
+
+
+## [1.0.103](https://github.com/eleme/morjs/compare/v1.0.102...v1.0.103) (2024-03-25)
 
 
 ### Features
 
-* **plugin-compiler-baidu:** 完善微信转百度双向绑定适配以及修复 s-for 指令适配逻辑 ([3d15094](https://github.com/eleme/morjs/commit/3d15094eb983f8148690dda08c80c480474335b5))
-* **runtime-mini:** 对齐最新 lifetimes 的官方功能，优先使用官方提供的 lifetimes 方法，兜底使用 mor 的自实现 ([#38](https://github.com/eleme/morjs/issues/38)) ([0044d4a](https://github.com/eleme/morjs/commit/0044d4a8cc86fc619c505f664d098c033fb7d8a7))
+* **plugin-compiler-baidu:** 移除 type 检测的 warning 提示 ([148c9fe](https://github.com/eleme/morjs/commit/148c9fe16119434ba722827a2546bccc619f923e))
 
 
 

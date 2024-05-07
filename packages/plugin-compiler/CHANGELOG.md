@@ -3,64 +3,95 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 1.0.102-alpha.0 (2024-03-13)
-
-
-### Bug Fixes
-
-* **plugin-compiler:** 分包或插件转 web 场景下不注入 App 的初始化模拟支持 ([1bb21f6](https://github.com/eleme/morjs/commit/1bb21f61ceff805c0a85a144b01c37a3a6128baf))
-* **plugin-compiler:** 修复 autoInjectRuntime.api 设为 true，未自动转换为 enhanced 引发的 ts 类型报错 ([#82](https://github.com/eleme/morjs/issues/82)) ([4d5a660](https://github.com/eleme/morjs/commit/4d5a6602b88ce45b4502e289cf67a70bb7ad3a8e))
-* **plugin-compiler:** 修复 esm 版本的运行时无法被正确注入小程序转端能力支持的问题 ([b97071d](https://github.com/eleme/morjs/commit/b97071dfc01f39cdf2acf1dd4c99399b06345ef8))
-* **plugin-compiler:** 修复 getApp 在分包和插件场景下注入时 export default 导致无法被 commonjs 规范的文件正确引用的问题 ([f47a2c5](https://github.com/eleme/morjs/commit/f47a2c5ed3779daedf055355280b841c2aeee647))
-* **plugin-compiler:** 修复 getApp 注入逻辑中 getLaunchOptionsSync 可能不是一个函数的问题 ([d2a3ef9](https://github.com/eleme/morjs/commit/d2a3ef93971845c17a05245eeaae66a7290fd1e3))
-* **plugin-compiler:** 修复 web 编译在生产模式下 css 文件可能未被压缩的问题 ([ed509e4](https://github.com/eleme/morjs/commit/ed509e4948025bcb24f76114e1e719a10302c031))
-* **plugin-compiler:** 修复部分情况下自动写入内存文件可能会引发报错的问题 ([a2bac5f](https://github.com/eleme/morjs/commit/a2bac5fd232f8cf92baa66ffc96412a5e7b7753b))
-* **plugin-compiler:** 修复错误将 npm 组件中样式文件作为普通样式文件解析的问题 ([de6935e](https://github.com/eleme/morjs/commit/de6935e03634383283240e4924d610192b506a8f))
-* **plugin-compiler:** 修复开启 importHelpers 可能失败的问题 ([56a662e](https://github.com/eleme/morjs/commit/56a662e6bfbf5df1d930deb65ddfba2ca738b3a8))
-* **plugin-compiler:** 修复开启 processNodeModules 时错误将 runtime-base 中的接口转端从而引发报错的问题 ([f7fd9db](https://github.com/eleme/morjs/commit/f7fd9dbb0bb0cff69c0babdf0e07ad95f6f4c867))
-* **plugin-compiler:** 修复模版解析器处理多端编译时 attrName 可能无值导致逻辑错误的问题 ([920249f](https://github.com/eleme/morjs/commit/920249f0b2637751a20615e3db8ae448fded77be))
-* **plugin-compiler:** 修复全局组件注入可能不生效的问题 ([3fda777](https://github.com/eleme/morjs/commit/3fda777afb2dc2ec2d11bc3c2e2ff63b2b95c1e4))
-* **plugin-compiler:** 修复提取内联 sjs 内容时文件后缀错误以及未执行 sjsParser 的问题 ([3fb9971](https://github.com/eleme/morjs/commit/3fb9971f41ea00b40bbc0f9eb7691ba5a6a629ca))
-* **plugin-compiler:** 修复同一个项目中混用支付宝或微信 DSL 可能会导致样式冲突的问题 ([4f0577a](https://github.com/eleme/morjs/commit/4f0577a1a248256c167df5f9dc1d72a2340b73fa))
-* **plugin-compiler:** 修复样式文件如果传入 null 或 undefined 会导致 postcss 报错的问题 ([0d0ce21](https://github.com/eleme/morjs/commit/0d0ce211e1ec5cb49bfcf05083ff8263d5f23f81))
-* **plugin-compiler:** 修复异步 require 或 require.async 的参数被跳过解析可能引起运行时报错的问题 ([#66](https://github.com/eleme/morjs/issues/66)) ([50f29b7](https://github.com/eleme/morjs/commit/50f29b7065864e35847134e16f9ef254c6f6c7d4))
-* **plugin-compiler:** 修复由于 peerDependencies 导致的 webpack 多实例问题 ([#4](https://github.com/eleme/morjs/issues/4)) ([323b70b](https://github.com/eleme/morjs/commit/323b70b7826650fb3f90d2efa88d0215fee62da6))
-* **plugin-compiler:** 修复运行时自动注入可能会导致转 Web 运行时加载时机错误的问题 ([aad48e9](https://github.com/eleme/morjs/commit/aad48e9ecb8b299b7b9761f3a9483ee33ba7ab6f))
-* **plugin-compiler:** fix case where alias is an empty object ([#5](https://github.com/eleme/morjs/issues/5)) ([f1fec85](https://github.com/eleme/morjs/commit/f1fec8522bc9b832f025c67c0d6733960e2f0a83))
-* **plugin-compiler:** sjs/wxs 文件中的 require/import 替换为真实路径 ([6b2031b](https://github.com/eleme/morjs/commit/6b2031ba089a40370872b5cccd2efe1b75abc0de))
-* **plugin-compiler:** transform 编译模式下允许找不到 npm 中的多端组件 ([4cef590](https://github.com/eleme/morjs/commit/4cef5901625070da88067a1973d65b2b4ab36dbb))
+## [1.0.110](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.110) (2024-04-26)
 
 
 ### Features
 
-* **plugin-compiler-bytedance:** 新增抖音分包异步化编译支持 ([#46](https://github.com/eleme/morjs/issues/46)) ([6e2ede2](https://github.com/eleme/morjs/commit/6e2ede2782bdbdc259d81deb603fccabc3f8f136))
-* **plugin-compiler-web:** 移除 slot 组件对 class, style 属性的解析以及完善节点返回值校验 ([#79](https://github.com/eleme/morjs/issues/79)) ([fcca600](https://github.com/eleme/morjs/commit/fcca60068edc7e50787e5f36eac328b6e48ee4bd))
-* **plugin-compiler:** 添加幽灵依赖检测功能 ([#7](https://github.com/eleme/morjs/issues/7)) ([9899827](https://github.com/eleme/morjs/commit/989982731d490922bc8f7dbc272ce63461693a28))
-* **plugin-compiler:** 完善 processNodeModules 对组件库的解析逻辑支持 ([2b33ef1](https://github.com/eleme/morjs/commit/2b33ef1acfc42960c0ee9cb9813f92fd22e936e3))
-* **plugin-compiler:** 完善 setEntrySource 对写入内存文件的逻辑支持 ([3bb4a92](https://github.com/eleme/morjs/commit/3bb4a922cbf7a42a3547d85d07c0304b1c6b4368))
-* **plugin-compiler:** 完善 transform 编译支持以及允许通过 customEntries 添加额外需要编译的页面或组件 ([82fecc5](https://github.com/eleme/morjs/commit/82fecc524cf87534d213e065c07423133aefe88c))
-* **plugin-compiler:** 完善小程序转端运行时自动注入逻辑和兜底检查支持 ([433d43c](https://github.com/eleme/morjs/commit/433d43c85931c93dd05b60065e4dbaa30896fbb8))
-* **plugin-compiler:** 完善自定义入口配置文件的解析逻辑，允许指定为非源码目录的文件 ([fb7610c](https://github.com/eleme/morjs/commit/fb7610c7324c9833296497cddc71246c3c458d08))
-* **plugin-compiler:** 新增 web-pro 识别 ([9642737](https://github.com/eleme/morjs/commit/964273797aaf0b1a8b39fd5c1111bae2f464096d))
-* **plugin-compiler:** 新增编译时自动检测运行时入口函数和 sourceType 类型是否匹配 ([#22](https://github.com/eleme/morjs/issues/22)) ([1096bad](https://github.com/eleme/morjs/commit/1096bad220a1f4807bf657755b18544a241fb39f))
-* **plugin-compiler:** 新增多端组件构建模式支持 ([#75](https://github.com/eleme/morjs/issues/75)) ([3307838](https://github.com/eleme/morjs/commit/3307838d278607d300c390877abe48e40f117acd))
-* **plugin-compiler:** 新增组件级别多端产物互通能力支持 ([#97](https://github.com/eleme/morjs/issues/97)) ([cc97565](https://github.com/eleme/morjs/commit/cc97565561ecf4529b47466c55e63892e60d35f1))
-* **plugin-compiler:** 移除无关打印 ([a16db5d](https://github.com/eleme/morjs/commit/a16db5d9ceb0f9e7b8097a0fac0f804eeeb0f151))
-* **plugin-compiler:** 优化 processNodeModules 配置开启后对组件库的转端编译支持 ([fcacc95](https://github.com/eleme/morjs/commit/fcacc952f8d18ddc530d0335d41d2217b89c4cb0))
-* **plugin-compiler:** 优化编译相关全局文件名称生成逻辑，允许配置后缀名以避免冲突 ([aae1dad](https://github.com/eleme/morjs/commit/aae1dad13864ee3e4a58786870435a36e4f581d5))
-* **plugin-compiler:** 优化分包和插件编译的 getApp 注入逻辑，避免在支付宝小程序上的 externals 生效问题 ([#70](https://github.com/eleme/morjs/issues/70)) ([be79063](https://github.com/eleme/morjs/commit/be790631943efc328145353945dde8c74edf44a5))
-* **plugin-compiler:** 优化微信 DSL 转 Web 对 wxs 文件解析逻辑的支持 ([dac0fc5](https://github.com/eleme/morjs/commit/dac0fc5a8991fa2aa7947ba0deecd4c157555d52))
-* **plugin-compiler:** 优化项目配置文件载入逻辑，不需要输出项目配置文件时跳过查找 ([a4cda13](https://github.com/eleme/morjs/commit/a4cda13f21690bd2be6c3ebe1da730d6fc813bf0))
-* **plugin-compiler:** 优化幽灵依赖和自动注入功能兼容性 ([e5f97e3](https://github.com/eleme/morjs/commit/e5f97e38787a10c3f780e1b0b3a2931d5a0ef4fe))
-* **plugin-compiler:** 支持 .css 类型文件编译 ([d5c3bb2](https://github.com/eleme/morjs/commit/d5c3bb26925dc65e5a6e21fbe8dcd8b449c57a3c))
-* **plugin-compiler:** 支持 externalsType 自定义 ([277e3d9](https://github.com/eleme/morjs/commit/277e3d96145dc2f94c61ecd8ea11b8de504a15a9))
-* **plugin-compiler:** 支持 web-pro 编译 ([da23459](https://github.com/eleme/morjs/commit/da23459120a328a20f84c7f2f82a058deedcfd5e))
-* **plugin-compiler:** 支持自定义 template render ([637305c](https://github.com/eleme/morjs/commit/637305cbca2ecf810dbaadf3c783489bd453d244))
-* **plugin-compiler:** consumes 和 shared 配置增加别名配置支持 ([fb955ad](https://github.com/eleme/morjs/commit/fb955ad9f0bd964e06357add616e53561dba1190))
-* **plugin-compiler:** template 文件解析增加页面纬度的共享上下文透传支持 ([184a132](https://github.com/eleme/morjs/commit/184a1323bc0840ddbc0a759179467e54f3c82453))
-* **pulgin-compiler:** copy 属性拓展 filter, force, context 等功能配置 ([5574354](https://github.com/eleme/morjs/commit/55743541608ec7968a59f1d9de8a6195b5f16b4a))
-* **runtime-base:** 新增 hooks 的 pause、resume 方法，用于暂停/恢复部分 hooks 生命周期的执行 ([#77](https://github.com/eleme/morjs/issues/77)) ([aa712eb](https://github.com/eleme/morjs/commit/aa712ebf2603ecd5b1340f77c0d79e2e709476ad))
-* **runtime-mini:** 对齐最新 lifetimes 的官方功能，优先使用官方提供的 lifetimes 方法，兜底使用 mor 的自实现 ([#38](https://github.com/eleme/morjs/issues/38)) ([0044d4a](https://github.com/eleme/morjs/commit/0044d4a8cc86fc619c505f664d098c033fb7d8a7))
+* **plugin-compiler:** css 压缩获取短类名时的执行顺序调整，让业务判断获取更高的优先级 ([e3d9c3f](https://github.com/eleme/morjs/commit/e3d9c3fa8e016475bd7b10a843d94bb854a37065))
+* **plugin-compiler:** runtime 方法替换兼容 return 语句 ([caa684e](https://github.com/eleme/morjs/commit/caa684e5ccb6cea6297f33b011344d1bca5521d5))
+* **plugin-compiler:** runtime 方法替换兼容 return 语句(增强判断) ([10b4090](https://github.com/eleme/morjs/commit/10b4090cc3361fd0d06f70b69b7b5c7a5bc9b198))
+
+
+
+
+
+## [1.0.109](https://github.com/eleme/morjs/compare/v1.0.108...v1.0.109) (2024-04-18)
+
+
+### Bug Fixes
+
+* **plugin-compiler:** css 压缩校验类名时重置正则 lastIndex，解决部分场景匹配异常问题 ([7718d53](https://github.com/eleme/morjs/commit/7718d538b65e8e16fba787d6359be6b4f38f915a))
+* **plugin-compiler:** css 压缩校验类名时重置正则 lastIndex，解决部分场景匹配异常问题 ([094ad4c](https://github.com/eleme/morjs/commit/094ad4cb677ba861ba4d67a9f0fd9e05acdd9fdb))
+* **plugin-compiler:** css 压缩支持以 - 链接，支持一个以上变量表达式并排 ([2f873ad](https://github.com/eleme/morjs/commit/2f873ad26042104353dffed712db6b06181f966f))
+
+
+
+
+
+## [1.0.108](https://github.com/eleme/morjs/compare/v1.0.107...v1.0.108) (2024-04-15)
+
+
+### Features
+
+* **plugin-compiler:** 支持微信特殊类名用法 ([bd161bf](https://github.com/eleme/morjs/commit/bd161bfd6176851ba2a3d51b615e472dc172c09b))
+* **plugin-compiler:** 支持微信特殊类名用法 ([8a6173a](https://github.com/eleme/morjs/commit/8a6173a25de86a387faf06ba6335ba5bdb89c6de))
+
+
+
+
+
+## [1.0.107](https://github.com/eleme/morjs/compare/v1.0.106...v1.0.107) (2024-04-11)
+
+
+### Features
+
+* **plugin-compiler:** css 压缩时支持更多动态绑定场景 ([b7ba407](https://github.com/eleme/morjs/commit/b7ba407f59989d48e9283bfeda77a2186cc80a2e))
+
+
+
+
+
+## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.105](https://github.com/eleme/morjs/compare/v1.0.104...v1.0.105) (2024-04-02)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.104](https://github.com/eleme/morjs/compare/v1.0.103...v1.0.104) (2024-04-02)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.103](https://github.com/eleme/morjs/compare/v1.0.102...v1.0.103) (2024-03-25)
+
+
+### Features
+
+* **plugin-compiler:** 优化类名拆分逻辑 ([f518e98](https://github.com/eleme/morjs/commit/f518e9848be7348c6a9e0be7495f9870c8c3a765))
+* **plugin-compiler:** 优化去除文件路径后缀逻辑 ([5d30d0e](https://github.com/eleme/morjs/commit/5d30d0e8769914d772edb26a0c788cdcdc0eb688))
+* **plugin-compiler:** 增加 disableDynamicClassDetection 参数，用于配置是否需要跳过动态 class 类名检测 ([6abc138](https://github.com/eleme/morjs/commit/6abc138c7e3dd10f405bd2bb35ac034e5e8a4520))
+
+
+
+
+
+## [1.0.102](https://github.com/eleme/morjs/compare/v1.0.101...v1.0.102) (2024-03-22)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
 
 
 
