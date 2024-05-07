@@ -41,7 +41,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@morjs/runtime-base": "1.0.102-alpha.0",
+    "@morjs/runtime-base": "1.0.69",
     "clone-deep": "^4.0.1",
     "lodash.get": "^4.4.2",
     "lodash.has": "^4.5.2",

@@ -3,24 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 1.0.102-alpha.0 (2024-03-13)
-
-
-### Bug Fixes
-
-* **plugin-composer:** 修复不同配置的集成结果文件 compose-results.json 会相互覆盖的问题 ([fb91ac7](https://github.com/eleme/morjs/commit/fb91ac761783df647b31e16e66bb299cde1c641c))
-* **plugin-composer:** 修复监听状态下集成编译可能会错误将当前宿主或分包模块产物进行二次编译的问题 ([0e846c4](https://github.com/eleme/morjs/commit/0e846c4dff0f6bd8a82755306d6344df673548c1))
-
-
-### Features
-
-* **plugin-compiler-bytedance:** 新增抖音分包异步化编译支持 ([#46](https://github.com/eleme/morjs/issues/46)) ([6e2ede2](https://github.com/eleme/morjs/commit/6e2ede2782bdbdc259d81deb603fccabc3f8f136))
-* **plugin-composer:** 完善集成临时文件存储逻辑，基于配置名称区分，避免多配置模式下集成缓存冲突 ([cbefb55](https://github.com/eleme/morjs/commit/cbefb55664c89ea94e8e199aca440a3c885603e2))
-* **plugin-composer:** 优化模块集成脚本变化判断逻辑，避免错误判断导致脚本重复执行 ([b4c08fd](https://github.com/eleme/morjs/commit/b4c08fd149943d432b3cb25323c30f426a1df071))
-* **plugin-composer:** 增加 --target, --compile-type, --output-path 命令行选项支持 ([4fc9e0a](https://github.com/eleme/morjs/commit/4fc9e0aa7fa927066089f2dfaf1d08886f98bdff))
-* **plugin-composer:** 支持在 CI 环境下打印更多的集成信息 ([#91](https://github.com/eleme/morjs/issues/91)) ([9b70c32](https://github.com/eleme/morjs/commit/9b70c32c2621fbe8690d7a306a231d057dd0fb57))
-
-
 
 
 
