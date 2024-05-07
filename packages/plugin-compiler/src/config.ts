@@ -718,8 +718,9 @@ export async function buildWebpackConfig(
   // 插件的 main 文件需要使用
   chain.output.enabledLibraryTypes(['commonjs', 'commonjs2', 'commonjs-module'])
 
+  const isWeb = target === 'web' || target === 'web-pro'
   // 非 web 构建, 关闭 asyncChunks
-  if (target !== 'web') {
+  if (!isWeb) {
     chain.output.asyncChunks(false)
   }
   // 开启 watch
