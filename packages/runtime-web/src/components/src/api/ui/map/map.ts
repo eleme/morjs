@@ -50,7 +50,6 @@ const transformTigaTag = (str) => {
     )
     .replace(/<(\s+)?(box|text|image)/g, ($1, $2, $3) => `<tiga-map-${$3}`)
 }
-
 export default class Map extends BaseElement {
   mapId = 'map-' + uuid()
   // 对应高德地图中 setFitView 方法中的 avoid 参数

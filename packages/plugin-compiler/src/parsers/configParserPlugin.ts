@@ -25,7 +25,7 @@ export class ConfigParserPlugin implements Plugin {
       const userConfig = runner.userConfig as CompilerUserConfig
 
       // 如果是转换为 web 则不做处理
-      if (userConfig.target === 'web') return
+      if (userConfig.target === 'web' || userConfig.target === 'web-pro') return
 
       // 是否需要注入全局组件, 判断条件如下
       // 1. 当编译模式为 小程序
