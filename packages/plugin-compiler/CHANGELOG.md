@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.112](https://github.com/eleme/morjs/compare/v1.0.111...v1.0.112) (2024-05-10)
+
+
+### Features
+
+* **plugin-compiler:** 新增 web-pro 识别 ([9642737](https://github.com/eleme/morjs/commit/964273797aaf0b1a8b39fd5c1111bae2f464096d))
+* **plugin-compiler:** 移除无关打印 ([a16db5d](https://github.com/eleme/morjs/commit/a16db5d9ceb0f9e7b8097a0fac0f804eeeb0f151))
+* **plugin-compiler:** 支持 .css 类型文件编译 ([d5c3bb2](https://github.com/eleme/morjs/commit/d5c3bb26925dc65e5a6e21fbe8dcd8b449c57a3c))
+* **plugin-compiler:** 支持 web-pro 编译 ([da23459](https://github.com/eleme/morjs/commit/da23459120a328a20f84c7f2f82a058deedcfd5e))
+* **plugin-compiler:** 支持自定义 template render ([637305c](https://github.com/eleme/morjs/commit/637305cbca2ecf810dbaadf3c783489bd453d244))
+* **plugin-compiler:** web-pro 编译去除 .json 文件输出 ([e9feb46](https://github.com/eleme/morjs/commit/e9feb4665be2495094375cf02fe3ec5e9aadc4f2))
+
+
+
+
+
 ## [1.0.111](https://github.com/eleme/morjs/compare/v1.0.110...v1.0.111) (2024-05-06)
 
 **Note:** Version bump only for package @morjs/plugin-compiler

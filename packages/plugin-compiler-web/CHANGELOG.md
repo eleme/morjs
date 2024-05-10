@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.112](https://github.com/eleme/morjs/compare/v1.0.111...v1.0.112) (2024-05-10)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-web
+
+
+
+
+
 ## [1.0.111](https://github.com/eleme/morjs/compare/v1.0.110...v1.0.111) (2024-05-06)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-web
