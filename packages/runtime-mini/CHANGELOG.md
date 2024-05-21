@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.113](https://github.com/eleme/morjs/compare/v1.0.112...v1.0.113) (2024-05-21)
+
+
+### Bug Fixes
+
+* **runtime-mini:** 支付宝转微信类场景移除 saveImageToPhotosAlbum => saveImage 转换 ([7a00597](https://github.com/eleme/morjs/commit/7a0059702bd424ecde2abaf0e960bbc8a1d84fe7))
+
+
+
+
+
 ## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
 
 
