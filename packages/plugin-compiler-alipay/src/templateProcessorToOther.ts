@@ -1,6 +1,7 @@
 import {
   FileParserOptions,
   logger,
+  Pairs,
   posthtml,
   tsTransformerFactory,
   typescript as ts
@@ -100,8 +101,8 @@ export const templateProcessorToOther = {
 }
 
 // 事件代理名称
-const PROXY_EVENT_NAME = '$morEventHandlerProxy'
-const EVENT_HANDLER_NAME = 'data-mor-event-handlers'
+const PROXY_EVENT_NAME = '$morEHP' // $morEventHandlerProxy
+const EVENT_HANDLER_NAME = 'data-meh' // data-mor-event-handlers
 const PROXY_DISABLE_EVENT_NAME = '$morDisableScrollProxy'
 
 /**
@@ -117,10 +118,7 @@ function processEventProxy(
     Object.keys(context.morHandlersMap).length &&
     !options.userConfig?.processComponentsPropsFunction
   ) {
-    node.attrs[EVENT_HANDLER_NAME] = Buffer.from(
-      JSON.stringify(context.morHandlersMap)
-    ).toString('base64')
-
+    node.attrs[EVENT_HANDLER_NAME] = Pairs.toString(context.morHandlersMap)
     delete context.morHandlersMap
   }
 }

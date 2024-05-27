@@ -1,9 +1,9 @@
 import {
-  Base64,
   compose,
   generateId,
   getSharedProperty,
-  logger
+  logger,
+  Pairs
 } from '@morjs/runtime-base'
 import clone from 'clone-deep'
 import { injectHasMixinSupport } from '../common/behaviorOrMixin'
@@ -13,7 +13,7 @@ const MOR_PREFIX = 'mor' as const
 /**
  * 保存在 dataset 的事件代理相关方法名称映射
  */
-const MOR_EVENT_HANDLERS_DATASET = `${MOR_PREFIX}EventHandlers` as const
+const MOR_EVENT_HANDLERS_DATASET = `meh` as const
 /**
  * 用于保存事件代理相关方法名称映射
  */
@@ -499,7 +499,7 @@ function hookComponentLifeCycle(
             }
 
             // 触发小程序原生事件
-            // 事件会被 $morEventHandlerProxy 事件代理方法捕获
+            // 事件会被 $morEHP 事件代理方法捕获
             // 并触发 event 事件, 基于 eventId
             this.triggerEvent(triggerEventName, {
               name: this[MOR_EVENT_HANDLERS][triggerEventName],
@@ -517,10 +517,9 @@ function hookComponentLifeCycle(
 
   const injectEventHandlers = function (): void {
     const morEventHandlers = this.dataset?.[MOR_EVENT_HANDLERS_DATASET]
-
     if (morEventHandlers) {
       try {
-        this[MOR_EVENT_HANDLERS] = JSON.parse(Base64.decode(morEventHandlers))
+        this[MOR_EVENT_HANDLERS] = Pairs.toObject(morEventHandlers)
 
         // ref 支持
         if (this[MOR_EVENT_HANDLERS].ref) {
