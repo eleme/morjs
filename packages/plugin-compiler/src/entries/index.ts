@@ -1947,7 +1947,8 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
           pluginJson = {
             publicComponents: pluginJson?.publicComponents || {},
             publicPages,
-            pages: Object.values(publicPages)
+            pages: Object.values(publicPages),
+            main: pluginJson?.main
           } as IPluginConfig
         }
         globalEntry = await this.buildByPlugin(pluginJson, pluginJsonPath)
