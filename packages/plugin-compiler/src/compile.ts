@@ -173,7 +173,7 @@ function compileWorkers(
   const globalObject = userConfig.globalObject
   const srcPaths = userConfig.srcPaths
 
-  let workerEnabed = false
+  let workerEnabled = false
 
   /**
    * 需要编译的 worker 文件（不带后缀）
@@ -182,7 +182,7 @@ function compileWorkers(
 
   const PLUGIN_NAME_WORKER = PLUGIN_NAME + '_WORKER'
   runner.hooks.beforeBuildEntries.tap(PLUGIN_NAME_WORKER, (entryBuilder) => {
-    workerEnabed = !!entryBuilder.appJson?.workers
+    workerEnabled = !!entryBuilder.appJson?.workers
   })
 
   compiler.hooks.normalModuleFactory.tap(PLUGIN_NAME_WORKER, (factory) => {
@@ -197,7 +197,7 @@ function compileWorkers(
       .tap(PLUGIN_NAME_WORKER, (parser) => parse(parser))
 
     function parse(parser: webpack.javascript.JavascriptParser) {
-      if (!workerEnabed) return
+      if (!workerEnabled) return
 
       type Expression = Parameters<
         ReturnType<
@@ -240,7 +240,7 @@ function compileWorkers(
       compilation.hooks.additionalAssets.tapPromise(
         PLUGIN_NAME_WORKER,
         async () => {
-          if (!workerEnabed || !workerFiles.size) return
+          if (!workerEnabled || !workerFiles.size) return
 
           for await (const file of workerFiles) {
             const entryName = file + '.js'
