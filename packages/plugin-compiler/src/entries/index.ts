@@ -580,7 +580,11 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     const sourceEntry = this.getEntryByFilePath(sourcePath)
 
     // 非 bundle 模式下 不处理 npm 组件的路径替换
-    if (this.userConfig.compileMode !== CompileModes.bundle) {
+    // component 模式下 需要处理 npm 组件的路径替换
+    if (
+      this.userConfig.compileMode !== CompileModes.bundle &&
+      this.userConfig.compileType !== CompileTypes.component
+    ) {
       if (
         sourceEntry.entryType === EntryType.npmComponent ||
         referenceEntry.entryType === EntryType.npmComponent
@@ -896,8 +900,12 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     // 小程序分析
     await this.buildByCompileType(compileType, compileMode)
 
-    if (compileMode === CompileModes.transform) {
+    if (
+      compileMode === CompileModes.transform &&
+      compileType !== CompileTypes.component
+    ) {
       // transform 模式下完成一次 glob 所有文件，确保不会有遗漏
+      // component type 下会解析依赖，不需要 glob 所有文件
       // 比如组件库编译等
       await this.buildByGlob()
     }
@@ -920,9 +928,11 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     if (this.entries.size) {
       for (const [entryName, item] of this.entries) {
         // transform 模式下不输出 node_modules 中的组件
+        // component type 下需要编译 node_modules 中的组件
         if (
           compileMode === CompileModes.transform &&
-          item.entryType === EntryType.npmComponent
+          item.entryType === EntryType.npmComponent &&
+          compileType !== CompileTypes.component
         ) {
           continue
         }
@@ -1892,7 +1902,6 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       null,
       searchPaths
     )
-
     // 尝试载入全局文件
     await this.tryAddGlobalFiles()
 
@@ -2747,7 +2756,6 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
   ): Promise<void | EntryItem> {
     // 不处理插件中的组件
     if (entryType === EntryType.pluginComponent) return
-
     // 判断是否需要处理页面或组件
     if (
       this.runner.hooks.shouldAddPageOrComponent.call(referencePath, {
@@ -3036,6 +3044,17 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         logger.error(`文件 ${entry.relativePath} 依赖解析失败`, { error })
       }
     }
+    // component type 下需要解析 js 依赖
+    else if (
+      this.userConfig.compileType === CompileTypes.component &&
+      fileType === EntryFileType.script
+    ) {
+      try {
+        await this.processJsFileDependencies(entry, undefined, roots)
+      } catch (error) {
+        logger.error(`文件 ${entry.relativePath} 依赖解析失败`, { error })
+      }
+    }
     // 解析 *xml 依赖
     else if (fileType === EntryFileType.template) {
       try {
@@ -3260,6 +3279,103 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         entryType,
         entry,
         EntryFileType.sjs,
+        undefined,
+        undefined,
+        undefined,
+        rootDirs
+      )
+    }
+  }
+
+  /**
+   * 解析 sjs 依赖
+   * @param entry - 当前文件 entry
+   * @param content - 当前文件内容
+   * @param rootDirs - 文件检索根目录, 可选, 默认为 srcPaths
+   */
+  private async processJsFileDependencies(
+    entry: EntryItem,
+    content?: string,
+    rootDirs?: string[]
+  ) {
+    // if (entry.entryType === EntryType.npmComponent) return
+
+    try {
+      ;(await this.fs.readFile(entry.fullPath)).toString('utf-8')
+    } catch (e) {}
+
+    const fileContent =
+      content == null
+        ? (await this.fs.readFile(entry.fullPath)).toString('utf-8')
+        : content
+
+    if (!fileContent) return
+
+    // 不包含引用时 直接跳过
+    if (!fileContent.includes('import') && !fileContent.includes('require')) {
+      return
+    }
+
+    const importPaths: string[] = []
+
+    // 解析 引用的文件路径
+    await scriptTransformer(
+      fileContent,
+      EntryFileType.sjs,
+      {
+        userConfig: this.userConfig,
+        fileInfo: {
+          path: entry.fullPath,
+          content: fileContent,
+          extname: entry.extname,
+          entryType: entry.entryType,
+          entryFileType: entry.entryFileType
+        }
+      },
+      {
+        before: [
+          tsTransformerFactory((node) => {
+            let importPath: string
+
+            if (ts.isImportDeclaration(node)) {
+              importPath = node.moduleSpecifier.getText()
+            } else if (
+              ts.isCallExpression(node) &&
+              ts.isIdentifier(node.expression) &&
+              node.expression.escapedText === 'require'
+            ) {
+              if (node.arguments && node.arguments.length) {
+                const arg = node.arguments[0]
+                if (ts.isStringLiteral(arg)) {
+                  importPath = arg.getText()
+                } else {
+                  logger.warn('尚未支持的 require 方式: ' + entry.fullPath)
+                }
+              } else {
+                logger.warn('尚未支持的 require 方式: ' + entry.fullPath)
+              }
+            }
+
+            if (importPath) {
+              importPath = importPath
+                .replace(/^('|")/, '')
+                .replace(/('|")$/, '')
+              importPaths.push(importPath)
+            }
+
+            return node
+          })
+        ]
+      }
+    )
+
+    // 逐个解析 js 依赖
+    for await (const importPath of importPaths) {
+      await this.tryAddEntriesFromPageOrComponent(
+        importPath,
+        entry.entryType,
+        entry,
+        EntryFileType.script,
         undefined,
         undefined,
         undefined,
