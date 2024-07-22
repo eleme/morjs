@@ -583,7 +583,12 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     // component 模式下 需要处理 npm 组件的路径替换
     if (
       this.userConfig.compileMode !== CompileModes.bundle &&
-      this.userConfig.compileType !== CompileTypes.component
+      (this.userConfig.compileType !== CompileTypes.component ||
+        !shouldProcessFileByPlugins(
+          realPath,
+          this.userConfig.processNodeModules,
+          false
+        ))
     ) {
       if (
         sourceEntry.entryType === EntryType.npmComponent ||
@@ -932,7 +937,12 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         if (
           compileMode === CompileModes.transform &&
           item.entryType === EntryType.npmComponent &&
-          compileType !== CompileTypes.component
+          (compileType !== CompileTypes.component ||
+            !shouldProcessFileByPlugins(
+              item.fullPath,
+              this.userConfig.processNodeModules,
+              false
+            ))
         ) {
           continue
         }
@@ -2976,7 +2986,6 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     }
 
     const shouldAnalyze = await this.shouldAnalyzeFileDepenencies(filePath)
-
     // 添加到 entry
     const entry = this.addToEntry(
       filePath,
@@ -3044,7 +3053,7 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
         logger.error(`文件 ${entry.relativePath} 依赖解析失败`, { error })
       }
     }
-    // component type 下需要解析 js 依赖
+    // component 模式下需要解析 js 依赖
     else if (
       this.userConfig.compileType === CompileTypes.component &&
       fileType === EntryFileType.script
@@ -3312,12 +3321,15 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
     if (!fileContent) return
 
     // 不包含引用时 直接跳过
-    if (!fileContent.includes('import') && !fileContent.includes('require')) {
+    if (
+      !fileContent.includes('import') &&
+      !fileContent.includes('require') &&
+      !fileContent.includes('export')
+    ) {
       return
     }
 
     const importPaths: string[] = []
-
     // 解析 引用的文件路径
     await scriptTransformer(
       fileContent,
@@ -3353,6 +3365,14 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
                 }
               } else {
                 logger.warn('尚未支持的 require 方式: ' + entry.fullPath)
+              }
+            } else if (ts.isExportDeclaration(node)) {
+              // 识别类似 export * from './xx/xx.js'
+              if (
+                node.moduleSpecifier &&
+                ts.isStringLiteral(node.moduleSpecifier)
+              ) {
+                importPath = node.moduleSpecifier.getText()
               }
             }
 
