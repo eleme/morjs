@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.0](https://github.com/eleme/morjs/compare/v1.0.113...v1.0.114-beta.0) (2024-07-24)
+
+
+### Bug Fixes
+
+* **plugin-compiler:** 解决 ts 类型错误 ([8f41291](https://github.com/eleme/morjs/commit/8f412914a2acefe1231c9dd20c7f6c44765cce82))
+* **plugin-compiler:** 修复CompileTypes.component 模式下转 web 组件问题修复 ([f9da5f2](https://github.com/eleme/morjs/commit/f9da5f24b0183bb3a5787689f9581c33c6e0af83))
+* **plugin-compiler:** 修复CompileTypes.component 模式下转 web 组件问题修复 ([ea4d452](https://github.com/eleme/morjs/commit/ea4d452133a4f27332b05e3e1d3738b41f199cbf))
+
+
+### Features
+
+* **plugin-compiler:** 新增weex-pro target ([95b0b31](https://github.com/eleme/morjs/commit/95b0b316dd7fb03926ca334383412a0a3aabea5a))
+
+
+
+## [1.0.112-beta.0](https://github.com/eleme/morjs/compare/v1.0.111...v1.0.112-beta.0) (2024-05-07)
+
+
+
+
+
 ## [1.0.113](https://github.com/eleme/morjs/compare/v1.0.112...v1.0.113) (2024-05-21)
 
 **Note:** Version bump only for package @morjs/plugin-compiler
