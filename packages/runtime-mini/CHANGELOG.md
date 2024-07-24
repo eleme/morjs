@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.113](https://github.com/eleme/morjs/compare/v1.0.112...v1.0.113) (2024-05-21)
+
+
+### Bug Fixes
+
+* **runtime-mini:** 支付宝转微信类场景移除 saveImageToPhotosAlbum => saveImage 转换 ([7a00597](https://github.com/eleme/morjs/commit/7a0059702bd424ecde2abaf0e960bbc8a1d84fe7))
+
+
+
+
+
+## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
+
+
+### Features
+
+* **runtime-mini:** 解除 getTabBar 方法的不支持标记 ([d8b9059](https://github.com/eleme/morjs/commit/d8b905983b35ae2480d89c15a6eb469e65a69555))
+
+
+
+
+
 ## [1.0.95](https://github.com/eleme/morjs/compare/v1.0.95-beta.1...v1.0.95) (2024-01-16)
 
 **Note:** Version bump only for package @morjs/runtime-mini
@@ -17,8 +39,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * **runtime-mini:** observer 执行时机由首次每次必执行改成数据相比于默认值发生变化时才执行 ([50c9e07](https://github.com/eleme/morjs/commit/50c9e0766018c33244d2e5ba748cdba829b8b85e))
-
-
 
 
 

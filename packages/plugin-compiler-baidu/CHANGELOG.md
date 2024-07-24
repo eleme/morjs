@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.113](https://github.com/eleme/morjs/compare/v1.0.112...v1.0.113) (2024-05-21)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-baidu
+
+
+
+
+
+## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-baidu
+
+
+
+
+
+## [1.0.103](https://github.com/eleme/morjs/compare/v1.0.102...v1.0.103) (2024-03-25)
+
+
+### Features
+
+* **plugin-compiler-baidu:** 移除 type 检测的 warning 提示 ([148c9fe](https://github.com/eleme/morjs/commit/148c9fe16119434ba722827a2546bccc619f923e))
+
+
+
+
+
 ## [1.0.95](https://github.com/eleme/morjs/compare/v1.0.95-beta.1...v1.0.95) (2024-01-16)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-baidu

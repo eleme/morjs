@@ -20,10 +20,11 @@
       "allowBranch": [
         "main",
         "beta",
-        "next"
+        "next",
+        "alpha"
       ],
       "message": "chore(release): publish packages"
     }
   },
-  "version": "1.0.101"
+  "version": "1.0.113"
 }

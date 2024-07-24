@@ -154,7 +154,7 @@ export default function (node: ElementNode, context: Context) {
       const attValue: t.JSXExpressionContainer = <any>classAtt.value
       attValue.expression = t.binaryExpression(
         '+',
-        attValue.expression as Expression,
+        addBracketToIdentifier(attValue.expression as Expression),
         t.stringLiteral(` ${styleScopeHash}`)
       )
     } else {

@@ -1,5 +1,6 @@
 import type { Plugin as MorPlugin, Runner } from '@morjs/utils'
 import AlipayCompilerConfigParserPlugin from './plugins/ConfigParserPlugin'
+import CustomTabBarPlugin from './plugins/CustomTabBarPlugin'
 import AlipayCompilerSjsParserPlugin from './plugins/SjsParserPlugin'
 import AlipayCompilerStyleParserPlugin from './plugins/StyleParserPlugin'
 import AlipayCompilerTemplateParserPlugin from './plugins/TemplateParserPlugin'
@@ -16,6 +17,7 @@ class AlipayCompilerPlugin implements MorPlugin {
     new AlipayCompilerStyleParserPlugin().apply(runner)
     new AlipayCompilerConfigParserPlugin().apply(runner)
     new AlipayCompilerTemplateParserPlugin().apply(runner)
+    new CustomTabBarPlugin().apply(runner)
   }
 }
 

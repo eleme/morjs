@@ -1,7 +1,8 @@
 import { css, html, internalProperty, property } from 'lit-element'
+import get from 'lodash.get'
 import { my } from '../../../api/my'
 import { BaseElement } from '../baseElement'
-import { defineElement } from '../utils'
+import { defineElement, getQueryParams } from '../utils'
 
 const STATUS = {
   SHOW: 0,
@@ -61,6 +62,20 @@ export class Tabbar extends BaseElement {
           )
         }
       } catch (e) {}
+    }
+
+    // 支持业务首次进来的时候动态自定义 tabbar 的能力
+    if (this.conf) {
+      const updateTabBarConfig = get(
+        window.$MOR_APP_CONFIG,
+        'updateTabBarConfig'
+      )
+      if (typeof updateTabBarConfig === 'function') {
+        const query = getQueryParams(location.search)
+        const items = updateTabBarConfig(this.conf.items || [], query)
+
+        if (Array.isArray(items)) this.conf.items = items
+      }
     }
   }
 
@@ -232,6 +247,8 @@ export class Tabbar extends BaseElement {
   render() {
     const shouldHideTabBar =
       this.selectedIndex === -1 || this.status === STATUS.HIDE
+
+    if (this.tabBarList.length <= 0) return
 
     return html`
       <style>

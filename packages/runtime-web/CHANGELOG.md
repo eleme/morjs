@@ -3,6 +3,100 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.112](https://github.com/eleme/morjs/compare/v1.0.111...v1.0.112) (2024-05-10)
+
+
+### Bug Fixes
+
+* **runtime-web:** 因行高导致的不居中问题 ([a064097](https://github.com/eleme/morjs/commit/a0640972fd1174080ab89fc269397d6c32d77fb6))
+
+
+### Features
+
+* **plugin-compiler:** 支持 web-pro 编译 ([da23459](https://github.com/eleme/morjs/commit/da23459120a328a20f84c7f2f82a058deedcfd5e))
+* **runtime-web:** 移除测试使用的 runtime-web 改动 ([17e667f](https://github.com/eleme/morjs/commit/17e667f2a0bfbcbb4af5eeb35b76ab753986165c))
+* **runtime-web:** 移除测试使用的 runtime-web 改动 ([58a7865](https://github.com/eleme/morjs/commit/58a786574c62fcade396eabe9037917f4e302495))
+* **runtime-web:** runtime 方法导出缩写 ([8922010](https://github.com/eleme/morjs/commit/89220109da21f3adc9da934b1cc1c99f0a72b8f0))
+
+
+
+
+
+## [1.0.111](https://github.com/eleme/morjs/compare/v1.0.110...v1.0.111) (2024-05-06)
+
+
+### Features
+
+* **runtime-web:** 通过 props 更改 value 属性值时自动更新 textarea 高度 ([963e2aa](https://github.com/eleme/morjs/commit/963e2aaeb8dc586f8b1bf581e761177b3e840c6d))
+* **runtime-web:** 通过 props 更改 value 属性值时自动更新 textarea 高度 ([5ccda2a](https://github.com/eleme/morjs/commit/5ccda2ab8a71b648b3b7f840e4b74b6693640ffc))
+
+
+
+
+
+## [1.0.110](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.110) (2024-04-26)
+
+
+### Features
+
+* **runtime-web:** loading 组件样式调整，对齐支付宝最新样式 ([859d075](https://github.com/eleme/morjs/commit/859d07586532350ca859169429f86600d93c7689))
+* **runtime-web:** tabbar 兼容不配置 icon 场景 ([fa15499](https://github.com/eleme/morjs/commit/fa15499f6e21b3bcf1574c60e879d93a96ee0e96))
+
+
+
+
+
+## [1.0.108](https://github.com/eleme/morjs/compare/v1.0.107...v1.0.108) (2024-04-15)
+
+
+### Features
+
+* **plugin-compiler-web & runtime-web:** 动态支持更改导航栏&状态栏的高度 ([1356488](https://github.com/eleme/morjs/commit/135648845d63e50698309a110783f633499cf00b))
+
+
+
+
+
+## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
+
+
+### Features
+
+* **runtime-web:** rich-text 拓展属性支持 ([9ddec27](https://github.com/eleme/morjs/commit/9ddec270f705130a371f24ca768d942bedfe1546))
+
+
+
+
+
+## [1.0.104](https://github.com/eleme/morjs/compare/v1.0.103...v1.0.104) (2024-04-02)
+
+
+### Bug Fixes
+
+* **runtime-web & plugin-compiler-web:** ts errors fixed ([f917e0d](https://github.com/eleme/morjs/commit/f917e0d4960d7b72908412d77ab060c9b8112cee))
+
+
+### Features
+
+* **plugin-compiler-web & runtime-web:** 支持 selectOwnerComponent Api ([ebbf478](https://github.com/eleme/morjs/commit/ebbf478de285f0222ca52b17723fd218667140d1))
+* **plugin-compiler-web & runtime-web:** add createInnerAudioContext ([78897ca](https://github.com/eleme/morjs/commit/78897ca33f0f25807e0be4b3d3246d013fcaec3c))
+* **runtime-web:** stopHoldOn 变量重置 ([8f1dcb0](https://github.com/eleme/morjs/commit/8f1dcb0fd29dc65ec514eec2df3297d7875cb9c7))
+
+
+
+
+
+## [1.0.102](https://github.com/eleme/morjs/compare/v1.0.101...v1.0.102) (2024-03-22)
+
+
+### Features
+
+* **runtime-web:** 支持动态更改 tabbar 的能力 ([2676963](https://github.com/eleme/morjs/commit/2676963a3af5fe2fa7c1ee5ca6d7459fe5f08271))
+
+
+
+
+
 ## [1.0.101](https://github.com/eleme/morjs/compare/v1.0.100...v1.0.101) (2024-02-23)
 
 

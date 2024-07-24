@@ -1,4 +1,6 @@
+import path from 'path'
 import postcss from 'postcss'
+import atImport from 'postcss-import-sync'
 import { defCondition, isEndIf, isIfDef } from '../../utils/comment'
 import { getExternalComponent, isEnableStyleScope } from '../../utils/index'
 import { globalComponentName, randomHash } from '../option'
@@ -35,6 +37,13 @@ export default function (source: string, options: AcssOptions) {
         rootValue: options.rpxRootValue || DefualtRpxRootValue,
         propList: ['*']
       })
+    )
+  }
+
+  if (options.enableCombineImportStyles) {
+    plugins.unshift(
+      PostcssStylePathPlugin({ path: options.resourcePath }),
+      atImport()
     )
   }
 
@@ -126,6 +135,23 @@ const ComponentNameMapPlugin = postcss.plugin(
               .join(',')
           })
           .join(' ')
+      })
+    }
+  }
+)
+
+interface PostcssStylePathOptions {
+  path: string
+}
+const PostcssStylePathPlugin = postcss.plugin(
+  'postcss-style-path-plugin',
+  function (options: PostcssStylePathOptions) {
+    return function (root) {
+      root.nodes.forEach((rule) => {
+        if (rule.type === 'atrule') {
+          const dirname = path.dirname(options.path)
+          return (rule.params = path.resolve(dirname, JSON.parse(rule.params)))
+        }
       })
     }
   }

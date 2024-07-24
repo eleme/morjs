@@ -3,6 +3,132 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.113](https://github.com/eleme/morjs/compare/v1.0.112...v1.0.113) (2024-05-21)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.112](https://github.com/eleme/morjs/compare/v1.0.111...v1.0.112) (2024-05-10)
+
+
+### Features
+
+* **plugin-compiler:** 新增 web-pro 识别 ([9642737](https://github.com/eleme/morjs/commit/964273797aaf0b1a8b39fd5c1111bae2f464096d))
+* **plugin-compiler:** 移除无关打印 ([a16db5d](https://github.com/eleme/morjs/commit/a16db5d9ceb0f9e7b8097a0fac0f804eeeb0f151))
+* **plugin-compiler:** 支持 .css 类型文件编译 ([d5c3bb2](https://github.com/eleme/morjs/commit/d5c3bb26925dc65e5a6e21fbe8dcd8b449c57a3c))
+* **plugin-compiler:** 支持 web-pro 编译 ([da23459](https://github.com/eleme/morjs/commit/da23459120a328a20f84c7f2f82a058deedcfd5e))
+* **plugin-compiler:** 支持自定义 template render ([637305c](https://github.com/eleme/morjs/commit/637305cbca2ecf810dbaadf3c783489bd453d244))
+* **plugin-compiler:** web-pro 编译去除 .json 文件输出 ([e9feb46](https://github.com/eleme/morjs/commit/e9feb4665be2495094375cf02fe3ec5e9aadc4f2))
+
+
+
+
+
+## [1.0.111](https://github.com/eleme/morjs/compare/v1.0.110...v1.0.111) (2024-05-06)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.110](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.110) (2024-04-26)
+
+
+### Features
+
+* **plugin-compiler:** css 压缩获取短类名时的执行顺序调整，让业务判断获取更高的优先级 ([e3d9c3f](https://github.com/eleme/morjs/commit/e3d9c3fa8e016475bd7b10a843d94bb854a37065))
+* **plugin-compiler:** runtime 方法替换兼容 return 语句 ([caa684e](https://github.com/eleme/morjs/commit/caa684e5ccb6cea6297f33b011344d1bca5521d5))
+* **plugin-compiler:** runtime 方法替换兼容 return 语句(增强判断) ([10b4090](https://github.com/eleme/morjs/commit/10b4090cc3361fd0d06f70b69b7b5c7a5bc9b198))
+
+
+
+
+
+## [1.0.109](https://github.com/eleme/morjs/compare/v1.0.108...v1.0.109) (2024-04-18)
+
+
+### Bug Fixes
+
+* **plugin-compiler:** css 压缩校验类名时重置正则 lastIndex，解决部分场景匹配异常问题 ([7718d53](https://github.com/eleme/morjs/commit/7718d538b65e8e16fba787d6359be6b4f38f915a))
+* **plugin-compiler:** css 压缩校验类名时重置正则 lastIndex，解决部分场景匹配异常问题 ([094ad4c](https://github.com/eleme/morjs/commit/094ad4cb677ba861ba4d67a9f0fd9e05acdd9fdb))
+* **plugin-compiler:** css 压缩支持以 - 链接，支持一个以上变量表达式并排 ([2f873ad](https://github.com/eleme/morjs/commit/2f873ad26042104353dffed712db6b06181f966f))
+
+
+
+
+
+## [1.0.108](https://github.com/eleme/morjs/compare/v1.0.107...v1.0.108) (2024-04-15)
+
+
+### Features
+
+* **plugin-compiler:** 支持微信特殊类名用法 ([bd161bf](https://github.com/eleme/morjs/commit/bd161bfd6176851ba2a3d51b615e472dc172c09b))
+* **plugin-compiler:** 支持微信特殊类名用法 ([8a6173a](https://github.com/eleme/morjs/commit/8a6173a25de86a387faf06ba6335ba5bdb89c6de))
+
+
+
+
+
+## [1.0.107](https://github.com/eleme/morjs/compare/v1.0.106...v1.0.107) (2024-04-11)
+
+
+### Features
+
+* **plugin-compiler:** css 压缩时支持更多动态绑定场景 ([b7ba407](https://github.com/eleme/morjs/commit/b7ba407f59989d48e9283bfeda77a2186cc80a2e))
+
+
+
+
+
+## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.105](https://github.com/eleme/morjs/compare/v1.0.104...v1.0.105) (2024-04-02)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.104](https://github.com/eleme/morjs/compare/v1.0.103...v1.0.104) (2024-04-02)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
+## [1.0.103](https://github.com/eleme/morjs/compare/v1.0.102...v1.0.103) (2024-03-25)
+
+
+### Features
+
+* **plugin-compiler:** 优化类名拆分逻辑 ([f518e98](https://github.com/eleme/morjs/commit/f518e9848be7348c6a9e0be7495f9870c8c3a765))
+* **plugin-compiler:** 优化去除文件路径后缀逻辑 ([5d30d0e](https://github.com/eleme/morjs/commit/5d30d0e8769914d772edb26a0c788cdcdc0eb688))
+* **plugin-compiler:** 增加 disableDynamicClassDetection 参数，用于配置是否需要跳过动态 class 类名检测 ([6abc138](https://github.com/eleme/morjs/commit/6abc138c7e3dd10f405bd2bb35ac034e5e8a4520))
+
+
+
+
+
+## [1.0.102](https://github.com/eleme/morjs/compare/v1.0.101...v1.0.102) (2024-03-22)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
 ## [1.0.101](https://github.com/eleme/morjs/compare/v1.0.100...v1.0.101) (2024-02-23)
 
 **Note:** Version bump only for package @morjs/plugin-compiler

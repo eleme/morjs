@@ -9,6 +9,7 @@ class Back extends BaseElement {
         display: inline-block;
         width: 48px;
         height: 48px;
+        line-height: 1;
         pointer-events: auto;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       }
