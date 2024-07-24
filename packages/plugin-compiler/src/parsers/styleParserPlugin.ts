@@ -31,8 +31,13 @@ export class StyleParserPlugin implements Plugin {
       const { compileType, target } = runner.userConfig as CompilerUserConfig
 
       // 转 web 模式下, css 中的引用会被 css-loader 自动处理
+      // component 模式下, 需要解析和更改 css 中的引用用
       // 无需手动处理
-      if (target === 'web' || target === 'web-pro') return
+      if (
+        (target === 'web' || target === 'web-pro') &&
+        compileType !== CompileTypes.component
+      )
+        return
 
       const isSubpackageOrPlugin = compileType !== CompileTypes.miniprogram
 

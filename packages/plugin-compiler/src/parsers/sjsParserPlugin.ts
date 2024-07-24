@@ -43,7 +43,9 @@ export class SjsParserPlugin implements Plugin {
             composedPlugins.compileModuleKind[sourceType] !==
               composedPlugins.compileModuleKind[target]
           ) {
-            transformers.before.unshift(cjsToEsmTransformer())
+            transformers.before.unshift(
+              cjsToEsmTransformer() as unknown as ts.TransformerFactory<ts.SourceFile>
+            )
           }
         }
 

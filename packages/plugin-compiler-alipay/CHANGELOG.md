@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.113](https://github.com/eleme/morjs/compare/v1.0.112...v1.0.113) (2024-05-21)
+
+
+### Bug Fixes
+
+* **plugin-compiler-alipay:** 支付宝转微信时 input 事件失效 ([971810c](https://github.com/eleme/morjs/commit/971810cc5fee33025faaa7ba54fcd17f23ecdff5))
+
+
+
+
+
 ## [1.0.106](https://github.com/eleme/morjs/compare/v1.0.105...v1.0.106) (2024-04-03)
 
 

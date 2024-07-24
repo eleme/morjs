@@ -144,6 +144,21 @@ export class ScriptParserPlugin implements Plugin {
           this.autoInjectCoreLib(transformers, options)
         }
 
+        // component 模式下，
+        // 1、component.json 里配置的组件路径被修改，故需要修改引用其他文件的路径为正确路径，
+        // 2、不在约定的源码目录中的文件，需要修改为正确的路径
+        if (
+          (options.fileInfo.content.includes('import') ||
+            options.fileInfo.content.includes('require')) &&
+          compileType === CompileTypes.component
+        ) {
+          this.alterImportOrRequirePath(
+            transformers,
+            entryBuilder,
+            options.fileInfo.path
+          )
+        }
+
         return transformers
       })
 
@@ -276,7 +291,6 @@ export class ScriptParserPlugin implements Plugin {
 
     ;(['api', 'core'] as const).forEach(function (name) {
       const packages = MOR_RUNTIME_NPMS[name] || []
-
       packages.forEach(function (packageName) {
         if (result[name]) return
 
@@ -618,5 +632,75 @@ export class ScriptParserPlugin implements Plugin {
     }
 
     return allVisitors[transformType]
+  }
+  /**
+   * component 模式下修改 require 或 import 的引用路径
+   */
+  alterImportOrRequirePath(
+    transformers: ts.CustomTransformers,
+    entryBuilder: EntryBuilderHelpers,
+    filePath: string
+  ) {
+    transformers.before.push(
+      tsTransformerFactory((node, context) => {
+        const factory = context.factory
+
+        if (ts.isImportDeclaration(node)) {
+          /**
+           * import 引用替换为正确的路径
+           */
+          if (
+            node.moduleSpecifier &&
+            ts.isStringLiteral(node.moduleSpecifier)
+          ) {
+            const importPath = node.moduleSpecifier.text
+            const realImportPath = entryBuilder.getRealReferencePath(
+              filePath,
+              importPath,
+              true
+            )
+            if (realImportPath) {
+              return factory.updateImportDeclaration(
+                node,
+                node.decorators,
+                node.modifiers,
+                node.importClause,
+                factory.createStringLiteral(realImportPath)
+              )
+            }
+          }
+        } else if (
+          ts.isCallExpression(node) &&
+          ts.isIdentifier(node.expression) &&
+          node.expression.escapedText === 'require'
+        ) {
+          if (!node.arguments?.length) return node
+          const arg = node.arguments[0]
+          if (!ts.isStringLiteral(arg)) return node
+          let importPath = arg.getText()
+          if (!importPath) return node
+
+          // 修正链接
+          importPath = importPath.replace(/^('|")/, '').replace(/('|")$/, '')
+
+          const realImportPath = entryBuilder.getRealReferencePath(
+            filePath,
+            importPath,
+            true
+          )
+
+          if (realImportPath) {
+            return factory.updateCallExpression(
+              node,
+              node.expression,
+              node.typeArguments,
+              [factory.createStringLiteral(realImportPath)]
+            )
+          }
+        }
+
+        return node
+      })
+    )
   }
 }

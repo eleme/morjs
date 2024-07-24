@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.112](https://github.com/eleme/morjs/compare/v1.0.111...v1.0.112) (2024-05-10)
+
+
+### Bug Fixes
+
+* **runtime-web:** 因行高导致的不居中问题 ([a064097](https://github.com/eleme/morjs/commit/a0640972fd1174080ab89fc269397d6c32d77fb6))
 ## [1.0.112-beta.0](https://github.com/eleme/morjs/compare/v1.0.111...v1.0.112-beta.0) (2024-05-07)
 
 
