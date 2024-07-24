@@ -12,6 +12,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 ## [1.0.112](https://github.com/eleme/morjs/compare/v1.0.111...v1.0.112) (2024-05-10)
+## [1.0.112-beta.0](https://github.com/eleme/morjs/compare/v1.0.111...v1.0.112-beta.0) (2024-05-07)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-web
 
