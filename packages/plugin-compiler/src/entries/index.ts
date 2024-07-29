@@ -2589,7 +2589,21 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
       )
 
       if (componentMainFile) {
-        this.addToEntry(componentMainFile, EntryType.component, 'direct', entry)
+        const mainEntry = this.addToEntry(
+          componentMainFile,
+          EntryType.component,
+          'direct',
+          entry
+        )
+        try {
+          await this.processJsFileDependencies(
+            mainEntry,
+            undefined,
+            this.srcPaths
+          )
+        } catch (error) {
+          logger.error(`文件 ${mainEntry.relativePath} 依赖解析失败`, { error })
+        }
       }
     }
 
