@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.1](https://github.com/eleme/morjs/compare/v1.0.114-beta.0...v1.0.114-beta.1) (2024-07-29)
+
+### Features
+
+- **plugin-compiler:** component 模式解析 componentJson.main 的依赖 ([ed00e27](https://github.com/eleme/morjs/commit/ed00e27b2833ea59de746607ae4e2c09f6adac3f))
+
 ## [1.0.114-beta.0](https://github.com/eleme/morjs/compare/v1.0.113...v1.0.114-beta.0) (2024-07-24)
 
 ### Bug Fixes

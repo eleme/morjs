@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler",
-  "version": "1.0.114-beta.0",
+  "version": "1.0.114-beta.1",
   "description": "mor compiler plugin",
   "keywords": [
     "mor",
