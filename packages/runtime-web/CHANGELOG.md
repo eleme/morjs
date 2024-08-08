@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.2](https://github.com/eleme/morjs/compare/v1.0.114-beta.1...v1.0.114-beta.2) (2024-08-08)
+
+
+### Bug Fixes
+
+* runtime-web tarbar click to touchstart ([2ee58ba](https://github.com/eleme/morjs/commit/2ee58ba61cdb1fd0b234e6830e2e84717325ab95))
+
+
+
+
+
 ## [1.0.114-beta.0](https://github.com/eleme/morjs/compare/v1.0.113...v1.0.114-beta.0) (2024-07-24)
 
 
