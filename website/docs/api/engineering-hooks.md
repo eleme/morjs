@@ -277,7 +277,7 @@ export default class MorJSPluginXXX implements Plugin {
     runner.hooks.preprocessorParser.tap(
       this.name,
       (fileContent, context, options) => {
-        if (!/\.(j|t)s$/.test(fileInfo.path)) return fileContent
+        if (!/\.(j|t)s$/.test(options.fileInfo.path)) return fileContent
         // 对 js/ts 文件进行一些前置处理
         return fileContent
       }
@@ -285,7 +285,7 @@ export default class MorJSPluginXXX implements Plugin {
 
     // postprocessorParser: 文件后置处理器 hook
     runner.hooks.postprocessorParser.tap(this.name, (fileContent, options) => {
-      if (!/\.(w|a)xml$/.test(fileInfo.path)) return fileContent
+      if (!/\.(w|a)xml$/.test(options.fileInfo.path)) return fileContent
       // 对 *xml 文件进行一些后置处理
       return fileContent
     })
