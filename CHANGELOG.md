@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.3](https://github.com/eleme/morjs/compare/v1.0.114-beta.2...v1.0.114-beta.3) (2024-08-15)
+
+### Bug Fixes
+
+- **plugin-compiler:** 修复独立分包编译时 config 传参不对的问题 ([8833c0e](https://github.com/eleme/morjs/commit/8833c0e4da09c069df6b0f4bd499366b78340edd))
+
+### Features
+
+- **runtime-web:** getSystemInfo 适配鸿蒙 ([803e073](https://github.com/eleme/morjs/commit/803e073ab7ea3673f3d1681d14ec23fd72287189))
+
 ## [1.0.114-beta.2](https://github.com/eleme/morjs/compare/v1.0.114-beta.1...v1.0.114-beta.2) (2024-08-08)
 
 ### Bug Fixes
