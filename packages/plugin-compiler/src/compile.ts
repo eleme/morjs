@@ -50,7 +50,7 @@ function compileIndependentSubpackages(
   const originalUserConfig =
     asArray(runner.config.userConfig).filter((c) => {
       return c?.name === userConfig.name
-    }) || userConfig
+    })[0] || userConfig
 
   // 自动更新独立分包, 并清理 mor 缓存
   runner.hooks.beforeBuildEntries.tapPromise(PLUGIN_NAME_CHILD, async () => {
