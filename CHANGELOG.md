@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.4](https://github.com/eleme/morjs/compare/v1.0.114-beta.3...v1.0.114-beta.4) (2024-08-19)
+
+### Bug Fixes
+
+- addEventListener click to touchstart ([c1c8761](https://github.com/eleme/morjs/commit/c1c8761c80189ea1225b83774e594249b2284c41))
+
 ## [1.0.114-beta.3](https://github.com/eleme/morjs/compare/v1.0.114-beta.2...v1.0.114-beta.3) (2024-08-15)
 
 ### Bug Fixes
