@@ -73,7 +73,7 @@ export default class CheckboxGroup
 
   initTapClick() {
     this.addEventListener(
-      'click',
+      'touchstart',
       (e) => {
         const checkboxNode = this.findCheckNode(<HTMLElement>e.target)
         if (checkboxNode && !checkboxNode.disabled) {

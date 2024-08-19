@@ -56,7 +56,7 @@ export default class RadioGroup extends BaseElement implements IFormComponent {
 
   initTapClick() {
     this.addEventListener(
-      'click',
+      'touchstart',
       (e) => {
         if (!this.controlled) {
           const checkboxNode = this.findCheckNode(<HTMLElement>e.target)
