@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.5](https://github.com/eleme/morjs/compare/v1.0.114-beta.4...v1.0.114-beta.5) (2024-08-20)
+
+
+### Bug Fixes
+
+* **runtime-web:** 修复鸿蒙系统 alert 确定按钮不能点击的问题 ([10aa2eb](https://github.com/eleme/morjs/commit/10aa2eb59ea438bfc4a91317bc87d2edd41af74a))
+
+
+
+
+
 ## [1.0.114-beta.4](https://github.com/eleme/morjs/compare/v1.0.114-beta.3...v1.0.114-beta.4) (2024-08-19)
 
 
