@@ -70,7 +70,7 @@ class AlertModal extends BaseElement {
       <div class="host">
         <div class="title">${this.title}</div>
         <div class="content">${this.content}</div>
-        <div class="button" @click=${this._handleClick}>
+        <div class="button" @touchstart=${this._handleClick}>
           ${this.buttonText || '确定'}
         </div>
       </div>
