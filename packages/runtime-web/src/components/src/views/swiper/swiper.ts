@@ -419,9 +419,9 @@ export default class TigaSwiper extends LitElement {
       'swiper-pagination-bullets': indicatorDots
     }
     const [, previousMargin] =
-      /^(\d+)(rpx|px)/.exec(this[properties.PREVIOUS_MARGIN]) || []
+      /^(\d+(\.\d+)?)(rpx|px)/.exec(this[properties.PREVIOUS_MARGIN]) || []
     const [, nextMargin] =
-      /^(\d+)(rpx|px)/.exec(this[properties.NEXT_MARGIN]) || []
+      /^(\d+(\.\d+)?)(rpx|px)/.exec(this[properties.NEXT_MARGIN]) || []
     const pM = parseInt(previousMargin) || 0
     const nM = parseInt(nextMargin) || 0
 
