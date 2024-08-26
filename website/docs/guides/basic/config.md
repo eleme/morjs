@@ -427,7 +427,7 @@ ts 编译配置, 大部分和 tsconfig 中的含义一致, 优先级高于 tscon
 
 ### copy - 文件拷贝
 
-- 类型: `(string | { from: string, to: string })[]`
+- 类型: `(string | { from: string, to: string, independent?: boolean })[]`
 - 默认值: `[]`
 
 设置要复制到输出目录的文件或文件夹，该配置受 [`ignore` 配置](/guides/basic/config#ignore---忽略配置) 影响
@@ -504,6 +504,8 @@ ts 编译配置, 大部分和 tsconfig 中的含义一致, 优先级高于 tscon
   - onefile.json
 - anotherFile.json
 ```
+
+independent控制copy是否生效在独立分包中，默认为false，为true表示独立分包中进行copy。
 
 ### cssMinimizer - CSS 压缩器
 
