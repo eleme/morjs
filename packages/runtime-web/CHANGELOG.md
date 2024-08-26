@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.6](https://github.com/eleme/morjs/compare/v1.0.114-beta.5...v1.0.114-beta.6) (2024-08-26)
+
+
+### Bug Fixes
+
+* web checkbox click to touchstart ([171622a](https://github.com/eleme/morjs/commit/171622ad699c01c7e4dc1e1638bbeae37c2a84ec))
+
+
+
+
+
 ## [1.0.114-beta.5](https://github.com/eleme/morjs/compare/v1.0.114-beta.4...v1.0.114-beta.5) (2024-08-20)
 
 

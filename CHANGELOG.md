@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.6](https://github.com/eleme/morjs/compare/v1.0.114-beta.5...v1.0.114-beta.6) (2024-08-26)
+
+### Bug Fixes
+
+- web checkbox click to touchstart ([171622a](https://github.com/eleme/morjs/commit/171622ad699c01c7e4dc1e1638bbeae37c2a84ec))
+
+### Features
+
+- add copy doc ([aa1e307](https://github.com/eleme/morjs/commit/aa1e307d99bf0dccaf64929398f95fe4bdb22258))
+- plugin-compiler copy independent ([19c02f7](https://github.com/eleme/morjs/commit/19c02f78ebc1fbd749f1e97bde6a1f5114e82bd3))
+
 ## [1.0.114-beta.5](https://github.com/eleme/morjs/compare/v1.0.114-beta.4...v1.0.114-beta.5) (2024-08-20)
 
 ### Bug Fixes
