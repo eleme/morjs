@@ -75,7 +75,9 @@ function compileIndependentSubpackages(
               srcPaths: userConfig.srcPaths.map((s) => path.join(s, sub.root)),
               outputPath: path.join(userConfig.outputPath, sub.root),
               // 独立分包不触发集成流程
-              compose: false
+              compose: false,
+              // 独立分包 copy配置，默认不执行
+              copy: asArray(originalUserConfig.copy ?? []).filter(({ independent = false }) => independent)
             } as CompilerUserConfig)
           },
           // 定制 context
