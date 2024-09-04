@@ -28,7 +28,7 @@ export function setPages(pageList: any[]) {
 }
 
 export const getCustomUrl = (url: string): string => {
-  const urlArr = url.split('?', 2)
+  const urlArr = url.split('?')
 
   url = urlArr[0]
 
@@ -39,7 +39,7 @@ export const getCustomUrl = (url: string): string => {
   }
 
   if (urlArr[1]) {
-    return `${addLeadingSlash(url)}?${urlArr[1]}`
+    return `${addLeadingSlash(url)}?${urlArr.slice(1).join('?')}`
   } else {
     return addLeadingSlash(url)
   }
