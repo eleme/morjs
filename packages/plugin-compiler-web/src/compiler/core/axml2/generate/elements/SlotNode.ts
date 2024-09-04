@@ -29,18 +29,22 @@ export default function (node: SlotNode, context: Context) {
   }
 
   if (node.attributes.length > 0) {
-    attributes.push(
-      t.jsxAttribute(
-        t.jsxIdentifier('$scopeKeys'),
-        t.jsxExpressionContainer(
-          t.arrayExpression(
-            node.attributes.map((att) =>
-              t.stringLiteral((att as AttributeNode).name)
+    // 处理多层组件slot传递问题 <slot slot="xx"></slot>
+    const scopeArr = node.attributes.filter(f =>  f.type !== 'NamedSlotAttributeNode')
+    if (scopeArr.length) { 
+      attributes.push(
+        t.jsxAttribute(
+          t.jsxIdentifier('$scopeKeys'),
+          t.jsxExpressionContainer(
+            t.arrayExpression(
+              scopeArr.map((att) =>
+                t.stringLiteral((att as AttributeNode).name)
+              )
             )
           )
         )
       )
-    )
+    }
   }
 
   const children = []
