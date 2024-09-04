@@ -16,10 +16,9 @@ export function getQueryParams(url) {
 
   const params = {}
   if (url.indexOf('?') !== -1) {
-    const str = url.substr(url.indexOf('?') + 1)
-    const strs = str.split('&')
-    for (let i = 0; i < strs.length; i++) {
-      params[strs[i].split('=')[0]] = decodeURIComponent(strs[i].split('=')[1])
+    const searchParams = new URLSearchParams(url)
+    for(const [key, value] of searchParams.entries()){
+      params[key] = decodeURIComponent(value)
     }
   }
   return params
