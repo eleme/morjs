@@ -19,7 +19,7 @@ function getTo(url: string) {
   const urlArr = getCustomUrl(absolutePath).split('?')
   return {
     pathname: urlArr[0],
-    search: urlArr[1] ? `?${urlArr[1]}` : ''
+    search: urlArr[1] ? `?${urlArr.slice(1).join('?')}` : ''
   }
 }
 
