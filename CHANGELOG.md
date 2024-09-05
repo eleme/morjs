@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.7](https://github.com/eleme/morjs/compare/v1.0.114-beta.6...v1.0.114-beta.7) (2024-09-05)
+
+### Features
+
+- runtime-web map offset ([ad799bb](https://github.com/eleme/morjs/commit/ad799bb52fa67e1cd0767afe122ae8be4edd16c0))
+
 ## [1.0.114-beta.6](https://github.com/eleme/morjs/compare/v1.0.114-beta.5...v1.0.114-beta.6) (2024-08-26)
 
 ### Bug Fixes
