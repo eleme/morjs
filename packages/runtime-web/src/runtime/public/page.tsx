@@ -16,11 +16,13 @@ export function getQueryParams(url) {
 
   const params = {}
   if (url.indexOf('?') !== -1) {
-    const str = url.substr(url.indexOf('?') + 1)
-    const strs = str.split('&')
-    for (let i = 0; i < strs.length; i++) {
-      params[strs[i].split('=')[0]] = decodeURIComponent(strs[i].split('=')[1])
-    }
+    const pairs = url.split('&')
+    pairs.forEach(pair => {
+      const [key, value] = pair.split('=');
+      const decodedKey = decodeURIComponent(key);
+      const decodedValue = decodeURIComponent(value);
+      params[decodedKey] = decodedValue
+    });
   }
   return params
 }
