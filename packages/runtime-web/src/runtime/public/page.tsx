@@ -16,10 +16,13 @@ export function getQueryParams(url) {
 
   const params = {}
   if (url.indexOf('?') !== -1) {
-    const searchParams = new URLSearchParams(url)
-    for(const [key, value] of searchParams.entries()){
-      params[key] = decodeURIComponent(value)
-    }
+    const pairs = url.split('&')
+    pairs.forEach(pair => {
+      const [key, value] = pair.split('=');
+      const decodedKey = decodeURIComponent(key);
+      const decodedValue = decodeURIComponent(value);
+      params[decodedKey] = decodedValue
+    });
   }
   return params
 }
