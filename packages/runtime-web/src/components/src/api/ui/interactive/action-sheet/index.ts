@@ -110,7 +110,7 @@ class ActionSheet extends BaseElement {
               return html`
                 <div
                   class="private-sheet-item"
-                  @click=${() => this.onConfirm(index)}
+                  @touchstart=${() => this.onConfirm(index)}
                 >
                   ${this.getDestructiveBtnStyle(index)
                     ? html`<p style=${this.getDestructiveBtnStyle(index)}>
@@ -125,7 +125,7 @@ class ActionSheet extends BaseElement {
           ${isIos()
             ? html`<div
                 class="private-sheet-item private-sheet-cancel"
-                @click=${this.onCancel}
+                @touchstart=${this.onCancel}
               >
                 ${this.cancelButtonText}
               </div>`
