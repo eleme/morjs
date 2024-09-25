@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.8](https://github.com/eleme/morjs/compare/v1.0.114-beta.7...v1.0.114-beta.8) (2024-09-25)
+
+### Bug Fixes
+
+- **runtime-web:** 修复鸿蒙系统 actionSheet 按钮不能点击的问题 ([eb6f0c9](https://github.com/eleme/morjs/commit/eb6f0c9eafb66c2a4c05a3faacf0f989f2f37a5b))
+
 ## [1.0.114-beta.7](https://github.com/eleme/morjs/compare/v1.0.114-beta.6...v1.0.114-beta.7) (2024-09-05)
 
 ### Features
