@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-alpha.0](https://github.com/eleme/morjs/compare/v1.0.114-beta.10...v1.0.114-alpha.0) (2024-10-16)
+
+### Features
+
+- **plugin-compiler:** 新增 weex-pro 相关逻辑判断 ([3bd7903](https://github.com/eleme/morjs/commit/3bd7903ecd764788188f430464bc52d19f00c820))
+
+## [1.0.111-alpha.1](https://github.com/eleme/morjs/compare/v1.0.111-alpha.0...v1.0.111-alpha.1) (2024-05-06)
+
+## [1.0.111-alpha.0](https://github.com/eleme/morjs/compare/v1.0.110...v1.0.111-alpha.0) (2024-05-06)
+
+### Features
+
+- **plugin-compiler-alipay:** 事件保存方法机制变更 ([b07c967](https://github.com/eleme/morjs/commit/b07c96758e4ba901585d9e3282be1ca0cf73efa8))
+- **plugin-compiler-alipay:** 事件保存方法机制变更 ([0110417](https://github.com/eleme/morjs/commit/01104179b5f358aa2a7c7b110ac5cc49be0c4c46))
+- **plugin-compiler-alipay:** 事件保存方法机制变更（组件维护转换支持） ([0b606d7](https://github.com/eleme/morjs/commit/0b606d77aded9a035725f14e05e3a7ecd895c4b3))
+- **runtime-mini:** 事件参数解析配合改造 ([8c75214](https://github.com/eleme/morjs/commit/8c752140eff83c2f566990646503229af50cf016))
+- **runtime-mini:** 事件参数解析配合改造 ([eea306f](https://github.com/eleme/morjs/commit/eea306f8a2a59e31857437edf05bd2f016c0873a))
+- **utils & runtime-base:** 为编译时&运行时提供统一的工具函数 ([3b48100](https://github.com/eleme/morjs/commit/3b48100d071cb0be795bff6fd131e39b04310944))
+- **utils & runtime-base:** 为编译时&运行时提供统一的工具函数 ([2f6ef29](https://github.com/eleme/morjs/commit/2f6ef2985037b83b2155e772ec58f74c1d8b50f2))
+
 ## [1.0.111-alpha.1](https://github.com/eleme/morjs/compare/v1.0.111-alpha.0...v1.0.111-alpha.1) (2024-05-06)
 
 ### Features

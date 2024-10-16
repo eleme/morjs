@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-qq",
-  "version": "1.0.114-beta.0",
+  "version": "1.0.114-alpha.0",
   "description": "mor complier plugin for qq miniprogram",
   "keywords": [
     "mor",
@@ -34,8 +34,8 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@morjs/plugin-compiler-wechat": "1.0.114-beta.0",
-    "@morjs/runtime-mini": "1.0.114-beta.0",
+    "@morjs/plugin-compiler-wechat": "1.0.114-alpha.0",
+    "@morjs/runtime-mini": "1.0.114-alpha.0",
     "@morjs/utils": "1.0.71"
   }
 }

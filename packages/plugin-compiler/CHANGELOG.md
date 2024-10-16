@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-alpha.0](https://github.com/eleme/morjs/compare/v1.0.114-beta.10...v1.0.114-alpha.0) (2024-10-16)
+
+
+### Features
+
+* **plugin-compiler:** 新增 weex-pro 相关逻辑判断 ([3bd7903](https://github.com/eleme/morjs/commit/3bd7903ecd764788188f430464bc52d19f00c820))
+
+
+
+## [1.0.111-alpha.1](https://github.com/eleme/morjs/compare/v1.0.111-alpha.0...v1.0.111-alpha.1) (2024-05-06)
+
+
+
+## [1.0.111-alpha.0](https://github.com/eleme/morjs/compare/v1.0.110...v1.0.111-alpha.0) (2024-05-06)
+
+
+### Features
+
+* **plugin-compiler-alipay:** 事件保存方法机制变更（组件维护转换支持） ([0b606d7](https://github.com/eleme/morjs/commit/0b606d77aded9a035725f14e05e3a7ecd895c4b3))
+
+
+
+
+
 ## [1.0.111-alpha.1](https://github.com/eleme/morjs/compare/v1.0.111-alpha.0...v1.0.111-alpha.1) (2024-05-06)
 
 

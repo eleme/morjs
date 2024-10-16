@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-alpha.0](https://github.com/eleme/morjs/compare/v1.0.114-beta.10...v1.0.114-alpha.0) (2024-10-16)
+
+
+
+## [1.0.111-alpha.0](https://github.com/eleme/morjs/compare/v1.0.110...v1.0.111-alpha.0) (2024-05-06)
+
+**Note:** Version bump only for package @morjs/plugin-compiler-bytedance
+
+
+
+
+
 ## [1.0.111-alpha.0](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.111-alpha.0) (2024-05-06)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-bytedance

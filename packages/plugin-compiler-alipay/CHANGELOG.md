@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-alpha.0](https://github.com/eleme/morjs/compare/v1.0.114-beta.10...v1.0.114-alpha.0) (2024-10-16)
+
+
+
+## [1.0.111-alpha.0](https://github.com/eleme/morjs/compare/v1.0.110...v1.0.111-alpha.0) (2024-05-06)
+
+
+### Features
+
+* **plugin-compiler-alipay:** 事件保存方法机制变更 ([b07c967](https://github.com/eleme/morjs/commit/b07c96758e4ba901585d9e3282be1ca0cf73efa8))
+* **plugin-compiler-alipay:** 事件保存方法机制变更 ([0110417](https://github.com/eleme/morjs/commit/01104179b5f358aa2a7c7b110ac5cc49be0c4c46))
+
+
+
+
+
 ## [1.0.111-alpha.0](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.111-alpha.0) (2024-05-06)
 
 

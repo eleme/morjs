@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-alpha.0](https://github.com/eleme/morjs/compare/v1.0.114-beta.10...v1.0.114-alpha.0) (2024-10-16)
+
+
+
+## [1.0.111-alpha.0](https://github.com/eleme/morjs/compare/v1.0.110...v1.0.111-alpha.0) (2024-05-06)
+
+
+### Features
+
+* **runtime-mini:** 事件参数解析配合改造 ([8c75214](https://github.com/eleme/morjs/commit/8c752140eff83c2f566990646503229af50cf016))
+* **runtime-mini:** 事件参数解析配合改造 ([eea306f](https://github.com/eleme/morjs/commit/eea306f8a2a59e31857437edf05bd2f016c0873a))
+
+
+
+
+
 ## [1.0.111-alpha.0](https://github.com/eleme/morjs/compare/v1.0.109...v1.0.111-alpha.0) (2024-05-06)
 
 
