@@ -175,7 +175,8 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
     // 仅 bundle 模式下生效
     if (compileMode !== CompileModes.bundle) return false
     // web 模式下禁用该插件
-    if (target === 'web' || target === 'web-pro') return false
+    if (target === 'web' || target === 'web-pro' || target === 'weex-pro')
+      return false
     return true
   }
 

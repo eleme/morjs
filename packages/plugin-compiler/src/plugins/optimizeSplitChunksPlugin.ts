@@ -58,8 +58,9 @@ export class OptimizeSplitChunksPlugin {
 
       // 仅 bundle 模式下生效
       if (compileMode !== CompileModes.bundle) return
-      // web 模式下禁用该插件
-      if (target === 'web' || target === 'web-pro') return
+      // web、weex-pro 模式下禁用该插件
+      if (target === 'web' || target === 'web-pro' || target === 'weex-pro')
+        return
 
       // 每次 entryBuilder 完成 build 之后触发 splitChunks 选项更新
       runner.hooks.afterBuildEntries.tap(this.name, (entries) => {

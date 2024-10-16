@@ -71,9 +71,10 @@ export default async function ConfigLoader(
     }
 
     const code = JSON.stringify(json, null, minimize ? 0 : 2)
-    const isWeb = target === 'web' || target === 'web-pro'
-    // web 且 bundle 模式下不输出 json 文件
-    if (!(isWeb && userConfig.compileMode === 'bundle')) {
+    const isWebOrWeexPro =
+      target === 'web' || target === 'web-pro' || target === 'weex-pro'
+    // web, weex-pro 且 bundle 模式下不输出 json 文件
+    if (!(isWebOrWeexPro && userConfig.compileMode === 'bundle')) {
       // 生成 json 文件
       this.emitFile(fullEntryName, code)
     }
