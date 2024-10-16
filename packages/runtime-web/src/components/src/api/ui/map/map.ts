@@ -504,7 +504,13 @@ export default class Map extends BaseElement {
     }
 
     if (customCallout && customCallout.isShow) {
-      const { descList = [], type, time, layout } = customCallout
+      const {
+        descList = [],
+        type,
+        time,
+        layout,
+        offset = [0, -6]
+      } = customCallout
 
       const customCalloutContent = () => {
         return Array.isArray(descList)
@@ -551,7 +557,7 @@ export default class Map extends BaseElement {
         longitude,
         latitude,
         anchor: 'bottom-center',
-        offset: new window.AMap.Pixel(0, -6),
+        offset: new window.AMap.Pixel(...offset),
         content: getContent()
       }
     }

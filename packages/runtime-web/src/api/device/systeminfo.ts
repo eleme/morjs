@@ -1,5 +1,23 @@
-import MobileDetect from 'mobile-detect'
+import BaseMobileDetect from 'mobile-detect'
 import { my } from '../my'
+
+// 基于 mobile-detect 扩张，支持鸿蒙
+class MobileDetect extends BaseMobileDetect {
+  ua: string
+  os() {
+    if (typeof this.ua === 'string') {
+      if (
+        this.ua.toLocaleLowerCase().indexOf('openharmony') > -1 ||
+        this.ua.toLocaleLowerCase().indexOf('hmos') > -1
+      ) {
+        return 'OpenHarmony'
+      }
+    }
+
+    return super.os()
+  }
+}
+
 const md = new MobileDetect(navigator.userAgent)
 
 function contains(arr, needle) {
@@ -46,6 +64,14 @@ function systemInfo() {
     const i = contains(sss, 'Build/')
     if (i > -1) {
       model = sss[i].substring(0, sss[i].indexOf('Build/'))
+    }
+  } else if (os === 'OpenHarmony') {
+    info.platform = 'OpenHarmony'
+    info.brand = 'HUAWEI'
+    model = md.mobile()
+    if (md.ua.indexOf('Display/') > -1) {
+      const matches = md.ua.match(/Display\/([^\s]+)/)
+      model = matches && matches[1].split('_')[0]
     }
   } else {
     info.platform = 'unkown'

@@ -143,12 +143,6 @@ const apiTransformConfig: IAPITransformConfig = {
       }
     }
   },
-  saveImageToPhotosAlbum: {
-    n: 'saveImage',
-    opts: {
-      c: [{ o: 'url', n: 'filePath' }]
-    }
-  },
   getFileInfo: {
     opts: {
       c: [{ o: 'apFilePath', n: 'filePath' }]

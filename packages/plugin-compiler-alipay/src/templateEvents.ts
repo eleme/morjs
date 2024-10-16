@@ -130,6 +130,9 @@ const tagReplacePropName = {
   }
 }
 
+// 处理特殊场景时，将 input 转换成此别名
+const INPUT_ALIAS_NAME = 'mor-input'
+
 /**
  * 判断小程序组件属性是否是事件（是否以on开头）
  */
@@ -193,6 +196,9 @@ export function getEventName(attr: string): string {
  */
 export function isNativeEvent(eventName: string, tag: string): boolean {
   const eventLowerName = eventName.toLowerCase()
+  // 转 wechat 时，为了使 input 可以内嵌元素，实现了一个插件在 preprocess 阶段将 input 转换成了 mor-input
+  // 所以为了对事件进行兼容，当 tag 为input元素时，将标签名转为原标签名
+  if (tag === INPUT_ALIAS_NAME) tag = 'input' // 纠正标签名
   if (commonNativeEvent.includes(eventLowerName)) {
     return true
   }

@@ -50,7 +50,7 @@ function compileIndependentSubpackages(
   const originalUserConfig =
     asArray(runner.config.userConfig).filter((c) => {
       return c?.name === userConfig.name
-    }) || userConfig
+    })[0] || userConfig
 
   // 自动更新独立分包, 并清理 mor 缓存
   runner.hooks.beforeBuildEntries.tapPromise(PLUGIN_NAME_CHILD, async () => {
@@ -75,7 +75,11 @@ function compileIndependentSubpackages(
               srcPaths: userConfig.srcPaths.map((s) => path.join(s, sub.root)),
               outputPath: path.join(userConfig.outputPath, sub.root),
               // 独立分包不触发集成流程
-              compose: false
+              compose: false,
+              // 独立分包 copy配置，默认不执行
+              copy: asArray(originalUserConfig.copy ?? []).filter(
+                ({ independent = false }) => independent
+              )
             } as CompilerUserConfig)
           },
           // 定制 context

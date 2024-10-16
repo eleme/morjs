@@ -17,7 +17,7 @@ export default async function ConfigLoader(
 
   const options = this.getOptions()
   const { userConfig, entryBuilder, runner } = options
-  const { compileType, minimize } = userConfig || {}
+  const { compileType, minimize, target } = userConfig || {}
   let entry = entryBuilder.getEntryByFilePath(this.resourcePath)
 
   // 这里拿到的 this.resourcePath 可能和 entryBuilder 中记录的不一致
@@ -71,9 +71,9 @@ export default async function ConfigLoader(
     }
 
     const code = JSON.stringify(json, null, minimize ? 0 : 2)
-
+    const isWeb = target === 'web' || target === 'web-pro'
     // web 且 bundle 模式下不输出 json 文件
-    if (!(userConfig.target === 'web' && userConfig.compileMode === 'bundle')) {
+    if (!(isWeb && userConfig.compileMode === 'bundle')) {
       // 生成 json 文件
       this.emitFile(fullEntryName, code)
     }

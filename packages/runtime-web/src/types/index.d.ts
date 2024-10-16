@@ -18,6 +18,7 @@ interface ReactNodeSlot extends ReactNode {
 
 interface Window {
   my: any
+  originalMy: any
   getApp: () => IApp
   getCurrentPages: any
   $customRoutes: any[]
