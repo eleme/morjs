@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.11](https://github.com/eleme/morjs/compare/v1.0.114-beta.10...v1.0.114-beta.11) (2024-11-01)
+
+
+### Features
+
+* **plugin-compiler:** 新增 weex-pro 相关逻辑判断 ([3bd7903](https://github.com/eleme/morjs/commit/3bd7903ecd764788188f430464bc52d19f00c820))
+* **plugin-compiler:** 优化组件模式编译逻辑 ([5e740c9](https://github.com/eleme/morjs/commit/5e740c94cdd68787203e6c1ec6def33c242bf447))
+
+
+
+
+
 ## [1.0.114-beta.10](https://github.com/eleme/morjs/compare/v1.0.114-beta.9...v1.0.114-beta.10) (2024-10-12)
 
 **Note:** Version bump only for package @morjs/plugin-compiler
