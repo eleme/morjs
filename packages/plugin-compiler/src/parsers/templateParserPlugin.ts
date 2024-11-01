@@ -126,6 +126,7 @@ export class TemplateParserPlugin implements Plugin {
         const needToProcessImportOrInclude =
           target !== 'web' &&
           target !== 'web-pro' &&
+          target !== 'weex-pro' &&
           (fileContent.includes('import') || fileContent.includes('include'))
 
         if (
@@ -444,7 +445,8 @@ export class TemplateParserPlugin implements Plugin {
     // 转 web 时不替换文件名称，确保原文件可以被正常加载
     if (
       options.userConfig.target === 'web' ||
-      options.userConfig.target === 'web-pro'
+      options.userConfig.target === 'web-pro' ||
+      options.userConfig.target === 'weex-pro'
     ) {
       shouldReplaceSjsFileImportPath = false
     }

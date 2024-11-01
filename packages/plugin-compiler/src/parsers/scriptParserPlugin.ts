@@ -113,7 +113,11 @@ export class ScriptParserPlugin implements Plugin {
           morRuntimeDeps.api &&
           sourceGlobalObject !== targetGlobalObject &&
           // 如果目标平台是 web 且 源码的全局对象和目标平台的全局对象相同，则不做接口转换
-          !(isWeb && sourceGlobalObject === targetDefaultGlobalObject) &&
+          !(
+            isWeb &&
+            sourceGlobalObject === targetDefaultGlobalObject &&
+            compileType !== CompileTypes.component
+          ) &&
           autoInjectRuntime?.['api'] &&
           !MOR_RUNTIME_PACKAGE_REGEXP.test(options.fileInfo.path) &&
           options.fileInfo.content.includes(sourceGlobalObject)
