@@ -3,8 +3,6 @@ const DEFAULT_GLOBAL_OBJECT = 'my'
 // 允许业务通过 window.$MOR_GLOBAL_OBJECT 来自定义需要使用的全局 API 对象
 const CUSTOM_GLOBAL_OBJECT = '$MOR_GLOBAL_OBJECT'
 
-const morMy = {}
-
 // 支持业务自定义全局 globalObject
 export function getGlobalObject() {
   let globalKey = DEFAULT_GLOBAL_OBJECT
@@ -23,6 +21,7 @@ export function getGlobalObject() {
 // }
 
 const globalKey = getGlobalObject()
+const morMy = window[globalKey] || {}
 
 function mergeGlobalObject() {
   window.originalMy = {}
