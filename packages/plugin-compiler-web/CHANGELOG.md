@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.12](https://github.com/eleme/morjs/compare/v1.0.114-beta.11...v1.0.114-beta.12) (2024-11-08)
+
+
+### Features
+
+* **plugin-compiler-web:** 强制禁止使用my作为web项目的globalObject ([bf04bd2](https://github.com/eleme/morjs/commit/bf04bd2b0136ce1edca683e2342acbc08ac8aede))
+
+
+
+
+
 ## [1.0.114-beta.10](https://github.com/eleme/morjs/compare/v1.0.114-beta.9...v1.0.114-beta.10) (2024-10-12)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-web

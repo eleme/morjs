@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.12](https://github.com/eleme/morjs/compare/v1.0.114-beta.11...v1.0.114-beta.12) (2024-11-08)
+
+### Features
+
+- **plugin-compiler-web:** 强制禁止使用 my 作为 web 项目的 globalObject ([bf04bd2](https://github.com/eleme/morjs/commit/bf04bd2b0136ce1edca683e2342acbc08ac8aede))
+- **runtime-web:** 优化 window[globalKey] 挂载方式 ([68fdec8](https://github.com/eleme/morjs/commit/68fdec8c35e969cadd438a3108658a5989b56838))
+- **runtime-web:** 优化 window[globalKey] 挂载方式，兼容墨斗场景 ([9956f4e](https://github.com/eleme/morjs/commit/9956f4e66376074dbd70fa6705fde50508364985))
+
 ## [1.0.114-beta.11](https://github.com/eleme/morjs/compare/v1.0.114-beta.10...v1.0.114-beta.11) (2024-11-01)
 
 ### Features
