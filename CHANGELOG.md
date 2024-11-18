@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.13](https://github.com/eleme/morjs/compare/v1.0.114-beta.12...v1.0.114-beta.13) (2024-11-18)
+
+### Features
+
+- **runtime-web:** 修改 globalObject 默认值，和 web-pro 的默认值保持一致 ([ccb8781](https://github.com/eleme/morjs/commit/ccb87816de63bf9d2a905268e4e8f5c229eaae15))
+
 ## [1.0.114-beta.12](https://github.com/eleme/morjs/compare/v1.0.114-beta.11...v1.0.114-beta.12) (2024-11-08)
 
 ### Features
