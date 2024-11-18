@@ -76,7 +76,7 @@ class WebCompilerPlugin implements MorPlugin {
     runner.hooks.modifyUserConfig.tap(this.name, (userConfig) => {
       const { target } = userConfig
       if (target !== WEB_TARGET) return userConfig
-      userConfig.globalObject = userConfig.globalObject || 'customMy'
+      userConfig.globalObject = userConfig.globalObject || 'myPro'
 
       if (userConfig.globalObject === 'my') {
         throw new Error(
