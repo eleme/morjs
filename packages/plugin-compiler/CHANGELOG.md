@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.14](https://github.com/eleme/morjs/compare/v1.0.114-beta.13...v1.0.114-beta.14) (2024-11-25)
+
+**Note:** Version bump only for package @morjs/plugin-compiler
+
+
+
+
+
 ## [1.0.114-beta.13](https://github.com/eleme/morjs/compare/v1.0.114-beta.12...v1.0.114-beta.13) (2024-11-18)
 
 **Note:** Version bump only for package @morjs/plugin-compiler
