@@ -166,6 +166,15 @@ export default class CheckboxGroup
       } else {
         checkbox.classList.remove('a-checkbox-checked')
       }
+      
+      if (value === checkbox.value) {
+          checkbox.dispatchEvent(new CustomEvent('change', {
+            detail: {
+                value: isChecked
+            },
+            bubbles: true
+        }));
+      }
     })
 
     this.value = this.selectValues.join(',')
