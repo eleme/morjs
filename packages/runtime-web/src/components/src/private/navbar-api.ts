@@ -22,7 +22,7 @@ export default {
         borderBottomColor !== undefined &&
           (config.borderBottomColor = borderBottomColor)
       }
-      page.setConfig(config)
+      page && page.setConfig(config)
       resolve(undefined)
     })
   },
