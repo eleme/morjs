@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-alpha.1](https://github.com/eleme/morjs/compare/v1.0.114-alpha.0...v1.0.114-alpha.1) (2024-12-05)
+
+
+### Bug Fixes
+
+* **runtime-web:** 修复鸿蒙系统 confirm 按钮不能点击的问题 ([fa0de77](https://github.com/eleme/morjs/commit/fa0de77c3310bb4c155c0167c1f9b5110adc4893))
+
+
+### Features
+
+* **runtime-web:** 优化 window[globalKey] 挂载方式 ([68fdec8](https://github.com/eleme/morjs/commit/68fdec8c35e969cadd438a3108658a5989b56838))
+* **runtime-web:** 优化 window[globalKey] 挂载方式，兼容墨斗场景 ([9956f4e](https://github.com/eleme/morjs/commit/9956f4e66376074dbd70fa6705fde50508364985))
+
+
+
+
+
 ## [1.0.114-alpha.0](https://github.com/eleme/morjs/compare/v1.0.114-beta.10...v1.0.114-alpha.0) (2024-10-16)
 
 

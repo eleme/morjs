@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-alpha.1](https://github.com/eleme/morjs/compare/v1.0.114-alpha.0...v1.0.114-alpha.1) (2024-12-05)
+
+### Bug Fixes
+
+- **runtime-web:** 修复鸿蒙系统 confirm 按钮不能点击的问题 ([fa0de77](https://github.com/eleme/morjs/commit/fa0de77c3310bb4c155c0167c1f9b5110adc4893))
+- **takin:** 修复 readJsonLink 读取 jsonC 和 json5 文件报错的问题 ([acc28cf](https://github.com/eleme/morjs/commit/acc28cf00d3c9d047fdd13b1b7fc712dcc4c0d7d))
+
+### Features
+
+- **plugin-compiler-web:** 强制禁止使用 my 作为 web 项目的 globalObject ([bf04bd2](https://github.com/eleme/morjs/commit/bf04bd2b0136ce1edca683e2342acbc08ac8aede))
+- **plugin-compiler:** 优化组件模式编译逻辑 ([5e740c9](https://github.com/eleme/morjs/commit/5e740c94cdd68787203e6c1ec6def33c242bf447))
+- **runtime-web:** 修改 globalObject 默认值，和 web-pro 的默认值保持一致 ([ccb8781](https://github.com/eleme/morjs/commit/ccb87816de63bf9d2a905268e4e8f5c229eaae15))
+- **runtime-web:** 优化 window[globalKey] 挂载方式 ([68fdec8](https://github.com/eleme/morjs/commit/68fdec8c35e969cadd438a3108658a5989b56838))
+- **runtime-web:** 优化 window[globalKey] 挂载方式，兼容墨斗场景 ([9956f4e](https://github.com/eleme/morjs/commit/9956f4e66376074dbd70fa6705fde50508364985))
+
 ## [1.0.114-alpha.0](https://github.com/eleme/morjs/compare/v1.0.114-beta.10...v1.0.114-alpha.0) (2024-10-16)
 
 ### Features

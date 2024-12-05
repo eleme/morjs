@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-alpha.1](https://github.com/eleme/morjs/compare/v1.0.114-alpha.0...v1.0.114-alpha.1) (2024-12-05)
+
+
+### Features
+
+* **plugin-compiler:** 优化组件模式编译逻辑 ([5e740c9](https://github.com/eleme/morjs/commit/5e740c94cdd68787203e6c1ec6def33c242bf447))
+
+
+
+
+
 ## [1.0.114-alpha.0](https://github.com/eleme/morjs/compare/v1.0.114-beta.10...v1.0.114-alpha.0) (2024-10-16)
 
 

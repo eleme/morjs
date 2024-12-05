@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-alpha.1](https://github.com/eleme/morjs/compare/v1.0.114-alpha.0...v1.0.114-alpha.1) (2024-12-05)
+
+
+### Features
+
+* **plugin-compiler-web:** 强制禁止使用my作为web项目的globalObject ([bf04bd2](https://github.com/eleme/morjs/commit/bf04bd2b0136ce1edca683e2342acbc08ac8aede))
+* **runtime-web:** 修改 globalObject 默认值，和 web-pro 的默认值保持一致 ([ccb8781](https://github.com/eleme/morjs/commit/ccb87816de63bf9d2a905268e4e8f5c229eaae15))
+
+
+
+
+
 ## [1.0.114-alpha.0](https://github.com/eleme/morjs/compare/v1.0.114-beta.10...v1.0.114-alpha.0) (2024-10-16)
 
 
