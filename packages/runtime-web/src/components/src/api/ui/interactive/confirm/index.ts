@@ -72,8 +72,8 @@ class Confirm extends BaseElement {
             <slot name="input"></slot>
           </div>
           <div class="private-confirm-footer">
-            <p @click=${this.onCancel}>${this.cancelButtonText}</p>
-            <p @click=${this.onConfirm} class="private-confirm-ok">
+            <p @touchstart=${this.onCancel}>${this.cancelButtonText}</p>
+            <p @touchstart=${this.onConfirm} class="private-confirm-ok">
               ${this.confirmButtonText}
             </p>
           </div>

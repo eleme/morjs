@@ -73,6 +73,20 @@ class WebCompilerPlugin implements MorPlugin {
       return schema.merge(UserConfigSchema)
     })
 
+    runner.hooks.modifyUserConfig.tap(this.name, (userConfig) => {
+      const { target } = userConfig
+      if (target !== WEB_TARGET) return userConfig
+      userConfig.globalObject = userConfig.globalObject || 'myPro'
+
+      if (userConfig.globalObject === 'my') {
+        throw new Error(
+          '禁止使用 my 作为 h5 项目的 globalObject，会和小程序 web-view 自带的 my 冲突'
+        )
+      }
+
+      return userConfig
+    })
+
     runner.hooks.userConfigValidated.tapPromise(
       {
         name: this.name,

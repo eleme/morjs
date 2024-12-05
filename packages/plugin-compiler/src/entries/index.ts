@@ -3405,9 +3405,36 @@ export class EntryBuilder implements SupportExts, EntryBuilderHelpers {
 
     // 逐个解析 js 依赖
     for await (const importPath of importPaths) {
+      // npm 中不支持 条件后缀
+      const propName: ExtsPropName = `${entry.entryFileType}Exts`
+      // 用于查找引用文件的目录
+      const baseDir = path.dirname(entry.fullPath)
+      const filePath = await this.resolveRealFilePath(
+        baseDir,
+        importPath,
+        true,
+        true,
+        {
+          extensions: this[propName]
+        }
+      )
+      // // 添加到 entry
+      // const childEntry = this.addToEntry(
+      //   filePath,
+      //   filePath.indexOf(NODE_MODULES) > -1
+      //     ? EntryType.npmComponent
+      //     : EntryType.component,
+      //   'dep',
+      //   entry,
+      //   undefined,
+      //   pathWithoutExtname(importPath),
+      //   rootDirs
+      // )
       await this.tryAddEntriesFromPageOrComponent(
         importPath,
-        entry.entryType,
+        filePath.indexOf(NODE_MODULES) > -1
+          ? EntryType.npmComponent
+          : entry.entryType,
         entry,
         EntryFileType.script,
         undefined,
