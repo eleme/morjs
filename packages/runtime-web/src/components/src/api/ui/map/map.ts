@@ -299,7 +299,7 @@ export default class Map extends BaseElement {
         geolocation = new window.AMap.Geolocation({
           showButton: false
         })
-        map.addControl(geolocation)
+        map && map.addControl(geolocation)
       })
     } else if (geolocation) {
       map.removeControl(geolocation)
@@ -819,7 +819,7 @@ export default class Map extends BaseElement {
         this.scale = new window.AMap.Scale({
           visible: !!options.isShowsScale
         })
-        map.addControl(this.scale)
+        map && map.addControl(this.scale)
       }
       if (options.isShowsScale) {
         this.scale.show()
