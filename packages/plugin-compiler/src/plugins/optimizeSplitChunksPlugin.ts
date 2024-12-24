@@ -89,6 +89,41 @@ export class OptimizeSplitChunksPlugin {
       compilation.hooks.finishModules.tap(
         this.name,
         (modules: webpack.NormalModule[]) => {
+          /** 09.04 新增
+           * 遍历 incomingConnections，找到 module 所属的正确 group；
+           * 解决分包部分依赖文件被打包到主包的问题，原因为 modules 是随机的，部分 module 的 incomingConnection.originModule 不一定在 moduleGraph 中，
+           * 后续处理会把 incomingConnection.originModule 加入到 mainGroup，会被打包到主包；
+           *
+           * @param oModule 即 originModule
+           * @param module
+           * @returns
+           */
+          const traversalIncomingConnections = (oModule, module) => {
+            if (!oModule) return
+            if (!oModule['resource']) return
+            // 防止自引用
+            if (oModule['resource'] === module.resource) return
+            if (
+              !entryBuilder.moduleGraph.getModuleByFilePath(oModule.resource) ||
+              entryBuilder.moduleGraph.getModuleByFilePath(oModule.resource)
+                .groups.size === 0
+            ) {
+              // 检查依赖当前 module 的其他模块并构建关系
+              const incomingConnections =
+                compilation.moduleGraph.getIncomingConnections(oModule)
+              if (incomingConnections) {
+                for (const { originModule } of incomingConnections) {
+                  // 递归查找，最好找到的是 entry 文件
+                  traversalIncomingConnections(originModule, oModule)
+                }
+              }
+            }
+
+            entryBuilder.moduleGraph.addDependencyFor(
+              oModule['resource'],
+              module.resource
+            )
+          }
           for (const module of modules) {
             // 添加被引用的 module
             // 没有被引用的 module 可以被认为是 Entry
@@ -105,11 +140,11 @@ export class OptimizeSplitChunksPlugin {
                   if (!originModule['resource']) continue
                   // 防止自引用
                   if (originModule['resource'] === module.resource) continue
-
-                  entryBuilder.moduleGraph.addDependencyFor(
-                    originModule['resource'],
-                    module.resource
-                  )
+                  traversalIncomingConnections(originModule, module)
+                  // entryBuilder.moduleGraph.addDependencyFor(
+                  //   originModule['resource'],
+                  //   module.resource
+                  // )
                 }
               }
             }
