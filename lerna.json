@@ -21,10 +21,11 @@
         "main",
         "beta",
         "next",
-        "alpha"
+        "alpha",
+        "feature/bjw_fix_subpackage"
       ],
       "message": "chore(release): publish packages"
     }
   },
-  "version": "1.0.114-beta.14"
+  "version": "1.0.115-beta.1"
 }
