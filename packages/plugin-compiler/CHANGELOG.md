@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.115-alpha.0](https://github.com/eleme/morjs/compare/v1.0.114-beta.14...v1.0.115-alpha.0) (2024-12-24)
+
+
+### Features
+
+* **plugin-compiler:** 修复分包代码被构建到主包的 bug ([56c81ae](https://github.com/eleme/morjs/commit/56c81ae136e932a3e730544eda054bd18b1cb551))
+
+
+
+
+
 ## [1.0.114-beta.14](https://github.com/eleme/morjs/compare/v1.0.114-beta.13...v1.0.114-beta.14) (2024-11-25)
 
 **Note:** Version bump only for package @morjs/plugin-compiler
