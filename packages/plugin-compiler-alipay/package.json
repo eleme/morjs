@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-alipay",
-  "version": "1.0.114-beta.0",
+  "version": "1.0.114-beta.15",
   "description": "mor complier plugin for alipay mini program",
   "keywords": [
     "mor",
@@ -36,6 +36,6 @@
   },
   "dependencies": {
     "@morjs/runtime-mini": "1.0.114-beta.0",
-    "@morjs/utils": "1.0.71"
+    "@morjs/utils": "1.0.114-beta.15"
   }
 }

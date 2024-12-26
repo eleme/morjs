@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.15](https://github.com/eleme/morjs/compare/v1.0.114-beta.14...v1.0.114-beta.15) (2024-12-26)
+
+
+### Bug Fixes
+
+* **takin:** 修复 readJsonLink 读取 jsonC 和 json5 文件报错的问题 ([acc28cf](https://github.com/eleme/morjs/commit/acc28cf00d3c9d047fdd13b1b7fc712dcc4c0d7d))
+
+
+
+
+
 ## [1.0.71](https://github.com/eleme/morjs/compare/v1.0.70...v1.0.71) (2023-07-26)
 
 
