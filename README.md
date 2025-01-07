@@ -60,13 +60,13 @@ Mor 是一套基于小程序 DSL (支付宝或微信) 的框架。他的易用�
 
 ## 贡献
 
-参见 [贡献指南](https://github.com/eleme/morjs/blob/master/CONTRIBUTING.md)
+参见 [参与贡献](https://mor.ele.me/guides/contributing)
 
 ## 社区
 
 参见 [社区指南](https://mor.ele.me/about/community-guide)
 
-<img src="https://img.alicdn.com/imgextra/i1/O1CN01PtDerN2ADSKGjP2Li_!!6000000008169-2-tps-2640-1676.png" />
+<img src="https://img.alicdn.com/imgextra/i2/O1CN010BILXm1vhwc7X1ccx_!!6000000006205-2-tps-1220-1603.png" />
 
 ### 核心成员
 
@@ -77,6 +77,7 @@ Mor 是一套基于小程序 DSL (支付宝或微信) 的框架。他的易用�
 - [hwaphon](https://github.com/hwaphon)
 - [shujian-cao](https://github.com/shujian-cao)
 - [robin-shine](https://github.com/robin-shine)
+- [aboyforwind](https://github.com/aboyforwind)
 
 ## 许可证
 
