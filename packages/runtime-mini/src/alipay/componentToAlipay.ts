@@ -437,7 +437,8 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     if (firstDeriveWithObserversSupported) return
 
     // // 触发一次更新
-    if (hasProps) {
+    // props有值才更新
+    if (hasProps && Object.keys(updateProps).length > 0) {
       this.setData(updateProps)
     }
 
