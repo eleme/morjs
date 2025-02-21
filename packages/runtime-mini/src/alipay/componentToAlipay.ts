@@ -1,4 +1,5 @@
 import { compose, logger } from '@morjs/runtime-base'
+import clone from 'clone-deep'
 import get from 'lodash.get'
 import has from 'lodash.has'
 import set from 'lodash.set'
@@ -107,6 +108,19 @@ function cleanOptions(options: Record<string, any>): void {
  */
 function isEventObject(e: any): boolean {
   return e && typeof e === 'object' && 'target' in e && 'currentTarget' in e
+}
+
+// 深拷贝
+function cloneDeep<T = Record<string, any>>(data: T): T {
+  try {
+    return clone(data)
+  } catch (error) {
+    logger.warn(
+      `componentToAlipay cloneDeep, 兜底为浅拷贝, 失败原因: ${error}`,
+      error
+    )
+    return Object.assign({}, data)
+  }
 }
 
 /**
@@ -398,8 +412,13 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
         // 更新 properties 和 data
         // 微信小程序中的 properties 和 data 是一致的
         // 都包含 包括内部数据和属性值
-        this.properties[prop] = nextProps[prop]
-        this.data[prop] = nextProps[prop]
+        // 对象类型深拷贝，避免直接引用
+        const _propValue =
+          typeof nextProps[prop] === 'object'
+            ? cloneDeep(nextProps[prop])
+            : nextProps[prop]
+        this.properties[prop] = _propValue
+        this.data[prop] = _propValue
       }
 
       // 微信端组件初始化、属性改变时，会触发属性监听器 property.observer。
