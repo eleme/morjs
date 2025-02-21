@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.16](https://github.com/eleme/morjs/compare/v1.0.114-beta.15...v1.0.114-beta.16) (2025-02-21)
+
+### Bug Fixes
+
+- componentToAlipay props setData ([7f18c85](https://github.com/eleme/morjs/commit/7f18c859a545287e6f81354b507a10027eddaaf6))
+- not firstDeriveWithObserversSupported nextProps cloneDeep ([87ff4c4](https://github.com/eleme/morjs/commit/87ff4c4931b1eed53df11df794e1d243272a869f))
+
 ## [1.0.114-beta.15](https://github.com/eleme/morjs/compare/v1.0.114-beta.14...v1.0.114-beta.15) (2024-12-26)
 
 ### Bug Fixes
