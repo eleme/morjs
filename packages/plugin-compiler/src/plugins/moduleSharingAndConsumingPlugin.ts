@@ -227,7 +227,9 @@ export class ModuleSharingAndConsumingPlugin implements Plugin {
         (target, source, i) => {
           const moduleName = `shared${i + 1}`
           shareImports.push(`import * as ${moduleName} from '${source}';`)
-          shareInjects.push(`${sharingContainer}['${target}'] = ${moduleName};`)
+          shareInjects.push(
+            `!${sharingContainer}['${target}'] && ${sharingContainer}['${target}'] = ${moduleName};`
+          )
         },
         'shared'
       )
