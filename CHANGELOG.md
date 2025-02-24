@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.115-alpha.1](https://github.com/eleme/morjs/compare/v1.0.115-alpha.0...v1.0.115-alpha.1) (2025-02-24)
+
+### Features
+
+- **plugin-compiler:** 优化 node_modules shared 代码逻辑，分包也可以配置 shared ([a3525b0](https://github.com/eleme/morjs/commit/a3525b05a09d3d96c9027fbbb4bfa32213b401f8))
+
 ## [1.0.115-alpha.0](https://github.com/eleme/morjs/compare/v1.0.114-beta.14...v1.0.115-alpha.0) (2024-12-24)
 
 ### Bug Fixes
