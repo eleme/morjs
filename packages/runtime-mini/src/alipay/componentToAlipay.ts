@@ -305,6 +305,7 @@ function hackSetData() {
 function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   // 如果支付宝小程序基础库已支持 observers 且用户未手动关闭 observers
   // 则直接自动启用 observers 监听器代替 MorJS 本身的实现逻辑
+  const _observers = options.observers || {}
   if (isObserversSupported && options.options.observers !== false) {
     options.options.observers = true
   }
@@ -420,7 +421,6 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
         this.properties[prop] = _propValue
         this.data[prop] = _propValue
       }
-
       // 微信端组件初始化、属性改变时，会触发属性监听器 property.observer。
       // 而支付宝 deriveDataFromProps 方法，初始化时 this.props 和 nextProps
       // 中属性值相同，不满足 isPropChanged = true
@@ -471,6 +471,29 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     // 执行原函数
     if (originalDeriveDataFromProps)
       originalDeriveDataFromProps.call(this, nextProps)
+  }
+  if (options.options.observers) {
+    /**
+     * 微信 observer执行时机 执行时机在 created 之后；初始化会执行一次
+     * 支付宝 observer执行时机 执行时机在 deriveDataFromProps 之后，创建时在created之前，更新时在didUpdate之前
+     * 微信 => 支付宝 使用原生observer
+     * 创建阶段 将执行延后至created后。deriveDataFromProps在第一次执行不会将props数据塞至data,created之前 会执行 `initPropertiesAndData` 会将props数据塞至data, observer 可以执行也可以通过this.data拿到props
+     * 更新阶段 直接执行
+     */
+    Object.keys(_observers).forEach((key) => {
+      const preFn = _observers[key]
+      _observers[key] = function (...args) {
+        // 执行过createdEmitCallbacks，该值会复制为null，所以直接走update逻辑
+        if (this.__createdEmitCallbacks__) {
+          // 创建时： 放到 created之后
+          this.__createdEmitCallbacks__[key] = () => preFn.apply(this, args)
+        } else {
+          // 更新时：直接调用，在didUpdate之前
+          preFn.apply(this, args)
+        }
+      }
+    })
+    options.observers = _observers
   }
 }
 
