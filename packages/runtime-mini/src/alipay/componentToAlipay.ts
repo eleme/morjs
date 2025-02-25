@@ -473,9 +473,17 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
       originalDeriveDataFromProps.call(this, nextProps)
   }
   if (options.options.observers) {
+    /**
+     * 微信 observer执行时机 执行时机在 created 之后；初始化会执行一次
+     * 支付宝 observer执行时机 执行时机在 deriveDataFromProps 之后，创建时在created之前，更新时在didUpdate之前
+     * 微信 => 支付宝 使用原生observer
+     * 创建阶段 将执行延后至created后。deriveDataFromProps在第一次执行不会将props数据塞至data,created之前 会执行 `initPropertiesAndData` 会将props数据塞至data, observer 可以执行也可以通过this.data拿到props
+     * 更新阶段 直接执行
+     */
     Object.keys(_observers).forEach((key) => {
       const preFn = _observers[key]
       _observers[key] = function (...args) {
+        // 执行过createdEmitCallbacks，该值会复制为null，所以直接走update逻辑
         if (this.__createdEmitCallbacks__) {
           // 创建时： 放到 created之后
           this.__createdEmitCallbacks__[key] = () => preFn.apply(this, args)
