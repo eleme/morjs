@@ -70,14 +70,13 @@ export function getOptionalChainCode(code) {
           MemberExpression: {
             enter(path) {
               if (path.node.property.type === 'Identifier') {
-                path.replaceWith(
-                  t.optionalMemberExpression(
-                    path.node.object,
-                    path.node.property,
-                    false,
-                    true
-                  )
-                )
+                const optionalExpression = t.optionalMemberExpression(
+                  path.node.object as t.Expression,
+                  path.node.property as t.Identifier,
+                  false,
+                  true
+                ) as babel.types.OptionalMemberExpression
+                path.replaceWith(optionalExpression)
               }
             }
           }
