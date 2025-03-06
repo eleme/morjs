@@ -212,7 +212,7 @@ export default function (document: Document, options: AXMLOptions) {
     }
   })
 
-  const result = generate.default(ast)
+  const result = generate.default(ast as unknown as babel.types.Node)
   if (options.isAtomicMode && !options.unitTest) {
     return babel.transformSync(result.code, {
       configFile: false,

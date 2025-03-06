@@ -1025,6 +1025,81 @@ function tryLoadPreCompiledHost(
   return host
 }
 
+// 检查并处理多分包模块
+
+/**
+ * 检查并处理多分包模块
+ @param moduleInfo - 模块信息
+ @param cwd - 当前工作区
+ */
+async function processMultiSubpackage(
+  moduleInfo: ComposeModuleInfo,
+  cwd: string
+): Promise<ComposeModuleInfo[]> {
+  // 如果模块不是分包类型或配置不存在，则直接返回原模块
+  if (moduleInfo.type !== 'subpackage' || !moduleInfo.config) {
+    return [moduleInfo]
+  }
+
+  // 检查是否为多分包配置
+  if (!moduleInfo.config.isMultiSubpackage) {
+    return [moduleInfo]
+  }
+
+  logger.info(`模块 ${moduleInfo.name} 包含多个分包，准备拆分处理...`)
+
+  const moduleSource = path.resolve(cwd, moduleInfo.source)
+  const subpackages: ComposeModuleInfo[] = []
+
+  try {
+    // 读取源目录中的子目录
+    const subdirs = await fs.readdir(moduleSource)
+
+    for (const dir of subdirs) {
+      const subdirPath = path.join(moduleSource, dir)
+      const stats = await fs.stat(subdirPath)
+
+      // 只处理目录
+      if (!stats.isDirectory()) continue
+
+      // 检查子目录中是否存在 subpackage.json
+      const subpackageConfigPath = path.join(subdirPath, 'subpackage.json')
+      if (!(await fs.pathExists(subpackageConfigPath))) continue
+
+      // 读取子分包配置
+      const subpackageConfig = await fs.readJson(subpackageConfigPath)
+
+      // 创建一个新的分包模块信息
+      const subModuleInfo: ComposeModuleInfo = {
+        ...lodash.cloneDeep(moduleInfo),
+        name: `${moduleInfo.name}-${dir}`, // 确保名称唯一
+        config: subpackageConfig,
+        output: {
+          ...moduleInfo.output,
+          from: path.relative(cwd, subdirPath) // 更新产物来源路径为子目录
+        }
+      }
+
+      subpackages.push(subModuleInfo)
+      logger.success(`新增分包: ${subModuleInfo.name}`)
+    }
+
+    // 如果没有找到子分包，返回原始模块
+    if (subpackages.length === 0) {
+      logger.warn(`模块 ${moduleInfo.name} 声明为多分包但未找到有效的子分包`)
+      return [moduleInfo]
+    }
+
+    return subpackages
+  } catch (error) {
+    logger.error(`处理多分包模块 ${moduleInfo.name} 时出错: ${error.message}`, {
+      error
+    })
+    // 出错时返回原始模块
+    return [moduleInfo]
+  }
+}
+
 /**
  * 准备 host 和 模块 信息
  * @param runner - Runner 实例
@@ -1089,24 +1164,40 @@ export async function prepareHostAndModules(
     }
   }
 
-  // 初始化模块信息
-  if (options?.modules?.length) {
-    modules = await Promise.all(
-      options.modules.map(function (m) {
-        return loadOrGenerateComposeInfo(
-          m,
-          cwd,
-          tempDir,
-          m.type,
-          configName,
-          fromState
-        )
-      })
-    )
-  }
-
   withModules = asArray(withModules)
   withoutModules = asArray(withoutModules)
+
+  // 初始化模块信息
+  if (options?.modules?.length) {
+    const modulePromises: Promise<ComposeModuleInfo[]>[] = []
+    for (const module of options.modules) {
+      const moduleType = module.type || 'subpackage'
+
+      logger.info(
+        `初始化 ${MODULE_TYPE_NAMES[moduleType]} 模块 ${module.name || ''}`
+      )
+      modulePromises.push(
+        loadOrGenerateComposeInfo(
+          module,
+          cwd,
+          tempDir,
+          moduleType,
+          configName,
+          fromState
+        ).then(async (moduleInfo) => {
+          // moduleInfo 里载入 config 信息
+          await loadModuleConfig(moduleInfo, outputPath, cwd)
+          // 处理多分包情况
+          return processMultiSubpackage(moduleInfo, cwd)
+        })
+      )
+
+      // 等待所有模块初始化完成
+      const modulesArrays = await Promise.all(modulePromises)
+      // 将二维数组展平为一维数组
+      modules = modulesArrays.flat()
+    }
+  }
 
   // 过滤模块
   modules = modules.filter((module, i) => {
@@ -1115,7 +1206,6 @@ export async function prepareHostAndModules(
     let shouldIncluded = withModules?.length
       ? micromatch.isMatch(name, withModules)
       : true
-
     const shouldNotIncluded = withoutModules?.length
       ? micromatch.isMatch(name, withoutModules)
       : false
@@ -1155,7 +1245,7 @@ function logHostAndModulesInfos(
       '类型',
       '模式'
     ]
-    colWidths = isCIENV() ? [56, 30, 6, 6] : [46, 16, 6, 6]
+    colWidths = isCIENV() ? [60, 30, 6, 6] : [65, 16, 6, 6]
   } else {
     logger.info('模块集成结果:')
     head = [
@@ -1165,7 +1255,7 @@ function logHostAndModulesInfos(
       '模式',
       '结果'
     ]
-    colWidths = isCIENV() ? [56, 30, 6, 6, 6] : [46, 16, 6, 6, 6]
+    colWidths = isCIENV() ? [60, 30, 6, 6, 6] : [65, 16, 6, 6, 6]
   }
 
   const table = {

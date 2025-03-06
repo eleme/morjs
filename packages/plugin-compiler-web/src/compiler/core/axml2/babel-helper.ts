@@ -1,4 +1,5 @@
 import {
+  babelCore as babel,
   babelParser as parser,
   babelTraverse as traverse,
   babelTypes as t
@@ -13,7 +14,7 @@ export function takeObjectExpresionValueNames(exp) {
   const valueNames = []
   try {
     const ast = parser.parse(`(${exp})`)
-    traverse.default(ast, {
+    traverse.default(ast as unknown as babel.types.Node, {
       ObjectProperty(path) {
         // 检索出引用标识符
         if (t.isIdentifier(path.node.value)) {

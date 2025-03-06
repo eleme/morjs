@@ -1,4 +1,5 @@
 import {
+  babelCore as babel,
   babelParser as parser,
   babelTraverse as traverse,
   babelTypes as t,
@@ -119,15 +120,18 @@ export default class DataBinding implements DataBindingNode {
     try {
       const ast = parser.parse(`var _=(${exp})`)
       res.isOK = true
-      traverse.default(ast, {
-        ReferencedIdentifier: (path) => {
-          // 检索出引用标识符
-          this._bindingVars.add(path.node.name)
-        },
-        SequenceExpression() {
-          res.isOK = false
-        }
-      } as any)
+      traverse.default(
+        ast as unknown as babel.types.Node,
+        {
+          ReferencedIdentifier: (path) => {
+            // 检索出引用标识符
+            this._bindingVars.add(path.node.name)
+          },
+          SequenceExpression() {
+            res.isOK = false
+          }
+        } as any
+      )
     } catch (e) {
       res.isOK = false
     }

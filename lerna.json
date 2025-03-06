@@ -8,7 +8,7 @@
     "**/__tests__/**",
     "**/*.md"
   ],
-  "npmClient": "pnpm",
+  "npmClient": "tnpm",
   "command": {
     "version": {
       "conventionalCommits": true,
