@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-bytedance",
-  "version": "1.0.114-beta.16",
+  "version": "1.0.114-beta.17",
   "description": "mor complier plugin for bytedance miniprogram",
   "keywords": [
     "mor",
@@ -34,8 +34,8 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@morjs/plugin-compiler-wechat": "1.0.114-beta.16",
-    "@morjs/runtime-mini": "1.0.114-beta.16",
-    "@morjs/utils": "1.0.114-beta.15"
+    "@morjs/plugin-compiler-wechat": "1.0.114-beta.17",
+    "@morjs/runtime-mini": "1.0.114-beta.17",
+    "@morjs/utils": "1.0.114-beta.17"
   }
 }

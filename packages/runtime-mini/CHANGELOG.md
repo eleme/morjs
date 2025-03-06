@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.17](https://github.com/eleme/morjs/compare/v1.0.114-beta.16...v1.0.114-beta.17) (2025-03-06)
+
+
+### Bug Fixes
+
+* wx => ali component2 observers ([9ea90b8](https://github.com/eleme/morjs/commit/9ea90b82521425ea05a41441c7736a105cb892b5))
+
+
+### Features
+
+* 注释 ([fed228b](https://github.com/eleme/morjs/commit/fed228bb901d0bd0461b7c53ad0474b8f5e3dfa0))
+
+
+
+
+
 ## [1.0.114-beta.16](https://github.com/eleme/morjs/compare/v1.0.114-beta.15...v1.0.114-beta.16) (2025-02-21)
 
 

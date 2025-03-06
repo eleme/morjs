@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.17](https://github.com/eleme/morjs/compare/v1.0.114-beta.16...v1.0.114-beta.17) (2025-03-06)
+
+
+### Features
+
+* compose 支持单一分包工程产物里输出多分包的情况 ([403f087](https://github.com/eleme/morjs/commit/403f087cceb58d54dc5faa2657dff007c86d6b4c))
+
+
+
+
+
 ## [1.0.114-beta.16](https://github.com/eleme/morjs/compare/v1.0.114-beta.15...v1.0.114-beta.16) (2025-02-21)
 
 **Note:** Version bump only for package @morjs/plugin-compiler-web

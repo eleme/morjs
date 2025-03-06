@@ -1,6 +1,6 @@
 {
   "name": "@morjs/plugin-compiler-wechat",
-  "version": "1.0.114-beta.16",
+  "version": "1.0.114-beta.17",
   "description": "mor complier plugin for wechat miniprogram",
   "keywords": [
     "mor",
@@ -34,7 +34,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@morjs/runtime-mini": "1.0.114-beta.16",
-    "@morjs/utils": "1.0.114-beta.15"
+    "@morjs/runtime-mini": "1.0.114-beta.17",
+    "@morjs/utils": "1.0.114-beta.17"
   }
 }
