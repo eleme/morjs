@@ -1076,7 +1076,8 @@ async function processMultiSubpackage(
         config: subpackageConfig,
         output: {
           ...moduleInfo.output,
-          from: path.relative(cwd, subdirPath) // 更新产物来源路径为子目录
+          from: path.relative(cwd, subdirPath), // 更新产物来源路径为子目录
+          to: path.join(moduleInfo.output.to, dir) // 目标路径添加分包路径
         }
       }
 
