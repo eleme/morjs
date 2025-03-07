@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.18](https://github.com/eleme/morjs/compare/v1.0.114-beta.17...v1.0.114-beta.18) (2025-03-07)
+
+### Bug Fixes
+
+- 修复子分包产物路径匹配问题 ([b8a088d](https://github.com/eleme/morjs/commit/b8a088d7ff5143b6c2de22036ac13f03ca1647f1))
+
 ## [1.0.114-beta.17](https://github.com/eleme/morjs/compare/v1.0.114-beta.16...v1.0.114-beta.17) (2025-03-06)
 
 ### Bug Fixes
