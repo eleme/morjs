@@ -44,7 +44,7 @@ export class GenerateComposedAppJsonFilePlugin implements Plugin {
     runner.hooks.userConfigValidated.tap(
       {
         name: this.name,
-        stage: -200
+        stage: Number.MAX_SAFE_INTEGER
       },
       (userConfig) => {
         if (this.shouldIgnorePlugin()) return
