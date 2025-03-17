@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.19](https://github.com/eleme/morjs/compare/v1.0.114-beta.18...v1.0.114-beta.19) (2025-03-17)
+
+### Features
+
+- **plugin-compiler:** 优化 GenerateComposedAppJsonFilePlugin 执行时序 ([9a0fdf9](https://github.com/eleme/morjs/commit/9a0fdf9e26cc8c50a862f8d0f821911e812f83fc))
+
 ## [1.0.114-beta.18](https://github.com/eleme/morjs/compare/v1.0.114-beta.17...v1.0.114-beta.18) (2025-03-07)
 
 ### Bug Fixes
