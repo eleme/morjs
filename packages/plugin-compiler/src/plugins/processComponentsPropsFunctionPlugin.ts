@@ -3,6 +3,7 @@ import {
   EntryType,
   fsExtra as fs,
   lodash as _,
+  Pairs,
   Plugin,
   Runner,
   SourceTypes,
@@ -142,15 +143,11 @@ export class ProcessComponentsPropsFunctionPlugin implements Plugin {
                 // props 中的函数传参
                 const propsFunction = propsFunctionList
                   .map((item) => {
-                    return `bind:${this.getEventName(
-                      item
-                    )}="$morEventHandlerProxy" `
+                    return `bind:${this.getEventName(item)}="$morEHP" `
                   })
                   .join('')
-                const eventHandlerName = Buffer.from(
-                  JSON.stringify(propsMorHandlers)
-                ).toString('base64')
-                return `<mor-component ${propsNormal} ${propsFunction} data-mor-event-handlers="${eventHandlerName}"></mor-component>`
+                const eventHandlerName = Pairs.toString(propsMorHandlers)
+                return `<mor-component ${propsNormal} ${propsFunction} data-meh="${eventHandlerName}"></mor-component>`
               } else if (
                 options?.fileInfo?.entryFileType === EntryFileType.style
               ) {
@@ -188,7 +185,7 @@ export class ProcessComponentsPropsFunctionPlugin implements Plugin {
     ${properties}
   },
   methods: {
-    $morEventHandlerProxy(event) {
+    $morEHP(event) {
       const { detail } = event;
       if (detail.name) {
         this.triggerEvent(event.type, { ...detail.args[0] })
