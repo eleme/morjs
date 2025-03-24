@@ -1165,9 +1165,6 @@ export async function prepareHostAndModules(
     }
   }
 
-  withModules = asArray(withModules)
-  withoutModules = asArray(withoutModules)
-
   // 初始化模块信息
   if (options?.modules?.length) {
     const modulePromises: Promise<ComposeModuleInfo[]>[] = []
@@ -1186,10 +1183,14 @@ export async function prepareHostAndModules(
           configName,
           fromState
         ).then(async (moduleInfo) => {
-          // moduleInfo 里载入 config 信息
-          await loadModuleConfig(moduleInfo, outputPath, cwd)
-          // 处理多分包情况
-          return processMultiSubpackage(moduleInfo, cwd)
+          if (moduleInfo.state > ComposeModuleStates.downloaded) {
+            //  需要等 模块下载完成后，开始在 moduleInfo 里载入 config 信息
+            await loadModuleConfig(moduleInfo, outputPath, cwd)
+            // 处理多分包情况
+            return processMultiSubpackage(moduleInfo, cwd)
+          }
+
+          return [moduleInfo]
         })
       )
 
@@ -1199,6 +1200,9 @@ export async function prepareHostAndModules(
       modules = modulesArrays.flat()
     }
   }
+
+  withModules = asArray(withModules)
+  withoutModules = asArray(withoutModules)
 
   // 过滤模块
   modules = modules.filter((module, i) => {
