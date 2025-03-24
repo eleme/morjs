@@ -113,6 +113,14 @@ export default class RadioGroup extends BaseElement implements IFormComponent {
     nodeList.forEach((item) => {
       const radio: any = item
       if (radio.value === value) {
+        if(!radio.checked){
+          radio.dispatchEvent(new CustomEvent('change', {
+              detail: {
+                  value: true
+              },
+              bubbles: true
+          }));
+        }
         radio.checked = true
       } else {
         radio.checked = false
