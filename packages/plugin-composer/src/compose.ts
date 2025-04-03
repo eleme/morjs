@@ -318,6 +318,17 @@ async function saveModuleComposeInfo(
   }
 
   const infoFilePath = path.resolve(cwd, moduleInfo.root, COMPOSE_INFO_FILE)
+
+  // composed 之后写入数据时，检查下载产物目录中 mor.compose.json 里config配置是否为多子包，如果是多个子包不覆盖原有配置
+  if (moduleInfo.state >= ComposeModuleStates.composed) {
+    if (fs.pathExistsSync(infoFilePath)) {
+      const info = fs.readJsonSync(infoFilePath)
+      if (info?.config?.isMultiSubpackage) {
+        return
+      }
+    }
+  }
+
   await fs.writeJson(infoFilePath, moduleInfo, { spaces: 2 })
 }
 
@@ -1048,7 +1059,7 @@ async function processMultiSubpackage(
 
   logger.info(`模块 ${moduleInfo.name} 包含多个分包，准备拆分处理...`)
 
-  const moduleSource = path.resolve(cwd, moduleInfo.source)
+  const moduleSource = path.resolve(cwd, moduleInfo?.output.from)
   const subpackages: ComposeModuleInfo[] = []
 
   try {
@@ -1167,38 +1178,18 @@ export async function prepareHostAndModules(
 
   // 初始化模块信息
   if (options?.modules?.length) {
-    const modulePromises: Promise<ComposeModuleInfo[]>[] = []
-    for (const module of options.modules) {
-      const moduleType = module.type || 'subpackage'
-
-      logger.info(
-        `初始化 ${MODULE_TYPE_NAMES[moduleType]} 模块 ${module.name || ''}`
-      )
-      modulePromises.push(
-        loadOrGenerateComposeInfo(
-          module,
+    modules = await Promise.all(
+      options.modules.map(function (m) {
+        return loadOrGenerateComposeInfo(
+          m,
           cwd,
           tempDir,
-          moduleType,
+          m.type,
           configName,
           fromState
-        ).then(async (moduleInfo) => {
-          if (moduleInfo.state > ComposeModuleStates.downloaded) {
-            //  需要等 模块下载完成后，开始在 moduleInfo 里载入 config 信息
-            await loadModuleConfig(moduleInfo, outputPath, cwd)
-            // 处理多分包情况
-            return processMultiSubpackage(moduleInfo, cwd)
-          }
-
-          return [moduleInfo]
-        })
-      )
-
-      // 等待所有模块初始化完成
-      const modulesArrays = await Promise.all(modulePromises)
-      // 将二维数组展平为一维数组
-      modules = modulesArrays.flat()
-    }
+        )
+      })
+    )
   }
 
   withModules = asArray(withModules)
@@ -1211,6 +1202,7 @@ export async function prepareHostAndModules(
     let shouldIncluded = withModules?.length
       ? micromatch.isMatch(name, withModules)
       : true
+
     const shouldNotIncluded = withoutModules?.length
       ? micromatch.isMatch(name, withoutModules)
       : false
@@ -1444,6 +1436,27 @@ export async function composeHostAndModules(
   if (host && host.mode === 'compile') {
     // 载入 app.json 配置
     await loadModuleConfig(host, outputPath, cwd)
+  }
+
+  // 在 moduleAfterScriptsExecuted 完成后，产物信息已完整，开始处理产物里带多个子分包的情况
+  const processedModules: ComposeModuleInfo[] = []
+  for (const moduleInfo of modules) {
+    if (moduleInfo.state >= ComposeModuleStates.afterScriptsExecuted) {
+      // 对多分包模块执行拆分
+      const subpackages = await processMultiSubpackage(moduleInfo, cwd)
+      processedModules.push(...subpackages)
+    } else {
+      // 对于未完成 moduleAfterScriptsExecuted 的模块，保持原样
+      processedModules.push(moduleInfo)
+    }
+  }
+
+  // 使用处理后的模块列表替换原始模块列表
+  if (processedModules.length !== modules.length) {
+    logger.info(
+      `多分包处理完成，模块数量从 ${modules.length} 变为 ${processedModules.length}`
+    )
+    modules = processedModules
   }
 
   // 如果终态不是 composed 则跳过集成
