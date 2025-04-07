@@ -1,4 +1,5 @@
 import { compose, logger } from '@morjs/runtime-base'
+import clone from 'clone-deep'
 import get from 'lodash.get'
 import has from 'lodash.has'
 import set from 'lodash.set'
@@ -107,6 +108,19 @@ function cleanOptions(options: Record<string, any>): void {
  */
 function isEventObject(e: any): boolean {
   return e && typeof e === 'object' && 'target' in e && 'currentTarget' in e
+}
+
+// 深拷贝
+function cloneDeep<T = Record<string, any>>(data: T): T {
+  try {
+    return clone(data)
+  } catch (error) {
+    logger.warn(
+      `componentToAlipay cloneDeep, 兜底为浅拷贝, 失败原因: ${error}`,
+      error
+    )
+    return Object.assign({}, data)
+  }
 }
 
 /**
@@ -291,6 +305,7 @@ function hackSetData() {
 function injectPropertiesAndObserversSupport(options: Record<string, any>) {
   // 如果支付宝小程序基础库已支持 observers 且用户未手动关闭 observers
   // 则直接自动启用 observers 监听器代替 MorJS 本身的实现逻辑
+  const _observers = options.observers || {}
   if (isObserversSupported && options.options.observers !== false) {
     options.options.observers = true
   }
@@ -398,10 +413,14 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
         // 更新 properties 和 data
         // 微信小程序中的 properties 和 data 是一致的
         // 都包含 包括内部数据和属性值
-        this.properties[prop] = nextProps[prop]
-        this.data[prop] = nextProps[prop]
+        // 对象类型深拷贝，避免直接引用
+        const _propValue =
+          typeof nextProps[prop] === 'object'
+            ? cloneDeep(nextProps[prop])
+            : nextProps[prop]
+        this.properties[prop] = _propValue
+        this.data[prop] = _propValue
       }
-
       // 微信端组件初始化、属性改变时，会触发属性监听器 property.observer。
       // 而支付宝 deriveDataFromProps 方法，初始化时 this.props 和 nextProps
       // 中属性值相同，不满足 isPropChanged = true
@@ -437,7 +456,8 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     if (firstDeriveWithObserversSupported) return
 
     // // 触发一次更新
-    if (hasProps) {
+    // props有值才更新
+    if (hasProps && Object.keys(updateProps).length > 0) {
       this.setData(updateProps)
     }
 
@@ -451,6 +471,29 @@ function injectPropertiesAndObserversSupport(options: Record<string, any>) {
     // 执行原函数
     if (originalDeriveDataFromProps)
       originalDeriveDataFromProps.call(this, nextProps)
+  }
+  if (options.options.observers) {
+    /**
+     * 微信 observer执行时机 执行时机在 created 之后；初始化会执行一次
+     * 支付宝 observer执行时机 执行时机在 deriveDataFromProps 之后，创建时在created之前，更新时在didUpdate之前
+     * 微信 => 支付宝 使用原生observer
+     * 创建阶段 将执行延后至created后。deriveDataFromProps在第一次执行不会将props数据塞至data,created之前 会执行 `initPropertiesAndData` 会将props数据塞至data, observer 可以执行也可以通过this.data拿到props
+     * 更新阶段 直接执行
+     */
+    Object.keys(_observers).forEach((key) => {
+      const preFn = _observers[key]
+      _observers[key] = function (...args) {
+        // 执行过createdEmitCallbacks，该值会复制为null，所以直接走update逻辑
+        if (this.__createdEmitCallbacks__) {
+          // 创建时： 放到 created之后
+          this.__createdEmitCallbacks__[key] = () => preFn.apply(this, args)
+        } else {
+          // 更新时：直接调用，在didUpdate之前
+          preFn.apply(this, args)
+        }
+      }
+    })
+    options.observers = _observers
   }
 }
 

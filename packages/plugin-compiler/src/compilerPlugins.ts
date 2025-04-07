@@ -276,7 +276,8 @@ export const Targets = [
   taobaoCompiler.target,
   dingdingCompiler.target,
   webCompiler.target,
-  'web-pro'
+  'web-pro',
+  'weex-pro'
 ] as const
 
 // 插件中支持的所有文件类型

@@ -4,6 +4,7 @@
   "workspaces": [
     "packages/*"
   ],
+  "repository": "https://github.com/eleme/morjs.git",
   "scripts": {
     "install-deps": "node ./scripts/install.js",
     "build": "node ./scripts/build.js",

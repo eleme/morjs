@@ -121,7 +121,7 @@ export default class TabbarItem extends BaseElement {
       <div
         key="${this.key}"
         class=${classMap(tigaTabbarCls)}
-        @click="${this.handleClick}"
+        @touchstart="${this.handleClick}"
       >
         <div
           style=${styleMap({ display: 'inline-block', position: 'relative' })}

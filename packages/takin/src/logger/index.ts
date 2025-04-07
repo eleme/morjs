@@ -455,7 +455,7 @@ export function createLogger(
           return this
         },
         stop() {
-          if (interval) clearInterval(interval)
+          if (interval) clearInterval(interval as NodeJS.Timeout)
           return this
         },
         success(msg, opts) {

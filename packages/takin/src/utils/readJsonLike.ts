@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
-import json5 from 'json5'
-import jsoncParser from 'jsonc-parser'
+import * as json5 from 'json5'
+import * as jsoncParser from 'jsonc-parser'
 import path from 'path'
 import { SupportConfigExtensions } from '../constants'
 

@@ -318,6 +318,17 @@ async function saveModuleComposeInfo(
   }
 
   const infoFilePath = path.resolve(cwd, moduleInfo.root, COMPOSE_INFO_FILE)
+
+  // composed 之后写入数据时，检查下载产物目录中 mor.compose.json 里config配置是否为多子包，如果是多个子包不覆盖原有配置
+  if (moduleInfo.state >= ComposeModuleStates.composed) {
+    if (fs.pathExistsSync(infoFilePath)) {
+      const info = fs.readJsonSync(infoFilePath)
+      if (info?.config?.isMultiSubpackage) {
+        return
+      }
+    }
+  }
+
   await fs.writeJson(infoFilePath, moduleInfo, { spaces: 2 })
 }
 
@@ -1025,6 +1036,82 @@ function tryLoadPreCompiledHost(
   return host
 }
 
+// 检查并处理多分包模块
+
+/**
+ * 检查并处理多分包模块
+ @param moduleInfo - 模块信息
+ @param cwd - 当前工作区
+ */
+async function processMultiSubpackage(
+  moduleInfo: ComposeModuleInfo,
+  cwd: string
+): Promise<ComposeModuleInfo[]> {
+  // 如果模块不是分包类型或配置不存在，则直接返回原模块
+  if (moduleInfo.type !== 'subpackage' || !moduleInfo.config) {
+    return [moduleInfo]
+  }
+
+  // 检查是否为多分包配置
+  if (!moduleInfo.config.isMultiSubpackage) {
+    return [moduleInfo]
+  }
+
+  logger.info(`模块 ${moduleInfo.name} 包含多个分包，准备拆分处理...`)
+
+  const moduleSource = path.resolve(cwd, moduleInfo?.output.from)
+  const subpackages: ComposeModuleInfo[] = []
+
+  try {
+    // 读取源目录中的子目录
+    const subdirs = await fs.readdir(moduleSource)
+
+    for (const dir of subdirs) {
+      const subdirPath = path.join(moduleSource, dir)
+      const stats = await fs.stat(subdirPath)
+
+      // 只处理目录
+      if (!stats.isDirectory()) continue
+
+      // 检查子目录中是否存在 subpackage.json
+      const subpackageConfigPath = path.join(subdirPath, 'subpackage.json')
+      if (!(await fs.pathExists(subpackageConfigPath))) continue
+
+      // 读取子分包配置
+      const subpackageConfig = await fs.readJson(subpackageConfigPath)
+
+      // 创建一个新的分包模块信息
+      const subModuleInfo: ComposeModuleInfo = {
+        ...lodash.cloneDeep(moduleInfo),
+        name: `${moduleInfo.name}-${dir}`, // 确保名称唯一
+        config: subpackageConfig,
+        output: {
+          ...moduleInfo.output,
+          from: path.relative(cwd, subdirPath), // 更新产物来源路径为子目录
+          to: path.join(moduleInfo.output.to, dir) // 目标路径添加分包路径
+        }
+      }
+
+      subpackages.push(subModuleInfo)
+      logger.success(`新增分包: ${subModuleInfo.name}`)
+    }
+
+    // 如果没有找到子分包，返回原始模块
+    if (subpackages.length === 0) {
+      logger.warn(`模块 ${moduleInfo.name} 声明为多分包但未找到有效的子分包`)
+      return [moduleInfo]
+    }
+
+    return subpackages
+  } catch (error) {
+    logger.error(`处理多分包模块 ${moduleInfo.name} 时出错: ${error.message}`, {
+      error
+    })
+    // 出错时返回原始模块
+    return [moduleInfo]
+  }
+}
+
 /**
  * 准备 host 和 模块 信息
  * @param runner - Runner 实例
@@ -1155,7 +1242,7 @@ function logHostAndModulesInfos(
       '类型',
       '模式'
     ]
-    colWidths = isCIENV() ? [56, 30, 6, 6] : [46, 16, 6, 6]
+    colWidths = isCIENV() ? [60, 30, 6, 6] : [65, 16, 6, 6]
   } else {
     logger.info('模块集成结果:')
     head = [
@@ -1165,7 +1252,7 @@ function logHostAndModulesInfos(
       '模式',
       '结果'
     ]
-    colWidths = isCIENV() ? [56, 30, 6, 6, 6] : [46, 16, 6, 6, 6]
+    colWidths = isCIENV() ? [60, 30, 6, 6, 6] : [65, 16, 6, 6, 6]
   }
 
   const table = {
@@ -1349,6 +1436,27 @@ export async function composeHostAndModules(
   if (host && host.mode === 'compile') {
     // 载入 app.json 配置
     await loadModuleConfig(host, outputPath, cwd)
+  }
+
+  // 在 moduleAfterScriptsExecuted 完成后，产物信息已完整，开始处理产物里带多个子分包的情况
+  const processedModules: ComposeModuleInfo[] = []
+  for (const moduleInfo of modules) {
+    if (moduleInfo.state >= ComposeModuleStates.afterScriptsExecuted) {
+      // 对多分包模块执行拆分
+      const subpackages = await processMultiSubpackage(moduleInfo, cwd)
+      processedModules.push(...subpackages)
+    } else {
+      // 对于未完成 moduleAfterScriptsExecuted 的模块，保持原样
+      processedModules.push(moduleInfo)
+    }
+  }
+
+  // 使用处理后的模块列表替换原始模块列表
+  if (processedModules.length !== modules.length) {
+    logger.info(
+      `多分包处理完成，模块数量从 ${modules.length} 变为 ${processedModules.length}`
+    )
+    modules = processedModules
   }
 
   // 如果终态不是 composed 则跳过集成

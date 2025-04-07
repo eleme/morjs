@@ -44,7 +44,7 @@ export class GenerateComposedAppJsonFilePlugin implements Plugin {
     runner.hooks.userConfigValidated.tap(
       {
         name: this.name,
-        stage: -200
+        stage: Number.MAX_SAFE_INTEGER
       },
       (userConfig) => {
         if (this.shouldIgnorePlugin()) return
@@ -159,7 +159,11 @@ export class GenerateComposedAppJsonFilePlugin implements Plugin {
   // 是否忽略当前插件逻辑
   shouldIgnorePlugin() {
     const userConfig = this.runner.userConfig as CompilerUserConfig
-    if (userConfig.target === 'web' || userConfig.target === 'web-pro')
+    if (
+      userConfig.target === 'web' ||
+      userConfig.target === 'web-pro' ||
+      userConfig.target === 'weex-pro'
+    )
       return true
     if (userConfig.generateAppJSONScript === false) return true
     return false

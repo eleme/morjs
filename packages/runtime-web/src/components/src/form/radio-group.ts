@@ -56,7 +56,7 @@ export default class RadioGroup extends BaseElement implements IFormComponent {
 
   initTapClick() {
     this.addEventListener(
-      'click',
+      'touchstart',
       (e) => {
         if (!this.controlled) {
           const checkboxNode = this.findCheckNode(<HTMLElement>e.target)
@@ -113,13 +113,15 @@ export default class RadioGroup extends BaseElement implements IFormComponent {
     nodeList.forEach((item) => {
       const radio: any = item
       if (radio.value === value) {
-        if(!radio.checked){
-          radio.dispatchEvent(new CustomEvent('change', {
+        if (!radio.checked) {
+          radio.dispatchEvent(
+            new CustomEvent('change', {
               detail: {
-                  value: true
+                value: true
               },
               bubbles: true
-          }));
+            })
+          )
         }
         radio.checked = true
       } else {

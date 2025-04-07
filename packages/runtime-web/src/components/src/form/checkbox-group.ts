@@ -73,7 +73,7 @@ export default class CheckboxGroup
 
   initTapClick() {
     this.addEventListener(
-      'click',
+      'touchstart',
       (e) => {
         const checkboxNode = this.findCheckNode(<HTMLElement>e.target)
         if (checkboxNode && !checkboxNode.disabled) {
@@ -166,14 +166,16 @@ export default class CheckboxGroup
       } else {
         checkbox.classList.remove('a-checkbox-checked')
       }
-      
+
       if (value === checkbox.value) {
-          checkbox.dispatchEvent(new CustomEvent('change', {
+        checkbox.dispatchEvent(
+          new CustomEvent('change', {
             detail: {
-                value: isChecked
+              value: isChecked
             },
             bubbles: true
-        }));
+          })
+        )
       }
     })
 

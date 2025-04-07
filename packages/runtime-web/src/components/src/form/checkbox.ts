@@ -148,7 +148,7 @@ export default class Checkbox extends BaseElement {
 
   render() {
     return html`
-      <span class="check-icon" @click="${this._handleClick}">
+      <span class="check-icon" @touchstart="${this._handleClick}">
         ${this.renderCheckbox()}
       </span>
     `
