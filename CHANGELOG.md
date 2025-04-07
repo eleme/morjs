@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.20](https://github.com/eleme/morjs/compare/v1.0.114-beta.19...v1.0.114-beta.20) (2025-04-07)
+
+### Bug Fixes
+
+- 修复分包未下载时获取分包配置异常的问题 ([38992ac](https://github.com/eleme/morjs/commit/38992ac41c60cbb06e91cbaa90282f3bf81eb576))
+
+### Features
+
+- 优化多分包拆解子包执行时机，兼容本地研发 compose 场景 ([a17c5ed](https://github.com/eleme/morjs/commit/a17c5edd4d10cd5156d1bb38413eeaa2a434405a))
+
 ## [1.0.114-beta.19](https://github.com/eleme/morjs/compare/v1.0.114-beta.18...v1.0.114-beta.19) (2025-03-17)
 
 ### Features

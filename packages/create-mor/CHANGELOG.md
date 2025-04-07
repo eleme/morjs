@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.20](https://github.com/eleme/morjs/compare/v1.0.114-beta.19...v1.0.114-beta.20) (2025-04-07)
+
+**Note:** Version bump only for package create-mor
+
+
+
+
+
 ## [1.0.114-beta.19](https://github.com/eleme/morjs/compare/v1.0.114-beta.18...v1.0.114-beta.19) (2025-03-17)
 
 **Note:** Version bump only for package create-mor
