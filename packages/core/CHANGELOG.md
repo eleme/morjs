@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.21](https://github.com/eleme/morjs/compare/v1.0.114-beta.20...v1.0.114-beta.21) (2025-08-15)
+
+
+### Features
+
+* **core:** 新增忽略didMount 生命周期配置 ([b17040e](https://github.com/eleme/morjs/commit/b17040e3b012de83497782f47444e77350141ebd))
+* **core:** 修复 ts 报错 ([564a4fe](https://github.com/eleme/morjs/commit/564a4fef8c1a49cee845ff024f2ea227f19fb4b6))
+
+
+
+
+
 ## [1.0.86](https://github.com/eleme/morjs/compare/v1.0.85...v1.0.86) (2023-11-07)
 
 
