@@ -253,13 +253,15 @@ function hookComponentLifeCycle<
     ])
 
     // didMount
-    componentOptions.didMount = compose([
-      needsToHookPageLifetimes ? registerPageLifetimes : emptyFn,
-      makeBaseInfo,
-      invokeComponentHooks ? invokeHook('componentDidMount') : emptyFn,
-      addEventListeners,
-      invokeOriginalFunction('didMount', lifetimes)
-    ])
+    if (!componentOptions.ignoreDidMount) {
+      componentOptions.didMount = compose([
+        needsToHookPageLifetimes ? registerPageLifetimes : emptyFn,
+        makeBaseInfo,
+        invokeComponentHooks ? invokeHook('componentDidMount') : emptyFn,
+        addEventListeners,
+        invokeOriginalFunction('didMount', lifetimes)
+      ])
+    }
 
     // didUnmount
     componentOptions.didUnmount = compose([
