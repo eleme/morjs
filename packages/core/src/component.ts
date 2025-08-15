@@ -127,6 +127,7 @@ function hookComponentLifeCycle<
 >(
   componentOptions: MorComponentOptions<D, P, M> & {
     onError?: (error: Error) => void
+    ignoreDidMount?: boolean
   },
   needsToHookPageLifetimes: boolean,
   sourceType: SOURCE_TYPE,
