@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.114-beta.22](https://github.com/eleme/morjs/compare/v1.0.114-beta.21...v1.0.114-beta.22) (2025-11-06)
+
+### Features
+
+- web radio no check color property ([fc07b44](https://github.com/eleme/morjs/commit/fc07b44e0cf6b97c6a3fcfce0805211b7dd0d5a8))
+
 ## [1.0.114-beta.21](https://github.com/eleme/morjs/compare/v1.0.114-beta.20...v1.0.114-beta.21) (2025-08-15)
 
 ### Features
