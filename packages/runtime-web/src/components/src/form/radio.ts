@@ -66,6 +66,11 @@ export default class Radio extends BaseElement {
    */
   @property({ type: String }) color = '#1890ff'
 
+  /**
+   * radio 未勾选的颜色，同 CSS 色值。
+   */
+  @property({ type: String }) noCheckColor = '#1890ff'
+
   constructor() {
     super()
   }
@@ -129,6 +134,7 @@ export default class Radio extends BaseElement {
     return html`<svg
       t="1607346736297"
       class=${classMap({ icon: true, 'unchecked-disabled': this.disabled })}
+      style=${styleMap({ fill: this.disabled ? '#ddd' : this.noCheckColor })}
       viewBox="0 0 1024 1024"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
